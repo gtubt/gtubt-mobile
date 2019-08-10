@@ -1,4 +1,4 @@
-name: sample
+name: GTUBT
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -17,6 +17,8 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  flutter_bloc: ^0.20.0
+  equatable: ^0.3.0
   flutter:
     sdk: flutter
 

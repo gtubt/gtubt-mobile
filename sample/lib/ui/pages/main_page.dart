@@ -1,5 +1,7 @@
+import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:sample/ui/routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../routes.dart';
 
 class ExamplePage extends StatefulWidget {
   @override
@@ -11,25 +13,30 @@ class _ExamplePageState extends State<ExamplePage> {
   int _selectedIndex = 0; 
 
   void _onNavigation(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    BlocProvider.of<PageBloc>(context).dispatch(PageChanged(page: index));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Routes.bodyTitle[_selectedIndex]),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[900],
-        onTap: _onNavigation,
-        items: Routes.navList,
-      ),
-      body: Routes.bodyList[_selectedIndex],
-    // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    return BlocListener<PageBloc, PageState>(
+        listener: (BuildContext context, PageState state) {
+          setState(() {
+            _selectedIndex = state.currentPage; 
+          });
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(Routes.bodyTitle[_selectedIndex]),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.amber[900],
+            onTap: _onNavigation,
+            items: Routes.navList,
+          ),
+          body: Routes.bodyList[_selectedIndex],
+        // This trailing comma makes auto-formatting nicer for build methods.
+        ),
+      );
   }
 }
