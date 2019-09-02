@@ -12,8 +12,8 @@ class Routes {
   
   static final bodyTitle = ["Home", "List"];
   static final bodyList = <Widget>[
-    ListPage(),
     ImagePage(),
+    ListPage(),
   ];
   static final navList = <BottomNavigationBarItem>[
     BottomNavigationBarItem(

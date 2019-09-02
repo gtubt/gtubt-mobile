@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "189447552240",
+    "firebase_url": "https://gtubtmobile.firebaseio.com",
+    "project_id": "gtubtmobile",
+    "storage_bucket": "gtubtmobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189447552240:android:274d4e0a13ed6459",
+        "android_client_info": {
+          "package_name": "com.example.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189447552240-sb87evap3k7o1udrb964fkkh1qkdqrou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA89yeN0CWwMDshSgkH3NIPNCwJek6ZNNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "189447552240-sb87evap3k7o1udrb964fkkh1qkdqrou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
