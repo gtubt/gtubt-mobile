@@ -1,26 +1,80 @@
-import 'package:GTUBT/models/department.dart';
+library user;
+import 'dart:convert';
 
-class User {
-  String name;
-  String lastname;
-  String email;
-  Department department;
-  int year;
-  int id;
-  String phone;
-  String profilePhoto;
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:GTUBT/models/core/serializers.dart';
 
-  User();
+part 'user.g.dart';
+
+
+/// Usage for Built Models:
+/// 
+/// User((b) => b
+///     ..name = 'John'
+///     ..lastname = 'Doe'
+///     ..email = 'john@doe.com'
+///     ..department = Department.cse);
+/// 
+/// Name, Lastname and Email is required.
+
+abstract class User implements Built<User, UserBuilder> {
+  String get name;
+  String get lastname;
+  String get email;
+  
+  @nullable
+  Department get department;
+  
+  @nullable
+  int get year;
+  
+  @nullable
+  int get id;
+  
+  @nullable
+  String get phone;
+  
+  @nullable
+  String get profilePhoto;
+
+  User._();
+
+  factory User([updates(UserBuilder b)]) = _$User;
+
+  String toJson() {
+    return json.encode(serializers.serializeWith(User.serializer, this));
+  }
+
+  static User fromJson(String jsonString) {
+    return serializers.deserializeWith(User.serializer, json.decode(jsonString));
+  }
+
+  static Serializer<User> get serializer => _$userSerializer;
 
   @override
   String toString() {
-    return '''Name: $name,
+    return '''User {  
+    Name: $name,
     Lastname: $lastname, 
     Email: $email,
     Department: $department,
     Year: $year,
     Student ID: $id,
     Phone: $phone,
-    Photo Url: $profilePhoto''';
+    Photo Url: $profilePhoto
+}''';
   }
+}
+
+class Department extends EnumClass {
+  static const Department cse = _$cse;
+
+  const Department._(String name) : super(name);
+
+  static BuiltSet<Department> get values => _$values;
+  static Department valueOf(String name) => _$valueOf(name);
+
+  static Serializer<Department> get serializer => _$departmentSerializer;
 }

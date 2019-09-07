@@ -12,13 +12,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(event) async* {
     if (event is PhotoChanged) {
-      currentState.user.profilePhoto = event.url;
+      currentState = UserState(user: currentState.user.rebuild((b) => b
+      ..profilePhoto = event.url));
     }
     else if (event is LoggedIn) {
       currentState = UserState(user: event.user);
     }
     else if (event is PhoneChanged) {
-      currentState.user.phone = event.phone;
+      currentState = UserState(user: currentState.user.rebuild((b) => b
+      ..phone = event.phone));
     }
     
     yield currentState;
