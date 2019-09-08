@@ -30,7 +30,8 @@ class _ExamplePageState extends State<ExamplePage> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[900],
+            backgroundColor: Colors.indigo[900],
+            selectedItemColor: Colors.grey,
             onTap: _onNavigation,
             items: Routes.navList,
           ),

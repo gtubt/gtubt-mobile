@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 
-class ImagePage extends StatelessWidget {
-  @override
+class ProfilePage extends StatelessWidget {
+ @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(30),
       child: Text(
-        "Sample text",
+        "Profile Page",
       ),
     );
   }

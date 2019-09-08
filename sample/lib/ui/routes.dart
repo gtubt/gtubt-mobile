@@ -1,7 +1,9 @@
 import 'package:GTUBT/ui/pages/image_page.dart';
 import 'package:flutter/material.dart';
-import 'pages/list_page.dart';
 import 'pages/main_page.dart';
+import 'pages/home_page.dart';
+import 'pages/calendar_page.dart';
+import 'pages/profile_page.dart';
 
 const ROOT_URL = '/';
 
@@ -10,10 +12,11 @@ class Routes {
     ROOT_URL: (context) => ExamplePage(),
   };
   
-  static final bodyTitle = ["Home", "List"];
+  static final bodyTitle = ["Home", "Calendar", "Profile"];
   static final bodyList = <Widget>[
-    ImagePage(),
-    ListPage(),
+    HomePage(),
+    CalendarPage(),
+    ProfilePage(),
   ];
   static final navList = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
@@ -21,8 +24,12 @@ class Routes {
       title: Text(bodyTitle[0]),
     ),
     BottomNavigationBarItem(
-      icon: Icon(Icons.ac_unit),
+      icon: Icon(Icons.calendar_today),
       title: Text(bodyTitle[1]),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.person_outline),
+      title: Text(bodyTitle[2]),
     ),
   ];
 }
