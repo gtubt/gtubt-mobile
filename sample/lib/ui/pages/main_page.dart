@@ -1,4 +1,6 @@
+import 'package:GTUBT/resources/colors.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/resources/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../routes.dart';
@@ -30,7 +32,9 @@ class _ExamplePageState extends State<ExamplePage> {
           ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _selectedIndex,
-            selectedItemColor: Colors.amber[900],
+            unselectedItemColor: GtuBtColors.unselectedBarItemColor,
+            backgroundColor: GtuBtColors.barBackgroundColor,
+            selectedItemColor: GtuBtColors.selectedBarItemColor,
             onTap: _onNavigation,
             items: Routes.navList,
           ),
