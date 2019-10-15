@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
+import 'ui/pages/login_page.dart';
 
 void main()  {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -14,20 +15,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PageBloc>(
-      builder: (context) => PageBloc(),
-      child: MaterialApp(
-      title: 'GTU BT',
-      theme: ThemeData(
-        // These will be customized for general app design
-        primarySwatch: Colors.blue,
-      ),
-      routes: Routes.routes,
-      initialRoute: '/',
-    )
+        builder: (context) => PageBloc(),
+        child: MaterialApp(
+          title: 'GTU BT',
+          theme: ThemeData(
+            // These will be customized for general app design
+            primarySwatch: Colors.blue,
+          ),
+          home: LoginPage(),
+
+        )
     );
-    
+
   }
 }
+
 
 class SimpleBlocDelegate extends BlocDelegate {
   @override
