@@ -1,7 +1,7 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'user_state.dart';
+// import 'user_state.dart';
 
 abstract class UserEvent extends Equatable {
   UserEvent([List props = const []]) : super(props);

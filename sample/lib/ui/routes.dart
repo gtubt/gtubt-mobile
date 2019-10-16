@@ -10,7 +10,7 @@ class Routes {
   static final routes = <String, WidgetBuilder>{
     ROOT_URL: (context) => ExamplePage(),
   };
-  
+
   static final bodyTitle = ["Home", "Calendar", "Profile"];
   static final bodyList = <Widget>[
     HomePage(),
