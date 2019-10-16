@@ -8,6 +8,7 @@ part of serializers;
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Department.serializer)
+      ..add(Post.serializer)
       ..add(User.serializer))
     .build();
 
