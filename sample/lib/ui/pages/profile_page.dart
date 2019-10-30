@@ -1,7 +1,6 @@
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:GTUBT/main.dart';
 
 class ProfilePage extends StatelessWidget {
   final String _fullname = "İsim Soyisim";
@@ -20,7 +19,7 @@ class ProfilePage extends StatelessWidget {
   );
 
   final TextStyle _nameTextStyle = TextStyle(
-    color: Colors.black,
+    color: ColorSets.defaultTextColor,
     fontSize: 16.0,
     height: 1.4,
     fontWeight: FontWeight.w500,
@@ -59,15 +58,15 @@ class ProfilePage extends StatelessWidget {
 
   Widget _fullName(String name) {
     return Container(
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 30.0,
-              child: Text(
-                name,
-                style: _nameTextStyle,
-              ),
-            )));
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 30.0,
+        child: Text(
+          name,
+          style: _nameTextStyle,
+        ),
+      ),
+    );
   }
 
   Widget _eMail(String email) {
@@ -75,14 +74,14 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               "  E-posta  ",
               style: _headerTextStyle,
             ),
           ),
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               email,
@@ -94,7 +93,7 @@ class ProfilePage extends StatelessWidget {
       width: 350.0,
       height: 40.0,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: ColorSets.defaultBarBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: ColorSets.profilePageThemeColor,
@@ -109,14 +108,14 @@ class ProfilePage extends StatelessWidget {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
+            Container(
               padding: EdgeInsets.only(left: 25),
               child: Text(
                 "  Bölüm  ",
                 style: _headerTextStyle,
               ),
             ),
-            Padding(
+            Container(
               padding: EdgeInsets.only(left: 25),
               child: Text(
                 department,
@@ -127,7 +126,7 @@ class ProfilePage extends StatelessWidget {
       width: 350.0,
       height: 40.0,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: ColorSets.defaultBarBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: ColorSets.profilePageThemeColor,
@@ -142,14 +141,14 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               "  Sınıf  ",
               style: _headerTextStyle,
             ),
           ),
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               year,
@@ -161,7 +160,7 @@ class ProfilePage extends StatelessWidget {
       width: 350.0,
       height: 40.0,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: ColorSets.defaultBarBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: ColorSets.profilePageThemeColor,
@@ -176,14 +175,14 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               "  Öğrenci No  ",
               style: _headerTextStyle,
             ),
           ),
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               studentnumber,
@@ -195,7 +194,7 @@ class ProfilePage extends StatelessWidget {
       width: 350.0,
       height: 40.0,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: ColorSets.defaultBarBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: ColorSets.profilePageThemeColor,
@@ -210,14 +209,14 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               "  Telefon No  ",
               style: _headerTextStyle,
             ),
           ),
-          Padding(
+          Container(
             padding: EdgeInsets.only(left: 25),
             child: Text(
               phonenumber,
@@ -229,7 +228,7 @@ class ProfilePage extends StatelessWidget {
       width: 350.0,
       height: 40.0,
       decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+        color: ColorSets.defaultBarBackgroundColor,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: ColorSets.profilePageThemeColor,
@@ -242,50 +241,54 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(children: <Widget>[
-      _imageBackground(),
-      SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 50,
-            ),
-            _profileImage(),
-            _fullName(_fullname),
-            new Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _eMail(_email),
+      body: Stack(
+        children: <Widget>[
+          _imageBackground(),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 50,
+                  ),
+                  _profileImage(),
+                  _fullName(_fullname),
+                  new Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _eMail(_email),
+                    ),
+                  ),
+                  new Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _deparmentInfo(_department),
+                    ),
+                  ),
+                  new Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _yearInfo(_year),
+                    ),
+                  ),
+                  new Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _studentNumber(_studentnumber),
+                    ),
+                  ),
+                  new Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _phoneNumber(_phonenumber),
+                    ),
+                  ),
+                ],
               ),
             ),
-            new Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _deparmentInfo(_department),
-              ),
-            ),
-            new Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _yearInfo(_year),
-              ),
-            ),
-            new Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _studentNumber(_studentnumber),
-              ),
-            ),
-            new Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _phoneNumber(_phonenumber),
-              ),
-            ),
-          ],
-        ),
-      ))
-    ]));
+          )
+        ],
+      ),
+    );
   }
 }

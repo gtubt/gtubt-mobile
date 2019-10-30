@@ -5,4 +5,7 @@ class ColorSets {
   static const barBackgroundColor = Color(0xFF1A237E);
   static const selectedBarItemColor = Color(0xFF7986CB);
   static const unselectedBarItemColor = Color(0xFFFFFFFF);
+
+  static const defaultBarBackgroundColor = Color(0xFFFFFFFF);
+  static const defaultTextColor = Colors.black;
 }
