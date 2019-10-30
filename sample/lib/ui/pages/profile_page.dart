@@ -254,34 +254,24 @@ class ProfilePage extends StatelessWidget {
                   _profileImage(),
                   _fullName(_fullname),
                   new Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _eMail(_email),
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: _eMail(_email),
                   ),
                   new Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _deparmentInfo(_department),
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: _deparmentInfo(_department),
                   ),
                   new Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _yearInfo(_year),
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: _yearInfo(_year),
                   ),
                   new Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _studentNumber(_studentnumber),
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: _studentNumber(_studentnumber),
                   ),
                   new Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: _phoneNumber(_phonenumber),
-                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    child: _phoneNumber(_phonenumber),
                   ),
                 ],
               ),
