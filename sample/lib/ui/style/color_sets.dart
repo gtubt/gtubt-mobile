@@ -8,4 +8,6 @@ class ColorSets {
 
   static const defaultBarBackgroundColor = Color(0xFFFFFFFF);
   static const defaultTextColor = Colors.black;
+
+  static const pageBackgroundColor = Color (0xFFFFFFFF);
 }

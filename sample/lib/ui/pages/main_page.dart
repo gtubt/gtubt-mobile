@@ -1,6 +1,4 @@
-import 'package:GTUBT/resources/colors.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
-import 'package:GTUBT/resources/colors.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,19 +27,19 @@ class _ExamplePageState extends State<ExamplePage> {
         },
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: GtuBtColors.barBackgroundColor,
+            backgroundColor: ColorSets.barBackgroundColor,
             title: Text(Routes.bodyTitle[_selectedIndex]),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            unselectedItemColor: GtuBtColors.unselectedBarItemColor,
+            unselectedItemColor: ColorSets.unselectedBarItemColor,
             selectedIconTheme: IconThemeData(
-              color: GtuBtColors.selectedBarItemColor,
+              color: ColorSets.selectedBarItemColor,
             ),
             unselectedIconTheme: IconThemeData(
-              color: GtuBtColors.unselectedBarItemColor,
+              color: ColorSets.unselectedBarItemColor,
             ),
             currentIndex: _selectedIndex,
-            backgroundColor: GtuBtColors.barBackgroundColor,
+            backgroundColor: ColorSets.barBackgroundColor,
             onTap: _onNavigation,
             items: Routes.navList,
           ),
