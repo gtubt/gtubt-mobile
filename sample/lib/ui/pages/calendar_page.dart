@@ -1,7 +1,7 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 class CalendarPage extends StatelessWidget {
- @override
+  @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(30),
