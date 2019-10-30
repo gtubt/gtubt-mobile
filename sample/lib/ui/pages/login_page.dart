@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.emailAddress,
               autofocus: false,
               decoration: InputDecoration(
-                hintText: 'Email',
+//                hintText: 'Email',
                 fillColor: Colors.white,
                 filled: true,
               ),
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               autofocus: false,
               obscureText: true,
               decoration: InputDecoration(
-                hintText: 'Password',
+//                hintText: 'Password',
                 fillColor: Colors.white,
                 filled: true,
               ),
