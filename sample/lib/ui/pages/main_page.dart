@@ -1,4 +1,6 @@
+import 'package:GTUBT/resources/colors.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/resources/colors.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,26 +22,46 @@ class _ExamplePageState extends State<ExamplePage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PageBloc, PageState>(
-      listener: (BuildContext context, PageState state) {
-        setState(() {
-          _selectedIndex = state.currentPage;
-        });
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(Routes.bodyTitle[_selectedIndex]),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          unselectedItemColor: ColorSets.unselectedBarItemColor,
-          backgroundColor: ColorSets.barBackgroundColor,
-          selectedItemColor: ColorSets.selectedBarItemColor,
-          onTap: _onNavigation,
-          items: Routes.navList,
-        ),
-        body: Routes.bodyList[_selectedIndex],
+        listener: (BuildContext context, PageState state) {
+          setState(() {
+            _selectedIndex = state.currentPage; 
+          });
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: GtuBtColors.barBackgroundColor,
+            title: Text(Routes.bodyTitle[_selectedIndex]),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            unselectedItemColor: GtuBtColors.unselectedBarItemColor,
+            selectedIconTheme: IconThemeData(
+              color: GtuBtColors.selectedBarItemColor,
+            ),
+            unselectedIconTheme: IconThemeData(
+              color: GtuBtColors.unselectedBarItemColor,
+            ),
+            currentIndex: _selectedIndex,
+            backgroundColor: GtuBtColors.barBackgroundColor,
+            onTap: _onNavigation,
+            items: Routes.navList,
+          ),
+          drawer: Drawer(
+            child: ListView(
+              children: <Widget>[
+                ListTile(
+                  title: Text("Ttem 1"),
+                  trailing: Icon(Icons.arrow_forward),
+                ),
+                ListTile(
+                  title: Text("Item 2"),
+                  trailing: Icon(Icons.arrow_forward),
+                ),
+              ],
+            ),
+          ),
+          body: Routes.bodyList[_selectedIndex],
         // This trailing comma makes auto-formatting nicer for build methods.
-      ),
-    );
+        ),
+      );
   }
 }
