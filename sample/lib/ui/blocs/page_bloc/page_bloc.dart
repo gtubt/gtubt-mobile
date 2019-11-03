@@ -12,5 +12,4 @@ class PageBloc extends Bloc<PageEvent, PageState> {
       yield PageState(currentPage: event.page);
     }
   }
-
 }

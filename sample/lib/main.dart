@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
     });
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
-
     return BlocProvider<PageBloc>(
       builder: (context) => PageBloc(),
       child: MaterialApp(
