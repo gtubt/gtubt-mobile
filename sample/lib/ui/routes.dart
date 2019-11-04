@@ -1,8 +1,11 @@
+import 'package:GTUBT/ui/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/main_page.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/profile_page.dart';
+import 'pages/signup_page.dart';
+
 
 const ROOT_URL = '/';
 
