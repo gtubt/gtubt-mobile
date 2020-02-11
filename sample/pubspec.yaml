@@ -20,6 +20,7 @@ dependencies:
   flutter_bloc: ^0.20.0
   equatable: ^0.3.0
   built_value: ^6.7.1
+  onesignal_flutter: ^2.0.0
   flutter:
     sdk: flutter
 

@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main()  {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -11,19 +12,27 @@ void main()  {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
+    OneSignal.shared.init("3f4bf8af-bd07-4353-bdb9-ed92a96908aa", iOSSettings: {
+      OSiOSSettings.autoPrompt: false,
+      OSiOSSettings.inAppLaunchUrl: true
+    });
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return BlocProvider<PageBloc>(
-        builder: (context) => PageBloc(),
-        child: MaterialApp(
-          title: 'GTU BT',
-          theme: ThemeData(
-            // These will be customized for general app design
-            primarySwatch: Colors.blue,
-          ),
-          routes: Routes.routes,
-          initialRoute: '/',
-        )
+  PushNotifications
+      builder: (context) => PageBloc(),
+      child: MaterialApp(
+        title: 'GTU BT',
+        theme: ThemeData(
+          // These will be customized for general app design
+          primarySwatch: Colors.blue,
+        ),
+        routes: Routes.routes,
+        initialRoute: '/',
+      ),
     );
 
   }
