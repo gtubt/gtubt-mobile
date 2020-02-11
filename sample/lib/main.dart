@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
 
-void main() {
+void main()  {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(MyApp());
 }
@@ -23,7 +23,9 @@ class MyApp extends StatelessWidget {
           ),
           routes: Routes.routes,
           initialRoute: '/',
-        ));
+        )
+    );
+
   }
 }
 
