@@ -5,7 +5,7 @@ import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-void main() {
+void main()  {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   runApp(MyApp());
 }
@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return BlocProvider<PageBloc>(
+  PushNotifications
       builder: (context) => PageBloc(),
       child: MaterialApp(
         title: 'GTU BT',
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
       ),
     );
+
   }
 }
 
