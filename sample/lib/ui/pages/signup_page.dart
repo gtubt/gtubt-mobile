@@ -298,7 +298,7 @@ class SignUp extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 32),
             child: RaisedButton(
                 onPressed: () {},
-                color: GtuBtColors.selectedBarItemColor,
+                color: ColorSets.selectedBarItemColor,
                 child: Text(
                     'Hesap Oluştur',
                     style: TextStyle(
