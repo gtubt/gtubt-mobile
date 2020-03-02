@@ -73,6 +73,7 @@ class HomePage extends StatelessWidget {
                     placeholder: 'assets/logo.png',
                     image: 'https://via.placeholder.com/350x120.png',
                     height: 300,
+                    fit: BoxFit.fitWidth
                   )
                 ),
                 Positioned(
@@ -106,6 +107,7 @@ class HomePage extends StatelessWidget {
                     placeholder: 'assets/logo.png',
                     image: 'https://via.placeholder.com/350x120.png',
                     height: 300,
+                    fit: BoxFit.fitWidth
                   )
                 ),
                 Positioned(
