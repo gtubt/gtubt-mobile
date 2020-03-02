@@ -18,10 +18,17 @@ class HomePage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                color: Colors.blueAccent,
-                width: 3
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 3.0, // has the effect of softening the shadow
+                  spreadRadius: 1.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    0.0, // horizontal, move right 10
+                    5.0, // vertical, move down 10
+                  ),
+                )
+              ],
               color: Colors.white,
             ),
             child: ClipRRect(
@@ -61,10 +68,17 @@ class HomePage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                color: Colors.blueAccent,
-                width: 3
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 3.0, // has the effect of softening the shadow
+                  spreadRadius: 1.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    0.0, // horizontal, move right 10
+                    5.0, // vertical, move down 10
+                  ),
+                )
+              ],
               color: Colors.white,
             ),
             child: ClipRRect(
@@ -101,10 +115,17 @@ class HomePage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                color: Colors.blueAccent,
-                width: 3
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 3.0, // has the effect of softening the shadow
+                  spreadRadius: 1.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    0.0, // horizontal, move right 10
+                    5.0, // vertical, move down 10
+                  ),
+                )
+              ],
               color: Colors.white,
             ),
             child: ClipRRect(
