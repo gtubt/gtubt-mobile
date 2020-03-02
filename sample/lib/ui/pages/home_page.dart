@@ -15,38 +15,41 @@ class HomePage extends StatelessWidget {
               "Bugün"
             ),
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Stack(children: <Widget>[
-              Container( 
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: Colors.blueAccent,
-                    width: 3
-                  ),
-                  color: Colors.white,
-                ),
-                height: 200,
-                child: FadeInImage.assetNetwork(
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              border: Border.all(
+                color: Colors.blueAccent,
+                width: 3
+              ),
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(17.0),
+              child: Stack(children: <Widget>[
+                Container( 
+                  height: 200,
+                  child: FadeInImage.assetNetwork(
                     alignment: Alignment.topCenter, // add this
                     placeholder: 'assets/logo.png',
-                    image: 'https://via.placeholder.com/320x110.png',
+                    image: 'https://via.placeholder.com/350x120.png',
                     height: 300,
+                    fit: BoxFit.fitWidth
                   )
-                ),
-                Positioned(
-                  top: 120,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 5, right: 5),
-                    width: 350,
-                    child: Text(
-                      "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                  ),
+                  Positioned(
+                    top: 120,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      width: 320,
+                      child: Text(
+                        "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
+                ],
+              )
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 20.0),
@@ -55,73 +58,81 @@ class HomePage extends StatelessWidget {
               "Dün"
             ),
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Stack(children: <Widget>[
-              Container( 
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: Colors.blueAccent,
-                    width: 3
-                  ),
-                  color: Colors.white,
-                ),
-                child: FadeInImage.assetNetwork(
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              border: Border.all(
+                color: Colors.blueAccent,
+                width: 3
+              ),
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(17.0),
+              child: Stack(children: <Widget>[
+                Container( 
+                  height: 200,
+                  child: FadeInImage.assetNetwork(
                     alignment: Alignment.topCenter, // add this
                     placeholder: 'assets/logo.png',
                     image: 'https://via.placeholder.com/350x120.png',
                     height: 300,
                     fit: BoxFit.fitWidth
                   )
-                ),
-                Positioned(
-                  top: 120,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 5, right: 5),
-                    width: 350,
-                    child: Text(
-                      "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                  ),
+                  Positioned(
+                    top: 120,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      width: 320,
+                      child: Text(
+                        "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
+                ],
+              )
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 20.0),
-            height: 30,
-            child: Text(
-              ""
-            ),
+            height: 10,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Stack(children: <Widget>[
-              Container( 
-                height: 200,
-                color: Colors.white,
-                child: FadeInImage.assetNetwork(
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              border: Border.all(
+                color: Colors.blueAccent,
+                width: 3
+              ),
+              color: Colors.white,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(17.0),
+              child: Stack(children: <Widget>[
+                Container( 
+                  height: 200,
+                  child: FadeInImage.assetNetwork(
                     alignment: Alignment.topCenter, // add this
                     placeholder: 'assets/logo.png',
                     image: 'https://via.placeholder.com/350x120.png',
                     height: 300,
                     fit: BoxFit.fitWidth
                   )
-                ),
-                Positioned(
-                  top: 120,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 5, right: 5),
-                    width: 350,
-                    child: Text(
-                      "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                  ),
+                  Positioned(
+                    top: 120,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      width: 320,
+                      child: Text(
+                        "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
+                ],
+              )
+            ),
           ),
         ],
       ),
