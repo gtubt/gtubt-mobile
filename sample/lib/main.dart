@@ -22,7 +22,6 @@ class MyApp extends StatelessWidget {
     OneSignal.shared
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return BlocProvider<PageBloc>(
-  PushNotifications
       builder: (context) => PageBloc(),
       child: MaterialApp(
         title: 'GTU BT',

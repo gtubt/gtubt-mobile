@@ -1,5 +1,5 @@
+import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
-import 'package:GTUBT/resources/colors.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
               margin: EdgeInsets.only(bottom: 32),
               child: RaisedButton(
                 onPressed: () {},
-                color: GtuBtColors.selectedBarItemColor,
+                color: ColorSets.selectedBarItemColor,
                 child: Text(
                   'Giriş Yap',
                   style: TextStyle(
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: 135,
                     child: RaisedButton(
                       onPressed: () {},
-                      color: GtuBtColors.barBackgroundColor,
+                      color: ColorSets.barBackgroundColor,
                       child: Text(
                         'Üye Değil Misin?\nKayıt Ol!',
                         textAlign: TextAlign.center,
@@ -132,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      color: GtuBtColors.barBackgroundColor,
+                      color: ColorSets.barBackgroundColor,
                       border: Border.all(
                         color: Colors.white,
                         width: 2.0,
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: 135,
                     child: RaisedButton(
                       onPressed: () {},
-                      color: GtuBtColors.barBackgroundColor,
+                      color: ColorSets.barBackgroundColor,
                       child: Text(
                         'Üye Olmadan\nDevam Et',
                         textAlign: TextAlign.center,
@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     decoration: BoxDecoration(
-                      color: GtuBtColors.barBackgroundColor,
+                      color: ColorSets.barBackgroundColor,
                       border: Border.all(
                         color: Colors.white,
                         width: 2.0,
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
-      backgroundColor: GtuBtColors.barBackgroundColor,
+      backgroundColor: ColorSets.barBackgroundColor,
       body: Center(
         child: ListView(
           shrinkWrap: true,
