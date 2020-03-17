@@ -19,7 +19,7 @@ environment:
 dependencies:
   flutter_bloc: ^0.20.0
   equatable: ^0.3.0
-  built_value: ^6.7.1
+  built_value: 6.7.1
   onesignal_flutter: ^2.0.0
   flutter:
     sdk: flutter
@@ -31,8 +31,9 @@ dependencies:
 dev_dependencies:
   # To create new built value model, use:
   # 'flutter packages pub run build_runner watch' console command while working on it
-  built_value_generator: ^6.7.1
-  build_runner: ^1.6.8
+  built_value_generator: 6.7.1
+  build_runner: 1.6.8
+  
 
   flutter_test:
     sdk: flutter
