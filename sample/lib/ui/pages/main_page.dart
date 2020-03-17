@@ -44,17 +44,27 @@ class _ExamplePageState extends State<ExamplePage> {
             items: Routes.navList,
           ),
           drawer: Drawer(
-            child: ListView(
-              children: <Widget>[
-                ListTile(
-                  title: Text("Ttem 1"),
-                  trailing: Icon(Icons.arrow_forward),
-                ),
-                ListTile(
-                  title: Text("Item 2"),
-                  trailing: Icon(Icons.arrow_forward),
-                ),
-              ],
+            child: Container(
+              color: ColorSets.barBackgroundColor,
+              alignment: Alignment.center,
+              child: ListView(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, ),
+                    height: 50,
+                    color: ColorSets.profilePageThemeColor,
+                    child: const Center(child: Text('LOGIN')),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10, ),
+                    height: 50,
+                    color: ColorSets.profilePageThemeColor,
+                    child: const Center(child: Text('SETTINGS')),
+                  ),
+                ],
+              ),
             ),
           ),
           body: Routes.bodyList[_selectedIndex],
