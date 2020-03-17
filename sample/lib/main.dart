@@ -15,12 +15,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OneSignal.shared.init("3f4bf8af-bd07-4353-bdb9-ed92a96908aa", iOSSettings: {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.inAppLaunchUrl: true
-    });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    OneSignal.shared.init(
+        "3f4bf8af-bd07-4353-bdb9-ed92a96908aa",
+        iOSSettings: {
+          OSiOSSettings.autoPrompt: false,
+          OSiOSSettings.inAppLaunchUrl: true
+        }
+    );
+    OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
     return BlocProvider<PageBloc>(
       builder: (context) => PageBloc(),
       child: MaterialApp(
