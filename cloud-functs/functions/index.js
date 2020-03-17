@@ -6,7 +6,7 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-exports.getArticle = functions.https.onRequest((req, res) => {
+exports.article = functions.https.onRequest((req, res) => {
 	var url_parts = url.parse(req.url, true);
 	var query = url_parts.query;
 
@@ -15,12 +15,9 @@ exports.getArticle = functions.https.onRequest((req, res) => {
 		const getDoc = docRef.get()
 		.then(doc => {
 			if (!doc.exists) {
-				// TODO(yasir): give a better response than this
-				console.log('No such document!');
 				return res.send('Not Found');
 			}
 
-			console.log(doc.data());
 			return res.send(doc.data());
 		}).catch(err => {
 			console.log('Error getting document', err);
