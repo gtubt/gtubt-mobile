@@ -9,18 +9,6 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const PORT = 5555;
-const USERS = [
-    {
-        id: 1,
-        firstName: 'John',
-        lastName: 'Smith'
-    },
-    {
-        id: 2,
-        firstName: 'Jane',
-        lastName: 'Williams'
-    }
-];
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
