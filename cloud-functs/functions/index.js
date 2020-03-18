@@ -27,12 +27,6 @@ exports.post = functions.https.onRequest((req, res) => {
 		var articlesRef = db.collection('posts');
 		var allArticles = articlesRef.get()
 		.then(snapshot => {
-			/*let articlesList = snapshot.docs.map(doc => {
-				var article_data = doc.data();
-				article_data.id = doc.id;
-				return data;
-			});*/
-
 			var articlesList = [];
 
 			snapshot.forEach(doc => {
