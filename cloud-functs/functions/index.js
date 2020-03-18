@@ -6,12 +6,12 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
-exports.article = functions.https.onRequest((req, res) => {
+exports.post = functions.https.onRequest((req, res) => {
 	var url_parts = url.parse(req.url, true);
 	var query = url_parts.query;
 
 	if(typeof query.id !== 'undefined' && query.id) {
-		const docRef = db.collection('articles').doc(query.id);
+		const docRef = db.collection('posts').doc(query.id);
 		const getDoc = docRef.get()
 		.then(doc => {
 			if (!doc.exists) {
@@ -24,12 +24,23 @@ exports.article = functions.https.onRequest((req, res) => {
 		});
 	}
 	else {
-		var articlesRef = db.collection('articles');
+		var articlesRef = db.collection('posts');
 		var allArticles = articlesRef.get()
 		.then(snapshot => {
-			let articlesList = snapshot.docs.map(doc => {
-				return doc.data();
-			}); 
+			/*let articlesList = snapshot.docs.map(doc => {
+				var article_data = doc.data();
+				article_data.id = doc.id;
+				return data;
+			});*/
+
+			var articlesList = [];
+
+			snapshot.forEach(doc => {
+				var articleData = doc.data();
+				articleData.id = doc.id;
+				articlesList.push(articleData);
+	        });
+
 			return res.json(articlesList);
 		})
 		.catch(err => {
