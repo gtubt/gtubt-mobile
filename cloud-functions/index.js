@@ -14,7 +14,7 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-app.get('/post/:postId', (req, res, next) => {
+app.get('/posts/:postId', (req, res, next) => {
     var postId = req.params.postId;
 
     const docRef = db.collection('posts').doc(postId);
@@ -31,7 +31,7 @@ app.get('/post/:postId', (req, res, next) => {
     });
 });
 
-app.get('/post', (req, res, next) => {
+app.get('/posts', (req, res, next) => {
     var postsRef = db.collection('posts');
     var allPosts = postsRef.get()
     .then(snapshot => {
