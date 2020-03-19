@@ -21,12 +21,13 @@ app.get('/post/:postId', (req, res, next) => {
     const getDoc = docRef.get()
     .then(doc => {
         if (!doc.exists) {
-            return res.send('Not Found');
+            return res.status(404).send('Not Found');
         }
 
         return res.send(doc.data());
     }).catch(err => {
         console.log('Error getting document', err);
+        res.status(404).send('Not found');
     });
 });
 
@@ -45,6 +46,7 @@ app.get('/post', (req, res, next) => {
     })
     .catch(err => {
         console.log('Error getting documents', err);
+        res.status(404).send('Not found');
     });
 });
 
