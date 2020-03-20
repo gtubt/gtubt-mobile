@@ -5,7 +5,7 @@ void main() {
   test('Serialize User', () {
     User user = User((user) => user
       ..email = 'test@test.com'
-      ..id = 161044057
+      ..id = "161044057"
       ..name = "Test Name"
       ..lastname = "Test LastName"
       ..phone = "+905551234567"
@@ -19,7 +19,7 @@ void main() {
   test('Deserialize User', () {
     User user = User((user) => user
       ..email = 'test@test.com'
-      ..id = 161044057
+      ..id = "161044057"
       ..name = "Test Name"
       ..lastname = "Test LastName"
       ..phone = "+905551234567"
@@ -33,7 +33,7 @@ void main() {
   test('Update User', () {
     User user = User((user) => user
       ..email = 'test@test.com'
-      ..id = 161044057
+      ..id = "161044057"
       ..name = "Test Name"
       ..lastname = "Test LastName"
       ..phone = "+905551234567"

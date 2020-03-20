@@ -110,7 +110,7 @@ class _$UserSerializer implements StructuredSerializer<User> {
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(String)) as String;
           break;
         case 'phone':
           result.phone = serializers.deserialize(value,
@@ -156,7 +156,7 @@ class _$User extends User {
   @override
   final int year;
   @override
-  final int id;
+  final String id;
   @override
   final String phone;
   @override
@@ -247,9 +247,9 @@ class UserBuilder implements Builder<User, UserBuilder> {
   int get year => _$this._year;
   set year(int year) => _$this._year = year;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  String _id;
+  String get id => _$this._id;
+  set id(String id) => _$this._id = id;
 
   String _phone;
   String get phone => _$this._phone;
