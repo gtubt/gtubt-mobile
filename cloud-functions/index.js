@@ -113,7 +113,7 @@ app.post('/create-user', jsonParser, (req, res, next) => {
             profilePhoto: user.profilePhoto
         }).then(ref => {
             responseStatus = 200;
-            responseMessage = `User with Added With ID: ${ref.id}`;
+            responseMessage = `User added with ID: ${ref.id}`;
             responseObj = {
                 Body: user,
                 Message: responseMessage,
