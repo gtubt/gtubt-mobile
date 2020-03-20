@@ -31,7 +31,7 @@ abstract class User implements Built<User, UserBuilder> {
   int get year;
   
   @nullable
-  int get id;
+  String get id;
   
   @nullable
   String get phone;
