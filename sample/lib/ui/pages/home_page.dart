@@ -12,7 +12,8 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.only(top: 20.0),
             height: 30,
             child: Text(
-              "Bugün"
+              "Bugün",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           Container(
@@ -49,9 +50,21 @@ class HomePage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       width: 320,
-                      child: Text(
-                        "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
-                      ),
+                      child: Stack(children: <Widget>[
+                        Container(
+                          child: Text(
+                            "TITLE",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                          "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                          ),
+                        ),
+                        ]
+                      )
                     ),
                   ),
                 ],
@@ -62,7 +75,8 @@ class HomePage extends StatelessWidget {
             margin: const EdgeInsets.only(top: 20.0),
             height: 30,
             child: Text(
-              "Dün"
+              "Dün",
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           Container(
@@ -99,9 +113,21 @@ class HomePage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       width: 320,
-                      child: Text(
-                        "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
-                      ),
+                      child: Stack(children: <Widget>[
+                        Container(
+                          child: Text(
+                            "TITLE",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                          "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                          ),
+                        ),
+                        ]
+                      )
                     ),
                   ),
                 ],
@@ -113,6 +139,7 @@ class HomePage extends StatelessWidget {
             height: 10,
           ),
           Container(
+            margin: const EdgeInsets.only(bottom: 20.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               boxShadow: [
@@ -146,9 +173,21 @@ class HomePage extends StatelessWidget {
                     child: Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       width: 320,
-                      child: Text(
-                        "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
-                      ),
+                      child: Stack(children: <Widget>[
+                        Container(
+                          child: Text(
+                            "TITLE",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Text(
+                          "LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET"
+                          ),
+                        ),
+                        ]
+                      )
                     ),
                   ),
                 ],
