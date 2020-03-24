@@ -114,8 +114,11 @@ app.post('/create-user', jsonParser, (req, res, next) => {
         }).then(ref => {
             responseStatus = 200;
             responseMessage = `User added with ID: ${ref.id}`;
+            responseBody = {
+                id: ref.id
+            }
             responseObj = {
-                Body: user,
+                Body: responseBody,
                 Message: responseMessage,
                 Code: responseStatus
             };
