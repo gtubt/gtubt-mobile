@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const app = express();
-
+const libphonenumber = require('libphonenumber-js');
 
 admin.initializeApp({
     credential: admin.credential.applicationDefault(),
@@ -58,10 +58,12 @@ app.post('/create-user', jsonParser, (req, res, next) => {
     const user = req.body;
     const usersRef = db.collection('users');
 
+    const sanitizedPhoneNumber = libphonenumber.parsePhoneNumberFromString(user.phone, 'TR').formatNational();
+
     const promises = [
         usersRef.where('studentId', '==', user.studentId).get(),
         usersRef.where('email', '==', user.email).get(),
-        usersRef.where('phone', '==', user.phone).get()
+        usersRef.where('phone', '==', sanitizedPhoneNumber).get()
     ];
 
     Promise.all(promises)
@@ -103,9 +105,9 @@ app.post('/create-user', jsonParser, (req, res, next) => {
         }
 
         usersRef.add({
-            name: user.name,
-            lastname: user.lastname,
-            phone: user.phone,
+            name: toTitleCase(user.name),
+            lastname: toTitleCase(user.lastname),
+            phone: sanitizedPhoneNumber,
             email: user.email,
             studentId: user.studentId,
             year: user.year,
@@ -138,6 +140,14 @@ app.post('/create-user', jsonParser, (req, res, next) => {
         });
     });
 });
+
+function toTitleCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) {
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+   }
+   return splitStr.join(' ');
+}
 
 module.exports = {
     app
