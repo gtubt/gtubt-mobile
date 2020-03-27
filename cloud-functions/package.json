@@ -4,12 +4,18 @@
   "description": "Cloud Functions for GTUBT Mobile Application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "author": "GTUBT",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "firebase-admin": "^8.10.0"
+    "firebase-admin": "^8.10.0",
+    "libphonenumber-js": "^1.7.48"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }

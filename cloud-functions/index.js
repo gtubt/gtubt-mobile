@@ -1,6 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const app = express();
+const libphonenumber = require('libphonenumber-js');
 
 admin.initializeApp({
     credential: admin.credential.applicationDefault(),
@@ -8,10 +10,12 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
+var jsonParser = bodyParser.json();
+
 const PORT = 5555;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`GTUBT Cloud Functions API Server Running on Port: ${PORT}`);
 });
 
 app.get('/posts/:postId', (req, res, next) => {
@@ -49,6 +53,101 @@ app.get('/posts', (req, res, next) => {
         res.status(404).send('Not found');
     });
 });
+
+app.post('/create-user', jsonParser, (req, res, next) => {
+    const user = req.body;
+    const usersRef = db.collection('users');
+
+    const sanitizedPhoneNumber = libphonenumber.parsePhoneNumberFromString(user.phone, 'TR').formatNational();
+
+    const promises = [
+        usersRef.where('studentId', '==', user.studentId).get(),
+        usersRef.where('email', '==', user.email).get(),
+        usersRef.where('phone', '==', sanitizedPhoneNumber).get()
+    ];
+
+    Promise.all(promises)
+    .then((snapshots) => {
+        // given student id already exists
+        if (!snapshots[0].empty) {
+            responseStatus = 400;
+            responseObj = {
+                Body: null,
+                Message: 'A user with the given studentId already exists.',
+                Code: responseStatus
+            };
+            res.status(responseStatus).json(responseObj);
+            return;
+        }
+
+        // given email already exists
+        if (!snapshots[1].empty) {
+            responseStatus = 400;
+            responseObj = {
+                Body: null,
+                Message: 'A user with the given e-mail address already exists.',
+                Code: responseStatus
+            };
+            res.status(responseStatus).json(responseObj);
+            return;
+        }
+
+        // given phone number already exists
+        if (!snapshots[2].empty) {
+            responseStatus = 400;
+            responseObj = {
+                Body: null,
+                Message: 'A user with the given phone number already exists.',
+                Code: responseStatus
+            };
+            res.status(responseStatus).json(responseObj);
+            return;
+        }
+
+        usersRef.add({
+            name: toTitleCase(user.name),
+            lastname: toTitleCase(user.lastname),
+            phone: sanitizedPhoneNumber,
+            email: user.email,
+            studentId: user.studentId,
+            year: user.year,
+            department: user.department,
+            profilePhoto: user.profilePhoto
+        }).then(ref => {
+            responseStatus = 200;
+            responseMessage = `User added with ID: ${ref.id}`;
+            responseBody = {
+                id: ref.id
+            }
+            responseObj = {
+                Body: responseBody,
+                Message: responseMessage,
+                Code: responseStatus
+            };
+            res.status(responseStatus).json(responseObj);
+            return;
+        }).catch(err => {
+            console.log('Error getting documents', err);    
+            responseStatus = 400;
+            responseMessage = 'There has been a problem creating the user';
+            responseObj = {
+                Body: null,
+                Message: responseMessage,
+                Code: responseStatus
+            }
+            res.status(responseStatus).send(responseMessage);
+            return;
+        });
+    });
+});
+
+function toTitleCase(str) {
+   var splitStr = str.toLowerCase().split(' ');
+   for (var i = 0; i < splitStr.length; i++) {
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+   }
+   return splitStr.join(' ');
+}
 
 module.exports = {
     app
