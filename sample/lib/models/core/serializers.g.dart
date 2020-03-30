@@ -10,6 +10,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(Department.serializer)
       ..add(Event.serializer)
       ..add(Post.serializer)
+      ..add(PostType.serializer)
       ..add(User.serializer))
     .build();
 

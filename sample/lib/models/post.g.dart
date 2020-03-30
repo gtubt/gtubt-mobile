@@ -6,7 +6,27 @@ part of post;
 // BuiltValueGenerator
 // **************************************************************************
 
+const PostType _$announcement = const PostType._('announcement');
+const PostType _$news = const PostType._('news');
+
+PostType _$valueOf(String name) {
+  switch (name) {
+    case 'announcement':
+      return _$announcement;
+    case 'news':
+      return _$news;
+    default:
+      throw new ArgumentError(name);
+  }
+}
+
+final BuiltSet<PostType> _$values = new BuiltSet<PostType>(const <PostType>[
+  _$announcement,
+  _$news,
+]);
+
 Serializer<Post> _$postSerializer = new _$PostSerializer();
+Serializer<PostType> _$postTypeSerializer = new _$PostTypeSerializer();
 
 class _$PostSerializer implements StructuredSerializer<Post> {
   @override
@@ -28,6 +48,15 @@ class _$PostSerializer implements StructuredSerializer<Post> {
           specifiedType: const FullType(String)),
       'summary',
       serializers.serialize(object.summary,
+          specifiedType: const FullType(String)),
+      'type',
+      serializers.serialize(object.type,
+          specifiedType: const FullType(PostType)),
+      'startDate',
+      serializers.serialize(object.startDate,
+          specifiedType: const FullType(String)),
+      'endDate',
+      serializers.serialize(object.endDate,
           specifiedType: const FullType(String)),
     ];
 
@@ -61,11 +90,40 @@ class _$PostSerializer implements StructuredSerializer<Post> {
           result.summary = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(PostType)) as PostType;
+          break;
+        case 'startDate':
+          result.startDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'endDate':
+          result.endDate = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
       }
     }
 
     return result.build();
   }
+}
+
+class _$PostTypeSerializer implements PrimitiveSerializer<PostType> {
+  @override
+  final Iterable<Type> types = const <Type>[PostType];
+  @override
+  final String wireName = 'PostType';
+
+  @override
+  Object serialize(Serializers serializers, PostType object,
+          {FullType specifiedType = FullType.unspecified}) =>
+      object.name;
+
+  @override
+  PostType deserialize(Serializers serializers, Object serialized,
+          {FullType specifiedType = FullType.unspecified}) =>
+      PostType.valueOf(serialized as String);
 }
 
 class _$Post extends Post {
@@ -77,11 +135,24 @@ class _$Post extends Post {
   final String coverImageUrl;
   @override
   final String summary;
+  @override
+  final PostType type;
+  @override
+  final String startDate;
+  @override
+  final String endDate;
 
   factory _$Post([void Function(PostBuilder) updates]) =>
       (new PostBuilder()..update(updates)).build();
 
-  _$Post._({this.title, this.body, this.coverImageUrl, this.summary})
+  _$Post._(
+      {this.title,
+      this.body,
+      this.coverImageUrl,
+      this.summary,
+      this.type,
+      this.startDate,
+      this.endDate})
       : super._() {
     if (title == null) {
       throw new BuiltValueNullFieldError('Post', 'title');
@@ -94,6 +165,15 @@ class _$Post extends Post {
     }
     if (summary == null) {
       throw new BuiltValueNullFieldError('Post', 'summary');
+    }
+    if (type == null) {
+      throw new BuiltValueNullFieldError('Post', 'type');
+    }
+    if (startDate == null) {
+      throw new BuiltValueNullFieldError('Post', 'startDate');
+    }
+    if (endDate == null) {
+      throw new BuiltValueNullFieldError('Post', 'endDate');
     }
   }
 
@@ -111,14 +191,24 @@ class _$Post extends Post {
         title == other.title &&
         body == other.body &&
         coverImageUrl == other.coverImageUrl &&
-        summary == other.summary;
+        summary == other.summary &&
+        type == other.type &&
+        startDate == other.startDate &&
+        endDate == other.endDate;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, title.hashCode), body.hashCode), coverImageUrl.hashCode),
-        summary.hashCode));
+        $jc(
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, title.hashCode), body.hashCode),
+                        coverImageUrl.hashCode),
+                    summary.hashCode),
+                type.hashCode),
+            startDate.hashCode),
+        endDate.hashCode));
   }
 }
 
@@ -142,6 +232,18 @@ class PostBuilder implements Builder<Post, PostBuilder> {
   String get summary => _$this._summary;
   set summary(String summary) => _$this._summary = summary;
 
+  PostType _type;
+  PostType get type => _$this._type;
+  set type(PostType type) => _$this._type = type;
+
+  String _startDate;
+  String get startDate => _$this._startDate;
+  set startDate(String startDate) => _$this._startDate = startDate;
+
+  String _endDate;
+  String get endDate => _$this._endDate;
+  set endDate(String endDate) => _$this._endDate = endDate;
+
   PostBuilder();
 
   PostBuilder get _$this {
@@ -150,6 +252,9 @@ class PostBuilder implements Builder<Post, PostBuilder> {
       _body = _$v.body;
       _coverImageUrl = _$v.coverImageUrl;
       _summary = _$v.summary;
+      _type = _$v.type;
+      _startDate = _$v.startDate;
+      _endDate = _$v.endDate;
       _$v = null;
     }
     return this;
@@ -175,7 +280,10 @@ class PostBuilder implements Builder<Post, PostBuilder> {
             title: title,
             body: body,
             coverImageUrl: coverImageUrl,
-            summary: summary);
+            summary: summary,
+            type: type,
+            startDate: startDate,
+            endDate: endDate);
     replace(_$result);
     return _$result;
   }
