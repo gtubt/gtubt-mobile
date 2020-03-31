@@ -141,6 +141,23 @@ app.post('/create-user', jsonParser, (req, res, next) => {
     });
 });
 
+app.get('/get-user/:userEmail', (req, res, next) => {
+    var userEmail = req.params.userEmail;
+
+    const usersRef = db.collection('users');
+    const getDoc = usersRef.where('email', '==', userEmail).get()
+    .then(snapshot => {
+        if (snapshot.empty) {
+            return res.status(404).send('Not Found');
+        }
+
+        return res.send(snapshot.docs[0].data());
+    }).catch(err => {
+        console.log('Error getting document', err);
+        res.status(404).send('Not found');
+    });
+});
+
 function toTitleCase(str) {
    var splitStr = str.toLowerCase().split(' ');
    for (var i = 0; i < splitStr.length; i++) {
