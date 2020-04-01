@@ -183,7 +183,7 @@ app.get('/get-user/:userEmail', (req, res, next) => {
             Code: responseStatus
         }
         console.log('Error getting document', err);
-        res.status(responseStatus).json(responseObj);
+        return res.status(responseStatus).json(responseObj);
     });
 });
 
