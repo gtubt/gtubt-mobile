@@ -14,6 +14,9 @@ abstract class Post implements Built<Post, PostBuilder> {
   String get body;
   String get coverImageUrl;
   String get summary;
+  PostType get type;
+  String get startDate;
+  String get endDate;
 
   Post._();
 
@@ -35,7 +38,22 @@ abstract class Post implements Built<Post, PostBuilder> {
     Title: $title,
     Summary: $summary,
     Body: $body,
+    Start Date: $startDate,
+    End Date: $endDate,
+    Type: $type,
     CoverUrl: $coverImageUrl
 }''';
   }
+}
+
+class PostType extends EnumClass {
+  static const PostType announcement = _$announcement;
+  static const PostType news = _$news;
+
+  const PostType._(String name) : super(name);
+
+  static BuiltSet<PostType> get values => _$values;
+  static PostType valueOf(String name) => _$valueOf(name);
+
+  static Serializer<PostType> get serializer => _$postTypeSerializer;
 }

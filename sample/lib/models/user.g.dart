@@ -60,7 +60,7 @@ class _$UserSerializer implements StructuredSerializer<User> {
       result
         ..add('id')
         ..add(serializers.serialize(object.id,
-            specifiedType: const FullType(int)));
+            specifiedType: const FullType(String)));
     }
     if (object.phone != null) {
       result
