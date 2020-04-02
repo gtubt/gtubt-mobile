@@ -3,7 +3,7 @@ const utils = require('../utils');
 
 const getAllPosts = function(req, res, next) {
     var postsRef = firebaseDb.getInstance().collection('posts');
-    var allPosts = postsRef.get()
+    postsRef.get()
     .then(snapshot => {
         if(snapshot.empty) {
             return res.status(404).json(utils.getResponseObj(null, 'No posts found', 404));
@@ -28,7 +28,7 @@ const getPostWithId = function(req, res, next) {
     var postId = req.params.postId;
 
     const docRef = firebaseDb.getInstance().collection('posts').doc(postId);
-    const getDoc = docRef.get()
+    docRef.get()
     .then(doc => {
         if (!doc.exists) {
             return res.status(404).json(utils.getResponseObj(null, 'No such post found', 404));

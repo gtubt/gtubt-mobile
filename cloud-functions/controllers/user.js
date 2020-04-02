@@ -6,7 +6,7 @@ const getUserWithEmail = function(req, res, next) {
     var userEmail = req.params.userEmail;
 
     const usersRef = firebaseDb.getInstance().collection('users');
-    const getDoc = usersRef.where('email', '==', userEmail).get()
+    usersRef.where('email', '==', userEmail).get()
     .then(snapshot => {
         if (snapshot.empty) {
             // if user not found
