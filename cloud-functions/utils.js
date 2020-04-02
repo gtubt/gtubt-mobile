@@ -1,3 +1,11 @@
+const getResponseObj = function(body, message, status) {
+    return {
+        Body: body,
+        Message: message,
+        Status: status
+    };
+}
+
 const toTitleCase = function (str) {
     var splitStr = str.toLowerCase().split(' ');
     for (var i = 0; i < splitStr.length; i++) {
@@ -8,5 +16,6 @@ const toTitleCase = function (str) {
 
 // export functions
 module.exports = {
+    getResponseObj: getResponseObj,
     toTitleCase: toTitleCase
 }

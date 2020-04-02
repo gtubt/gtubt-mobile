@@ -14,37 +14,16 @@ const getUserWithEmail = function(req, res, next) {
     .then(snapshot => {
         if (snapshot.empty) {
             // if user not found
-            responseStatus = 404;
-            responseMessage = 'User with given email not found';
-            responseObj = {
-                Body: null,
-                Message: responseMessage,
-                Code: responseStatus
-            }            
-            return res.status(responseStatus).json(responseObj);
-        } else {
-            // if user found
-            var responseBody = snapshot.docs[0].data();
-            responseStatus = 200;
-            responseMessage = 'User found';
-            responseObj = {
-                Body: responseBody,
-                Message: responseMessage,
-                Code: responseStatus
-            }
-            return res.status(responseStatus).json(responseObj);
+            return res.status(404).json(utils.getResponseObj(null, 'User with this E-Mail not found', 404));
         }
+
+        // if user found
+        var userData = snapshot.docs[0].data();
+        return res.status(200).json(utils.getResponseObj(userData, 'User received', 200));
     }).catch(err => {
         // an error occured while querying
-        responseStatus = 400;
-        responseMessage = 'There has been an error during the database query'
-        responseObj = {
-            Body: null,
-            Message: responseMessage,
-            Code: responseStatus
-        }
         console.log('Error getting document', err);
-        return res.status(responseStatus).json(responseObj);
+        return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404));
     });
 }
 
@@ -64,38 +43,17 @@ const postUser = function(req, res, next) {
     .then((snapshots) => {
         // given student id already exists
         if (!snapshots[0].empty) {
-            responseStatus = 400;
-            responseObj = {
-                Body: null,
-                Message: 'A user with the given studentId already exists.',
-                Code: responseStatus
-            };
-            res.status(responseStatus).json(responseObj);
-            return;
+            return res.status(400).json(utils.getResponseObj(null, 'A user with this StudentID already exists', 400));
         }
 
         // given email already exists
         if (!snapshots[1].empty) {
-            responseStatus = 400;
-            responseObj = {
-                Body: null,
-                Message: 'A user with the given e-mail address already exists.',
-                Code: responseStatus
-            };
-            res.status(responseStatus).json(responseObj);
-            return;
+            return res.status(400).json(utils.getResponseObj(null, 'A user with this E-Mail already exists', 400));
         }
 
         // given phone number already exists
         if (!snapshots[2].empty) {
-            responseStatus = 400;
-            responseObj = {
-                Body: null,
-                Message: 'A user with the given phone number already exists.',
-                Code: responseStatus
-            };
-            res.status(responseStatus).json(responseObj);
-            return;
+            return res.status(400).json(utils.getResponseObj(null, 'A user with this phone number already exists', 400));
         }
 
         usersRef.add({
@@ -108,29 +66,11 @@ const postUser = function(req, res, next) {
             department: user.department,
             profilePhoto: user.profilePhoto
         }).then(ref => {
-            responseStatus = 200;
-            responseMessage = `User added with ID: ${ref.id}`;
-            responseBody = {
-                id: ref.id
-            }
-            responseObj = {
-                Body: responseBody,
-                Message: responseMessage,
-                Code: responseStatus
-            };
-            res.status(responseStatus).json(responseObj);
+            res.status(200).json(utils.getResponseObj({id: ref.id}, `User added with ID: ${ref.id}`, 200));
             return;
         }).catch(err => {
-            console.log('Error getting documents', err);    
-            responseStatus = 400;
-            responseMessage = 'There has been a problem creating the user';
-            responseObj = {
-                Body: null,
-                Message: responseMessage,
-                Code: responseStatus
-            }
-            res.status(responseStatus).send(responseMessage);
-            return;
+            console.log('Error getting document', err);
+            return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404));
         });
     });
 }
