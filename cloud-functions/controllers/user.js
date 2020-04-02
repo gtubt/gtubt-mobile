@@ -5,10 +5,6 @@ const utils = require('../utils');
 const getUserWithEmail = function(req, res, next) {
     var userEmail = req.params.userEmail;
 
-    var responseStatus = 200;
-    var responseMessage = '';
-    var responseObj = null;
-
     const usersRef = firebaseDb.getInstance().collection('users');
     const getDoc = usersRef.where('email', '==', userEmail).get()
     .then(snapshot => {
