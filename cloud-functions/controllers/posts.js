@@ -1,5 +1,7 @@
-exports.getAll = function(req, res, db) {
-    var postsRef = db.collection('posts');
+const firebaseDb = require('../firebase-database');
+
+const getAllPosts = function(req, res, next) {
+    var postsRef = firebaseDb.getInstance().collection('posts');
     var allPosts = postsRef.get()
     .then(snapshot => {
         var postList = [];
@@ -17,10 +19,10 @@ exports.getAll = function(req, res, db) {
     });
 }
 
-exports.getWithId = function(req, res, db) {
+const getPostWithId = function(req, res, next) {
     var postId = req.params.postId;
 
-    const docRef = db.collection('posts').doc(postId);
+    const docRef = firebaseDb.getInstance().collection('posts').doc(postId);
     const getDoc = docRef.get()
     .then(doc => {
         if (!doc.exists) {
@@ -32,4 +34,10 @@ exports.getWithId = function(req, res, db) {
         console.log('Error getting document', err);
         res.status(404).send('Not found');
     });
+}
+
+// export handlers
+module.exports = {
+    getAllPosts: getAllPosts,
+    getPostWithId: getPostWithId
 }
