@@ -12,7 +12,6 @@ const getAllPosts = function (req, res, next) {
       var postList = []
       snapshot.forEach(doc => {
         var postData = doc.data()
-        postData.id = doc.id
         postList.push(postData)
       })
 
