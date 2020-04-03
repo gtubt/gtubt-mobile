@@ -51,11 +51,14 @@ class _ExamplePageState extends State<ExamplePage> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10, ),
-                    height: 50,
-                    color: ColorSets.profilePageThemeColor,
-                    child: const Center(child: Text('LOGIN')),
+                  InkWell(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10, ),
+                      height: 50,
+                      color: ColorSets.profilePageThemeColor,
+                      child: const Center(child: Text('LOGIN')),
+                    ),
+                    onTap: () => Navigator.pushNamed(context, '/login'),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10, ),
