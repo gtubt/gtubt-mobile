@@ -1,4 +1,6 @@
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/models/authenticate/auth.dart';
+
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,6 +11,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final AuthService _auth = AuthService();
+  String email = '';
+  String password = '';
+
   @override
   Widget build(BuildContext context) {
     Widget _logo() {
@@ -41,6 +48,10 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               keyboardType: TextInputType.emailAddress,
               autofocus: false,
+              validator: (val) => val.isEmpty ? 'Mail adresi giriniz' : null,
+              onChanged: (val) {
+                setState(() => email = val);
+              },
               decoration: InputDecoration(
 //                hintText: 'Email',
                 fillColor: Colors.white,
@@ -61,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
               margin: EdgeInsets.only(bottom: 2),
               child: Text(
-                'Password',
+                'Şifre',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: Colors.white,
@@ -75,6 +86,10 @@ class _LoginPageState extends State<LoginPage> {
             TextFormField(
               autofocus: false,
               obscureText: true,
+              validator: (val) => val.isEmpty ? 'Şifre giriniz.' : null,
+              onChanged: (val) {
+                setState(() => password = val);
+              },
               decoration: InputDecoration(
 //                hintText: 'Password',
                 fillColor: Colors.white,
@@ -96,7 +111,14 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
               margin: EdgeInsets.only(bottom: 32),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () async {
+                    dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                    if(result == null) {
+                      setState(() {
+                        print("WRONG AUTH WRONG AUTH");
+                      });
+                    }
+                },
                 color: ColorSets.selectedBarItemColor,
                 child: Text(
                   'Giriş Yap',
