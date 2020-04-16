@@ -64,13 +64,13 @@ const postUser = function (req, res, next) {
       }).then(ref => {
         var userRef = usersRef.doc(ref.id)
 
-        userRef.update({id: ref.id})
-        .then(updateResponse => {
-          return res.status(200).json(utils.getResponseObj({ id: ref.id }, `User added with ID: ${ref.id}`, 200))
-        }).catch(err => {
-          console.log('Error creating user', err)
-          return res.status(404).json(utils.getResponseObj(null, 'Error creating user', 404))
-        })
+        userRef.update({ id: ref.id })
+          .then(updateResponse => {
+            return res.status(200).json(utils.getResponseObj({ id: ref.id }, `User added with ID: ${ref.id}`, 200))
+          }).catch(err => {
+            console.log('Error creating user', err)
+            return res.status(404).json(utils.getResponseObj(null, 'Error creating user', 404))
+          })
       }).catch(err => {
         console.log('Error getting document', err)
         return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
