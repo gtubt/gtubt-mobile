@@ -15,6 +15,7 @@ app.listen(DEBUG_PORT, () => {
 
 app.get('/posts', postsController.getAllPosts)
 app.get('/posts/:postId', postsController.getPostWithId)
+app.post('/posts', jsonParser, postsController.postPost)
 
 app.get('/user/:userEmail', userController.getUserWithEmail)
 app.post('/user', jsonParser, userController.postUser)
