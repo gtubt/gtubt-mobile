@@ -1,36 +1,32 @@
 library post;
 
-import 'dart:convert';
-
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:GTUBT/models/core/serializers.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'post.g.dart';
 
-abstract class Post implements Built<Post, PostBuilder> {
-  String get title;
-  String get body;
-  String get coverImageUrl;
-  String get summary;
-  PostType get type;
-  String get startDate;
-  String get endDate;
+@JsonSerializable()
+class Post {
+  String title;
+  String body;
+  String coverImageUrl;
+  String summary;
+  PostType type;
+  String startDate;
+  String endDate;
 
-  Post._();
+  Post({
+    this.title,
+    this.body,
+    this.coverImageUrl,
+    this.summary,
+    this.type,
+    this.startDate,
+    this.endDate,
+  });
 
-  factory Post([updates(PostBuilder b)]) = _$Post;
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
-  String toJson() {
-    return json.encode(serializers.serializeWith(Post.serializer, this));
-  }
-
-  static Post fromJson(String jsonString) {
-    return serializers.deserializeWith(Post.serializer, json.decode(jsonString));
-  }
-
-  static Serializer<Post> get serializer => _$postSerializer;
+  Map<String, dynamic> toJson() => _$PostToJson(this);
 
   @override
   String toString() {
@@ -46,14 +42,4 @@ abstract class Post implements Built<Post, PostBuilder> {
   }
 }
 
-class PostType extends EnumClass {
-  static const PostType announcement = _$announcement;
-  static const PostType news = _$news;
-
-  const PostType._(String name) : super(name);
-
-  static BuiltSet<PostType> get values => _$values;
-  static PostType valueOf(String name) => _$valueOf(name);
-
-  static Serializer<PostType> get serializer => _$postTypeSerializer;
-}
+enum PostType { announcement, news }

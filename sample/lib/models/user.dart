@@ -1,63 +1,57 @@
 library user;
-import 'dart:convert';
 
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:built_collection/built_collection.dart';
-import 'package:GTUBT/models/core/serializers.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-
 /// Usage for Built Models:
-/// 
+///
 /// User((b) => b
 ///     ..name = 'John'
 ///     ..lastname = 'Doe'
 ///     ..email = 'john@doe.com'
 ///     ..department = Department.cse);
-/// 
+///
 /// Name, Lastname and Email is required.
 
-abstract class User implements Built<User, UserBuilder> {
-  String get name;
-  String get lastname;
-  String get email;
-  
-  @nullable
-  Department get department;
-  
-  @nullable
-  int get year;
-  
-  @nullable
-  String get id;
-  
-  @nullable
-  String get phone;
-  
-  @nullable
-  String get profilePhoto;
+@JsonSerializable()
+class User {
+  String name;
+  String lastName;
+  String email;
+  String id;
 
-  User._();
+  @JsonKey(nullable: true)
+  Department department;
 
-  factory User([updates(UserBuilder b)]) = _$User;
+  @JsonKey(nullable: true)
+  int year;
 
-  String toJson() {
-    return json.encode(serializers.serializeWith(User.serializer, this));
-  }
+  @JsonKey(nullable: true)
+  String phone;
 
-  static User fromJson(String jsonString) {
-    return serializers.deserializeWith(User.serializer, json.decode(jsonString));
-  }
+  @JsonKey(nullable: true)
+  String profilePhoto;
 
-  static Serializer<User> get serializer => _$userSerializer;
+  User({
+    this.email,
+    this.name,
+    this.lastName,
+    this.department,
+    this.year,
+    this.phone,
+    this.profilePhoto,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   @override
   String toString() {
     return '''User {  
     Name: $name,
-    Lastname: $lastname, 
+    Lastname: $lastName, 
     Email: $email,
     Department: $department,
     Year: $year,
@@ -68,13 +62,4 @@ abstract class User implements Built<User, UserBuilder> {
   }
 }
 
-class Department extends EnumClass {
-  static const Department cse = _$cse;
-
-  const Department._(String name) : super(name);
-
-  static BuiltSet<Department> get values => _$values;
-  static Department valueOf(String name) => _$valueOf(name);
-
-  static Serializer<Department> get serializer => _$departmentSerializer;
-}
+enum Department { cse }

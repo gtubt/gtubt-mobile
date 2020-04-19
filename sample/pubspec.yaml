@@ -11,15 +11,17 @@ dependencies:
   equatable: ^0.3.0
   built_value: 6.7.1
   onesignal_flutter: ^2.0.0
+  json_annotation:
+
   flutter:
     sdk: flutter
 
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
-  built_value_generator: 6.7.1
   build_runner: 1.6.8
-  
+  built_value_generator: 6.7.1
+  json_serializable:
 
   flutter_test:
     sdk: flutter
