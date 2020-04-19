@@ -8,6 +8,7 @@ part of user;
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
+    id: json['id'] as String,
     email: json['email'] as String,
     name: json['name'] as String,
     lastName: json['lastName'] as String,
@@ -15,7 +16,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     year: json['year'] as int,
     phone: json['phone'] as String,
     profilePhoto: json['profilePhoto'] as String,
-  )..id = json['id'] as String;
+  );
 }
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{

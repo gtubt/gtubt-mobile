@@ -34,6 +34,7 @@ class User {
   String profilePhoto;
 
   User({
+    this.id,
     this.email,
     this.name,
     this.lastName,
