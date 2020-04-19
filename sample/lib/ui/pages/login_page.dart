@@ -1,5 +1,5 @@
+import 'package:GTUBT/service/authentication_service/auth.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
-import 'package:GTUBT/models/authenticate/auth.dart';
 
 import 'package:flutter/material.dart';
 
