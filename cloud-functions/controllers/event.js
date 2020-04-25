@@ -40,8 +40,33 @@ const getEventWithId = function (req, res, next) {
     })
 }
 
+const postEvent = function (req, res, next) {
+  const event = req.body
+  const eventsRef = firebaseDb.getInstance().collection('events')
+  eventsRef.add({
+    title: utils.toTitleCase(event.title),
+    description: event.description,
+    date: event.date,
+    coverImageUrl: event.coverImageUrl
+  })
+    .then(ref => {
+      var eventRef = eventsRef.doc(ref.id)
+      eventRef.update({ id: ref.id })
+        .then(updateResponse => {
+          return res.status(200).json(utils.getResponseObj({ id: ref.id }, `Event added with ID: ${ref.id}`, 200))
+        }).catch(err => {
+          console.log('Error creating post', err)
+          return res.status(404).json(utils.getResponseObj(null, 'Error creating event', 404))
+        })
+    }).catch(err => {
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
+    })
+}
+
 // export handlers
 module.exports = {
   getAllEvents: getAllEvents,
-  getEventWithId: getEventWithId
+  getEventWithId: getEventWithId,
+  postEvent: postEvent
 }
