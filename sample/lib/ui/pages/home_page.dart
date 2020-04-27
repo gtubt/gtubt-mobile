@@ -64,14 +64,14 @@ class HomePage extends StatelessWidget {
                       child: Stack(children: <Widget>[
                         Container(
                           child: Text(
-                            pageItems[index][1][0],
+                            pageItems[index][1],
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           child: Text(
-                          pageItems[index][1][1]
+                          pageItems[index][2]
                           ),
                         ),
                         ]
