@@ -16,24 +16,32 @@ class HomePage extends StatelessWidget {
       child: new ListView.builder(
         itemCount: pageItems.length,
         itemBuilder: (BuildContext ctxt, int index) {
+        EdgeInsets cardMargin;
+        Widget dayText;
+        if(index > 0 && (pageItems[index][0] == pageItems[index - 1][0]))
+        {
+            cardMargin = EdgeInsets.only(top: 20.0, bottom: 10.0, left: 5.0, right: 5.0);
+            dayText = null;  
+        }
+        
+        else
+        {
+            cardMargin = EdgeInsets.only(top: 50.0, bottom: 10.0, left: 5.0, right: 5.0);
+            dayText = Text(
+              pageItems[index][0],
+              style: TextStyle(fontWeight: FontWeight.bold),
+            );
+        }
+        
         return new Stack(
           children: <Widget>[
           Container(
             margin: const EdgeInsets.only(top: 20.0),
             height: 30,
-            child: (index > 0 && (pageItems[index][0] == pageItems[index - 1][0])) ?
-            null
-            :
-            Text(
-                pageItems[index][0],
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )
+            child: dayText
           ),
           Container(
-            margin: (index > 0 && (pageItems[index][0] == pageItems[index - 1][0])) ?
-            const EdgeInsets.only(top: 20.0, bottom: 10.0, left: 5.0, right: 5.0)
-            :
-            const EdgeInsets.only(top: 50.0, bottom: 10.0, left: 5.0, right: 5.0),
+            margin: cardMargin,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               boxShadow: [
