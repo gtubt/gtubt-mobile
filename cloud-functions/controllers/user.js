@@ -125,12 +125,10 @@ const updateUser = function (req, res) {
 
 const deleteUser = function (req, res) {
   var userId = req.params.id
-  var user = undefined
   const usersRef = firebaseDb.getInstance().collection('users')
   var userRef = usersRef.doc(userId)
   userRef.get()
     .then(userDoc => {
-      user = userDoc.data()
       userRef.delete()
         .then(() => {
           return res.status(200).json(utils.getResponseObj(null, 'User deleted successfully', 200))
@@ -152,5 +150,5 @@ module.exports = {
   getUserWithEmail: getUserWithEmail,
   postUser: postUser,
   updateUser: updateUser,
-  deleteUser: deleteUser,
+  deleteUser: deleteUser
 }
