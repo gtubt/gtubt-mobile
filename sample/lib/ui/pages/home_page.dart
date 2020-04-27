@@ -7,8 +7,8 @@ class HomePage extends StatelessWidget {
     ['Yarın','title2','text2 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png'],
     ['Bugün','title3','text3 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png'],
     ['Dün','title4','text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png'],
-    ['25 Nisan','title4','text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png'],
-    ['25 Nisan','title4','text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png']
+    ['25 Nisan','title5','text5 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png'],
+    ['25 Nisan','title6','text6 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET','https://via.placeholder.com/350x120.png']
   ];
   Widget build(BuildContext context) {
     return Container(
