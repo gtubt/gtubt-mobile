@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,8 +24,11 @@ class MyApp extends StatelessWidget {
         }
     );
     OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
-    return BlocProvider<PageBloc>(
-      builder: (context) => PageBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PageBloc>(create: (context) => PageBloc(),),
+        BlocProvider<UserBloc>(create: (context) => UserBloc(),),
+      ],
       child: MaterialApp(
         title: 'GTU BT',
         theme: ThemeData(
