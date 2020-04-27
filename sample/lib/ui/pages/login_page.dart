@@ -1,4 +1,4 @@
-import 'package:GTUBT/service/authentication_service/auth.dart';
+import 'package:GTUBT/service/authentication/authentication.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 
 import 'package:flutter/material.dart';

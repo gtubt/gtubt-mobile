@@ -1,45 +1,99 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:meta/meta.dart';
 
-@immutable
-abstract class LoginState extends Equatable {
-  final String email;
-  LoginState([List props = const [], this.email]) : super(props);
-}
+class LoginState {
+  bool isEmailValid;
+  bool isPasswordValid;
+  bool isSubmitting;
+  bool isSuccess;
+  bool isFailure;
 
-class LoginUninitialized extends LoginState {
-  @override
-  String toString() {
-    return 'LoginUninitialized';
+  bool get isFormValid => isEmailValid && isPasswordValid;
+
+  LoginState({
+    @required this.isEmailValid,
+    @required this.isPasswordValid,
+    @required this.isSubmitting,
+    @required this.isSuccess,
+    @required this.isFailure,
+  });
+
+  factory LoginState.empty() {
+    return LoginState(
+      isEmailValid: false,
+      isPasswordValid: false,
+      isSubmitting: false,
+      isFailure: false,
+      isSuccess: false,
+    );
   }
-}
 
-class LoginLoading extends LoginState {
-  @override
-  String toString() {
-    return 'LoginLoading';
+  factory LoginState.loading() {
+    return LoginState(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: true,
+      isFailure: false,
+      isSuccess: false,
+    );
   }
-}
 
-class LoginFailure extends LoginState {
-  @override
-  String toString() {
-    return 'LoginFailure';
+  factory LoginState.failure() {
+    return LoginState(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isFailure: true,
+      isSuccess: false,
+    );
   }
-}
 
-class LoginSuccess extends LoginState {
-  @override
-  String toString() {
-    return 'LoginSuccess';
+  factory LoginState.success() {
+    return LoginState(
+      isEmailValid: true,
+      isPasswordValid: true,
+      isSubmitting: false,
+      isFailure: false,
+      isSuccess: true,
+    );
   }
-}
 
-class LoginUpdate extends LoginState {
-  LoginUpdate(email) : super([email]);
+  LoginState copyWith({
+    bool isEmailValid,
+    bool isPasswordValid,
+    bool isSubmitting,
+    bool isSuccess,
+    bool isFailure,
+  }) {
+    return LoginState(
+      isEmailValid: isEmailValid ?? this.isEmailValid,
+      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
+      isFailure: isFailure ?? this.isFailure,
+      isSuccess: isSuccess ?? this.isSuccess,
+    );
+  }
+
+  LoginState update({
+    bool isEmailValid,
+    bool isPasswordValid,
+  }) {
+    return LoginState(
+      isEmailValid: isEmailValid ?? this.isEmailValid,
+      isPasswordValid: isPasswordValid ?? this.isPasswordValid,
+      isSubmitting: false,
+      isFailure: false,
+      isSuccess: false,
+    );
+  }
 
   @override
   String toString() {
-    return "LoginUpdate";
+    return '''LoginState {
+      isEmailValid: $isEmailValid,
+      isPasswordValid: $isPasswordValid,
+      isSubmitting: $isSubmitting,
+      isSuccess: $isSuccess,
+      isFailure: $isFailure,
+    }''';
   }
 }
