@@ -133,7 +133,6 @@ const deleteUser = function (req, res) {
       user = userDoc.data()
       userRef.delete()
         .then(() => {
-          console.log('User deleted successfully', user)
           return res.status(200).json(utils.getResponseObj(null, 'User deleted successfully', 200))
         }).catch(err => {
           // an error occured while querying
