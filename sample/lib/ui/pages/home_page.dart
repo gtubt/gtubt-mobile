@@ -20,12 +20,18 @@ class HomePage extends StatelessWidget {
         Widget dayText;
         if(index > 0 && (pageItems[index][0] == pageItems[index - 1][0]))
         {
+          if(index == pageItems.length - 1)
+            cardMargin = EdgeInsets.only(top: 20.0, bottom: 40.0, left: 5.0, right: 5.0);
+          else
             cardMargin = EdgeInsets.only(top: 20.0, bottom: 10.0, left: 5.0, right: 5.0);
             dayText = null;  
         }
         
-        else
+        else 
         {
+          if(index == pageItems.length - 1)
+            cardMargin = EdgeInsets.only(top: 50.0, bottom: 40.0, left: 5.0, right: 5.0);
+          else
             cardMargin = EdgeInsets.only(top: 50.0, bottom: 10.0, left: 5.0, right: 5.0);
             dayText = Text(
               pageItems[index][0],
