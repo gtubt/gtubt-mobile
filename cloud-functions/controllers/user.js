@@ -81,31 +81,46 @@ const postUser = function (req, res, next) {
 const updateUser = function (req, res) {
   var userId = req.params.id
   var userBody = req.body
-  var user = undefined
+  var user
   const usersRef = firebaseDb.getInstance().collection('users')
   var userRef = usersRef.doc(userId)
   userRef.get()
-  .then(userDoc => {
-    user = userDoc.data()
-    // We shouldnt let them update these fields.
-    userBody.id = user.id
-    userBody.studentId = user.studentId
-    Object.assign(user, userBody)
-    userRef.update(userBody)
-    .then(() => {
-      return res.status(200).json(utils.getResponseObj(user, 'User updated successfully', 200))
+    .then(userDoc => {
+      user = userDoc.data()
+
+      // We shouldnt let them update these fields.
+      userBody.id = user.id
+      userBody.studentId = user.studentId
+
+      // Sanitization process.
+      if (userBody.phone) {
+        userBody.phone = libphonenumber.parsePhoneNumberFromString(userBody.phone, 'TR').formatNational()
+      }
+
+      if (userBody.name) {
+        userBody.name = utils.toTitleCase(userBody.name)
+      }
+
+      if (userBody.lastname) {
+        userBody.lastname = utils.toTitleCase(userBody.lastname)
+      }
+
+      Object.assign(user, userBody)
+      userRef.update(userBody)
+        .then(() => {
+          return res.status(200).json(utils.getResponseObj(user, 'User updated successfully', 200))
+        })
+        .catch(err => {
+          // an error occured while querying
+          console.log('Error updating document', err)
+          return res.status(400).json(utils.getResponseObj(null, 'Error updating document', 400))
+        })
     })
     .catch(err => {
       // an error occured while querying
-      console.log('Error updating document', err)
-      return res.status(400).json(utils.getResponseObj(null, 'Error updating document', 400))
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
     })
-  })
-  .catch(err => {
-    // an error occured while querying
-    console.log('Error getting document', err)
-    return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
-  })
 }
 
 const deleteUser = function (req, res) {
@@ -114,23 +129,23 @@ const deleteUser = function (req, res) {
   const usersRef = firebaseDb.getInstance().collection('users')
   var userRef = usersRef.doc(userId)
   userRef.get()
-  .then(userDoc => {
-    user = userDoc.data()
-    userRef.delete()
-    .then(() => {
-      console.log('User deleted successfully', user)
-      return res.status(200).json(utils.getResponseObj(null, 'User deleted successfully', 200))
-    }).catch(err => {
-      // an error occured while querying
-      console.log('Error deleting document', err)
-      return res.status(400).json(utils.getResponseObj(null, 'Error deleting document', 400))
+    .then(userDoc => {
+      user = userDoc.data()
+      userRef.delete()
+        .then(() => {
+          console.log('User deleted successfully', user)
+          return res.status(200).json(utils.getResponseObj(null, 'User deleted successfully', 200))
+        }).catch(err => {
+          // an error occured while querying
+          console.log('Error deleting document', err)
+          return res.status(400).json(utils.getResponseObj(null, 'Error deleting document', 400))
+        })
     })
-  })
-  .catch(err => {
-    // an error occured while querying
-    console.log('Error getting document', err)
-    return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
-  })
+    .catch(err => {
+      // an error occured while querying
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
+    })
 }
 
 // export handlers
