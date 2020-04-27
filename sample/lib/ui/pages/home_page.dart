@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                   child: FadeInImage.assetNetwork(
                     alignment: Alignment.topCenter, // add this
                     placeholder: 'assets/logo.png',
-                    image: 'https://via.placeholder.com/350x120.png',
+                    image: pageItems[index][3],
                     height: 300,
                     fit: BoxFit.fitWidth
                   )
