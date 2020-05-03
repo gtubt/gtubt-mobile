@@ -40,7 +40,9 @@ class _MainPageState extends State<MainPage> {
 
     return BlocListener<PageBloc, PageState>(
       listener: (BuildContext context, PageState state) {
+        _selectedPage = state;
         if (Routes.bodyTitle[state.currentPage].toLowerCase() == "profile") {
+          actions = <Widget>[];
           if (BlocProvider.of<UserBloc>(context).currentState.editMode) {
             actions.add(IconButton(
                 icon: Icon(Icons.check), onPressed: _toggleProfileEdit));

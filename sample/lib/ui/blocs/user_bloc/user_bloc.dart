@@ -6,7 +6,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   get initialState => UserState(user: null);
 
-  UserState currentState;
+  UserState currentState = UserState.loggedOut();
 
   @override
   Stream<UserState> mapEventToState(event) async* {
