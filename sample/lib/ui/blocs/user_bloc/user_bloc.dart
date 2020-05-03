@@ -1,4 +1,3 @@
-import 'package:GTUBT/models/user.dart';
 import 'package:bloc/bloc.dart';
 import 'user_event.dart';
 import 'user_state.dart';

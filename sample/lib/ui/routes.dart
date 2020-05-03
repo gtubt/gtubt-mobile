@@ -11,7 +11,7 @@ const LOGIN_URL = '/login';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
-    ROOT_URL: (context) => ExamplePage(),
+    ROOT_URL: (context) => MainPage(),
     LOGIN_URL: (context) => LoginPage(),
   };
 
