@@ -73,9 +73,9 @@ flutter {
 dependencies {
     implementation 'com.onesignal:OneSignal:3.12.0'
     implementation 'com.android.support:multidex:1.0.3'
-    testİmplementation 'junit:junit:4.12'
-    androidTestİmplementation 'com.android.support.test:runner:1.0.2'
-    androidTestİmplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
 apply plugin: 'com.google.gms.google-services'
