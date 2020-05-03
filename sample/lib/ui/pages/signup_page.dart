@@ -2,7 +2,7 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class SignUp extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   final TextStyle _headerTextStyle = TextStyle(
     color: ColorSets.profilePageThemeColor,
     fontSize: 16.0,

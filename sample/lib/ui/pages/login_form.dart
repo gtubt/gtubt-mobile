@@ -169,7 +169,11 @@ class _LoginFormState extends State<LoginForm> {
                   height: 45,
                   width: 135,
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      BlocProvider.of<PageBloc>(context).add(
+                        PageChanged(context: context, routeName: SIGN_UP_URL),
+                      );
+                    },
                     color: ColorSets.barBackgroundColor,
                     child: Text(
                       'Üye Değil Misin?\nKayıt Ol!',
