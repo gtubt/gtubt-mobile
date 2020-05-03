@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 abstract class AuthenticationState extends Equatable {
-  AuthenticationState([List props = const []]) : super(props);
+  AuthenticationState() : super();
 }
 
 class AuthenticationUninitialized extends AuthenticationState {
@@ -11,17 +11,23 @@ class AuthenticationUninitialized extends AuthenticationState {
   String toString() {
     return "AuthenticationUninitialized";
   }
+
+  @override
+  List<Object> get props => [];
 }
 
 class AuthenticationAuthenticated extends AuthenticationState {
   final String userEmail;
 
-  AuthenticationAuthenticated({this.userEmail}) : super([userEmail]);
+  AuthenticationAuthenticated({this.userEmail}) : super();
 
   @override
   String toString() {
     return 'Authenticated {userEmail: $userEmail}';
   }
+
+  @override
+  List<Object> get props => [userEmail];
 }
 
 class AuthenticationUnauthenticated extends AuthenticationState {
@@ -29,6 +35,9 @@ class AuthenticationUnauthenticated extends AuthenticationState {
   String toString() {
     return "Unauthenticated";
   }
+
+  @override
+  List<Object> get props => [];
 }
 
 class AuthenticationLoading extends AuthenticationState {
@@ -36,4 +45,7 @@ class AuthenticationLoading extends AuthenticationState {
   String toString() {
     return "AuthenticationLoading";
   }
+
+  @override
+  List<Object> get props => [];
 }

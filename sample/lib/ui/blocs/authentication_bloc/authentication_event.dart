@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 abstract class AuthenticationEvent extends Equatable {
-  AuthenticationEvent([List props = const []]) : super(props);
+  AuthenticationEvent() : super();
 }
 
 class AppStarted extends AuthenticationEvent {
@@ -11,6 +11,9 @@ class AppStarted extends AuthenticationEvent {
   String toString() {
     return 'AppStarted';
   }
+
+  @override
+  List<Object> get props => [];
 }
 
 class LoggedIn extends AuthenticationEvent {
@@ -18,6 +21,9 @@ class LoggedIn extends AuthenticationEvent {
   String toString() {
     return 'LoggedIn';
   }
+
+  @override
+  List<Object> get props => [];
 }
 
 class LoggedOut extends AuthenticationEvent {
@@ -25,4 +31,7 @@ class LoggedOut extends AuthenticationEvent {
   String toString() {
     return 'LoggedOut';
   }
+
+  @override
+  List<Object> get props => [];
 }
