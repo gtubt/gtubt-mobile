@@ -6,6 +6,7 @@ import 'dart:convert';
 
 class EventService extends BaseService{
   static final EventService _eventService = EventService._internal();
+  final servicePath = 'event';
   
   EventService._internal();
 
@@ -14,7 +15,7 @@ class EventService extends BaseService{
   }
 
   Future<List<Event>> getAll() async {
-    String url = '$baseUrl/$endpointPrefix/event';
+    String url = '$baseUrl/$endpointPrefix/$servicePath';
     
     final response = await http.get('$url');
 
@@ -29,7 +30,7 @@ class EventService extends BaseService{
   }
 
   Future<Event> get(String id) async {
-    String url = '$baseUrl/$endpointPrefix/event/$id';
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
     
     final response = await http.get('$url');
 
