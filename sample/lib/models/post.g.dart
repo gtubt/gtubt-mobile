@@ -3,182 +3,64 @@
 part of post;
 
 // **************************************************************************
-// BuiltValueGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-Serializer<Post> _$postSerializer = new _$PostSerializer();
-
-class _$PostSerializer implements StructuredSerializer<Post> {
-  @override
-  final Iterable<Type> types = const [Post, _$Post];
-  @override
-  final String wireName = 'Post';
-
-  @override
-  Iterable<Object> serialize(Serializers serializers, Post object,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
-      'title',
-      serializers.serialize(object.title,
-          specifiedType: const FullType(String)),
-      'body',
-      serializers.serialize(object.body, specifiedType: const FullType(String)),
-      'coverImageUrl',
-      serializers.serialize(object.coverImageUrl,
-          specifiedType: const FullType(String)),
-      'summary',
-      serializers.serialize(object.summary,
-          specifiedType: const FullType(String)),
-    ];
-
-    return result;
-  }
-
-  @override
-  Post deserialize(Serializers serializers, Iterable<Object> serialized,
-      {FullType specifiedType = FullType.unspecified}) {
-    final result = new PostBuilder();
-
-    final iterator = serialized.iterator;
-    while (iterator.moveNext()) {
-      final key = iterator.current as String;
-      iterator.moveNext();
-      final dynamic value = iterator.current;
-      switch (key) {
-        case 'title':
-          result.title = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'body':
-          result.body = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'coverImageUrl':
-          result.coverImageUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-        case 'summary':
-          result.summary = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
-          break;
-      }
-    }
-
-    return result.build();
-  }
+Post _$PostFromJson(Map<String, dynamic> json) {
+  return Post(
+    title: json['title'] as String,
+    body: json['body'] as String,
+    coverImageUrl: json['coverImageUrl'] as String,
+    summary: json['summary'] as String,
+    type: _$enumDecodeNullable(_$PostTypeEnumMap, json['type']),
+    startDate: json['startDate'] as String,
+    endDate: json['endDate'] as String,
+  );
 }
 
-class _$Post extends Post {
-  @override
-  final String title;
-  @override
-  final String body;
-  @override
-  final String coverImageUrl;
-  @override
-  final String summary;
+Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'title': instance.title,
+      'body': instance.body,
+      'coverImageUrl': instance.coverImageUrl,
+      'summary': instance.summary,
+      'type': _$PostTypeEnumMap[instance.type],
+      'startDate': instance.startDate,
+      'endDate': instance.endDate,
+    };
 
-  factory _$Post([void Function(PostBuilder) updates]) =>
-      (new PostBuilder()..update(updates)).build();
-
-  _$Post._({this.title, this.body, this.coverImageUrl, this.summary})
-      : super._() {
-    if (title == null) {
-      throw new BuiltValueNullFieldError('Post', 'title');
-    }
-    if (body == null) {
-      throw new BuiltValueNullFieldError('Post', 'body');
-    }
-    if (coverImageUrl == null) {
-      throw new BuiltValueNullFieldError('Post', 'coverImageUrl');
-    }
-    if (summary == null) {
-      throw new BuiltValueNullFieldError('Post', 'summary');
-    }
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
   }
 
-  @override
-  Post rebuild(void Function(PostBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
 
-  @override
-  PostBuilder toBuilder() => new PostBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Post &&
-        title == other.title &&
-        body == other.body &&
-        coverImageUrl == other.coverImageUrl &&
-        summary == other.summary;
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
   }
-
-  @override
-  int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, title.hashCode), body.hashCode), coverImageUrl.hashCode),
-        summary.hashCode));
-  }
+  return value ?? unknownValue;
 }
 
-class PostBuilder implements Builder<Post, PostBuilder> {
-  _$Post _$v;
-
-  String _title;
-  String get title => _$this._title;
-  set title(String title) => _$this._title = title;
-
-  String _body;
-  String get body => _$this._body;
-  set body(String body) => _$this._body = body;
-
-  String _coverImageUrl;
-  String get coverImageUrl => _$this._coverImageUrl;
-  set coverImageUrl(String coverImageUrl) =>
-      _$this._coverImageUrl = coverImageUrl;
-
-  String _summary;
-  String get summary => _$this._summary;
-  set summary(String summary) => _$this._summary = summary;
-
-  PostBuilder();
-
-  PostBuilder get _$this {
-    if (_$v != null) {
-      _title = _$v.title;
-      _body = _$v.body;
-      _coverImageUrl = _$v.coverImageUrl;
-      _summary = _$v.summary;
-      _$v = null;
-    }
-    return this;
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
   }
-
-  @override
-  void replace(Post other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
-    _$v = other as _$Post;
-  }
-
-  @override
-  void update(void Function(PostBuilder) updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  _$Post build() {
-    final _$result = _$v ??
-        new _$Post._(
-            title: title,
-            body: body,
-            coverImageUrl: coverImageUrl,
-            summary: summary);
-    replace(_$result);
-    return _$result;
-  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+const _$PostTypeEnumMap = {
+  PostType.announcement: 'announcement',
+  PostType.news: 'news',
+};

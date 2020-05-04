@@ -1,37 +1,30 @@
 library event;
 
-import 'dart:convert';
-
-import 'package:built_collection/built_collection.dart';
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:GTUBT/models/core/serializers.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'event.g.dart';
 
-abstract class Event implements Built<Event, EventBuilder> {
-  String get title;
-  String get description;
-  String get coverImageUrl;
-  String get date;
+@JsonSerializable()
+class Event {
+  String title;
+  String description;
+  String coverImageUrl;
+  String date;
 
-  Event._();
+  Event({
+    this.title,
+    this.date,
+    this.coverImageUrl,
+    this.description,
+  });
 
-  factory Event([updates(EventBuilder b)]) = _$Event;
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 
-  String toJson() {
-    return json.encode(serializers.serializeWith(Event.serializer, this));
-  }
-
-  static Event fromJson(String jsonString) {
-    return serializers.deserializeWith(Event.serializer, json.decode(jsonString));
-  }
-
-  static Serializer<Event> get serializer => _$eventSerializer;
+  Map<String, dynamic> toJson() => _$EventToJson(this);
 
   @override
   String toString() {
-    return '''Event {  
+    return '''Event {
     Title: $title,
     Summary: $description,
     Date: $date,

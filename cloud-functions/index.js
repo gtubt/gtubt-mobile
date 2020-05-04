@@ -1,55 +1,32 @@
-const express = require('express');
-const admin = require('firebase-admin');
-const app = express();
+const express = require('express')
+const bodyParser = require('body-parser')
+const firebaseDb = require('./firebase-database')
+const postsController = require('./controllers/posts')
+const userController = require('./controllers/user')
+const eventController = require('./controllers/event')
 
-admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    databaseURL: "https://gtubtmobile-bb186.firebaseio.com"
-});
-const db = admin.firestore();
+const app = express()
+const jsonParser = bodyParser.json()
+firebaseDb.initialize()
 
-const PORT = 5555;
+const DEBUG_PORT = 5555
+app.listen(DEBUG_PORT, () => {
+  console.log(`GTUBT Cloud Functions API Server Running on Port: ${DEBUG_PORT}`)
+})
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+app.get('/posts', postsController.getAllPosts)
+app.get('/posts/:postId', postsController.getPostWithId)
+app.post('/posts', jsonParser, postsController.postPost)
 
-app.get('/posts/:postId', (req, res, next) => {
-    var postId = req.params.postId;
+app.get('/event', eventController.getAllEvents)
+app.get('/event/:eventId', eventController.getEventWithId)
+app.post('/event', jsonParser, eventController.postEvent)
 
-    const docRef = db.collection('posts').doc(postId);
-    const getDoc = docRef.get()
-    .then(doc => {
-        if (!doc.exists) {
-            return res.status(404).send('Not Found');
-        }
-
-        return res.send(doc.data());
-    }).catch(err => {
-        console.log('Error getting document', err);
-        res.status(404).send('Not found');
-    });
-});
-
-app.get('/posts', (req, res, next) => {
-    var postsRef = db.collection('posts');
-    var allPosts = postsRef.get()
-    .then(snapshot => {
-        var postList = [];
-        snapshot.forEach(doc => {
-            var postData = doc.data();
-            postData.id = doc.id;
-            postList.push(postData);
-        });
-
-        return res.json(postList);
-    })
-    .catch(err => {
-        console.log('Error getting documents', err);
-        res.status(404).send('Not found');
-    });
-});
-
+app.get('/user/:userEmail', userController.getUserWithEmail)
+app.post('/user', jsonParser, userController.postUser)
+app.patch('/user/:id', jsonParser, userController.updateUser)
+app.delete('/user/:id', userController.deleteUser)
+// export Express app to firebase cloud functions
 module.exports = {
-    app
-};
+  app
+}

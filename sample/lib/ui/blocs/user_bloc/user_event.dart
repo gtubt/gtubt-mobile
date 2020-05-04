@@ -32,3 +32,10 @@ class PhoneChanged extends UserEvent {
   @override
   String toString() => 'User Changed Phone { Phone: $phone }';
 }
+
+class ToggleEditMode extends UserEvent {
+  ToggleEditMode() : super();
+
+  @override
+  String toString() => 'Toggle Edit Mode';
+}

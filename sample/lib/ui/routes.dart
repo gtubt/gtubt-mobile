@@ -1,17 +1,18 @@
-import 'package:GTUBT/ui/pages/signup_page.dart';
+import 'package:GTUBT/ui/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'pages/main_page.dart';
 import 'pages/home_page.dart';
 import 'pages/calendar_page.dart';
 import 'pages/profile_page.dart';
-import 'pages/signup_page.dart';
 
 
 const ROOT_URL = '/';
+const LOGIN_URL = '/login';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
     ROOT_URL: (context) => ExamplePage(),
+    LOGIN_URL: (context) => LoginPage(),
   };
 
   static final bodyTitle = ["Home", "Calendar", "Profile"];

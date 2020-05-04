@@ -1,6 +1,8 @@
+import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   final String _fullname = "İsim Soyisim";
@@ -9,6 +11,8 @@ class ProfilePage extends StatelessWidget {
   final String _year = "3. Sınıf";
   final String _studentnumber = "161044123";
   final String _phonenumber = "+90 5xx xxx xx xx";
+
+  bool _editMode = false;
 
   final TextStyle _headerTextStyle = TextStyle(
     color: ColorSets.profilePageThemeColor,
@@ -57,14 +61,27 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _fullName(String name) {
+    Widget form;
+    if (_editMode) {
+      var controller = TextEditingController();
+      controller.text = name;
+      controller.addListener(() {
+        final text = controller.text;
+        controller.value = controller.value.copyWith(text: text);
+      });
+      form = TextFormField(controller: controller, textAlign: TextAlign.center,);
+    } else {
+      form = Text(
+        name,
+        style: _nameTextStyle,
+      );
+    }
+
     return Container(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 32.0, right: 32.0),
       child: Container(
         height: 30.0,
-        child: Text(
-          name,
-          style: _nameTextStyle,
-        ),
+        child: form,
       ),
     );
   }
@@ -81,13 +98,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              email,
-              style: _nameTextStyle,
-            ),
-          ),
+          formWidget(email),
         ],
       ),
       width: 350.0,
@@ -115,13 +126,7 @@ class ProfilePage extends StatelessWidget {
                 style: _headerTextStyle,
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(left: 25),
-              child: Text(
-                department,
-                style: _nameTextStyle,
-              ),
-            ),
+            formWidget(department),
           ]),
       width: 350.0,
       height: 40.0,
@@ -148,13 +153,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              year,
-              style: _nameTextStyle,
-            ),
-          ),
+          formWidget(year),
         ],
       ),
       width: 350.0,
@@ -182,13 +181,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              studentnumber,
-              style: _nameTextStyle,
-            ),
-          ),
+          formWidget(studentnumber),
         ],
       ),
       width: 350.0,
@@ -216,13 +209,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              phonenumber,
-              style: _nameTextStyle,
-            ),
-          ),
+          formWidget(phonenumber),
         ],
       ),
       width: 350.0,
@@ -238,8 +225,31 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget formWidget(formData) {
+    Widget form;
+    if (_editMode) {
+      var controller = TextEditingController();
+      controller.text = formData;
+      controller.addListener(() {
+        final text = controller.text;
+        controller.value = controller.value.copyWith(text: text);
+        // TODO: Update related field with this data in every change.
+      });
+      form = TextFormField(controller: controller, );
+    } else {
+      form = Text(formData, style: _nameTextStyle);
+    }
+
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(left: 25),
+        child: form,
+      ),
+    );
+  }
+
+  Widget buildAll(BuildContext context, UserState state) {
+    _editMode = state.editMode;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -280,5 +290,15 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<UserBloc, UserState>(
+        builder: (context, state) {
+          _editMode = state.editMode;
+          return buildAll(context, state);
+        },
+        listener: (context, state) {});
   }
 }
