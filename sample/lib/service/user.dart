@@ -8,8 +8,8 @@ class UserService extends BaseService{
 
    final servicePath = 'user';
 
-  Future<User> getUser(String email) async {
-    String url = '$baseUrl/$endpointPrefix/$email';
+  Future<User> get(String email) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
