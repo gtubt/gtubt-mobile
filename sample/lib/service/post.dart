@@ -43,4 +43,19 @@ class PostService extends BaseService {
     return null;
   }
 
+  Future<http.Response> post(Post post) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath';
+    var postInJson = post.toJson();
+    var bodyData = json.encode(postInJson);
+
+    final response = await http.post(
+      '$url',
+      headers: <String, String> {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: bodyData
+    );
+
+    return response;
+  }
 }
