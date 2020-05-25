@@ -21,6 +21,16 @@ class AuthService {
     }
   }
 
+  Future<FirebaseUser> signUp(Map<String, dynamic> data) async {
+    final FirebaseUser firebaseUser =
+        (await _auth.createUserWithEmailAndPassword(
+                email: data['email'], password: data['password']))
+            .user;
+    // TODO: create user
+
+    return firebaseUser;
+  }
+
   Future<bool> isSignedIn() async {
     return (await _auth.currentUser()) != null;
   }
@@ -30,6 +40,6 @@ class AuthService {
   }
 
   Future<FirebaseUser> getUser() async {
-      return await _auth.currentUser();
+    return await _auth.currentUser();
   }
 }
