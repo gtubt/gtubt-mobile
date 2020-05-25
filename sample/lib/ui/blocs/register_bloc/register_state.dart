@@ -5,7 +5,8 @@ class RegisterState {
   final bool isPasswordValid;
   final bool isNameValid;
   final bool isSurnameValid;
-  final bool isClassValid;
+  final bool isGradeValid;
+  final bool isDepartmentValid;
   final bool isStudentNumberValid;
   final bool isPhoneNumberValid;
   final bool isSubmitting;
@@ -17,7 +18,8 @@ class RegisterState {
       isPasswordValid &&
       isNameValid &&
       isSurnameValid &&
-      isClassValid &&
+      isGradeValid &&
+      isDepartmentValid &&
       isStudentNumberValid &&
       isPhoneNumberValid;
 
@@ -26,7 +28,8 @@ class RegisterState {
     @required this.isPasswordValid,
     @required this.isNameValid,
     @required this.isSurnameValid,
-    @required this.isClassValid,
+    @required this.isGradeValid,
+    @required this.isDepartmentValid,
     @required this.isStudentNumberValid,
     @required this.isPhoneNumberValid,
     @required this.isSubmitting,
@@ -42,7 +45,8 @@ class RegisterState {
         isSurnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
-        isClassValid: true,
+        isGradeValid: true,
+        isDepartmentValid: true,
         isSuccess: false,
         isFailure: false,
         isSubmitting: false);
@@ -56,7 +60,8 @@ class RegisterState {
         isSurnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
-        isClassValid: true,
+        isGradeValid: true,
+        isDepartmentValid: true,
         isSuccess: false,
         isFailure: false,
         isSubmitting: true);
@@ -70,7 +75,8 @@ class RegisterState {
         isSurnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
-        isClassValid: true,
+        isGradeValid: true,
+        isDepartmentValid: true,
         isSuccess: false,
         isFailure: true,
         isSubmitting: false);
@@ -84,7 +90,8 @@ class RegisterState {
         isSurnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
-        isClassValid: true,
+        isGradeValid: true,
+        isDepartmentValid: true,
         isSuccess: true,
         isFailure: false,
         isSubmitting: false);
@@ -97,7 +104,8 @@ class RegisterState {
     bool isSurnameValid,
     bool isPhoneNumberValid,
     bool isStudentNumberValid,
-    bool isClassValid,
+    bool isGradeValid,
+    bool isDepartmentValid,
     bool isSuccess,
     bool isFailure,
     bool isSubmitting,
@@ -106,7 +114,8 @@ class RegisterState {
       isEmailValid: isEmailValid ?? this.isEmailValid,
       isNameValid: isNameValid ?? this.isNameValid,
       isSurnameValid: isSurnameValid ?? this.isSurnameValid,
-      isClassValid: isClassValid ?? this.isClassValid,
+      isGradeValid: isGradeValid ?? this.isGradeValid,
+      isDepartmentValid: isDepartmentValid ?? this.isDepartmentValid,
       isPhoneNumberValid: isPhoneNumberValid ?? this.isPhoneNumberValid,
       isStudentNumberValid: isStudentNumberValid ?? this.isStudentNumberValid,
       isSubmitting: isSubmitting ?? this.isSubmitting,
@@ -123,7 +132,8 @@ class RegisterState {
     bool isSurnameValid,
     bool isPhoneNumberValid,
     bool isStudentNumberValid,
-    bool isClassValid,
+    bool isGradeValid,
+    bool isDepartmentValid,
   }) {
     return copyWith(
       isPasswordValid: isPasswordValid,
@@ -132,7 +142,8 @@ class RegisterState {
       isSurnameValid: isSurnameValid,
       isPhoneNumberValid: isPhoneNumberValid,
       isStudentNumberValid: isStudentNumberValid,
-      isClassValid: isClassValid,
+      isGradeValid: isGradeValid,
+      isDepartmentValid: isDepartmentValid,
       isSuccess: false,
       isFailure: false,
       isSubmitting: false,
@@ -148,7 +159,8 @@ class RegisterState {
       isSurnameValid: $isSurnameValid,
       isPhoneNumberValid: $isPhoneNumberValid,
       isStudentNumberValid: $isStudentNumberValid,
-      isClassValid: $isClassValid,
+      isGradeValid: $isGradeValid,
+      isDepartmentValid: $isDepartmentValid,
       isSuccess: $isSuccess,
       isFailure: $isFailure,
       isSubmitting: $isSubmitting,

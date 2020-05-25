@@ -6,12 +6,12 @@ class Validators {
   static final RegExp _passwordRegExp =
       RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
 
-  static final RegExp _stringRegExp = RegExp(r"^[A-Za-z]+$");
+  static final RegExp _stringRegExp = RegExp(r"^[A-Za-z0-9\s.]+$");
 
   static final RegExp _phoneRegExp = RegExp(r"^(?:[+0]9)?[0-9]{10}$");
 
-  static final RegExp _studentNumRegExp = RegExp(r"^[0-9]{8-10}");
-//  121044029
+  static final RegExp _studentNumRegExp = RegExp(r"^[0-9]{8,10}");
+
   static isValidEmail(String email) {
     return _emailRegExp.hasMatch(email);
   }
