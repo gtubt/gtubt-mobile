@@ -1,4 +1,5 @@
 import 'package:GTUBT/service/authentication/authentication.dart';
+import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -15,11 +16,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
-    AuthService _authService = AuthService();
+    final AuthService _authService = AuthService();
     OneSignal.shared.init("3f4bf8af-bd07-4353-bdb9-ed92a96908aa", iOSSettings: {
       OSiOSSettings.autoPrompt: false,
       OSiOSSettings.inAppLaunchUrl: true
@@ -28,6 +27,9 @@ class MyApp extends StatelessWidget {
         .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) => AuthenticationBloc(authService: _authService),
+        ),
         BlocProvider<PageBloc>(
           create: (context) => PageBloc(),
         ),
