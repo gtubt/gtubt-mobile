@@ -81,6 +81,7 @@ class _MainPageState extends State<MainPage> {
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   children: <Widget>[
+//                    TODO: this menu change according to AuthenticationBloc.state
                     InkWell(
                       child: Container(
                         margin: EdgeInsets.symmetric(
