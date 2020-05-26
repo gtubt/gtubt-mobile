@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
@@ -91,7 +92,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _onFormSubmitted() {
-    print('1111');
     _registerBloc.add(Submitted(
       name: _nameController.text.trim(),
       surname: _surnameController.text.trim(),
@@ -405,7 +405,43 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isSubmitting) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Registering...'),
+                    CircularProgressIndicator()
+                  ],
+                ),
+              ),
+            );
+        }
+        if (state.isSuccess) {
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(LoggedIn(context: context));
+        }
+        if (state.isFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Registration Failure...'),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
+        }
+      },
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
           return Scaffold(
