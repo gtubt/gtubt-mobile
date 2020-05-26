@@ -17,6 +17,10 @@ class AppStarted extends AuthenticationEvent {
 }
 
 class LoggedIn extends AuthenticationEvent {
+  final BuildContext context;
+
+  LoggedIn({@required this.context});
+
   @override
   String toString() {
     return 'LoggedIn';

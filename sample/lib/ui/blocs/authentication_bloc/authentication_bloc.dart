@@ -1,6 +1,7 @@
 import 'package:GTUBT/service/authentication/authentication.dart';
-import 'package:bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
+import 'package:GTUBT/ui/routes.dart';
+import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -21,7 +22,7 @@ class AuthenticationBloc
     if (event is AppStarted) {
       yield* _mapAppStartedToState();
     } else if (event is LoggedIn) {
-      yield* _mapLoggedInToState();
+      yield* _mapLoggedInToState(event);
     } else if (event is LoggedOut) {
       yield* _mapLoggedOutToState();
     }
@@ -29,7 +30,7 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     bool isSignedIn = await _authService.isSignedIn();
-    try{
+    try {
       if (isSignedIn) {
         FirebaseUser firebaseUser = await _authService.getUser();
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
@@ -39,11 +40,11 @@ class AuthenticationBloc
     } catch (_) {
       yield AuthenticationUnauthenticated();
     }
-
   }
 
-  Stream<AuthenticationState> _mapLoggedInToState() async* {
+  Stream<AuthenticationState> _mapLoggedInToState(event) async* {
     FirebaseUser firebaseUser = await _authService.getUser();
+    Navigator.pushReplacementNamed(event.context, ROOT_URL);
     yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
   }
 
