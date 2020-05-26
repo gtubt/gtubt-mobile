@@ -4,17 +4,19 @@ description: GTU BT mobile app.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter_bloc: 3.2.0
-  equatable: ^0.3.0
+  equatable: ^1.1.0
   built_value: 6.7.1
   onesignal_flutter: ^2.0.0
   json_annotation:
   http: ^0.12.1
   flutter:
     sdk: flutter
+  firebase_auth: ^0.14.0+5
+  basic_utils: ^2.5.3
 
   cupertino_icons: ^0.1.2
 
