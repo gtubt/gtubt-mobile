@@ -9,6 +9,22 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPage extends State<PostPage> {
+  Widget buildBody(Post post) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+          child: Text(post.startDate),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+          child: Text(post.body),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     PostViewArguments postArgs = ModalRoute.of(context).settings.arguments;
@@ -37,12 +53,11 @@ class _PostPage extends State<PostPage> {
                         post.coverImageUrl,
                         fit: BoxFit.cover,
                       ),
-                    )
-                ),
+                    )),
               ),
             ];
           },
-          body: Text(post.body),
+          body: buildBody(post),
         ),
       ),
     );
