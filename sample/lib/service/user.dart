@@ -19,4 +19,45 @@ class UserService extends BaseService{
       }
     }
   }
+
+  Future<http.Response> post(User user) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath';
+    var userJson = user.toJson();
+    var bodyData = json.encode(userJson);
+
+    final response = await http.post(
+      '$url',
+      headers: <String, String> {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: bodyData
+    );
+
+    return response;
+  }
+
+  Future<http.Response> patch(User user) async {
+    var id = user.id;
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+    var userJson = user.toJson();
+    var bodyData = json.encode(userJson);
+
+    final response = await http.patch(
+      '$url',
+      headers: <String, String> {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: bodyData
+    );
+
+    return response;
+  }
+
+  Future<http.Response> delete(String id) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+
+    final response = await http.delete('$url');
+
+    return response;
+  }
 }

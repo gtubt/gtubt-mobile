@@ -9,9 +9,10 @@ part of user;
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
     id: json['id'] as String,
+    studentId: json['studentId'] as String,
     email: json['email'] as String,
     name: json['name'] as String,
-    lastName: json['lastName'] as String,
+    lastname: json['lastName'] as String,
     department: _$enumDecodeNullable(_$DepartmentEnumMap, json['department']),
     year: json['year'] as int,
     phone: json['phone'] as String,
@@ -21,11 +22,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'name': instance.name,
-      'lastName': instance.lastName,
+      'lastname': instance.lastname,
       'email': instance.email,
-      'id': instance.id,
       'department': _$DepartmentEnumMap[instance.department],
       'year': instance.year,
+      'id': instance.id,
+      'studentId': instance.studentId,
       'phone': instance.phone,
       'profilePhoto': instance.profilePhoto,
     };

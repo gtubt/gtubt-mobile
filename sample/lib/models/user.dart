@@ -17,15 +17,17 @@ part 'user.g.dart';
 @JsonSerializable()
 class User {
   String name;
-  String lastName;
+  String lastname;
   String email;
-  String id;
 
   @JsonKey(nullable: true)
   Department department;
 
   @JsonKey(nullable: true)
   int year;
+
+  String id;
+  String studentId;
 
   @JsonKey(nullable: true)
   String phone;
@@ -35,9 +37,10 @@ class User {
 
   User({
     this.id,
+    this.studentId,
     this.email,
     this.name,
-    this.lastName,
+    this.lastname,
     this.department,
     this.year,
     this.phone,
@@ -52,11 +55,11 @@ class User {
   String toString() {
     return '''User {  
     Name: $name,
-    Lastname: $lastName, 
+    Lastname: $lastname, 
     Email: $email,
     Department: $department,
     Year: $year,
-    Student ID: $id,
+    Student ID: $studentId,
     Phone: $phone,
     Photo Url: $profilePhoto
 }''';
