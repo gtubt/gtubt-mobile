@@ -85,7 +85,7 @@ class _Converter<T> implements JsonConverter<T, Object> {
   T fromJson(Object json) {
     if (json is Map<String, dynamic> &&
         json.containsKey('name') &&
-        json.containsKey('lastName')) {
+        json.containsKey('lastname')) {
       return User.fromJson(json) as T;
     }
 
