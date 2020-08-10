@@ -1,4 +1,4 @@
-import '../post.dart';
+import 'package:GTUBT/models/post.dart';
 
 class PostViewArguments {
   final Post post;

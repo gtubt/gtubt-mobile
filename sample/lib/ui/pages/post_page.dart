@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../models/post.dart';
+import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
 
 class PostPage extends StatefulWidget {
