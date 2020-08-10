@@ -47,7 +47,6 @@ class HomePage extends StatelessWidget {
       startDate: "02-05-2020");
 
   void postTapEvent(BuildContext context, Post post, String heroTag) {
-    print(post);
     Navigator.pushNamed(context, POST_URL, arguments: PostViewArguments(post, heroTag));
   }
 
