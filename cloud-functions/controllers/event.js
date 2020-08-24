@@ -40,6 +40,28 @@ const getEventWithId = function (req, res, next) {
     })
 }
 
+const deleteEventWithId = function (req, res, next) {
+  var eventId = req.params.eventId
+
+  const docRef = firebaseDb.getInstance().collection('events').doc(eventId)
+  docRef.get()
+    .then(userDoc => {
+      docRef.delete()
+        .then(() => {
+          return res.status(200).json(utils.getResponseObj(null, 'Event deleted successfully', 200))
+        }).catch(err => {
+          // an error occured while querying
+          console.log('Error deleting document', err)
+          return res.status(400).json(utils.getResponseObj(null, 'Error deleting document', 400))
+        })
+    })
+    .catch(err => {
+      // an error occured while querying
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
+    })
+}
+
 const postEvent = function (req, res, next) {
   const event = req.body
   const eventsRef = firebaseDb.getInstance().collection('events')
@@ -68,5 +90,6 @@ const postEvent = function (req, res, next) {
 module.exports = {
   getAllEvents: getAllEvents,
   getEventWithId: getEventWithId,
+  deleteEventWithId: deleteEventWithId,
   postEvent: postEvent
 }

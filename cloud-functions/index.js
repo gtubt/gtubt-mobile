@@ -20,6 +20,7 @@ app.post('/posts', jsonParser, postsController.postPost)
 
 app.get('/event', eventController.getAllEvents)
 app.get('/event/:eventId', eventController.getEventWithId)
+app.delete('/event/:eventId', eventController.deleteEventWithId)
 app.post('/event', jsonParser, eventController.postEvent)
 
 app.get('/user/:userEmail', userController.getUserWithEmail)
