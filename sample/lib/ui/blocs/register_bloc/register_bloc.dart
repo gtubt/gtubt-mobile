@@ -39,7 +39,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       yield state.update(
           isDepartmentValid: Validators.isValidString(event.department));
     } else if (event is Submitted) {
-      print('3333');
       yield* _mapSubmittedToState(event);
     }
   }
@@ -48,6 +47,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     yield RegisterState.loading();
 
     try {
+//      TODO: make into model
       Map<String, dynamic> data = {
         'email': event.email,
         'password': event.password,
@@ -60,7 +60,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       };
 
       await _authService.signUp(data);
-      print('44444');
+      // TODO: create user if signUp is successful
       yield RegisterState.success();
     } catch (error) {
       yield RegisterState.failure();

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth;
 
+//  TODO: implement singleton
   AuthService({FirebaseAuth firebaseAuth})
       : _auth = firebaseAuth ?? FirebaseAuth.instance;
 
@@ -26,7 +27,6 @@ class AuthService {
         (await _auth.createUserWithEmailAndPassword(
                 email: data['email'], password: data['password']))
             .user;
-    // TODO: create user
 
     return firebaseUser;
   }
