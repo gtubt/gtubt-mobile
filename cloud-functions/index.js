@@ -24,7 +24,8 @@ app.post('/event', jsonParser, eventController.postEvent)
 
 app.get('/user/:userEmail', userController.getUserWithEmail)
 app.post('/user', jsonParser, userController.postUser)
-
+app.patch('/user/:id', jsonParser, userController.updateUser)
+app.delete('/user/:id', userController.deleteUser)
 // export Express app to firebase cloud functions
 module.exports = {
   app

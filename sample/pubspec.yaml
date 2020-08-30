@@ -12,7 +12,7 @@ dependencies:
   built_value: 6.7.1
   onesignal_flutter: ^2.0.0
   json_annotation:
-
+  http: ^0.12.1
   flutter:
     sdk: flutter
   firebase_auth: ^0.14.0+5
