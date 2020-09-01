@@ -1,15 +1,12 @@
-import 'package:GTUBT/service/authentication/authentication.dart';
+import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final AuthService _authService;
+  final AuthService _authService = AuthService();
 
-  RegisterBloc({@required AuthService authService})
-      : assert(authService != null),
-        _authService = authService;
+  RegisterBloc();
 
   @override
   RegisterState get initialState => RegisterState.empty();
