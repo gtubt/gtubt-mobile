@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  final FirebaseAuth _auth;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final AuthService _authService = AuthService._internal();
 
-//  TODO: implement singleton
-  AuthService({FirebaseAuth firebaseAuth})
-      : _auth = firebaseAuth ?? FirebaseAuth.instance;
+  AuthService._internal();
+
+  factory AuthService() {
+    return _authService;
+  }
 
   // sign in with email and password
   Future<FirebaseUser> signInWithEmailAndPassword(

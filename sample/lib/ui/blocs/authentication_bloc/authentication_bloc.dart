@@ -1,4 +1,4 @@
-import 'package:GTUBT/service/authentication/authentication.dart';
+import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:bloc/bloc.dart';
@@ -7,11 +7,9 @@ import 'package:flutter/cupertino.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final AuthService _authService;
+  final AuthService _authService = AuthService();
 
-  AuthenticationBloc({@required AuthService authService})
-      : assert(authService != null),
-        _authService = authService;
+  AuthenticationBloc();
 
   @override
   AuthenticationState get initialState => AuthenticationUninitialized();

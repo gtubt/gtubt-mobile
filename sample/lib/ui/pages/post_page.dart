@@ -28,7 +28,6 @@ class _PostPage extends State<PostPage> {
   Widget build(BuildContext context) {
     PostViewArguments postArgs = ModalRoute.of(context).settings.arguments;
     var post = postArgs.post;
-    print(postArgs.post);
     return Scaffold(
       body: DefaultTabController(
         length: 2,
