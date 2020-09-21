@@ -29,6 +29,38 @@ class EventService extends BaseService{
     return List<Event>();
   }
 
+  Future<Event> delete(String id) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+    
+    final response = await http.delete('$url');
+
+    if (response.statusCode == 200) {
+      final apiResponse = ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+      if (apiResponse.status == 200) {
+        return apiResponse.body;
+      }
+    }
+
+    return null;
+  }
+
+  Future<http.Response> patch(Event event) async {
+    var id = event.id;
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+    var eventJson = event.toJson();
+    var bodyData = json.encode(eventJson);
+    
+    final response = await http.patch(
+      '$url',
+      headers: <String, String> {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: bodyData
+    );
+
+    return response;
+  }
+
   Future<Event> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
     
