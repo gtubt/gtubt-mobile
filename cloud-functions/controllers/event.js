@@ -45,7 +45,7 @@ const deleteEventWithId = function (req, res, next) {
 
   const docRef = firebaseDb.getInstance().collection('events').doc(eventId)
   docRef.get()
-    .then(userDoc => {
+    .then(eventDoc => {
       docRef.delete()
         .then(() => {
           return res.status(200).json(utils.getResponseObj(null, 'Event deleted successfully', 200))
@@ -53,6 +53,49 @@ const deleteEventWithId = function (req, res, next) {
           // an error occured while querying
           console.log('Error deleting document', err)
           return res.status(400).json(utils.getResponseObj(null, 'Error deleting document', 400))
+        })
+    })
+    .catch(err => {
+      // an error occured while querying
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
+    })
+}
+
+const updateEvent = function (req, res) {
+  var eventId = req.params.eventId
+  var eventBody = req.body
+  var event
+  var eventRef = firebaseDb.getInstance().collection('events').doc(eventId)
+  eventRef.get()
+    .then(eventDoc => {
+      event = eventDoc.data()
+
+      // We shouldnt let them update these fields.
+      eventBody.id = event.id
+
+      // Sanitization process.
+      if (eventBody.title) {
+        eventBody.title = utils.toTitleCase(eventBody.title)
+      }
+
+      if (eventBody.title) {
+        eventBody.title = utils.toTitleCase(eventBody.title)
+      }
+
+      if (eventBody.title) {
+        eventBody.title = utils.toTitleCase(eventBody.title)
+      }
+
+      Object.assign(event, eventBody)
+      eventRef.update(eventBody)
+        .then(() => {
+          return res.status(200).json(utils.getResponseObj(event, 'Event updated successfully', 200))
+        })
+        .catch(err => {
+          // an error occured while querying
+          console.log('Error updating document', err)
+          return res.status(400).json(utils.getResponseObj(null, 'Error updating document', 400))
         })
     })
     .catch(err => {
@@ -90,6 +133,7 @@ const postEvent = function (req, res, next) {
 module.exports = {
   getAllEvents: getAllEvents,
   getEventWithId: getEventWithId,
+  updateEvent: updateEvent,
   deleteEventWithId: deleteEventWithId,
   postEvent: postEvent
 }
