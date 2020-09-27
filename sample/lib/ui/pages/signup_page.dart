@@ -1,7 +1,9 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
+import 'package:GTUBT/ui/service/notification.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +22,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _studentNumberController =
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-
+  Flushbar _loadingNotification =
+      NotificationService.loadingFactory(message: 'Registering...');
   RegisterBloc _registerBloc;
 
   @override
@@ -407,39 +410,16 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Registering...'),
-                    CircularProgressIndicator()
-                  ],
-                ),
-              ),
-            );
+          _loadingNotification..show(context);
         }
         if (state.isSuccess) {
+          _loadingNotification..dismiss();
           BlocProvider.of<AuthenticationBloc>(context)
               .add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Registration Failure...'),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          NotificationService.errorFactory(message: 'Registration Failure...')
+            ..show(context);
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
