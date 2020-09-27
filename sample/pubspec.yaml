@@ -15,7 +15,8 @@ dependencies:
   http: ^0.12.1
   flutter:
     sdk: flutter
-  firebase_auth: ^0.14.0+5
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.0+1
   basic_utils: ^2.5.3
 
   cupertino_icons: ^0.1.2

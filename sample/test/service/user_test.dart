@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:GTUBT/service/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:GTUBT/models/user.dart';
@@ -22,7 +20,7 @@ void main() {
     user.phone = "5464351276";
     user.year = 2016;
     user.profilePhoto = "google.com";
-    
+
     Response response = await UserService().post(user);
     expect(response == null, false);
     expect(response.statusCode, 200);
@@ -34,7 +32,7 @@ void main() {
     expect(user.name, "Ahmet");
 
     user.phone = "5464351277";
-    
+
     Response response = await UserService().patch(user);
     expect(response == null, false);
     expect(response.statusCode, 200);

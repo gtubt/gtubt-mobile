@@ -4,20 +4,23 @@ import 'package:http/http.dart' as http;
 import 'package:GTUBT/service/base.dart';
 import 'dart:convert';
 
-class UserService extends BaseService{
-
-   final servicePath = 'user';
+class UserService extends BaseService {
+  final servicePath = 'user';
 
   Future<User> get(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      final apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
         return apiResponse.body;
       }
+      // TODO: set exception message
     }
+    // TODO: throw exception
+    return null;
   }
 
   Future<http.Response> post(User user) async {
@@ -25,13 +28,11 @@ class UserService extends BaseService{
     var userJson = user.toJson();
     var bodyData = json.encode(userJson);
 
-    final response = await http.post(
-      '$url',
-      headers: <String, String> {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: bodyData
-    );
+    final response = await http.post('$url',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: bodyData);
 
     return response;
   }
@@ -42,13 +43,11 @@ class UserService extends BaseService{
     var userJson = user.toJson();
     var bodyData = json.encode(userJson);
 
-    final response = await http.patch(
-      '$url',
-      headers: <String, String> {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: bodyData
-    );
+    final response = await http.patch('$url',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: bodyData);
 
     return response;
   }
