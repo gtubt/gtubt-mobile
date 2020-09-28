@@ -36,6 +36,60 @@ class _MainPageState extends State<MainPage> {
     BlocProvider.of<UserBloc>(context).add(ToggleEditMode());
   }
 
+  List<Widget> _getDrawers(
+      BuildContext context, AuthenticationState authState) {
+    var drawerChilds = <Widget>[];
+    if (authState is AuthenticationAuthenticated) {
+      drawerChilds.add(InkWell(
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            vertical: 10,
+          ),
+          height: 50,
+          color: ColorSets.profilePageThemeColor,
+          child: const Center(child: Text('LOGOUT')),
+        ),
+        onTap: () {
+          // TODO: Add logout function here
+          BlocProvider.of<PageBloc>(context).add(
+            PageChanged(
+              context: context,
+              routeName: LOGIN_URL,
+            ),
+          );
+        },
+      ));
+    } else {
+      drawerChilds.add(InkWell(
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            vertical: 10,
+          ),
+          height: 50,
+          color: ColorSets.profilePageThemeColor,
+          child: const Center(child: Text('LOGIN')),
+        ),
+        onTap: () {
+          BlocProvider.of<PageBloc>(context).add(
+            PageChanged(
+              context: context,
+              routeName: LOGIN_URL,
+            ),
+          );
+        },
+      ));
+    }
+    drawerChilds.add(Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 10,
+      ),
+      height: 50,
+      color: ColorSets.profilePageThemeColor,
+      child: const Center(child: Text('SETTINGS')),
+    ));
+    return drawerChilds;
+  }
+
   @override
   Widget build(BuildContext context) {
     var actions = <Widget>[];
@@ -58,55 +112,7 @@ class _MainPageState extends State<MainPage> {
         builder: (context, state) {
           return BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, authState) {
-              var drawerChilds = <Widget>[];
-              if (authState is AuthenticationAuthenticated) {
-                drawerChilds.add(InkWell(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 10,
-                    ),
-                    height: 50,
-                    color: ColorSets.profilePageThemeColor,
-                    child: const Center(child: Text('LOGOUT')),
-                  ),
-                  onTap: () {
-                    // TODO: Add logout function here
-                    BlocProvider.of<PageBloc>(context).add(
-                      PageChanged(
-                        context: context,
-                        routeName: LOGIN_URL,
-                      ),
-                    );
-                  },
-                ));
-              } else {
-                drawerChilds.add(InkWell(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 10,
-                    ),
-                    height: 50,
-                    color: ColorSets.profilePageThemeColor,
-                    child: const Center(child: Text('LOGIN')),
-                  ),
-                  onTap: () {
-                    BlocProvider.of<PageBloc>(context).add(
-                      PageChanged(
-                        context: context,
-                        routeName: LOGIN_URL,
-                      ),
-                    );
-                  },
-                ));
-              }
-              drawerChilds.add(Container(
-                margin: EdgeInsets.symmetric(
-                  vertical: 10,
-                ),
-                height: 50,
-                color: ColorSets.profilePageThemeColor,
-                child: const Center(child: Text('SETTINGS')),
-              ));
+              var drawers = _getDrawers(context, authState);
               return Scaffold(
                 appBar: AppBar(
                   backgroundColor: ColorSets.barBackgroundColor,
@@ -135,7 +141,7 @@ class _MainPageState extends State<MainPage> {
                     child: ListView(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
-                      children: drawerChilds,
+                      children: drawers,
                     ),
                   ),
                 ),
