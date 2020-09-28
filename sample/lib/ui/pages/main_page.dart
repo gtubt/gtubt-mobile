@@ -1,3 +1,5 @@
+import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/user_bloc.dart';
@@ -54,66 +56,93 @@ class _MainPageState extends State<MainPage> {
       },
       child: BlocBuilder<PageBloc, PageState>(
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorSets.barBackgroundColor,
-              title: Text(Routes.bodyTitle[state.currentPage]),
-              actions: actions,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              unselectedItemColor: ColorSets.unselectedBarItemColor,
-              selectedIconTheme: IconThemeData(
-                color: ColorSets.selectedBarItemColor,
-              ),
-              unselectedIconTheme: IconThemeData(
-                color: ColorSets.unselectedBarItemColor,
-              ),
-              currentIndex: state.currentPage,
-              backgroundColor: ColorSets.barBackgroundColor,
-              onTap: _onNavigation,
-              items: Routes.navList,
-            ),
-            drawer: Drawer(
-              child: Container(
-                color: ColorSets.barBackgroundColor,
-                alignment: Alignment.center,
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  children: <Widget>[
-//                    TODO: this menu change according to AuthenticationBloc.state
-                    InkWell(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        height: 50,
-                        color: ColorSets.profilePageThemeColor,
-                        child: const Center(child: Text('LOGIN')),
-                      ),
-                      onTap: () {
-                        BlocProvider.of<PageBloc>(context).add(
-                          PageChanged(
-                            context: context,
-                            routeName: LOGIN_URL,
-                          ),
-                        );
-                      },
+          return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, authState) {
+              var drawerChilds = <Widget>[];
+              if (authState is AuthenticationAuthenticated) {
+                drawerChilds.add(InkWell(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 10,
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10,
+                    height: 50,
+                    color: ColorSets.profilePageThemeColor,
+                    child: const Center(child: Text('LOGOUT')),
+                  ),
+                  onTap: () {
+                    // TODO: Add logout function here
+                    BlocProvider.of<PageBloc>(context).add(
+                      PageChanged(
+                        context: context,
+                        routeName: LOGIN_URL,
                       ),
-                      height: 50,
-                      color: ColorSets.profilePageThemeColor,
-                      child: const Center(child: Text('SETTINGS')),
+                    );
+                  },
+                ));
+              } else {
+                drawerChilds.add(InkWell(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 10,
                     ),
-                  ],
+                    height: 50,
+                    color: ColorSets.profilePageThemeColor,
+                    child: const Center(child: Text('LOGIN')),
+                  ),
+                  onTap: () {
+                    BlocProvider.of<PageBloc>(context).add(
+                      PageChanged(
+                        context: context,
+                        routeName: LOGIN_URL,
+                      ),
+                    );
+                  },
+                ));
+              }
+              drawerChilds.add(Container(
+                margin: EdgeInsets.symmetric(
+                  vertical: 10,
                 ),
-              ),
-            ),
-            body: Routes.bodyList[state.currentPage],
-            // This trailing comma makes auto-formatting nicer for build methods.
+                height: 50,
+                color: ColorSets.profilePageThemeColor,
+                child: const Center(child: Text('SETTINGS')),
+              ));
+              return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: ColorSets.barBackgroundColor,
+                  title: Text(Routes.bodyTitle[state.currentPage]),
+                  actions: actions,
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  unselectedItemColor: ColorSets.unselectedBarItemColor,
+                  selectedIconTheme: IconThemeData(
+                    color: ColorSets.selectedBarItemColor,
+                  ),
+                  unselectedIconTheme: IconThemeData(
+                    color: ColorSets.unselectedBarItemColor,
+                  ),
+                  currentIndex: state.currentPage,
+                  backgroundColor: ColorSets.barBackgroundColor,
+                  onTap: _onNavigation,
+                  items: authState is AuthenticationAuthenticated
+                      ? Routes.navListLoggedIn
+                      : Routes.navList,
+                ),
+                drawer: Drawer(
+                  child: Container(
+                    color: ColorSets.barBackgroundColor,
+                    alignment: Alignment.center,
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      children: drawerChilds,
+                    ),
+                  ),
+                ),
+                body: Routes.bodyList[state.currentPage],
+                // This trailing comma makes auto-formatting nicer for build methods.
+              );
+            },
           );
         },
       ),
