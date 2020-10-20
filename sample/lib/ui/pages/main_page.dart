@@ -1,3 +1,5 @@
+import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_bloc.dart';
+import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/user_bloc.dart';
@@ -35,8 +37,6 @@ class _MainPageState extends State<MainPage> {
     BlocProvider.of<UserBloc>(context).add(ToggleEditMode());
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var actions = <Widget>[];
@@ -57,29 +57,33 @@ class _MainPageState extends State<MainPage> {
       },
       child: BlocBuilder<PageBloc, PageState>(
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorSets.barBackgroundColor,
-              title: Text(Routes.bodyTitle[state.currentPage]),
-              actions: actions,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              unselectedItemColor: ColorSets.unselectedBarItemColor,
-              selectedIconTheme: IconThemeData(
-                color: ColorSets.selectedBarItemColor,
+          return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (context, authState) {
+            return Scaffold(
+              appBar: AppBar(
+                backgroundColor: ColorSets.barBackgroundColor,
+                title: Text(Routes.bodyTitle[state.currentPage]),
+                actions: actions,
               ),
-              unselectedIconTheme: IconThemeData(
-                color: ColorSets.unselectedBarItemColor,
+              bottomNavigationBar: BottomNavigationBar(
+                unselectedItemColor: ColorSets.unselectedBarItemColor,
+                selectedIconTheme: IconThemeData(
+                  color: ColorSets.selectedBarItemColor,
+                ),
+                unselectedIconTheme: IconThemeData(
+                  color: ColorSets.unselectedBarItemColor,
+                ),
+                currentIndex: state.currentPage,
+                backgroundColor: ColorSets.barBackgroundColor,
+                onTap: _onNavigation,
+                items: authState is AuthenticationAuthenticated
+                    ? Routes.navListLoggedIn
+                    : Routes.navList,
               ),
-              currentIndex: state.currentPage,
-              backgroundColor: ColorSets.barBackgroundColor,
-              onTap: _onNavigation,
-              items: Routes.navList,
-            ),
-            drawer: HamburgerMenuComponents(),
-            body: Routes.bodyList[state.currentPage],
-            // This trailing comma makes auto-formatting nicer for build methods.
-          );
+              drawer: HamburgerMenuComponents(),
+              body: Routes.bodyList[state.currentPage],
+            );
+          });
         },
       ),
     );

@@ -26,7 +26,7 @@ class Routes {
     CalendarPage(),
     ProfilePage(),
   ];
-  static final navList = <BottomNavigationBarItem>[
+  static final navListLoggedIn = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
       title: Text(bodyTitle[0]),
@@ -38,6 +38,16 @@ class Routes {
     BottomNavigationBarItem(
       icon: Icon(Icons.person_outline),
       title: Text(bodyTitle[2]),
+    ),
+  ];
+  static final navList = <BottomNavigationBarItem>[
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home),
+      title: Text(bodyTitle[0]),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.calendar_today),
+      title: Text(bodyTitle[1]),
     ),
   ];
 }
