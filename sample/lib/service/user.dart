@@ -17,9 +17,7 @@ class UserService extends BaseService {
       if (apiResponse.status == 200) {
         return apiResponse.body;
       }
-      // TODO: set exception message
     }
-    // TODO: throw exception
     return null;
   }
 

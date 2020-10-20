@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
@@ -53,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _logo() {
+  Widget _logoArea() {
     return Container(
       height: 200,
       width: 180,
@@ -135,7 +136,7 @@ class _LoginFormState extends State<LoginForm> {
       height: 40,
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
-        onPressed: _isLoginButtonEnabled() ? _onFormSubmitted : null,
+        onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
         color: ColorSets.selectedBarItemColor,
         child: Text(
           'Login',
@@ -150,7 +151,7 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
-  
+
   Widget _signUpButton() {
     return Container(
       height: 45,
@@ -183,8 +184,8 @@ class _LoginFormState extends State<LoginForm> {
       ),
     );
   }
-  
-  Widget _continueWithAnonymousButton(){
+
+  Widget _continueWithAnonymousButton() {
     return Container(
       height: 45,
       width: 135,
@@ -219,40 +220,49 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        _currentState = state;
-        return Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 40.0, right: 40.0),
-            children: <Widget>[
-              _logo(),
-              SizedBox(height: 32.0),
-              _emailTextFormField(),
-              SizedBox(height: 16.0),
-              _passwordTextFormField(),
-              SizedBox(height: 32.0),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _signInButton(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _signUpButton(),
-                        _continueWithAnonymousButton(),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              // _signUpAndContinueArea()
-            ],
-          ),
-        );
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state.isSuccess) {
+          AuthenticationBloc _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+          if (_authBloc.isBroadcast)
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(LoggedIn(context: context));
+        }
       },
+      child: BlocBuilder<LoginBloc, LoginState>(
+        builder: (context, state) {
+          _currentState = state;
+          return Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 40.0, right: 40.0),
+              children: <Widget>[
+                _logoArea(),
+                SizedBox(height: 32.0),
+                _emailTextFormField(),
+                SizedBox(height: 16.0),
+                _passwordTextFormField(),
+                SizedBox(height: 32.0),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _signInButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _signUpButton(),
+                          _continueWithAnonymousButton(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

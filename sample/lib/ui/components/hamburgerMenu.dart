@@ -29,6 +29,10 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     );
   }
 
+  void _logoutButtonFunction() {
+    _authBloc.add(LoggedOut());
+  }
+
   Widget _buildHamburgerMenuItem(String menuItemName, dynamic function) {
     return InkWell(
       child: Container(
@@ -50,11 +54,14 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
       _menuItems.add(_buildHamburgerMenuItem('PROFILE FOTO', null));
       _menuItems.add(_buildHamburgerMenuItem('USERNAME', null));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', null));
+      _menuItems.add(_buildHamburgerMenuItem('SETTINGS', null));
+      _menuItems.add(_buildHamburgerMenuItem('LOGOUT', _logoutButtonFunction));
     } else {
       _menuItems.add(_buildHamburgerMenuItem('LOGIN', _loginButtonFunction));
+      _menuItems.add(_buildHamburgerMenuItem('SETTINGS', null));
     }
 
-    _menuItems.add(_buildHamburgerMenuItem('SETTINGS', null));
+
     return ListView(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
@@ -65,17 +72,25 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        color: ColorSets.barBackgroundColor,
-        alignment: Alignment.center,
-        child: _buildHamburgerMenu(),
+      child: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: (context, state){
+
+        },
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state){
+            return Container(
+              color: ColorSets.barBackgroundColor,
+              alignment: Alignment.center,
+              child: _buildHamburgerMenu(),
+            );
+          },
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
-    _authBloc.close();
     super.dispose();
   }
 }

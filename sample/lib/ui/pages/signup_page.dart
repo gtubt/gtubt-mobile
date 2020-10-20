@@ -408,42 +408,39 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          print('registering...');
-          // Scaffold.of(context)
-          //   ..hideCurrentSnackBar()
-          //   ..showSnackBar(
-          //     SnackBar(
-          //       content: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: <Widget>[
-          //           Text('Registering...'),
-          //           CircularProgressIndicator()
-          //         ],
-          //       ),
-          //     ),
-          //   );
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Registering...'),
+                    CircularProgressIndicator()
+                  ],
+                ),
+              ),
+            );
         }
         if (state.isSuccess) {
           BlocProvider.of<AuthenticationBloc>(context)
               .add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          print('fail');
-
-          // Scaffold.of(context)
-          //   ..hideCurrentSnackBar()
-          //   ..showSnackBar(
-          //     SnackBar(
-          //       content: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: <Widget>[
-          //           Text('Registration Failure...'),
-          //           Icon(Icons.error)
-          //         ],
-          //       ),
-          //       backgroundColor: ColorSets.snackBarErrorColor,
-          //     ),
-          //   );
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Registration Failure...'),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
