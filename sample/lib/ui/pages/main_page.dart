@@ -1,8 +1,7 @@
-import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_bloc.dart';
-import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/user_bloc.dart';
+import 'package:GTUBT/ui/components/hamburgerMenu.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
@@ -36,62 +35,7 @@ class _MainPageState extends State<MainPage> {
     BlocProvider.of<UserBloc>(context).add(ToggleEditMode());
   }
 
-  List<Widget> _buildHamburgerMenuItems() {
-    List<Widget> _menuItems = List<Widget>();
-    AuthenticationBloc _authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
-    if (_authBloc.state is AuthenticationAuthenticated) {
-      Widget profilePhoto = Container(
-        child: Text('ProfilePhoto'),
-      );
-      Widget userName = Container(child: Text('Username'));
-      Widget ticketButton = InkWell(
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          height: 50,
-          color: ColorSets.profilePageThemeColor,
-          child: Center(
-            child: Text('TICKETS'),
-          ),
-        ),
-        onTap: () => null,
-      );
-      _menuItems.add(profilePhoto);
-      _menuItems.add(userName);
-      _menuItems.add(ticketButton);
-    } else {
-      Widget loginButton = InkWell(
-        child: Container(
-          margin: EdgeInsets.symmetric(
-            vertical: 10,
-          ),
-          height: 50,
-          color: ColorSets.profilePageThemeColor,
-          child: const Center(child: Text('LOGIN')),
-        ),
-        onTap: () {
-          BlocProvider.of<PageBloc>(context).add(
-            PageChanged(
-              context: context,
-              routeName: LOGIN_URL,
-            ),
-          );
-        },
-      );
-      _menuItems.add(loginButton);
-    }
-    Widget settingsButton = Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 10,
-      ),
-      height: 50,
-      color: ColorSets.profilePageThemeColor,
-      child: const Center(child: Text('SETTINGS')),
-    );
-
-    _menuItems.add(settingsButton);
-    return _menuItems;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,16 +76,7 @@ class _MainPageState extends State<MainPage> {
               onTap: _onNavigation,
               items: Routes.navList,
             ),
-            drawer: Drawer(
-              child: Container(
-                color: ColorSets.barBackgroundColor,
-                alignment: Alignment.center,
-                child: ListView(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    children: _buildHamburgerMenuItems()),
-              ),
-            ),
+            drawer: HamburgerMenuComponents(),
             body: Routes.bodyList[state.currentPage],
             // This trailing comma makes auto-formatting nicer for build methods.
           );
