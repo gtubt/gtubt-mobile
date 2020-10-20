@@ -14,7 +14,7 @@ const getAllPosts = function (req, res, next) {
         var postData = doc.data()
         postList.push(postData)
       })
-
+      postList.sort((a, b) => (a.startDate > b.startDate) ? 1 : -1)
       return res.status(200).json(utils.getResponseObj(postList, 'All posts received', 200))
     })
     .catch(err => {
@@ -67,9 +67,64 @@ const postPost = function (req, res, next) {
     })
 }
 
+const updatePost = function (req, res) {
+  var postId = req.params.id
+  const postBody = req.body
+  const postsRef = firebaseDb.getInstance().collection('posts')
+  var post
+  postRef = postsRef.doc(postId)
+  postRef.get()
+    .then(postDoc => {
+      post = postDoc.data()
+
+      // We shouldnt let them update these fields.
+      postBody.id = post.id
+
+      Object.assign(post, postBody)
+      postRef.update(postBody)
+        .then(() => {
+          return res.status(200).json(utils.getResponseObj(post, 'Post updated successfully', 200))
+        })
+        .catch(err => {
+          // an error occured while querying
+          console.log('Error updating document', err)
+          return res.status(400).json(utils.getResponseObj(null, 'Error updating document', 400))
+        })
+    })
+    .catch(err => {
+      // an error occured while querying
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
+    })
+}
+
+const deletePost = function (req, res) {
+  var postId = req.params.id
+  const postsRef = firebaseDb.getInstance().collection('posts')
+  var postRef = postsRef.doc(postId)
+  postRef.get()
+    .then(postDoc => {
+      postRef.delete()
+        .then(() => {
+          return res.status(200).json(utils.getResponseObj(null, 'Post deleted successfully', 200))
+        }).catch(err => {
+          // an error occured while querying
+          console.log('Error deleting document', err)
+          return res.status(400).json(utils.getResponseObj(null, 'Error deleting document', 400))
+        })
+    })
+    .catch(err => {
+      // an error occured while querying
+      console.log('Error getting document', err)
+      return res.status(404).json(utils.getResponseObj(null, 'Error getting document', 404))
+    })
+}
+
 // export handlers
 module.exports = {
   getAllPosts: getAllPosts,
   getPostWithId: getPostWithId,
-  postPost: postPost
+  postPost: postPost,
+  updatePost: updatePost,
+  deletePost: deletePost
 }

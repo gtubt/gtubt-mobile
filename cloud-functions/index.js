@@ -17,6 +17,8 @@ app.listen(DEBUG_PORT, () => {
 app.get('/posts', postsController.getAllPosts)
 app.get('/posts/:postId', postsController.getPostWithId)
 app.post('/posts', jsonParser, postsController.postPost)
+app.patch('/posts/:id', jsonParser, postsController.updatePost)
+app.delete('/posts/:id', postsController.deletePost)
 
 app.get('/event', eventController.getAllEvents)
 app.get('/event/:eventId', eventController.getEventWithId)
