@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
-          create: (context) => AuthenticationBloc(),
+          create: (context) => AuthenticationBloc()..add(AppStarted()),
         ),
         BlocProvider<PageBloc>(
           create: (context) => PageBloc(),

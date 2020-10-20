@@ -30,7 +30,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   void _logoutButtonFunction() {
-    _authBloc.add(LoggedOut());
+    _authBloc.add(LoggedOut(context: context));
   }
 
   Widget _buildHamburgerMenuItem(String menuItemName, dynamic function) {

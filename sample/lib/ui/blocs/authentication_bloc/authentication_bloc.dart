@@ -22,7 +22,7 @@ class AuthenticationBloc
     } else if (event is LoggedIn) {
       yield* _mapLoggedInToState(event);
     } else if (event is LoggedOut) {
-      yield* _mapLoggedOutToState();
+      yield* _mapLoggedOutToState(event);
     }
   }
 
@@ -46,8 +46,9 @@ class AuthenticationBloc
     yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
   }
 
-  Stream<AuthenticationState> _mapLoggedOutToState() async* {
+  Stream<AuthenticationState> _mapLoggedOutToState(event) async* {
     await _authService.signOut();
+    Navigator.pushReplacementNamed(event.context, ROOT_URL);
     yield AuthenticationUnauthenticated();
   }
 }

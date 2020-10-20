@@ -31,6 +31,10 @@ class LoggedIn extends AuthenticationEvent {
 }
 
 class LoggedOut extends AuthenticationEvent {
+  final BuildContext context;
+
+  LoggedOut({@required this.context});
+
   @override
   String toString() {
     return 'LoggedOut';
