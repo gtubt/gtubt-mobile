@@ -12,7 +12,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _gradeController = TextEditingController();
@@ -29,7 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _registerBloc = BlocProvider.of<RegisterBloc>(context);
     _emailController.addListener(_onEmailChanged);
     _nameController.addListener(_onNameChanged);
-    _surnameController.addListener(_onSurnameChanged);
+    _lastnameController.addListener(_onLastnameChanged);
     _passwordController.addListener(_onPasswordChanged);
     _gradeController.addListener(_onGradeChanged);
     _departmentController.addListener(_onDepartmentChanged);
@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void dispose() {
     super.dispose();
     _nameController.dispose();
-    _surnameController.dispose();
+    _lastnameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _gradeController.dispose();
@@ -68,12 +68,13 @@ class _SignUpPageState extends State<SignUpPage> {
     _registerBloc.add(NameChanged(name: _nameController.text.trim()));
   }
 
-  void _onSurnameChanged() {
-    _registerBloc.add(SurnameChanged(surname: _surnameController.text.trim()));
+  void _onLastnameChanged() {
+    _registerBloc
+        .add(LastnameChanged(lastname: _lastnameController.text.trim()));
   }
 
   void _onGradeChanged() {
-    _registerBloc.add(ClassChanged(grade: _gradeController.text.trim()));
+    _registerBloc.add(ClassChanged(year: _gradeController.text.trim()));
   }
 
   void _onDepartmentChanged() {
@@ -94,11 +95,11 @@ class _SignUpPageState extends State<SignUpPage> {
   void _onFormSubmitted() {
     _registerBloc.add(Submitted(
       name: _nameController.text.trim(),
-      surname: _surnameController.text.trim(),
+      lastname: _lastnameController.text.trim(),
       phoneNumber: _phoneNumberController.text.trim(),
       password: _passwordController.text.trim(),
       studentNumber: _studentNumberController.text.trim(),
-      grade: _gradeController.text.trim(),
+      year: _gradeController.text.trim(),
       department: _departmentController.text.trim(),
       email: _emailController.text.trim(),
     ));
@@ -176,7 +177,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _surnameForm() {
+  Widget _lastnameForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -193,9 +194,9 @@ class _SignUpPageState extends State<SignUpPage> {
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
-            controller: _surnameController,
+            controller: _lastnameController,
             validator: (String value) {
-              return !_registerBloc.state.isSurnameValid
+              return !_registerBloc.state.isLastnameValid
                   ? 'Invalid format'
                   : null;
             },
@@ -457,7 +458,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         _profileImage(),
                         FormBoxContainer(child: _nameForm()),
-                        FormBoxContainer(child: _surnameForm()),
+                        FormBoxContainer(child: _lastnameForm()),
                         FormBoxContainer(child: _emailForm()),
                         FormBoxContainer(child: _departmentInfoForm()),
                         FormBoxContainer(child: _gradeInfoForm()),

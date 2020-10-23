@@ -4,15 +4,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-/// Usage for Built Models:
-///
-/// User((b) => b
-///     ..name = 'John'
-///     ..lastname = 'Doe'
-///     ..email = 'john@doe.com'
-///     ..department = Department.cse);
-///
-/// Name, Lastname and Email is required.
 
 @JsonSerializable()
 class User {

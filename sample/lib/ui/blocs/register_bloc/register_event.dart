@@ -28,32 +28,32 @@ class NameChanged extends RegisterEvent {
   List<Object> get props => [name];
 }
 
-class SurnameChanged extends RegisterEvent {
-  final String surname;
+class LastnameChanged extends RegisterEvent {
+  final String lastname;
 
-  SurnameChanged({@required this.surname});
+  LastnameChanged({@required this.lastname});
 
   @override
   String toString() {
-    return 'SurnameChanged{username: $surname}';
+    return 'LastnameChanged{username: $lastname}';
   }
 
   @override
-  List<Object> get props => [surname];
+  List<Object> get props => [lastname];
 }
 
 class ClassChanged extends RegisterEvent {
-  final String grade;
+  final String year;
 
-  ClassChanged({@required this.grade});
+  ClassChanged({@required this.year});
 
   @override
   String toString() {
-    return 'ClassChanged {grade: $grade}';
+    return 'ClassChanged {year: $year}';
   }
 
   @override
-  List<Object> get props => [grade];
+  List<Object> get props => [year];
 }
 
 class StudentNumberChanged extends RegisterEvent {
@@ -116,18 +116,18 @@ class Submitted extends RegisterEvent {
   final String email;
   final String password;
   final String name;
-  final String surname;
-  final String grade;
+  final String lastname;
+  final String year;
   final String department;
   final String phoneNumber;
   final String studentNumber;
 
   Submitted({
     @required this.name,
-    @required this.surname,
+    @required this.lastname,
     @required this.password,
     @required this.email,
-    @required this.grade,
+    @required this.year,
     @required this.department,
     @required this.phoneNumber,
     @required this.studentNumber,
@@ -141,10 +141,10 @@ class Submitted extends RegisterEvent {
   @override
   List<Object> get props => [
         name,
-        surname,
+        lastname,
         email,
         password,
-        grade,
+        year,
         department,
         phoneNumber,
         studentNumber

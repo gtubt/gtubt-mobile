@@ -2,6 +2,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -9,8 +10,10 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   BlocSupervisor.delegate = SimpleBlocDelegate();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
-          create: (context) => AuthenticationBloc(),
+          create: (context) => AuthenticationBloc()..add(AppStarted()),
         ),
         BlocProvider<PageBloc>(
           create: (context) => PageBloc(),

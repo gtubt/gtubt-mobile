@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:GTUBT/service/event.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:GTUBT/models/event.dart';

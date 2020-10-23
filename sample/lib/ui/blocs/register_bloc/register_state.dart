@@ -4,7 +4,7 @@ class RegisterState {
   final bool isEmailValid;
   final bool isPasswordValid;
   final bool isNameValid;
-  final bool isSurnameValid;
+  final bool isLastnameValid;
   final bool isGradeValid;
   final bool isDepartmentValid;
   final bool isStudentNumberValid;
@@ -17,7 +17,7 @@ class RegisterState {
       isEmailValid &&
       isPasswordValid &&
       isNameValid &&
-      isSurnameValid &&
+      isLastnameValid &&
       isGradeValid &&
       isDepartmentValid &&
       isStudentNumberValid &&
@@ -27,7 +27,7 @@ class RegisterState {
     @required this.isEmailValid,
     @required this.isPasswordValid,
     @required this.isNameValid,
-    @required this.isSurnameValid,
+    @required this.isLastnameValid,
     @required this.isGradeValid,
     @required this.isDepartmentValid,
     @required this.isStudentNumberValid,
@@ -42,7 +42,7 @@ class RegisterState {
         isPasswordValid: true,
         isEmailValid: true,
         isNameValid: true,
-        isSurnameValid: true,
+        isLastnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
         isGradeValid: true,
@@ -57,7 +57,7 @@ class RegisterState {
         isPasswordValid: true,
         isEmailValid: true,
         isNameValid: true,
-        isSurnameValid: true,
+        isLastnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
         isGradeValid: true,
@@ -72,7 +72,7 @@ class RegisterState {
         isPasswordValid: true,
         isEmailValid: true,
         isNameValid: true,
-        isSurnameValid: true,
+        isLastnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
         isGradeValid: true,
@@ -87,7 +87,7 @@ class RegisterState {
         isPasswordValid: true,
         isEmailValid: true,
         isNameValid: true,
-        isSurnameValid: true,
+        isLastnameValid: true,
         isPhoneNumberValid: true,
         isStudentNumberValid: true,
         isGradeValid: true,
@@ -101,7 +101,7 @@ class RegisterState {
     bool isPasswordValid,
     bool isEmailValid,
     bool isNameValid,
-    bool isSurnameValid,
+    bool isLastnameValid,
     bool isPhoneNumberValid,
     bool isStudentNumberValid,
     bool isGradeValid,
@@ -113,7 +113,7 @@ class RegisterState {
     return RegisterState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
       isNameValid: isNameValid ?? this.isNameValid,
-      isSurnameValid: isSurnameValid ?? this.isSurnameValid,
+      isLastnameValid: isLastnameValid ?? this.isLastnameValid,
       isGradeValid: isGradeValid ?? this.isGradeValid,
       isDepartmentValid: isDepartmentValid ?? this.isDepartmentValid,
       isPhoneNumberValid: isPhoneNumberValid ?? this.isPhoneNumberValid,
@@ -129,7 +129,7 @@ class RegisterState {
     bool isPasswordValid,
     bool isEmailValid,
     bool isNameValid,
-    bool isSurnameValid,
+    bool isLastnameValid,
     bool isPhoneNumberValid,
     bool isStudentNumberValid,
     bool isGradeValid,
@@ -139,7 +139,7 @@ class RegisterState {
       isPasswordValid: isPasswordValid,
       isEmailValid: isEmailValid,
       isNameValid: isNameValid,
-      isSurnameValid: isSurnameValid,
+      isLastnameValid: isLastnameValid,
       isPhoneNumberValid: isPhoneNumberValid,
       isStudentNumberValid: isStudentNumberValid,
       isGradeValid: isGradeValid,
@@ -156,7 +156,7 @@ class RegisterState {
       isPasswordValid: $isPasswordValid,
       isEmailValid: $isEmailValid,
       isNameValid: $isNameValid,
-      isSurnameValid: $isSurnameValid,
+      isLastnameValid: $isLastnameValid,
       isPhoneNumberValid: $isPhoneNumberValid,
       isStudentNumberValid: $isStudentNumberValid,
       isGradeValid: $isGradeValid,

@@ -1,9 +1,12 @@
+import 'package:GTUBT/service/authentication.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
 import 'package:bloc/bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final AuthService _authService = AuthService();
+
   @override
   LoginState get initialState => LoginState.empty();
 
@@ -45,9 +48,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapLoginWithCredentialsPressedToState(
       String email, String password) async* {
-    yield state.update(
-      isEmailValid: Validators.isValidEmail(email),
-      isPasswordValid: Validators.isValidPassword(password),
-    );
+    yield LoginState.loading();
+    try {
+      await _authService.signInWithEmailAndPassword(email, password);
+      yield LoginState.success();
+    } catch (_) {
+      yield LoginState.failure();
+    }
   }
 }

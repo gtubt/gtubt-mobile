@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
@@ -53,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _logo() {
+  Widget _logoArea() {
     return Container(
       height: 200,
       width: 180,
@@ -61,33 +62,37 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _email() {
+  Widget _buildTextFormFieldLabel(String labelName) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 2),
+      child: Text(
+        labelName,
+        textAlign: TextAlign.left,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+          fontFamily: 'Palanquin',
+          letterSpacing: 0.5,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
+  Widget _emailTextFormField() {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 2),
-            child: Text(
-              'Email',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Palanquin',
-                letterSpacing: 0.5,
-                fontSize: 12,
-              ),
-            ),
-          ),
+          _buildTextFormFieldLabel('Email'),
           TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             autocorrect: false,
             autofocus: false,
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (val) =>
-                !_currentState.isEmailValid ? 'Geçersiz email' : null,
+                !_currentState.isEmailValid ? 'Invalid email!' : null,
             decoration: InputDecoration(
 //                hintText: 'Email',
               fillColor: Colors.white,
@@ -99,34 +104,21 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _password() {
+  Widget _passwordTextFormField() {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 2),
-            child: Text(
-              'Şifre',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Palanquin',
-                letterSpacing: 0.5,
-                fontSize: 12,
-              ),
-            ),
-          ),
+          _buildTextFormFieldLabel('Password'),
           TextFormField(
             controller: _passwordController,
             autocorrect: false,
             autofocus: false,
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             obscureText: true,
             validator: (val) =>
-                !_currentState.isPasswordValid ? 'Şifre giriniz.' : null,
+                !_currentState.isPasswordValid ? 'Invalid password!' : null,
             decoration: InputDecoration(
 //                hintText: 'Password',
               fillColor: Colors.white,
@@ -138,120 +130,139 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _signUpOrContinueButton() {
+  Widget _signInButton() {
     return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Container(
-            width: 130,
-            height: 40,
-            margin: EdgeInsets.only(bottom: 32),
-            child: RaisedButton(
-              onPressed: _isLoginButtonEnabled() ? _onFormSubmitted : null,
-              color: ColorSets.selectedBarItemColor,
-              child: Text(
-                'Giriş Yap',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'Palanquin',
-                  letterSpacing: 0.5,
-                  fontSize: 16,
-                ),
-              ),
-            ),
+      width: 130,
+      height: 40,
+      margin: EdgeInsets.only(bottom: 32),
+      child: RaisedButton(
+        onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
+        color: ColorSets.selectedBarItemColor,
+        child: Text(
+          'Login',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Palanquin',
+            letterSpacing: 0.5,
+            fontSize: 16,
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: 45,
-                  width: 135,
-                  child: RaisedButton(
-                    onPressed: () {
-                      BlocProvider.of<PageBloc>(context).add(
-                        PageChanged(context: context, routeName: SIGN_UP_URL),
-                      );
-                    },
-                    color: ColorSets.barBackgroundColor,
-                    child: Text(
-                      'Üye Değil Misin?\nKayıt Ol!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontFamily: 'Palanquin',
-                        letterSpacing: 0.5,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorSets.barBackgroundColor,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 45,
-                  width: 135,
-                  child: RaisedButton(
-                    onPressed: () {
-                      BlocProvider.of<PageBloc>(context).add(
-                        PageChanged(routeName: ROOT_URL, context: context),
-                      );
-                    },
-                    color: ColorSets.barBackgroundColor,
-                    child: Text(
-                      'Üye Olmadan\nDevam Et',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontFamily: 'Palanquin',
-                        letterSpacing: 0.5,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorSets.barBackgroundColor,
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-              ]),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Widget _signUpButton() {
+    return Container(
+      height: 45,
+      width: 135,
+      child: RaisedButton(
+        onPressed: () {
+          BlocProvider.of<PageBloc>(context).add(
+            PageChanged(context: context, routeName: SIGN_UP_URL),
+          );
+        },
+        color: ColorSets.barBackgroundColor,
+        child: Text(
+          'Not a Member?\nRegister!',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Palanquin',
+            letterSpacing: 0.5,
+            fontSize: 12,
+          ),
+        ),
+      ),
+      decoration: BoxDecoration(
+        color: ColorSets.barBackgroundColor,
+        border: Border.all(
+          color: Colors.white,
+          width: 2.0,
+        ),
+      ),
+    );
+  }
+
+  Widget _continueWithAnonymousButton() {
+    return Container(
+      height: 45,
+      width: 135,
+      child: RaisedButton(
+        onPressed: () {
+          BlocProvider.of<PageBloc>(context).add(
+            PageChanged(routeName: ROOT_URL, context: context),
+          );
+        },
+        color: ColorSets.barBackgroundColor,
+        child: Text(
+          'Continue Without Registration',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Palanquin',
+            letterSpacing: 0.5,
+            fontSize: 12,
+          ),
+        ),
+      ),
+      decoration: BoxDecoration(
+        color: ColorSets.barBackgroundColor,
+        border: Border.all(
+          color: Colors.white,
+          width: 2.0,
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
-      builder: (context, state) {
-        _currentState = state;
-        return Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 40.0, right: 40.0),
-            children: <Widget>[
-              _logo(),
-              SizedBox(height: 32.0),
-              _email(),
-              SizedBox(height: 16.0),
-              _password(),
-              SizedBox(height: 32.0),
-              _signUpOrContinueButton()
-            ],
-          ),
-        );
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        if (state.isSuccess) {
+          AuthenticationBloc _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+          if (_authBloc.isBroadcast)
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(LoggedIn(context: context));
+        }
       },
+      child: BlocBuilder<LoginBloc, LoginState>(
+        builder: (context, state) {
+          _currentState = state;
+          return Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 40.0, right: 40.0),
+              children: <Widget>[
+                _logoArea(),
+                SizedBox(height: 32.0),
+                _emailTextFormField(),
+                SizedBox(height: 16.0),
+                _passwordTextFormField(),
+                SizedBox(height: 32.0),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _signInButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _signUpButton(),
+                          _continueWithAnonymousButton(),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
