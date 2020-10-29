@@ -80,8 +80,7 @@ class _SignUpPageState extends State<SignUpPage> {
     setState(() {
       _department = newValue;
     });
-    _registerBloc
-        .add(DepartmentChanged(department: newValue));
+    _registerBloc.add(DepartmentChanged(department: newValue));
   }
 
   void _onStudentNumberChanged() {
@@ -263,17 +262,6 @@ class _SignUpPageState extends State<SignUpPage> {
               );
             }).toList(),
           ),
-//          child: TextFormField(
-//            autovalidate: true,
-//            autocorrect: false,
-//            keyboardType: TextInputType.text,
-//            controller: _departmentController,
-//            validator: (String value) {
-//              return !_registerBloc.state.isDepartmentValid
-//                  ? 'Invalid format'
-//                  : null;
-//            },
-//          ),
         ),
       ],
     );
