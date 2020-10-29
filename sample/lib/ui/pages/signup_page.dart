@@ -1,3 +1,4 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
@@ -16,11 +17,11 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _gradeController = TextEditingController();
-  final TextEditingController _departmentController = TextEditingController();
   final TextEditingController _studentNumberController =
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
+  Department _department;
   RegisterBloc _registerBloc;
 
   @override
@@ -32,7 +33,6 @@ class _SignUpPageState extends State<SignUpPage> {
     _lastnameController.addListener(_onLastnameChanged);
     _passwordController.addListener(_onPasswordChanged);
     _gradeController.addListener(_onGradeChanged);
-    _departmentController.addListener(_onDepartmentChanged);
     _studentNumberController.addListener(_onStudentNumberChanged);
     _phoneNumberController.addListener(_onPhoneNumberChanged);
   }
@@ -45,7 +45,6 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _gradeController.dispose();
-    _departmentController.dispose();
     _studentNumberController.dispose();
     _phoneNumberController.dispose();
   }
@@ -77,9 +76,12 @@ class _SignUpPageState extends State<SignUpPage> {
     _registerBloc.add(ClassChanged(year: _gradeController.text.trim()));
   }
 
-  void _onDepartmentChanged() {
+  void _onDepartmentChanged(Department newValue) {
+    setState(() {
+      _department = newValue;
+    });
     _registerBloc
-        .add(DepartmentChanged(department: _departmentController.text.trim()));
+        .add(DepartmentChanged(department: newValue));
   }
 
   void _onStudentNumberChanged() {
@@ -100,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
       password: _passwordController.text.trim(),
       studentNumber: _studentNumberController.text.trim(),
       year: _gradeController.text.trim(),
-      department: _departmentController.text.trim(),
+      department: _department,
       email: _emailController.text.trim(),
     ));
   }
@@ -248,17 +250,30 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         Container(
           padding: EdgeInsets.only(left: 25),
-          child: TextFormField(
-            autovalidate: true,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
-            controller: _departmentController,
-            validator: (String value) {
-              return !_registerBloc.state.isDepartmentValid
-                  ? 'Invalid format'
-                  : null;
-            },
+          child: DropdownButton<Department>(
+            isExpanded: true,
+            value: _department,
+            icon: Icon(Icons.arrow_downward),
+            onChanged: _onDepartmentChanged,
+            items: Department.values
+                .map<DropdownMenuItem<Department>>((Department value) {
+              return DropdownMenuItem<Department>(
+                value: value,
+                child: Text(value.getString()),
+              );
+            }).toList(),
           ),
+//          child: TextFormField(
+//            autovalidate: true,
+//            autocorrect: false,
+//            keyboardType: TextInputType.text,
+//            controller: _departmentController,
+//            validator: (String value) {
+//              return !_registerBloc.state.isDepartmentValid
+//                  ? 'Invalid format'
+//                  : null;
+//            },
+//          ),
         ),
       ],
     );

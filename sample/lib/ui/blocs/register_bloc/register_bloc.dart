@@ -36,7 +36,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               Validators.isValidStudentNumber(event.studentNumber));
     } else if (event is DepartmentChanged) {
       yield state.update(
-          isDepartmentValid: Validators.isValidString(event.department));
+          isDepartmentValid: Validators.isValidDepartment(event.department));
     } else if (event is Submitted) {
       yield* _mapSubmittedToState(event);
     }

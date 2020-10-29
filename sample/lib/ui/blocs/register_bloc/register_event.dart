@@ -1,3 +1,4 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -85,7 +86,7 @@ class PhoneNumberChanged extends RegisterEvent {
 }
 
 class DepartmentChanged extends RegisterEvent {
-  final String department;
+  final Department department;
 
   DepartmentChanged({@required this.department});
 
@@ -118,7 +119,7 @@ class Submitted extends RegisterEvent {
   final String name;
   final String lastname;
   final String year;
-  final String department;
+  final Department department;
   final String phoneNumber;
   final String studentNumber;
 
