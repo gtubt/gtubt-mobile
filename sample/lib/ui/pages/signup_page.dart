@@ -1,10 +1,11 @@
-import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/models/enums.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:GTUBT/models/enums.dart';
 
 class SignUpPage extends StatefulWidget {
   @override

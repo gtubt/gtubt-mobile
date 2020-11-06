@@ -1,9 +1,9 @@
 library user;
 
+import 'package:GTUBT/models/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
-
 
 @JsonSerializable()
 class User {
@@ -54,20 +54,5 @@ class User {
     Phone: $phone,
     Photo Url: $profilePhoto
 }''';
-  }
-}
-
-enum Department { cse, eee }
-
-extension DepExt on Department {
-  String getString(){
-    switch (this) {
-      case  Department.cse:
-        return "Bilgisayar Muhendisligi";
-      case Department.eee:
-        return "Elektronik Muhendisligi";
-    }
-
-    return this.toString();
   }
 }

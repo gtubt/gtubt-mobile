@@ -1,4 +1,4 @@
-import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/models/enums.dart';
 import 'package:basic_utils/basic_utils.dart';
 
 class Validators {

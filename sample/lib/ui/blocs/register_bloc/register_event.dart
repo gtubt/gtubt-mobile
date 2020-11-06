@@ -1,4 +1,4 @@
-import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/models/enums.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
