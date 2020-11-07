@@ -3,6 +3,7 @@ import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
+import 'package:GTUBT/models/enums.dart';
 import 'package:bloc/bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
@@ -36,7 +37,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               Validators.isValidStudentNumber(event.studentNumber));
     } else if (event is DepartmentChanged) {
       yield state.update(
-          isDepartmentValid: Validators.isValidString(event.department));
+          isDepartmentValid: Validators.isValidDepartment(event.department));
     } else if (event is Submitted) {
       yield* _mapSubmittedToState(event);
     }
