@@ -1,8 +1,8 @@
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
-import '../utils/time_ago_formatter.dart';
 
 class HomePage extends StatelessWidget {
   Post post1 = new Post(
