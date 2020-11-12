@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
