@@ -1,8 +1,8 @@
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
-
 
 class HomePage extends StatelessWidget {
   Post post1 = new Post(
@@ -10,23 +10,23 @@ class HomePage extends StatelessWidget {
       summary:
           "text1 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       body:
-        "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
+          "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "05-05-2020");
+      startDate: "05-07-2020");
   Post post2 = new Post(
       title: "title2",
       summary:
           "text2 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       body:
-      "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
+          "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "04-05-2020");
+      startDate: "04-06-2020");
   Post post3 = new Post(
       title: "title3",
       summary:
           "text3 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       body:
-      "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
+          "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
       startDate: "04-05-2020");
   Post post4 = new Post(
@@ -34,20 +34,21 @@ class HomePage extends StatelessWidget {
       summary:
           "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       body:
-      "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
+          "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "03-05-2020");
+      startDate: "03-04-2020");
   Post post5 = new Post(
       title: "title5",
       summary:
           "text5 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       body:
-      "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
+          "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "02-05-2020");
+      startDate: "02-03-2020");
 
   void postTapEvent(BuildContext context, Post post, String heroTag) {
-    Navigator.pushNamed(context, POST_URL, arguments: PostViewArguments(post, heroTag));
+    Navigator.pushNamed(context, POST_URL,
+        arguments: PostViewArguments(post, heroTag));
   }
 
   @override
@@ -78,7 +79,7 @@ class HomePage extends StatelessWidget {
                 cardMargin = EdgeInsets.only(
                     top: 50.0, bottom: 10.0, left: 5.0, right: 5.0);
               dayText = Text(
-                pageItems[index].startDate,
+                TimeAgoFormatter(pageItems[index].startDate).toString(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               );
             }
@@ -98,9 +99,9 @@ class HomePage extends StatelessWidget {
                         BoxShadow(
                           color: Colors.grey,
                           blurRadius:
-                          3.0, // has the effect of softening the shadow
+                              3.0, // has the effect of softening the shadow
                           spreadRadius:
-                          1.0, // has the effect of extending the shadow
+                              1.0, // has the effect of extending the shadow
                           offset: Offset(
                             0.0, // horizontal, move right 10
                             5.0, // vertical, move down 10
@@ -117,14 +118,14 @@ class HomePage extends StatelessWidget {
                                 height: 200,
                                 child: Hero(
                                   child: FadeInImage.assetNetwork(
-                                      alignment: Alignment.topCenter, // add this
+                                      alignment:
+                                          Alignment.topCenter, // add this
                                       placeholder: 'assets/logo.png',
                                       image: pageItems[index].coverImageUrl,
                                       height: 300,
                                       fit: BoxFit.fitWidth),
                                   tag: heroTag,
-                                )
-                            ),
+                                )),
                             Positioned(
                               top: 120,
                               child: Container(
