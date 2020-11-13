@@ -347,7 +347,7 @@ class _SignUpPageState extends State<SignUpPage> {
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
         color: ColorSets.selectedBarItemColor,
         shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: Text(
           'Create Account',
