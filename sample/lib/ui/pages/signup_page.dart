@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:GTUBT/models/enums.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
@@ -133,8 +135,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _profileImage() {
     return Center(
       child: Container(
-        width: 140.0,
-        height: 140.0,
+        width: 130.0,
+        height: 130.0,
         decoration: BoxDecoration(
           color: Colors.white,
           // image: DecorationImage(
@@ -157,19 +159,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  İsim  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(top: 20, left: 25, right:25),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _nameController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   İsim   "),
             validator: (String value) {
               return !_registerBloc.state.isNameValid ? 'Invalid format' : null;
             },
@@ -184,19 +180,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Soyisim  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _lastnameController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Soyisim   "),
             validator: (String value) {
               return !_registerBloc.state.isLastnameValid
                   ? 'Invalid format'
@@ -213,19 +203,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  E-posta  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   E-posta   "),
             validator: (String value) {
               return !_registerBloc.state.isEmailValid
                   ? 'Invalid Email Format'
@@ -241,19 +225,19 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container(
+        /*Container(
           padding: EdgeInsets.only(left: 25),
           child: Text(
             "  Bölüm  ",
             style: _headerTextStyle,
           ),
-        ),
+        ),*/
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: DropdownButton<Department>(
-            isExpanded: true,
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
+          child: DropdownButtonFormField<Department>(isExpanded: true,
             value: _department,
-            icon: Icon(Icons.arrow_downward),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Bölüm   "),
+            icon: Icon(Icons.keyboard_arrow_down),
             onChanged: _onDepartmentChanged,
             items: Department.values
                 .map<DropdownMenuItem<Department>>((Department value) {
@@ -273,19 +257,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Sınıf  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _gradeController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Sınıf   "),
             validator: (String value) {
               return !_registerBloc.state.isGradeValid
                   ? 'Invalid format'
@@ -302,19 +280,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Öğrenci No  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _studentNumberController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Öğrenci No   "),
             validator: (String value) {
               return !_registerBloc.state.isStudentNumberValid
                   ? 'Invalid Student Number'
@@ -331,19 +303,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Telefon No  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _phoneNumberController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Telefon No   "),
             validator: (String value) {
               return !_registerBloc.state.isPhoneNumberValid
                   ? 'Invalid format'
@@ -360,20 +326,14 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Parola  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             obscureText: true,
             keyboardType: TextInputType.text,
             controller: _passwordController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Şifre   "),
             validator: (String value) {
               return !_registerBloc.state.isPasswordValid
                   ? 'Invalid format'
@@ -393,6 +353,9 @@ class _SignUpPageState extends State<SignUpPage> {
       child: RaisedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
         color: ColorSets.selectedBarItemColor,
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(10.0),
+        ),
         child: Text(
           'Hesap Oluştur',
           style: TextStyle(
@@ -460,17 +423,38 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           height: 50,
                         ),
-                        _profileImage(),
-                        FormBoxContainer(child: _nameForm()),
-                        FormBoxContainer(child: _lastnameForm()),
-                        FormBoxContainer(child: _emailForm()),
-                        FormBoxContainer(child: _departmentInfoForm()),
-                        FormBoxContainer(child: _gradeInfoForm()),
-                        FormBoxContainer(child: _studentNumberForm()),
-                        FormBoxContainer(child: _phoneNumberForm()),
-                        FormBoxContainer(child: _passwordForm()),
                         Container(
-                          padding: EdgeInsets.fromLTRB(205, 8, 8, 8),
+                          child: _profileImage(),
+                        ),
+                        Container(
+                          child: _nameForm(),
+                        ),
+                        Container(
+                          child:_lastnameForm(),
+                        ),
+                        Container(
+                          child: _emailForm(),
+                        ),
+                        Container(
+                          child:_departmentInfoForm(),
+
+                        ),
+                        Container(
+                          child: _gradeInfoForm(),
+
+                        ),
+                        Container(
+                          child:_studentNumberForm(),
+                        ),
+                        Container(
+                          child:_phoneNumberForm(),
+
+                        ),
+                        Container(
+                          child:_passwordForm(),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 205, top: 10),
                           child: _createProfileButton(),
                         ),
                       ],
