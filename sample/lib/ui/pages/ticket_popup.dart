@@ -32,23 +32,23 @@ class TicketPopup {
                     ),
                   ),
                   Padding(
-                    padding: new EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
                           "Event:",
-                          style: new TextStyle(
+                          style: TextStyle(
                               color: ColorSets.barBackgroundColor,
                               fontWeight: boldFontWeight,
                               fontSize: 22),
                         ),
                         Text(title,
-                            style: new TextStyle(
+                            style: TextStyle(
                                 color: ColorSets.profilePageThemeColor,
                                 fontSize: 20)),
                         Padding(
-                            padding: new EdgeInsets.only(top: 10, bottom: 10),
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
@@ -69,7 +69,7 @@ class TicketPopup {
                                   text: hour,
                                 ),
                                 Padding(
-                                  padding: new EdgeInsets.only(
+                                  padding: EdgeInsets.only(
                                     top: 16,
                                     bottom: 10,
                                   ),
@@ -83,7 +83,7 @@ class TicketPopup {
                                   width: 130,
                                 ),
                               ],
-                            ))
+                            )),
                       ],
                     ),
                   ),
@@ -108,13 +108,13 @@ class DefinedText extends StatelessWidget {
       children: <Widget>[
         Text(
           definition,
-          style: new TextStyle(
+          style: TextStyle(
               color: ColorSets.barBackgroundColor,
               fontWeight: boldFontWeight,
               fontSize: 16),
         ),
         Text(text,
-            style: new TextStyle(
+            style: TextStyle(
                 color: ColorSets.profilePageThemeColor, fontSize: 16)),
       ],
     );
