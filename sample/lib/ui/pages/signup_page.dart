@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _nameController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   İsim   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
             validator: (String value) {
               return !_registerBloc.state.isNameValid ? 'Invalid format' : null;
             },
@@ -186,7 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _lastnameController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Soyisim   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Surname   "),
             validator: (String value) {
               return !_registerBloc.state.isLastnameValid
                   ? 'Invalid format'
@@ -209,7 +209,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   E-posta   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   E-mail   "),
             validator: (String value) {
               return !_registerBloc.state.isEmailValid
                   ? 'Invalid Email Format'
@@ -225,18 +225,11 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        /*Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Bölüm  ",
-            style: _headerTextStyle,
-          ),
-        ),*/
         Container(
           padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: DropdownButtonFormField<Department>(isExpanded: true,
             value: _department,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Bölüm   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Department   "),
             icon: Icon(Icons.keyboard_arrow_down),
             onChanged: _onDepartmentChanged,
             items: Department.values
@@ -263,7 +256,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _gradeController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Sınıf   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Grade   "),
             validator: (String value) {
               return !_registerBloc.state.isGradeValid
                   ? 'Invalid format'
@@ -286,7 +279,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _studentNumberController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Öğrenci No   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Student Number   "),
             validator: (String value) {
               return !_registerBloc.state.isStudentNumberValid
                   ? 'Invalid Student Number'
@@ -309,7 +302,7 @@ class _SignUpPageState extends State<SignUpPage> {
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _phoneNumberController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Telefon No   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Phone Number   "),
             validator: (String value) {
               return !_registerBloc.state.isPhoneNumberValid
                   ? 'Invalid format'
@@ -333,7 +326,7 @@ class _SignUpPageState extends State<SignUpPage> {
             obscureText: true,
             keyboardType: TextInputType.text,
             controller: _passwordController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Şifre   "),
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Password   "),
             validator: (String value) {
               return !_registerBloc.state.isPasswordValid
                   ? 'Invalid format'
@@ -347,17 +340,17 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _createProfileButton() {
     return Container(
-      width: 150,
+      width: 200,
       height: 50,
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
         color: ColorSets.selectedBarItemColor,
-        shape: new RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(10.0),
         ),
         child: Text(
-          'Hesap Oluştur',
+          'Create Account',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -426,35 +419,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         Container(
                           child: _profileImage(),
                         ),
+                        _nameForm(),
+                        _lastnameForm(),
+                        _emailForm(),
+                        _departmentInfoForm(),
+                        _gradeInfoForm(),
+                        _studentNumberForm(),
+                        _phoneNumberForm(),
+                        _passwordForm(),
                         Container(
-                          child: _nameForm(),
-                        ),
-                        Container(
-                          child:_lastnameForm(),
-                        ),
-                        Container(
-                          child: _emailForm(),
-                        ),
-                        Container(
-                          child:_departmentInfoForm(),
-
-                        ),
-                        Container(
-                          child: _gradeInfoForm(),
-
-                        ),
-                        Container(
-                          child:_studentNumberForm(),
-                        ),
-                        Container(
-                          child:_phoneNumberForm(),
-
-                        ),
-                        Container(
-                          child:_passwordForm(),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 205, top: 10),
+                          padding: EdgeInsets.only(left: 205, top: 20, right: 25),
                           child: _createProfileButton(),
                         ),
                       ],
