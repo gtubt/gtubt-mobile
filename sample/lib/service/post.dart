@@ -1,8 +1,20 @@
+import 'dart:io';
+
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/service/base.dart';
+import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+class PostFailure {
+  final String message;
+
+  PostFailure( this.message );
+
+  @override
+  String toString() => message;
+}
 
 class PostService extends BaseService {
   static final PostService _postService = PostService._internal();
@@ -13,34 +25,35 @@ class PostService extends BaseService {
     return _postService;
   }
 
-  Future<List<Post>> getAll() async {
+  Future<Either<List<Post>, PostFailure>> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
-
+  
     final response = await http.get('$url');
 
     if (response.statusCode == 200) {
       final apiResponse = ApiResponseList<Post>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
-        return apiResponse.body;
+          return Left(apiResponse.body);
       }
     }
-
-    return List<Post>();
+    return Right(PostFailure("Couldn't find the post 😱"));
   }
 
-  Future<Post> get(String id) async {
+  Future<Either<Post, PostFailure>> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+    try{
+      final response = await http.get('$url');
 
-    final response = await http.get('$url');
-
-    if (response.statusCode == 200) {
-      final apiResponse = ApiResponseSingle<Post>.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        return apiResponse.body;
+      if (response.statusCode == 200) {
+        final apiResponse = ApiResponseSingle<Post>.fromJson(json.decode(response.body));
+        if (apiResponse.status == 200) {
+          return Left(apiResponse.body);
+        }
       }
+    }on HttpException {
+      return Right(PostFailure("Couldn't find the post 😱"));
     }
-
-    return null;
+    return Right(PostFailure("Couldn't find the post 😱"));
   }
 
   Future<http.Response> post(Post post) async {

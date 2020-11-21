@@ -12,7 +12,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     studentId: json['studentId'] as String,
     email: json['email'] as String,
     name: json['name'] as String,
-    lastname: json['lastName'] as String,
+    lastname: json['lastname'] as String,
     department: _$enumDecodeNullable(_$DepartmentEnumMap, json['department']),
     year: json['year'] as int,
     phone: json['phone'] as String,
