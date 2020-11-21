@@ -1,7 +1,11 @@
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/post_event.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/post_state.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -50,9 +54,8 @@ class HomePage extends StatelessWidget {
     Navigator.pushNamed(context, POST_URL, arguments: PostViewArguments(post, heroTag));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    List<Post> pageItems = [post1, post2, post3, post4, post5];
+  Widget buildHomePage(BuildContext context, List<Post> pageItems)
+  {
     return Container(
       padding: EdgeInsets.only(left: 20.0, right: 20.0),
       child: new ListView.builder(
@@ -155,5 +158,31 @@ class HomePage extends StatelessWidget {
             );
           }),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Post> pageItems = [];
+    return BlocListener<PostBloc, PostState>(
+      listener: (context, state) {
+        //todo Single event loading will be handled here
+      },
+      child: BlocBuilder<PostBloc, PostState>(
+        builder: (context, state) {
+          if(state.isInitial){
+            BlocProvider.of<PostBloc>(context).add(
+              LoadAllPosts(),  
+            );
+            return Text("POST ARE BEING LOADED");
+          }
+          else if(state.isSuccess){
+            pageItems = state.postList;
+            return buildHomePage(context, pageItems);
+          }
+          return Text("POST RECEIVE ERROR");
+        },
+      ),
+    );
+    //return buildHomePage(context, pageItems);
   }
 }
