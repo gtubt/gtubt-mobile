@@ -173,12 +173,14 @@ class HomePage extends StatelessWidget {
             BlocProvider.of<PostBloc>(context).add(
               LoadAllPosts(),  
             );
+            //todo buraya bir circular reloading gifi gelecek
             return Text("POST ARE BEING LOADED");
           }
           else if(state.isSuccess){
             pageItems = state.postList;
             return buildHomePage(context, pageItems);
           }
+          //todo burada hata sayfası görünecek veya popup basılacak
           return Text("POST RECEIVE ERROR");
         },
       ),
