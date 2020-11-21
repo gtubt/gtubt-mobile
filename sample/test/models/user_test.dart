@@ -11,11 +11,11 @@ void main() {
       name : "Test Name",
       lastname : "Test lastname",
       phone : "+905551234567",
-      department : Department.cse,
+      department : Department.eee,
       year : 4);
 
     expect(user.toJson(),
-      json.decode('{"name":"Test Name","lastname":"Test lastname","email":"test@test.com","department":"cse","year":4,"id":null,"studentId":"161044057","phone":"+905551234567","profilePhoto":null}'));
+      json.decode('{"name":"Test Name","lastname":"Test lastname","email":"test@test.com","department":"eee","year":4,"id":null,"studentId":"161044057","phone":"+905551234567","profilePhoto":null}'));
   });
 
   test('Deserialize User', () {
@@ -31,7 +31,7 @@ void main() {
     Map<String, dynamic> data = json.decode('{"name":"Test Name","lastname":"Test lastname","email":"test@test.com","department":"cse","year":4,"studentId":"161044057","phone":"+905551234567"}');
 
     expect(user.email, User.fromJson(data).email);
-    expect(user.studentId, User.fromJson(data).id);
+    expect(user.studentId, User.fromJson(data).studentId);
     expect(user.name, User.fromJson(data).name);
     expect(user.lastname, User.fromJson(data).lastname);
     expect(user.phone, User.fromJson(data).phone);

@@ -1,4 +1,4 @@
-enum Department { cse, eee }
+import 'package:GTUBT/models/user.dart';
 
 extension DepExt on Department {
   String getString() {
