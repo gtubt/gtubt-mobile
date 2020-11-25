@@ -11,6 +11,8 @@ class Event {
   String description;
   String coverImageUrl;
   String date;
+  DateTime createdDate;
+  DateTime expireDate;
 
   Event({
     this.id,
@@ -18,6 +20,8 @@ class Event {
     this.date,
     this.coverImageUrl,
     this.description,
+    this.createdDate,
+    this.expireDate,
   });
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);

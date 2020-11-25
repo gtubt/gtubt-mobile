@@ -8,12 +8,13 @@ void main() {
     DateTime now = DateTime.now();
     Event announcement = Event(
         date: now.toString(),
+        createdDate: now,
         title: 'Event Title',
         coverImageUrl: "http://someurl.com/somepath",
         description: 'Lorem ipsum');
 
     expect(json.encode(announcement.toJson()),
-        '{"title":"Event Title","description":"Lorem ipsum","coverImageUrl":"http://someurl.com/somepath","date":"$now"}');
+        '{"id":"null","title":"Event Title","description":"Lorem ipsum","coverImageUrl":"http://someurl.com/somepath","date":"$now","createdDate":"$now"}');
   });
 
   test('Deserialize Event', () {
@@ -23,14 +24,16 @@ void main() {
       title: 'Event Title',
       date: now.toString(),
       coverImageUrl: 'http://someurl.com/somepath',
+      createdDate: now,
     );
     Map<String, dynamic> data = json.decode(
-        '{"title":"Event Title","description":"Lorem ipsum dolor","coverImageUrl":"http://someurl.com/somepath","date":"$now"}');
-
+        '{"title":"Event Title","description":"Lorem ipsum dolor","coverImageUrl":"http://someurl.com/somepath","date":"$now", "createdDate":"$now"}');
+    Event ev = Event.fromJson(data);
     expect(announcement.description, Event.fromJson(data).description);
     expect(announcement.title, Event.fromJson(data).title);
     expect(announcement.date, Event.fromJson(data).date);
     expect(announcement.coverImageUrl, Event.fromJson(data).coverImageUrl);
+    expect(announcement.createdDate, Event.fromJson(data).createdDate);
 
   });
 
