@@ -1,6 +1,5 @@
 library user;
 
-import 'package:GTUBT/models/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
@@ -55,4 +54,9 @@ class User {
     Photo Url: $profilePhoto
 }''';
   }
+}
+
+enum Department {
+  cse,
+  eee
 }
