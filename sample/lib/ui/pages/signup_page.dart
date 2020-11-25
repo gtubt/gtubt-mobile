@@ -1,9 +1,13 @@
+import 'dart:ui';
+
+import 'package:GTUBT/models/enums.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:GTUBT/models/enums.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -16,11 +20,11 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _gradeController = TextEditingController();
-  final TextEditingController _departmentController = TextEditingController();
   final TextEditingController _studentNumberController =
       TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
+  Department _department;
   RegisterBloc _registerBloc;
 
   @override
@@ -32,7 +36,6 @@ class _SignUpPageState extends State<SignUpPage> {
     _lastnameController.addListener(_onLastnameChanged);
     _passwordController.addListener(_onPasswordChanged);
     _gradeController.addListener(_onGradeChanged);
-    _departmentController.addListener(_onDepartmentChanged);
     _studentNumberController.addListener(_onStudentNumberChanged);
     _phoneNumberController.addListener(_onPhoneNumberChanged);
   }
@@ -45,7 +48,6 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _gradeController.dispose();
-    _departmentController.dispose();
     _studentNumberController.dispose();
     _phoneNumberController.dispose();
   }
@@ -77,9 +79,11 @@ class _SignUpPageState extends State<SignUpPage> {
     _registerBloc.add(ClassChanged(year: _gradeController.text.trim()));
   }
 
-  void _onDepartmentChanged() {
-    _registerBloc
-        .add(DepartmentChanged(department: _departmentController.text.trim()));
+  void _onDepartmentChanged(Department newValue) {
+    setState(() {
+      _department = newValue;
+    });
+    _registerBloc.add(DepartmentChanged(department: newValue));
   }
 
   void _onStudentNumberChanged() {
@@ -100,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
       password: _passwordController.text.trim(),
       studentNumber: _studentNumberController.text.trim(),
       year: _gradeController.text.trim(),
-      department: _departmentController.text.trim(),
+      department: _department,
       email: _emailController.text.trim(),
     ));
   }
@@ -131,8 +135,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _profileImage() {
     return Center(
       child: Container(
-        width: 140.0,
-        height: 140.0,
+        width: 130.0,
+        height: 130.0,
         decoration: BoxDecoration(
           color: Colors.white,
           // image: DecorationImage(
@@ -155,19 +159,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  İsim  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(top: 20, left: 25, right:25),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _nameController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
             validator: (String value) {
               return !_registerBloc.state.isNameValid ? 'Invalid format' : null;
             },
@@ -182,19 +180,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Soyisim  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _lastnameController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Surname   "),
             validator: (String value) {
               return !_registerBloc.state.isLastnameValid
                   ? 'Invalid format'
@@ -211,19 +203,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  E-posta  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   E-mail   "),
             validator: (String value) {
               return !_registerBloc.state.isEmailValid
                   ? 'Invalid Email Format'
@@ -240,24 +226,19 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Bölüm  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
-          child: TextFormField(
-            autovalidate: true,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
-            controller: _departmentController,
-            validator: (String value) {
-              return !_registerBloc.state.isDepartmentValid
-                  ? 'Invalid format'
-                  : null;
-            },
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
+          child: DropdownButtonFormField<Department>(isExpanded: true,
+            value: _department,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Department   "),
+            icon: Icon(Icons.keyboard_arrow_down),
+            onChanged: _onDepartmentChanged,
+            items: Department.values
+                .map<DropdownMenuItem<Department>>((Department value) {
+              return DropdownMenuItem<Department>(
+                value: value,
+                child: Text(value.getString()),
+              );
+            }).toList(),
           ),
         ),
       ],
@@ -269,19 +250,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Sınıf  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _gradeController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Grade   "),
             validator: (String value) {
               return !_registerBloc.state.isGradeValid
                   ? 'Invalid format'
@@ -298,19 +273,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Öğrenci No  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _studentNumberController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Student Number   "),
             validator: (String value) {
               return !_registerBloc.state.isStudentNumberValid
                   ? 'Invalid Student Number'
@@ -327,19 +296,13 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Telefon No  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _phoneNumberController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Phone Number   "),
             validator: (String value) {
               return !_registerBloc.state.isPhoneNumberValid
                   ? 'Invalid format'
@@ -356,20 +319,14 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25),
-          child: Text(
-            "  Parola  ",
-            style: _headerTextStyle,
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
             autovalidate: true,
             autocorrect: false,
             obscureText: true,
             keyboardType: TextInputType.text,
             controller: _passwordController,
+            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Password   "),
             validator: (String value) {
               return !_registerBloc.state.isPasswordValid
                   ? 'Invalid format'
@@ -383,14 +340,17 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _createProfileButton() {
     return Container(
-      width: 150,
+      width: 200,
       height: 50,
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
         color: ColorSets.selectedBarItemColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         child: Text(
-          'Hesap Oluştur',
+          'Create Account',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -456,17 +416,19 @@ class _SignUpPageState extends State<SignUpPage> {
                         SizedBox(
                           height: 50,
                         ),
-                        _profileImage(),
-                        FormBoxContainer(child: _nameForm()),
-                        FormBoxContainer(child: _lastnameForm()),
-                        FormBoxContainer(child: _emailForm()),
-                        FormBoxContainer(child: _departmentInfoForm()),
-                        FormBoxContainer(child: _gradeInfoForm()),
-                        FormBoxContainer(child: _studentNumberForm()),
-                        FormBoxContainer(child: _phoneNumberForm()),
-                        FormBoxContainer(child: _passwordForm()),
                         Container(
-                          padding: EdgeInsets.fromLTRB(205, 8, 8, 8),
+                          child: _profileImage(),
+                        ),
+                        _nameForm(),
+                        _lastnameForm(),
+                        _emailForm(),
+                        _departmentInfoForm(),
+                        _gradeInfoForm(),
+                        _studentNumberForm(),
+                        _phoneNumberForm(),
+                        _passwordForm(),
+                        Container(
+                          padding: EdgeInsets.only(left: 205, top: 20, right: 25),
                           child: _createProfileButton(),
                         ),
                       ],

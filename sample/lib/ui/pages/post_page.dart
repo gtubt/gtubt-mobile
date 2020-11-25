@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
@@ -14,7 +15,7 @@ class _PostPage extends State<PostPage> {
       children: [
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-          child: Text(post.startDate),
+          child: Text(TimeAgoFormatter(post.startDate).toString()),
         ),
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),

@@ -1,9 +1,9 @@
 library user;
 
+import 'package:GTUBT/models/enums.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
-
 
 @JsonSerializable()
 class User {
@@ -56,5 +56,3 @@ class User {
 }''';
   }
 }
-
-enum Department { cse }
