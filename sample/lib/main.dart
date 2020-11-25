@@ -1,4 +1,5 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<RegisterBloc>(
           create: (context) => RegisterBloc(),
+        ),
+        BlocProvider<PostBloc>(
+          create: (context) => PostBloc(),
         )
       ],
       child: MaterialApp(

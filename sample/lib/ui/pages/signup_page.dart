@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
