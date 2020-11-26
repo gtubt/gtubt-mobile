@@ -8,6 +8,7 @@ import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class HomePage extends StatelessWidget {
   Post post1 = new Post(
       title: "title1",
