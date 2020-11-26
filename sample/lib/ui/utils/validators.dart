@@ -1,3 +1,4 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:basic_utils/basic_utils.dart';
 
 class Validators {
@@ -22,6 +23,10 @@ class Validators {
 
   static isValidString(String str) {
     return _stringRegExp.hasMatch(str);
+  }
+
+  static isValidDepartment(Department department) {
+    return department != null;
   }
 
   static isValidDigit(String digit) {
