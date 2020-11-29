@@ -1,13 +1,12 @@
 import 'dart:ui';
 
-import 'package:GTUBT/models/enums.dart';
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:GTUBT/models/enums.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -19,12 +18,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _gradeController = TextEditingController();
-  final TextEditingController _studentNumberController =
-      TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _studentNumberController = TextEditingController();
 
-  Department _department;
   RegisterBloc _registerBloc;
 
   @override
@@ -35,9 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _nameController.addListener(_onNameChanged);
     _lastnameController.addListener(_onLastnameChanged);
     _passwordController.addListener(_onPasswordChanged);
-    _gradeController.addListener(_onGradeChanged);
     _studentNumberController.addListener(_onStudentNumberChanged);
-    _phoneNumberController.addListener(_onPhoneNumberChanged);
   }
 
   @override
@@ -47,9 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _lastnameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _gradeController.dispose();
     _studentNumberController.dispose();
-    _phoneNumberController.dispose();
   }
 
   bool get isPopulated =>
@@ -75,36 +66,17 @@ class _SignUpPageState extends State<SignUpPage> {
         .add(LastnameChanged(lastname: _lastnameController.text.trim()));
   }
 
-  void _onGradeChanged() {
-    _registerBloc.add(ClassChanged(year: _gradeController.text.trim()));
-  }
-
-  void _onDepartmentChanged(Department newValue) {
-    setState(() {
-      _department = newValue;
-    });
-    _registerBloc.add(DepartmentChanged(department: newValue));
-  }
-
   void _onStudentNumberChanged() {
     _registerBloc.add(StudentNumberChanged(
         studentNumber: _studentNumberController.text.trim()));
-  }
-
-  void _onPhoneNumberChanged() {
-    _registerBloc.add(
-        PhoneNumberChanged(phoneNumber: _phoneNumberController.text.trim()));
   }
 
   void _onFormSubmitted() {
     _registerBloc.add(Submitted(
       name: _nameController.text.trim(),
       lastname: _lastnameController.text.trim(),
-      phoneNumber: _phoneNumberController.text.trim(),
       password: _passwordController.text.trim(),
       studentNumber: _studentNumberController.text.trim(),
-      year: _gradeController.text.trim(),
-      department: _department,
       email: _emailController.text.trim(),
     ));
   }
@@ -125,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _imageBackground() {
     return Container(
-      height: 150.0,
+      height: 120.0,
       decoration: BoxDecoration(
         color: ColorSets.profilePageThemeColor,
       ),
@@ -133,24 +105,62 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _profileImage() {
-    return Center(
-      child: Container(
-        width: 130.0,
-        height: 130.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // image: DecorationImage(
-          //   image: AssetImage(
-          //     "assets/images/as.jpg"
-          //   ),
-          // ),
-          borderRadius: BorderRadius.circular(80),
-          border: Border.all(
-            color: ColorSets.profilePageThemeColor,
-            width: 5,
-          ),
+    return Stack(
+      children: <Widget>[
+        Positioned(
+            child: _imageBackground(),
         ),
-      ),
+        Container(
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top:50),
+                  width: 140.0,
+                  height: 140.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    // image: DecorationImage(
+                    //   image: AssetImage(
+                    //     "assets/images/as.jpg"
+                    //   ),
+                    // ),
+                    borderRadius: BorderRadius.circular(80),
+                    border: Border.all(
+                      color: ColorSets.profilePageThemeColor,
+                      width: 5,
+                    ),
+                  ),
+                ),
+              ]
+          ),
+        )
+      ],
+    );
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 50),
+            width: 140.0,
+            height: 140.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              // image: DecorationImage(
+              //   image: AssetImage(
+              //     "assets/images/as.jpg"
+              //   ),
+              // ),
+              borderRadius: BorderRadius.circular(80),
+              border: Border.all(
+                color: ColorSets.profilePageThemeColor,
+                width: 5,
+              ),
+            ),
+          ),
+        ]
+      )
     );
   }
 
@@ -221,53 +231,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _departmentInfoForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
-          child: DropdownButtonFormField<Department>(isExpanded: true,
-            value: _department,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Department   "),
-            icon: Icon(Icons.keyboard_arrow_down),
-            onChanged: _onDepartmentChanged,
-            items: Department.values
-                .map<DropdownMenuItem<Department>>((Department value) {
-              return DropdownMenuItem<Department>(
-                value: value,
-                child: Text(value.getString()),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _gradeInfoForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
-          child: TextFormField(
-            autovalidate: true,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
-            controller: _gradeController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Grade   "),
-            validator: (String value) {
-              return !_registerBloc.state.isGradeValid
-                  ? 'Invalid format'
-                  : null;
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _studentNumberForm() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,29 +246,6 @@ class _SignUpPageState extends State<SignUpPage> {
             validator: (String value) {
               return !_registerBloc.state.isStudentNumberValid
                   ? 'Invalid Student Number'
-                  : null;
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _phoneNumberForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
-          child: TextFormField(
-            autovalidate: true,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
-            controller: _phoneNumberController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Phone Number   "),
-            validator: (String value) {
-              return !_registerBloc.state.isPhoneNumberValid
-                  ? 'Invalid format'
                   : null;
             },
           ),
@@ -406,26 +346,21 @@ class _SignUpPageState extends State<SignUpPage> {
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
           return Scaffold(
+
             body: Stack(
               children: <Widget>[
-                _imageBackground(),
+
                 SafeArea(
+
                   child: SingleChildScrollView(
+
                     child: Column(
                       children: <Widget>[
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Container(
-                          child: _profileImage(),
-                        ),
+                         _profileImage(),
                         _nameForm(),
                         _lastnameForm(),
                         _emailForm(),
-                        _departmentInfoForm(),
-                        _gradeInfoForm(),
                         _studentNumberForm(),
-                        _phoneNumberForm(),
                         _passwordForm(),
                         Container(
                           padding: EdgeInsets.only(left: 205, top: 20, right: 25),
@@ -434,7 +369,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                   ),
-                )
+                ),
+
               ],
             ),
           );

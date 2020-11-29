@@ -26,18 +26,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     } else if (event is PasswordChanged) {
       yield state.update(
           isPasswordValid: Validators.isValidPassword(event.password));
-    } else if (event is ClassChanged) {
-      yield state.update(isGradeValid: Validators.isValidDigit(event.year));
-    } else if (event is PhoneNumberChanged) {
-      yield state.update(
-          isPhoneNumberValid: Validators.isValidPhoneNumber(event.phoneNumber));
     } else if (event is StudentNumberChanged) {
       yield state.update(
           isStudentNumberValid:
               Validators.isValidStudentNumber(event.studentNumber));
-    } else if (event is DepartmentChanged) {
-      yield state.update(
-          isDepartmentValid: Validators.isValidDepartment(event.department));
     } else if (event is Submitted) {
       yield* _mapSubmittedToState(event);
     }
@@ -51,9 +43,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           email: event.email,
           name: event.name,
           lastname: event.lastname,
-          year: int.parse(event.year),
           department: Department.cse,
-          phone: event.phoneNumber,
           studentId: event.studentNumber);
 
       await _authService.signUp({
