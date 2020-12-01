@@ -37,18 +37,29 @@ class _MainPageState extends State<MainPage> {
     BlocProvider.of<UserBloc>(context).add(ToggleEditMode());
   }
 
+//  void _moveToNormal() {
+//    BlocProvider.of<PageBloc>(context).add(
+//      NavBarPageChanged(
+//        page: _selectedPage.currentPage,
+//        context: context,
+//      ),
+//    ); // We call this to force icon change.
+//    // BlocProvider.of<UserBloc>(context).add(UserUpdate(user));
+//  }
+
   @override
   Widget build(BuildContext context) {
     var actions = <Widget>[];
-
+    final userProvider = BlocProvider.of<UserBloc>(context);
     return BlocListener<PageBloc, PageState>(
       listener: (BuildContext context, PageState state) {
         _selectedPage = state;
         if (Routes.bodyTitle[state.currentPage].toLowerCase() == "profile") {
           actions = <Widget>[];
-          if (BlocProvider.of<UserBloc>(context).currentState.editMode) {
+          if (userProvider.currentState.editMode) {
             actions.add(IconButton(
                 icon: Icon(Icons.check), onPressed: _toggleProfileEdit));
+            userProvider.add(UserUpdate(userProvider.currentState.user));
           } else {
             actions.add(IconButton(
                 icon: Icon(Icons.edit), onPressed: _toggleProfileEdit));

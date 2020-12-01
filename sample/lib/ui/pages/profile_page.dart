@@ -1,3 +1,4 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
@@ -5,15 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
-  final String _fullname = "İsim Soyisim";
-  final String _email = "adsoyad@eposta.com";
-  final String _department = "Bilgisayar Mühendsliği";
-  final String _year = "3. Sınıf";
-  final String _studentnumber = "161044123";
-  final String _phonenumber = "+90 5xx xxx xx xx";
-
-  bool _editMode = false;
-
+  UserState userState;
   final TextStyle _headerTextStyle = TextStyle(
     color: ColorSets.profilePageThemeColor,
     fontSize: 16.0,
@@ -62,14 +55,18 @@ class ProfilePage extends StatelessWidget {
 
   Widget _fullName(String name) {
     Widget form;
-    if (_editMode) {
+    if (userState.editMode) {
       var controller = TextEditingController();
       controller.text = name;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
+        userState.user.name = controller.value.text;
       });
-      form = TextFormField(controller: controller, textAlign: TextAlign.center,);
+      form = TextFormField(
+        controller: controller,
+        textAlign: TextAlign.center,
+      );
     } else {
       form = Text(
         name,
@@ -78,7 +75,8 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 32.0, right: 32.0),
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 32.0, right: 32.0),
       child: Container(
         height: 30.0,
         child: form,
@@ -98,7 +96,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(email),
+          formWidget(email, 'email'),
         ],
       ),
       width: 350.0,
@@ -126,7 +124,7 @@ class ProfilePage extends StatelessWidget {
                 style: _headerTextStyle,
               ),
             ),
-            formWidget(department),
+            formWidget(department, 'department'),
           ]),
       width: 350.0,
       height: 40.0,
@@ -153,7 +151,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(year),
+          formWidget(year, 'year'),
         ],
       ),
       width: 350.0,
@@ -181,7 +179,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(studentnumber),
+          formWidget(studentnumber, 'id'),
         ],
       ),
       width: 350.0,
@@ -209,7 +207,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(phonenumber),
+          formWidget(phonenumber, 'phone'),
         ],
       ),
       width: 350.0,
@@ -225,17 +223,30 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget formWidget(formData) {
+  Widget formWidget(formData, String type) {
     Widget form;
-    if (_editMode) {
+    if (userState.editMode) {
       var controller = TextEditingController();
       controller.text = formData;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
+        if (type == 'email') {
+          userState.user.email = controller.value.text;
+        } else if (type == 'department') {
+          userState.user.department = Department.cse;
+        } else if (type == 'year') {
+          userState.user.year = int.parse(controller.value.text);
+        } else if (type == 'id') {
+          userState.user.studentId = controller.value.text;
+        } else if (type == 'phone') {
+          userState.user.phone = controller.value.text;
+        }
         // TODO: Update related field with this data in every change.
       });
-      form = TextFormField(controller: controller, );
+      form = TextFormField(
+        controller: controller,
+      );
     } else {
       form = Text(formData, style: _nameTextStyle);
     }
@@ -249,7 +260,6 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    _editMode = state.editMode;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -262,26 +272,26 @@ class ProfilePage extends StatelessWidget {
                     height: 50,
                   ),
                   _profileImage(),
-                  _fullName(_fullname),
+                  _fullName(state.user.fullName),
                   new Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _eMail(_email),
+                    child: _eMail(state.user.email),
                   ),
                   new Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _deparmentInfo(_department),
+                    child: _deparmentInfo(state.user.department.toString()),
                   ),
                   new Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _yearInfo(_year),
+                    child: _yearInfo(state.user.year.toString()),
                   ),
                   new Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _studentNumber(_studentnumber),
+                    child: _studentNumber(state.user.studentId.toString()),
                   ),
                   new Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _phoneNumber(_phonenumber),
+                    child: _phoneNumber(state.user.phone.toString()),
                   ),
                 ],
               ),
@@ -296,7 +306,10 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
         builder: (context, state) {
-          _editMode = state.editMode;
+          userState = state;
+          if (state is UserUpdate) {
+            BlocProvider.of<UserBloc>(context).add(UserUpdate(state.user));
+          }
           return buildAll(context, state);
         },
         listener: (context, state) {});

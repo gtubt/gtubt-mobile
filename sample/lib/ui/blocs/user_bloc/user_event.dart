@@ -18,10 +18,20 @@ class PhotoChanged extends UserEvent {
   List<Object> get props => [url];
 }
 
-class LoggedIn extends UserEvent {
+class GetUser extends UserEvent {
+  GetUser() : super();
+
+  @override
+  String toString() => 'GetUser';
+
+  @override
+  List<Object> get props => [];
+}
+
+class UserLoggedIn extends UserEvent {
   final User user;
 
-  LoggedIn({@required this.user}) : super();
+  UserLoggedIn({@required this.user}) : super();
 
   @override
   String toString() => 'User Logged In { User: $user }';
@@ -50,4 +60,17 @@ class ToggleEditMode extends UserEvent {
 
   @override
   List<Object> get props => [];
+}
+
+class UserUpdate extends UserEvent {
+  final User user;
+  UserUpdate(this.user) : super();
+
+  @override
+  String toString() {
+    return 'Update User $user';
+  }
+
+  @override
+  List<Object> get props => [user];
 }

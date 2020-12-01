@@ -41,6 +41,7 @@ class User {
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
+  String get fullName => name + ' ' + lastname;
   @override
   String toString() {
     return '''User {  
@@ -56,7 +57,4 @@ class User {
   }
 }
 
-enum Department {
-  cse,
-  eee
-}
+enum Department { cse, eee }

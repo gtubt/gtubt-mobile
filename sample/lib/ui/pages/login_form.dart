@@ -1,9 +1,9 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -223,10 +223,13 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          AuthenticationBloc _authBloc = BlocProvider.of<AuthenticationBloc>(context);
-          if (_authBloc.isBroadcast)
-          BlocProvider.of<AuthenticationBloc>(context)
-              .add(LoggedIn(context: context));
+          AuthenticationBloc _authBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
+          if (_authBloc.isBroadcast) {
+            BlocProvider.of<AuthenticationBloc>(context)
+                .add(LoggedIn(context: context));
+            BlocProvider.of<UserBloc>(context).add(GetUser());
+          }
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
