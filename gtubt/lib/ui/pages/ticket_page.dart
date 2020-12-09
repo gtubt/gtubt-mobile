@@ -59,80 +59,82 @@ class TicketPage extends StatelessWidget {
       ticket5,
       ticket6
     ];
-    return ListView.builder(
-      itemCount: pageTickets.length,
-      itemBuilder: (BuildContext context, int index) {
-        var cardPadding = index == 0
-            ? EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
-            : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: pageTickets.length,
+        itemBuilder: (BuildContext context, int index) {
+          var cardPadding = index == 0
+              ? EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
+              : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
 
-        String day = "03";
-        String month = "March";
-        String year = "2020";
+          String day = "03";
+          String month = "March";
+          String year = "2020";
 
-        return Padding(
-          padding: cardPadding,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(10.0),
-            onTap: () => TicketPopup.showTicket(context, pageTickets[index]),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: ColorSets.profilePageThemeColor,
-              elevation: 5.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(19.0),
-                    child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            style: TextStyle(
-                              color: ColorSets.lightTextColor,
-                              fontWeight: boldFontWeight,
-                              fontSize: 18,
-                            ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: day,
-                                style: TextStyle(
-                                  fontSize: 25,
+          return Padding(
+            padding: cardPadding,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10.0),
+              onTap: () => TicketPopup.showTicket(context, pageTickets[index]),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                color: ColorSets.profilePageThemeColor,
+                elevation: 5.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(19.0),
+                      child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                              style: TextStyle(
+                                color: ColorSets.lightTextColor,
+                                fontWeight: boldFontWeight,
+                                fontSize: 18,
+                              ),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: day,
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                text: "\n" + month,
-                              ),
-                              TextSpan(
-                                text: "\n" + year,
-                              ),
-                            ])),
-                  ),
-                  DashedLine(
-                    dashCount: 4,
-                    dashHeight: 15,
-                    dashWidth: 5,
-                    color: ColorSets.lightTextColor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(19.0),
-                    child: Text(
-                      pageTickets[index].title,
-                      style: TextStyle(
-                        fontWeight: boldFontWeight,
-                        fontSize: 28,
-                        color: ColorSets.lightTextColor,
+                                TextSpan(
+                                  text: "\n" + month,
+                                ),
+                                TextSpan(
+                                  text: "\n" + year,
+                                ),
+                              ])),
+                    ),
+                    DashedLine(
+                      dashCount: 4,
+                      dashHeight: 15,
+                      dashWidth: 5,
+                      color: ColorSets.lightTextColor,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(19.0),
+                      child: Text(
+                        pageTickets[index].title,
+                        style: TextStyle(
+                          fontWeight: boldFontWeight,
+                          fontSize: 28,
+                          color: ColorSets.lightTextColor,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

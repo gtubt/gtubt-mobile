@@ -5,12 +5,14 @@ import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/pages/profile_page.dart';
 import 'package:GTUBT/ui/pages/signup_page.dart';
 import 'package:GTUBT/ui/pages/post_page.dart';
+import 'package:GTUBT/ui/pages/ticket_page.dart';
 import 'package:flutter/material.dart';
 
 const ROOT_URL = '/';
 const LOGIN_URL = '/login';
 const POST_URL = '/post';
 const SIGN_UP_URL = '/sign_up';
+const TICKET_URL = '/ticket';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
@@ -18,6 +20,7 @@ class Routes {
     LOGIN_URL: (context) => LoginPage(),
     POST_URL: (context) => PostPage(),
     SIGN_UP_URL: (context) => SignUpPage(),
+    TICKET_URL: (context) => TicketPage(),
   };
 
   static final bodyTitle = ["Home", "Calendar", "Profile"];
