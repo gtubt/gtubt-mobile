@@ -7,5 +7,5 @@
 While working on models, run one of the below command to generate json_serialization files
 ```
 flutter pub run build_runner build
-flutter pub run build_runner build
+flutter pub run build_runner watch
 ```
