@@ -60,6 +60,11 @@ class TicketPage extends StatelessWidget {
       ticket6
     ];
     return Scaffold(
+      backgroundColor: ColorSets.pageBackgroundColor,
+      appBar: AppBar(title: Text("Tickets"),
+        centerTitle: true,
+        backgroundColor: ColorSets.barBackgroundColor,
+        elevation: 0.0,),
       body: ListView.builder(
         itemCount: pageTickets.length,
         itemBuilder: (BuildContext context, int index) {
