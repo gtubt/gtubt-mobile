@@ -1,4 +1,4 @@
-package com.example.sample
+package com.btgtu.app
 
 import io.flutter.embedding.android.FlutterActivity
 
