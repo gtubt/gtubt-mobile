@@ -8,7 +8,6 @@ import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class HomePage extends StatelessWidget {
   Post post1 = new Post(
       title: "title1",
@@ -56,11 +55,17 @@ class HomePage extends StatelessWidget {
         arguments: PostViewArguments(post, heroTag));
   }
 
-  Widget buildHomePage(BuildContext context, List<Post> pageItems)
-  {
-    return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0),
-      child: new ListView.builder(
+  Future<void> _refreshPosts() {
+    // todo: Refresh Posts
+    return Future.delayed(Duration(seconds: 1)); // Temp return
+  }
+
+  Widget buildHomePage(BuildContext context, List<Post> pageItems) {
+    return RefreshIndicator(
+      onRefresh: _refreshPosts,
+      child: Container(
+        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        child: ListView.builder(
           itemCount: pageItems.length,
           itemBuilder: (BuildContext ctxt, int index) {
             EdgeInsets cardMargin;
@@ -88,7 +93,7 @@ class HomePage extends StatelessWidget {
               );
             }
             var heroTag = "post-" + index.toString();
-            return new Stack(
+            return Stack(
               children: <Widget>[
                 Container(
                     margin: const EdgeInsets.only(top: 20.0),
@@ -159,6 +164,7 @@ class HomePage extends StatelessWidget {
               ],
             );
           }),
+      )
     );
   }
 
@@ -173,7 +179,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           if(state.isInitial){
             BlocProvider.of<PostBloc>(context).add(
-              LoadAllPosts(),  
+              LoadAllPosts(),
             );
             //todo buraya bir circular reloading gifi gelecek
             return Text("POST ARE BEING LOADED");
