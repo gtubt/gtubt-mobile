@@ -1,5 +1,5 @@
 import 'package:GTUBT/ui/pages/calendar_page.dart';
-import 'package:GTUBT/ui/pages/home_page.dart';
+import 'package:GTUBT/ui/pages/home_page/page.dart';
 import 'package:GTUBT/ui/pages/login_page.dart';
 import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/pages/profile_page.dart';
