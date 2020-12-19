@@ -68,33 +68,40 @@ class HomePage extends StatelessWidget {
     return dayText;
   }
 
+  Future<void> _refreshPosts() {
+    // todo: Refresh Posts
+    return Future.delayed(Duration(seconds: 1)); // Temp return
+  }
 
   Widget buildHomePage(BuildContext context, List<Post> postItems) {
-    return Container(
-      padding: EdgeInsets.only(left: 20.0, right: 20.0),
-      child: ListView.builder(
-          itemCount: postItems.length,
-          itemBuilder: (BuildContext ctxt, int index) {
-            EdgeInsets cardMargin = calculatePostItemMargin(index, postItems);
-            Widget dayText = getDayText(index, postItems);
+    return RefreshIndicator(
+      onRefresh: _refreshPosts,
+      child: Container(
+        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        child: ListView.builder(
+            itemCount: postItems.length,
+            itemBuilder: (BuildContext ctxt, int index) {
+              EdgeInsets cardMargin = calculatePostItemMargin(index, postItems);
+              Widget dayText = getDayText(index, postItems);
 
-            var heroTag = "post-" + index.toString();
+              var heroTag = "post-" + index.toString();
 
-            return Stack(
-              children: <Widget>[
-                Container(
-                    margin: const EdgeInsets.only(top: 20.0),
-                    height: 30,
-                    child: dayText),
-                PostItem(
-                  cardMargin: cardMargin,
-                  heroTag: heroTag,
-                  onTapEvent: postTapEvent,
-                  item: postItems[index],
-                )
-              ],
-            );
-          }),
+              return Stack(
+                children: <Widget>[
+                  Container(
+                      margin: const EdgeInsets.only(top: 20.0),
+                      height: 30,
+                      child: dayText),
+                  PostItem(
+                    cardMargin: cardMargin,
+                    heroTag: heroTag,
+                    onTapEvent: postTapEvent,
+                    item: postItems[index],
+                  )
+                ],
+              );
+            }),
+      ),
     );
   }
 
