@@ -33,6 +33,15 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     _authBloc.add(LoggedOut(context: context));
   }
 
+  void _ticketButtonFunction() {
+    BlocProvider.of<PageBloc>(context).add(
+      PageChanged(
+        context: context,
+        routeName: TICKET_URL,
+      ),
+    );
+  }
+
   Widget _buildHamburgerMenuItem(String menuItemName, dynamic function) {
     return InkWell(
       child: Container(
@@ -53,7 +62,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     if (_authBloc.state is AuthenticationAuthenticated) {
       _menuItems.add(_buildHamburgerMenuItem('PROFILE FOTO', null));
       _menuItems.add(_buildHamburgerMenuItem('USERNAME', null));
-      _menuItems.add(_buildHamburgerMenuItem('TICKETS', null));
+      _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
       _menuItems.add(_buildHamburgerMenuItem('SETTINGS', null));
       _menuItems.add(_buildHamburgerMenuItem('LOGOUT', _logoutButtonFunction));
     } else {
