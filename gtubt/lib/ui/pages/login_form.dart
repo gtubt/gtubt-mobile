@@ -33,7 +33,7 @@ class LoginForm extends StatelessWidget {
   void _onForgotPasswordPressed() {
     _loginBloc.add(
       ForgotPasswordPressed(
-        email: _emailController.text.trim(),
+        email: _loginBloc.emailController.text.trim(),
       ),
     );
   }
