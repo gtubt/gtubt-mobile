@@ -54,6 +54,14 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  void _onForgotPasswordPressed() {
+    _loginBloc.add(
+      ForgotPasswordPressed(
+        email: _emailController.text.trim(),
+      ),
+    );
+  }
+
   Widget _logoArea() {
     return Container(
       height: 200,
