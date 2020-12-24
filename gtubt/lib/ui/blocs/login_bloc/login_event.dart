@@ -63,3 +63,18 @@ class LoginWithCredentialsPressed extends LoginEvent {
   @override
   List<Object> get props => [email, password];
 }
+
+class ForgotPasswordPressed extends LoginEvent {
+  final String email;
+
+  ForgotPasswordPressed({@required this.email})
+      : super();
+
+  @override
+  String toString() {
+    return 'ForgotPasswordPressed {username: $email}';
+  }
+
+  @override
+  List<Object> get props => [email];
+}
