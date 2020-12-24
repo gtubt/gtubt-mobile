@@ -152,6 +152,29 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  Widget _forgotPasswordButton() {
+    return Container(
+      alignment: Alignment.topRight,
+      height: 15,
+      width: 135,
+      child: FlatButton(
+        onPressed: () => _currentState.isEmailValid ? _onForgotPasswordPressed() : null,
+        color: ColorSets.barBackgroundColor,
+        child: Text(
+          'Forgot Password',
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Palanquin',
+            letterSpacing: 0.5,
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _signUpButton() {
     return Container(
       height: 45,
@@ -242,6 +265,8 @@ class _LoginFormState extends State<LoginForm> {
                 _emailTextFormField(),
                 SizedBox(height: 16.0),
                 _passwordTextFormField(),
+                SizedBox(height: 10.0),
+                _forgotPasswordButton(),
                 SizedBox(height: 32.0),
                 Container(
                   child: Column(
