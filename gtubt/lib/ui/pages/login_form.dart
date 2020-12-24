@@ -259,6 +259,22 @@ class _LoginFormState extends State<LoginForm> {
           BlocProvider.of<AuthenticationBloc>(context)
               .add(LoggedIn(context: context));
         }
+        if (state.isPwRequestSent) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Password Reset Mail Sent!'),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
+        }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
