@@ -1,4 +1,5 @@
 import 'package:GTUBT/service/authentication.dart';
+import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
@@ -6,6 +7,9 @@ import 'package:bloc/bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthService _authService = AuthService();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   LoginState get initialState => LoginState.empty();
@@ -29,12 +33,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is EmailChanged) {
-      yield* _mapEmailChangeToState(event.email);
+      yield* _mapEmailChangeToState(emailController.text.trim());
     } else if (event is PasswordChanged) {
-      yield* _mapPasswordChangeToState(event.password);
+      yield* _mapPasswordChangeToState(passwordController.text.trim());
     } else if (event is LoginWithCredentialsPressed) {
       yield* _mapLoginWithCredentialsPressedToState(
-          event.email, event.password);
+          emailController.text.trim(), passwordController.text.trim());
     }else if (event is ForgotPasswordPressed) {
       yield* _mapForgotPasswordPressedToState(
           event.email);

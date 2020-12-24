@@ -55,6 +55,7 @@ class PostState {
     return PostState(
       isLoading: true,
       isSuccess: false,
+      isInitial: false,
       postList: null,
     );
   }
