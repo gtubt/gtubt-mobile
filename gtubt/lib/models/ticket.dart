@@ -9,17 +9,10 @@ class Ticket {
   String title;
   String name;
   String location;
-  String date;
-  String hour;
+  DateTime date;
   String codeUrl;
 
-  Ticket(
-      {this.title,
-        this.name,
-        this.location,
-        this.date,
-        this.hour,
-        this.codeUrl});
+  Ticket({this.title, this.name, this.location, this.date, this.codeUrl});
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 
@@ -32,7 +25,6 @@ class Ticket {
     Name: $name,
     Location: $location,
     Date: $date,
-    Hour: $hour,
     codeUrl: $codeUrl
 }''';
   }

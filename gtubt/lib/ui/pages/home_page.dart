@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
       body:
           "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "05-07-2020");
+      startDate: DateTime(2025, 7, 13, 15, 30));
   Post post2 = new Post(
       title: "title2",
       summary:
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
       body:
           "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "04-06-2020");
+      startDate: DateTime(2024, 8, 13, 15, 30));
   Post post3 = new Post(
       title: "title3",
       summary:
@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
       body:
           "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "04-05-2020");
+      startDate: DateTime(2023, 9, 13, 15, 30));
   Post post4 = new Post(
       title: "title4",
       summary:
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
       body:
           "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "03-04-2020");
+      startDate: DateTime(2022, 10, 13, 15, 30));
   Post post5 = new Post(
       title: "title5",
       summary:
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
       body:
           "text4 LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET LOREM IPSUM DOLOR SIT AMET",
       coverImageUrl: "https://via.placeholder.com/350x120.png",
-      startDate: "02-03-2020");
+      startDate: DateTime(2021, 11, 13, 15, 30));
 
   void postTapEvent(BuildContext context, Post post, String heroTag) {
     Navigator.pushNamed(context, POST_URL,
@@ -172,7 +172,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           if(state.isInitial){
             BlocProvider.of<PostBloc>(context).add(
-              LoadAllPosts(),  
+              LoadAllPosts(),
             );
             //todo buraya bir circular reloading gifi gelecek
             return Text("POST ARE BEING LOADED");

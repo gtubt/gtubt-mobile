@@ -5,13 +5,13 @@ import 'package:GTUBT/models/ticket.dart';
 // Usage: TicketPopup.showTicket(context, ticket);
 
 final FontWeight boldFontWeight = FontWeight.bold;
+
 class TicketPopup {
   static void showTicket(context, Ticket ticket) {
     String title = ticket.title;
     String name = ticket.name;
     String location = ticket.location;
-    String date = ticket.date;
-    String hour = ticket.hour;
+    String date = ticket.date.toString();
     String codeUrl = ticket.codeUrl;
     showDialog(
         context: context,
@@ -63,10 +63,6 @@ class TicketPopup {
                                 DefinedText(
                                   definition: "Date: ",
                                   text: date,
-                                ),
-                                DefinedText(
-                                  definition: "Time: ",
-                                  text: hour,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
