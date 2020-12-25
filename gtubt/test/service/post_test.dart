@@ -26,8 +26,8 @@ void main() {
     post.coverImageUrl = "TEST_NEW_POST_COVER_IMAGE_URL";
     post.summary = "TEST_NEW_POST_SUMMARY";
     post.type = PostType.news;
-    post.startDate = "_";
-    post.endDate = "_";
+    post.startDate = DateTime(2020, 7, 13, 15, 30);
+    post.endDate = DateTime(2020, 7, 13, 15, 30);
     http.Response response = await PostService().post(post);
     expect(response.statusCode == 200, true);
   });
