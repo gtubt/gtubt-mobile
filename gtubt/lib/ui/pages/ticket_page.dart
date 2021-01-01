@@ -55,15 +55,18 @@ class TicketPage extends StatelessWidget {
     ];
     return Scaffold(
       backgroundColor: ColorSets.pageBackgroundColor,
-      appBar: AppBar(title: Text("Tickets"),
+      appBar: AppBar(
+        title: Text("Tickets"),
         centerTitle: true,
         backgroundColor: ColorSets.barBackgroundColor,
-        elevation: 0.0,),
+        elevation: 0.0,
+      ),
       body: ListView.builder(
         itemCount: pageTickets.length,
         itemBuilder: (BuildContext context, int index) {
           var cardPadding = index == 0
-              ? EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
+              ? EdgeInsets.only(
+                  left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
               : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
 
           String day = "03";

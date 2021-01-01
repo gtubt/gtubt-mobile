@@ -34,7 +34,6 @@ void main() {
     expect(announcement.date, Event.fromJson(data).date);
     expect(announcement.coverImageUrl, Event.fromJson(data).coverImageUrl);
     expect(announcement.createdDate, Event.fromJson(data).createdDate);
-
   });
 
   test('Update Event', () {
