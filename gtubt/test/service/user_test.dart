@@ -5,7 +5,11 @@ import 'package:http/http.dart';
 
 void main() {
   test('Get User with email', () async {
-    User user = await UserService().get("yasir.nacak@gmail.com");
+    var result = await UserService().get("yasir.nacak@gmail.com");
+    User user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.name, "Yasir");
   });
@@ -27,7 +31,11 @@ void main() {
   });
 
   test('Update User', () async {
-    User user = await UserService().get("ahmtergn5@gmail.com");
+    var result = await UserService().get("ahmtergn5@gmail.com");
+    User user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
@@ -37,13 +45,21 @@ void main() {
     expect(response == null, false);
     expect(response.statusCode, 200);
 
-    user = await UserService().get("ahmtergn5@gmail.com");
+    result = await UserService().get("ahmtergn5@gmail.com");
+    user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.phone, "0546 435 12 77");
   });
 
   test('Delete User', () async {
-    User user = await UserService().get("ahmtergn5@gmail.com");
+    var result = await UserService().get("ahmtergn5@gmail.com");
+    User user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
