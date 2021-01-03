@@ -142,7 +142,10 @@ class LoginForm extends StatelessWidget {
       height: 15,
       width: 135,
       child: FlatButton(
-        onPressed: () => _currentState.isEmailValid ? _onForgotPasswordPressed() : null,
+        onPressed: () => (_currentState.isEmailValid &&
+                _loginBloc.emailController.text != '')
+            ? _onForgotPasswordPressed()
+            : null,
         color: ColorSets.barBackgroundColor,
         child: Text(
           'Forgot Password',
