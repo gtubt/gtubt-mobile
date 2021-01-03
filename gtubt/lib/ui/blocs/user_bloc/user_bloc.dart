@@ -16,9 +16,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserState currentState = UserState();
 
   TextEditingController textEditingController(UserEvent field) {
-    if (!eventMap.containsKey(field)) {
-      eventMap.putIfAbsent(field, () => TextEditingController());
-    }
+    eventMap.putIfAbsent(field, () => TextEditingController());
 
     return eventMap[field];
   }
