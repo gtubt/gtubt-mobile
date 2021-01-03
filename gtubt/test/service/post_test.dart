@@ -5,13 +5,21 @@ import 'package:http/http.dart' as http;
 
 void main() {
   test('ENDPOINT=POSTS METHOD=GET URL=/posts', () async {
-    List<Post> posts = await PostService().getAll();
+    var result = await PostService().getAll();
+    List<Post> posts = result.fold(
+            (posts) => posts,
+            (postFailure) => null
+    );
     expect(posts == null, false);
     expect(posts.length > 0, true);
   });
 
   test('ENDPOINT=POSTS METHOD=GET URL=/posts/(id)', () async {
-    Post post = await PostService().get("TEST_POST_DONT_DELETE");
+    var result = await PostService().get("TEST_POST_DONT_DELETE");
+    Post post = result.fold(
+            (post) => post,
+            (postFailure) => null
+    );
     expect(post == null, false);
     expect(post.type, PostType.news);
     expect(post.title, "TEST_TITLE");

@@ -3,7 +3,6 @@ import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
-import 'package:GTUBT/models/enums.dart';
 import 'package:bloc/bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
