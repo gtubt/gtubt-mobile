@@ -1,10 +1,10 @@
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/ticket.dart';
 import 'package:GTUBT/ui/pages/ticket_popup.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 
 class TicketPage extends StatelessWidget {
-  final FontWeight boldFontWeight = FontWeight.bold;
 
   final Ticket ticket1 = Ticket(
       title: "GeekDay 2020",
@@ -90,17 +90,11 @@ class TicketPage extends StatelessWidget {
                     child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            style: TextStyle(
-                              color: ColorSets.lightTextColor,
-                              fontWeight: boldFontWeight,
-                              fontSize: 18,
-                            ),
+                            style: TextStyles.headline5.copyWith(color: ColorSets.lightTextColor),
                             children: <TextSpan>[
                               TextSpan(
                                 text: day,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                ),
+                                style: TextStyles.headline4.copyWith(color: ColorSets.lightTextColor),
                               ),
                               TextSpan(
                                 text: "\n" + month,
@@ -120,11 +114,7 @@ class TicketPage extends StatelessWidget {
                     padding: const EdgeInsets.all(19.0),
                     child: Text(
                       pageTickets[index].title,
-                      style: TextStyle(
-                        fontWeight: boldFontWeight,
-                        fontSize: 28,
-                        color: ColorSets.lightTextColor,
-                      ),
+                      style: TextStyles.headline4.copyWith(color: ColorSets.lightTextColor),
                     ),
                   ),
                 ],
