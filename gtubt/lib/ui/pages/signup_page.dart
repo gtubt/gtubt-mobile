@@ -5,6 +5,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -86,14 +87,6 @@ class _SignUpPageState extends State<SignUpPage> {
         isPopulated &&
         !_registerBloc.state.isSubmitting;
   }
-
-  final TextStyle _headerTextStyle = TextStyle(
-    color: ColorSets.profilePageThemeColor,
-    fontSize: 16.0,
-    backgroundColor: Colors.white,
-    height: -2,
-    fontWeight: FontWeight.w700,
-  );
 
   Widget _imageBackground() {
     return Container(
@@ -291,13 +284,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         child: Text(
           'Create Account',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 16,
-          ),
+          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
     );
