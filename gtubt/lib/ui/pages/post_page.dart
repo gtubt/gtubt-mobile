@@ -1,3 +1,5 @@
+import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/post.dart';
@@ -15,11 +17,17 @@ class _PostPage extends State<PostPage> {
       children: [
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-          child: Text(TimeAgoFormatter(post.startDate).toString()),
+          child: Text(
+            TimeAgoFormatter(post.startDate).toString(),
+            style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
-          child: Text(post.body),
+          child: Text(
+            post.body,
+            style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
+          ),
         ),
       ],
     );
@@ -42,10 +50,7 @@ class _PostPage extends State<PostPage> {
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     title: Text(post.title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )),
+                        style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor)),
                     background: Hero(
                       tag: postArgs.heroTag,
                       child: Image.network(
