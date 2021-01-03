@@ -1,4 +1,3 @@
-import 'package:GTUBT/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
