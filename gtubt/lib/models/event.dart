@@ -10,7 +10,7 @@ class Event {
   String title;
   String description;
   String coverImageUrl;
-  String date;
+  DateTime date;
   DateTime createdDate;
   DateTime expireDate;
 
