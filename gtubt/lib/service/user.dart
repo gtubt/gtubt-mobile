@@ -1,33 +1,24 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/models/api_response.dart';
-import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:GTUBT/service/base.dart';
 import 'dart:convert';
 
-class UserFailure {
-  final String message;
-
-  UserFailure( this.message );
-
-  @override
-  String toString() => message;
-}
-
 class UserService extends BaseService {
   final servicePath = 'user';
 
-  Future<Either<User, UserFailure>> get(String email) async {
+  Future<User> get(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      final apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
-        return Left(apiResponse.body);
+        return apiResponse.body;
       }
     }
-    return Right(UserFailure("Couldn't find the user 😱"));
+    return null;
   }
 
   Future<http.Response> post(User user) async {
