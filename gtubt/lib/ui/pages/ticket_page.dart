@@ -5,7 +5,6 @@ import 'package:GTUBT/ui/pages/ticket_popup.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 
 class TicketPage extends StatelessWidget {
-
   final Ticket ticket1 = Ticket(
       title: "GeekDay 2020",
       name: "name1",
@@ -59,70 +58,79 @@ class TicketPage extends StatelessWidget {
       ticket5,
       ticket6
     ];
-    return ListView.builder(
-      itemCount: pageTickets.length,
-      itemBuilder: (BuildContext context, int index) {
-        var cardPadding = index == 0
-            ? EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
-            : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
+    return Scaffold(
+      backgroundColor: ColorSets.pageBackgroundColor,
+      appBar: AppBar(
+        title: Text("Tickets"),
+        centerTitle: true,
+        backgroundColor: ColorSets.barBackgroundColor,
+        elevation: 0.0,
+      ),
+      body: ListView.builder(
+        itemCount: pageTickets.length,
+        itemBuilder: (BuildContext context, int index) {
+          var cardPadding = index == 0
+              ? EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
+              : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
 
-        String day = "03";
-        String month = "March";
-        String year = "2020";
+          String day = "03";
+          String month = "March";
+          String year = "2020";
 
-        return Padding(
-          padding: cardPadding,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(10.0),
-            onTap: () => TicketPopup.showTicket(context, pageTickets[index]),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: ColorSets.profilePageThemeColor,
-              elevation: 5.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(19.0),
-                    child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            style: TextStyles.headline5.copyWith(color: ColorSets.lightTextColor),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: day,
-                                style: TextStyles.headline4.copyWith(color: ColorSets.lightTextColor),
-                              ),
-                              TextSpan(
-                                text: "\n" + month,
-                              ),
-                              TextSpan(
-                                text: "\n" + year,
-                              ),
-                            ])),
-                  ),
-                  DashedLine(
-                    dashCount: 4,
-                    dashHeight: 15,
-                    dashWidth: 5,
-                    color: ColorSets.lightTextColor,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(19.0),
-                    child: Text(
-                      pageTickets[index].title,
-                      style: TextStyles.headline4.copyWith(color: ColorSets.lightTextColor),
+          return Padding(
+            padding: cardPadding,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10.0),
+              onTap: () => TicketPopup.showTicket(context, pageTickets[index]),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                color: ColorSets.profilePageThemeColor,
+                elevation: 5.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(19.0),
+                      child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                              style: TextStyles.headline5.copyWith(color: ColorSets.lightTextColor),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: day,
+                                  style: TextStyles.headline4.copyWith(color: ColorSets.lightTextColor),
+                                ),
+                                TextSpan(
+                                  text: "\n" + month,
+                                ),
+                                TextSpan(
+                                  text: "\n" + year,
+                                ),
+                              ])),
                     ),
-                  ),
-                ],
+                    DashedLine(
+                      dashCount: 4,
+                      dashHeight: 15,
+                      dashWidth: 5,
+                      color: ColorSets.lightTextColor,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(19.0),
+                      child: Text(
+                        pageTickets[index].title,
+                        style: TextStyles.headline4.copyWith(color: ColorSets.lightTextColor),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
