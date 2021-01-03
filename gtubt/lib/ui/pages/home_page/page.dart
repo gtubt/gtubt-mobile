@@ -4,6 +4,8 @@ import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
 import 'package:GTUBT/ui/blocs/post_bloc/post_event.dart';
 import 'package:GTUBT/ui/blocs/post_bloc/post_state.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +63,7 @@ class HomePage extends StatelessWidget {
     if (index == 0 || (items[index].startDate != items[index - 1].startDate)) {
       dayText = Text(
         TimeAgoFormatter(items[index].startDate).toString(),
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
       );
     }
 
