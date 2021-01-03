@@ -1,10 +1,9 @@
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/ticket.dart';
 
 // Usage: TicketPopup.showTicket(context, ticket);
-
-final FontWeight boldFontWeight = FontWeight.bold;
 class TicketPopup {
   static void showTicket(context, Ticket ticket) {
     String title = ticket.title;
@@ -38,34 +37,29 @@ class TicketPopup {
                       children: <Widget>[
                         Text(
                           "Event:",
-                          style: TextStyle(
-                              color: ColorSets.barBackgroundColor,
-                              fontWeight: boldFontWeight,
-                              fontSize: 22),
+                          style: TextStyles.headline5.copyWith(color: ColorSets.barBackgroundColor),
                         ),
                         Text(title,
-                            style: TextStyle(
-                                color: ColorSets.profilePageThemeColor,
-                                fontSize: 20)),
+                            style: TextStyles.headline6.copyWith(color: ColorSets.profilePageThemeColor)),
                         Padding(
                             padding: EdgeInsets.only(top: 10, bottom: 10),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                DefinedText(
-                                  definition: "Attandee: ",
+                                LabeledText(
+                                  label: "Attandee: ",
                                   text: name,
                                 ),
-                                DefinedText(
-                                  definition: "Location: ",
+                                LabeledText(
+                                  label: "Location: ",
                                   text: location,
                                 ),
-                                DefinedText(
-                                  definition: "Date: ",
+                                LabeledText(
+                                  label: "Date: ",
                                   text: date,
                                 ),
-                                DefinedText(
-                                  definition: "Time: ",
+                                LabeledText(
+                                  label: "Time: ",
                                   text: hour,
                                 ),
                                 Padding(
@@ -95,11 +89,11 @@ class TicketPopup {
   }
 }
 
-class DefinedText extends StatelessWidget {
-  final String definition;
+class LabeledText extends StatelessWidget {
+  final String label;
   final String text;
 
-  DefinedText({this.definition, this.text});
+  LabeledText({this.label, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -107,15 +101,11 @@ class DefinedText extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          definition,
-          style: TextStyle(
-              color: ColorSets.barBackgroundColor,
-              fontWeight: boldFontWeight,
-              fontSize: 16),
+          label,
+          style: TextStyles.subtitle1.copyWith(color: ColorSets.barBackgroundColor),
         ),
         Text(text,
-            style: TextStyle(
-                color: ColorSets.profilePageThemeColor, fontSize: 16)),
+            style: TextStyles.subtitle1.copyWith(color: ColorSets.profilePageThemeColor)),
       ],
     );
   }
