@@ -16,6 +16,14 @@ class UserFailure {
 
 class UserService extends BaseService {
   final servicePath = 'user';
+  User currentUser;
+  static final UserService _userService = UserService._internal();
+
+  UserService._internal();
+
+  factory UserService() {
+    return _userService;
+  }
 
   Future<Either<User, UserFailure>> get(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
@@ -24,14 +32,15 @@ class UserService extends BaseService {
     if (response.statusCode == 200) {
       final apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
+        currentUser = apiResponse.body;
         return Left(apiResponse.body);
       }
     }
     return Right(UserFailure("Couldn't find the user 😱"));
   }
 
-  Future<http.Response> post(User user) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath';
+  Future<User> post(User user) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/';
     var userJson = user.toJson();
     var bodyData = json.encode(userJson);
 
@@ -40,13 +49,20 @@ class UserService extends BaseService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: bodyData);
-
-    return response;
+    if (response.statusCode == 200) {
+      final apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      if (apiResponse.status == 200) {
+        currentUser = apiResponse.body;
+        return apiResponse.body;
+      }
+    }
+    return null;
   }
 
-  Future<http.Response> patch(User user) async {
+  Future<User> patch(User user) async {
     var id = user.id;
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
     var userJson = user.toJson();
     var bodyData = json.encode(userJson);
 
@@ -55,15 +71,33 @@ class UserService extends BaseService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: bodyData);
-
-    return response;
+    if (response.statusCode == 200) {
+      final apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      if (apiResponse.status == 200) {
+        currentUser = apiResponse.body;
+        return apiResponse.body;
+      }
+    }
+    return null;
   }
 
-  Future<http.Response> delete(String id) async {
+  Future<bool> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await http.delete('$url');
+    if (response.statusCode == 200) {
+      final apiResponse =
+        ApiResponse.fromJson(json.decode(response.body));
+      if (apiResponse.status == 200) {
+        currentUser = null;
+        return true;
+      }
+    }
+    return false;
+  }
 
-    return response;
+  void clearUser() {
+    currentUser = null;
   }
 }

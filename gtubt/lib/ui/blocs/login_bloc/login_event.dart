@@ -6,60 +6,64 @@ abstract class LoginEvent extends Equatable {
 }
 
 class EmailChanged extends LoginEvent {
-  final String email;
-
-  EmailChanged({@required this.email}) : super();
+  EmailChanged() : super();
 
   @override
   String toString() {
-    return 'PasswordChanged {username: $email}';
+    return 'EmailChanged';
   }
 
   @override
-  List<Object> get props => [email];
+  List<Object> get props => ["Email"];
 }
 
 class PasswordChanged extends LoginEvent {
-  final String password;
-
-  PasswordChanged({@required this.password}) : super();
+  PasswordChanged() : super();
 
   @override
   String toString() {
-    return 'PasswordChanged {password: $password}';
+    return 'PasswordChanged';
   }
 
   @override
-  List<Object> get props => [password];
+  List<Object> get props => ["Password"];
 }
 
 class Submitted extends LoginEvent {
-  final String email;
-  final String password;
-
-  Submitted({@required this.email, @required this.password}) : super();
+  Submitted() : super();
 
   @override
   String toString() {
-    return 'Submitted {username: $email, password: $password}';
+    return 'Submitted';
   }
 
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => ["Submitted"];
 }
 
 class LoginWithCredentialsPressed extends LoginEvent {
-  final String email;
-  final String password;
+  LoginWithCredentialsPressed() : super();
 
-  LoginWithCredentialsPressed({@required this.email, @required this.password})
+  @override
+  String toString() {
+    return 'LoginButtonPressed';
+  }
+
+  @override
+  List<Object> get props => ["Login"];
+}
+
+class ForgotPasswordPressed extends LoginEvent {
+  final String email;
+
+  ForgotPasswordPressed({@required this.email})
       : super();
 
   @override
   String toString() {
-    return 'LoginButtonPressed {username: $email, password: $password}';
+    return 'ForgotPasswordPressed {username: $email}';
   }
 
   @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [email];
 }

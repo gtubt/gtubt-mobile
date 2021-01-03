@@ -6,6 +6,7 @@ class LoginState {
   bool isSubmitting;
   bool isSuccess;
   bool isFailure;
+  bool isPwRequestSent;
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
@@ -15,6 +16,7 @@ class LoginState {
     @required this.isSubmitting,
     @required this.isSuccess,
     @required this.isFailure,
+    @required this.isPwRequestSent,
   });
 
   factory LoginState.empty() {
@@ -24,6 +26,7 @@ class LoginState {
       isSubmitting: false,
       isFailure: false,
       isSuccess: false,
+      isPwRequestSent: false,
     );
   }
 
@@ -34,6 +37,7 @@ class LoginState {
       isSubmitting: true,
       isFailure: false,
       isSuccess: false,
+      isPwRequestSent: false,
     );
   }
 
@@ -44,6 +48,7 @@ class LoginState {
       isSubmitting: false,
       isFailure: true,
       isSuccess: false,
+      isPwRequestSent: false,
     );
   }
 
@@ -54,6 +59,7 @@ class LoginState {
       isSubmitting: false,
       isFailure: false,
       isSuccess: true,
+      isPwRequestSent: false,
     );
   }
 
@@ -63,6 +69,7 @@ class LoginState {
     bool isSubmitting,
     bool isSuccess,
     bool isFailure,
+    bool isPwRequestSent,
   }) {
     return LoginState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
@@ -70,12 +77,14 @@ class LoginState {
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isFailure: isFailure ?? this.isFailure,
       isSuccess: isSuccess ?? this.isSuccess,
+      isPwRequestSent: isPwRequestSent ?? this.isPwRequestSent,
     );
   }
 
   LoginState update({
     bool isEmailValid,
     bool isPasswordValid,
+    bool isPwRequestSent,
   }) {
     return LoginState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
@@ -83,6 +92,7 @@ class LoginState {
       isSubmitting: false,
       isFailure: false,
       isSuccess: false,
+      isPwRequestSent: isPwRequestSent ?? this.isPwRequestSent,
     );
   }
 
@@ -94,6 +104,7 @@ class LoginState {
       isSubmitting: $isSubmitting,
       isSuccess: $isSuccess,
       isFailure: $isFailure,
+      isPwRequestSent: $isPwRequestSent
     }''';
   }
 }

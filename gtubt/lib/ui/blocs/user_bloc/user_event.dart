@@ -1,53 +1,72 @@
-import 'package:GTUBT/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class UserEvent extends Equatable {
-  UserEvent() : super();
+  final String field;
+
+  UserEvent({@required this.field}) : super();
+
+  @override
+  List<Object> get props => [field];
 }
 
 class PhotoChanged extends UserEvent {
-  final String url;
 
-  PhotoChanged({@required this.url}) : super();
-
-  @override
-  String toString() => 'Profile Photo Changed { Url :$url }';
+  PhotoChanged() : super(field: 'Photo');
 
   @override
-  List<Object> get props => [url];
-}
-
-class LoggedIn extends UserEvent {
-  final User user;
-
-  LoggedIn({@required this.user}) : super();
-
-  @override
-  String toString() => 'User Logged In { User: $user }';
-
-  @override
-  List<Object> get props => [user];
+  String toString() => 'Profile Photo Changed';
 }
 
 class PhoneChanged extends UserEvent {
-  final String phone;
 
-  PhoneChanged({@required this.phone}) : super();
-
-  @override
-  String toString() => 'User Changed Phone { Phone: $phone }';
+  PhoneChanged() : super(field: 'Phone');
 
   @override
-  List<Object> get props => [phone];
+  String toString() => 'User Changed Phone';
+
+}
+
+class YearChanged extends UserEvent {
+
+  YearChanged() : super(field: 'Year');
+
+  @override
+  String toString() => 'User Changed Year';
+
+}
+
+class StudentNumberChanged extends UserEvent {
+
+  StudentNumberChanged() : super(field: 'StudentNumber');
+
+  @override
+  String toString() => 'User Changed Student Number';
+
+}
+
+class EmailChanged extends UserEvent {
+
+  EmailChanged() : super(field: 'Email');
+
+  @override
+  String toString() => 'User Changed Email';
+
+}
+
+class DepartmentChanged extends UserEvent {
+
+  DepartmentChanged() : super(field: 'Department');
+
+  @override
+  String toString() => 'User Changed Department';
+
 }
 
 class ToggleEditMode extends UserEvent {
-  ToggleEditMode() : super();
+  ToggleEditMode() : super(field: 'EditMode');
 
   @override
   String toString() => 'Toggle Edit Mode';
 
-  @override
-  List<Object> get props => [];
 }

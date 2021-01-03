@@ -7,38 +7,19 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends StatelessWidget {
   static String tag = 'login-page';
 
-  @override
-  _LoginFormState createState() => new _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  BuildContext _context;
   LoginState _currentState;
   LoginBloc _loginBloc;
-  String email = '';
-  String password = '';
-
-  bool get isPopulated =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-
-  @override
-  void initState() {
-    super.initState();
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
-    _emailController.addListener(_onEmailChanged);
-    _passwordController.addListener(_onPasswordChanged);
-  }
 
   void _onEmailChanged() {
-    _loginBloc.add(EmailChanged(email: _emailController.text.trim()));
+    _loginBloc.add(EmailChanged());
   }
 
   void _onPasswordChanged() {
-    _loginBloc.add(PasswordChanged(password: _passwordController.text.trim()));
+    _loginBloc.add(PasswordChanged());
   }
 
   bool _isLoginButtonEnabled() {
@@ -46,10 +27,13 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onFormSubmitted() {
+    _loginBloc.add(LoginWithCredentialsPressed());
+  }
+
+  void _onForgotPasswordPressed() {
     _loginBloc.add(
-      LoginWithCredentialsPressed(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      ForgotPasswordPressed(
+        email: _loginBloc.emailController.text.trim(),
       ),
     );
   }
@@ -86,7 +70,7 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           _buildTextFormFieldLabel('Email'),
           TextFormField(
-            controller: _emailController,
+            controller: _loginBloc.emailController,
             keyboardType: TextInputType.emailAddress,
             autocorrect: false,
             autofocus: false,
@@ -112,7 +96,7 @@ class _LoginFormState extends State<LoginForm> {
         children: <Widget>[
           _buildTextFormFieldLabel('Password'),
           TextFormField(
-            controller: _passwordController,
+            controller: _loginBloc.passwordController,
             autocorrect: false,
             autofocus: false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -152,14 +136,40 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
+  Widget _forgotPasswordButton() {
+    return Container(
+      alignment: Alignment.topRight,
+      height: 15,
+      width: 135,
+      child: FlatButton(
+        onPressed: () => (_currentState.isEmailValid &&
+                _loginBloc.emailController.text != '')
+            ? _onForgotPasswordPressed()
+            : null,
+        color: ColorSets.barBackgroundColor,
+        child: Text(
+          'Forgot Password',
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Palanquin',
+            letterSpacing: 0.5,
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _signUpButton() {
     return Container(
       height: 45,
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          BlocProvider.of<PageBloc>(context).add(
-            PageChanged(context: context, routeName: SIGN_UP_URL),
+          BlocProvider.of<PageBloc>(_context).add(
+            PageChanged(context: _context, routeName: SIGN_UP_URL),
           );
         },
         color: ColorSets.barBackgroundColor,
@@ -191,8 +201,8 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          BlocProvider.of<PageBloc>(context).add(
-            PageChanged(routeName: ROOT_URL, context: context),
+          BlocProvider.of<PageBloc>(_context).add(
+            PageChanged(routeName: ROOT_URL, context: _context),
           );
         },
         color: ColorSets.barBackgroundColor,
@@ -220,18 +230,40 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _loginBloc.emailController.addListener(_onEmailChanged);
+    _loginBloc.passwordController.addListener(_onPasswordChanged);
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          AuthenticationBloc _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+          AuthenticationBloc _authBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
           if (_authBloc.isBroadcast)
-          BlocProvider.of<AuthenticationBloc>(context)
-              .add(LoggedIn(context: context));
+            BlocProvider.of<AuthenticationBloc>(context)
+                .add(LoggedIn(context: context));
+        }
+        if (state.isPwRequestSent) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Password Reset Mail Sent!'),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           _currentState = state;
+          _context = context;
           return Center(
             child: ListView(
               shrinkWrap: true,
@@ -242,6 +274,8 @@ class _LoginFormState extends State<LoginForm> {
                 _emailTextFormField(),
                 SizedBox(height: 16.0),
                 _passwordTextFormField(),
+                SizedBox(height: 10.0),
+                _forgotPasswordButton(),
                 SizedBox(height: 32.0),
                 Container(
                   child: Column(
