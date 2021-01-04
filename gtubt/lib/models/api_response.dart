@@ -22,6 +22,8 @@ class ApiResponse {
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
 
+  Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
+
   @override
   String toString() {
     return '''ApiResponse {
@@ -45,6 +47,8 @@ class ApiResponseList<T> extends ApiResponse {
 
   factory ApiResponseList.fromJson(Map<String, dynamic> json) => _$ApiResponseListFromJson(json);
 
+  Map<String, dynamic> toJson() => _$ApiResponseListToJson(this);
+
   @override
   String toString() {
     return '''ApiResponse {
@@ -67,6 +71,8 @@ class ApiResponseSingle<T> extends ApiResponse {
   }) : super(status: status, message: message);
 
   factory ApiResponseSingle.fromJson(Map<String, dynamic> json) => _$ApiResponseSingleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ApiResponseSingleToJson(this);
 
   @override
   String toString() {

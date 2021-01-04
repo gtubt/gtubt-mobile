@@ -32,25 +32,25 @@ class Routes {
   static final navListLoggedIn = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
-      title: Text(bodyTitle[0]),
+      label: bodyTitle[0],
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.calendar_today),
-      title: Text(bodyTitle[1]),
+      label: bodyTitle[1],
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.person_outline),
-      title: Text(bodyTitle[2]),
+      label: bodyTitle[2],
     ),
   ];
   static final navList = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
-      title: Text(bodyTitle[0]),
+      label: bodyTitle[0],
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.calendar_today),
-      title: Text(bodyTitle[1]),
+      label: bodyTitle[1],
     ),
   ];
 }
