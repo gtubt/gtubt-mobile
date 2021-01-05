@@ -57,10 +57,6 @@ class TicketPopup {
                                   label: "Date: ",
                                   text: date,
                                 ),
-                                LabeledText(
-                                  label: "Time: ",
-                                  text: hour,
-                                ),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     top: 16,
