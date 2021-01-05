@@ -11,8 +11,8 @@ class Post {
   String coverImageUrl;
   String summary;
   PostType type;
-  String startDate;
-  String endDate;
+  DateTime startDate;
+  DateTime endDate;
 
   Post({
     this.title,

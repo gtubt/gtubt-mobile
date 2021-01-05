@@ -37,9 +37,26 @@ class User {
     this.profilePhoto,
   });
 
+  String get fullName => "$name $lastname";
+
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  factory User.clone(User user) {
+    return User(
+      studentId: user.studentId,
+      email: user.email,
+      department: user.department,
+      name: user.name,
+      lastname: user.lastname,
+      year: user.year,
+      phone: user.phone,
+      profilePhoto: user.profilePhoto,
+      id: user.id,
+    );
+  }
+
 
   @override
   String toString() {

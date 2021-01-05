@@ -8,6 +8,7 @@ import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class LoginForm extends StatelessWidget {
   static String tag = 'login-page';
 
@@ -29,6 +30,14 @@ class LoginForm extends StatelessWidget {
 
   void _onFormSubmitted() {
     _loginBloc.add(LoginWithCredentialsPressed());
+  }
+
+  void _onForgotPasswordPressed() {
+    _loginBloc.add(
+      ForgotPasswordPressed(
+        email: _loginBloc.emailController.text.trim(),
+      ),
+    );
   }
 
   Widget _logoArea() {
@@ -117,6 +126,32 @@ class LoginForm extends StatelessWidget {
     );
   }
 
+  Widget _forgotPasswordButton() {
+    return Container(
+      alignment: Alignment.topRight,
+      height: 15,
+      width: 135,
+      child: FlatButton(
+        onPressed: () => (_currentState.isEmailValid &&
+                _loginBloc.emailController.text != '')
+            ? _onForgotPasswordPressed()
+            : null,
+        color: ColorSets.barBackgroundColor,
+        child: Text(
+          'Forgot Password',
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w800,
+            fontFamily: 'Palanquin',
+            letterSpacing: 0.5,
+            fontSize: 12,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _signUpButton() {
     return Container(
       height: 45,
@@ -186,6 +221,22 @@ class LoginForm extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(LoggedIn(context: context));
         }
+        if (state.isPwRequestSent) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Password Reset Mail Sent!'),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
+        }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
@@ -201,6 +252,8 @@ class LoginForm extends StatelessWidget {
                 _emailTextFormField(),
                 SizedBox(height: 16.0),
                 _passwordTextFormField(),
+                SizedBox(height: 10.0),
+                _forgotPasswordButton(),
                 SizedBox(height: 32.0),
                 Container(
                   child: Column(

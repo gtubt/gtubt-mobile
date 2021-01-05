@@ -9,43 +9,37 @@ class TicketPage extends StatelessWidget {
       title: "GeekDay 2020",
       name: "name1",
       location: "location1",
-      date: "03-03-2020",
-      hour: "hour1",
+      date: DateTime(2020, 7, 13),
       codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg");
   final Ticket ticket2 = Ticket(
       title: "GeekDay 2021",
       name: "name2",
       location: "location2",
-      date: "04-03-2021",
-      hour: "hour2",
+      date: DateTime(2020, 7, 13),
       codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg");
   final Ticket ticket3 = Ticket(
       title: "GeekDay 2022",
       name: "name3",
       location: "location3",
-      date: "05-03-2022",
-      hour: "hour3",
+      date: DateTime(2020, 7, 13),
       codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg");
   final Ticket ticket4 = Ticket(
       title: "GeekDay 2023",
       name: "name4",
       location: "location4",
-      date: "06-03-2023",
-      hour: "hour4",
+      date: DateTime(2020, 7, 13),
       codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg");
   final Ticket ticket5 = Ticket(
       title: "GeekDay 2024",
       name: "name5",
       location: "location5",
-      date: "07-03-2024",
-      hour: "hour5",
+      date: DateTime(2020, 7, 13),
       codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg");
   final Ticket ticket6 = Ticket(
       title: "GeekDay 2025",
       name: "name6",
       location: "location6",
-      date: "08-03-2025",
-      hour: "hour6",
+      date: DateTime(2020, 7, 13),
       codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg");
 
   @override
@@ -70,7 +64,8 @@ class TicketPage extends StatelessWidget {
         itemCount: pageTickets.length,
         itemBuilder: (BuildContext context, int index) {
           var cardPadding = index == 0
-              ? EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
+              ? EdgeInsets.only(
+                  left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
               : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
 
           String day = "03";

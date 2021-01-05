@@ -9,8 +9,7 @@ class TicketPopup {
     String title = ticket.title;
     String name = ticket.name;
     String location = ticket.location;
-    String date = ticket.date;
-    String hour = ticket.hour;
+    String date = ticket.date.toString();
     String codeUrl = ticket.codeUrl;
     showDialog(
         context: context,

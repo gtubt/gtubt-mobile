@@ -2,13 +2,14 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:intl/intl.dart';
 
 class TimeAgoFormatter {
-  final date;
+  final inputDate;
 
-  TimeAgoFormatter(this.date);
+  TimeAgoFormatter(this.inputDate);
 
   @override
   String toString() {
-    final formatter = DateFormat('dd-MM-yyyy');
+    final date = inputDate.toString();
+    final formatter = DateFormat('yyyy-MM-dd');
     final formattedString = formatter.parse(date);
     final now = DateTime.now();
     final difference = now.difference(formattedString);

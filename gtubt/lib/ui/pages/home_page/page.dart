@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'components.dart';
 
 class HomePage extends StatelessWidget {
-
   void postTapEvent(BuildContext context, Post post, String heroTag) {
     Navigator.pushNamed(context, POST_URL,
         arguments: PostViewArguments(post, heroTag));
