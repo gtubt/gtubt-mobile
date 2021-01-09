@@ -3,6 +3,7 @@ import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,13 +54,7 @@ class LoginForm extends StatelessWidget {
       child: Text(
         labelName,
         textAlign: TextAlign.left,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontFamily: 'Palanquin',
-          letterSpacing: 0.5,
-          fontSize: 12,
-        ),
+        style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
       ),
     );
   }
@@ -125,13 +120,7 @@ class LoginForm extends StatelessWidget {
         color: ColorSets.selectedBarItemColor,
         child: Text(
           'Login',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 16,
-          ),
+          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
     );
@@ -177,13 +166,7 @@ class LoginForm extends StatelessWidget {
         child: Text(
           'Not a Member?\nRegister!',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 12,
-          ),
+          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
       decoration: BoxDecoration(
@@ -210,13 +193,7 @@ class LoginForm extends StatelessWidget {
         child: Text(
           'Continue Without Registration',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 12,
-          ),
+          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
       decoration: BoxDecoration(

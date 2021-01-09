@@ -1,6 +1,7 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,20 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
 
-  final TextStyle _headerTextStyle = TextStyle(
-    color: ColorSets.profilePageThemeColor,
-    fontSize: 16.0,
-    backgroundColor: Colors.white,
-    height: -2,
-    fontWeight: FontWeight.w700,
-  );
-
-  final TextStyle _nameTextStyle = TextStyle(
-    color: ColorSets.defaultTextColor,
-    fontSize: 16.0,
-    height: 1.4,
-    fontWeight: FontWeight.w500,
-  );
+  final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
+  final TextStyle _nameTextStyle = TextStyles.subtitle2.copyWith(height: 1.4, color: ColorSets.defaultTextColor);
 
   Widget _imageBackground() {
     return Container(
