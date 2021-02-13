@@ -3,6 +3,7 @@ import 'package:GTUBT/ui/pages/home_page/page.dart';
 import 'package:GTUBT/ui/pages/login_page.dart';
 import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/pages/profile_page.dart';
+import 'package:GTUBT/ui/pages/settings_page.dart';
 import 'package:GTUBT/ui/pages/signup_page.dart';
 import 'package:GTUBT/ui/pages/post_page.dart';
 import 'package:GTUBT/ui/pages/ticket_page.dart';
@@ -13,6 +14,7 @@ const LOGIN_URL = '/login';
 const POST_URL = '/post';
 const SIGN_UP_URL = '/sign_up';
 const TICKET_URL = '/ticket';
+const SETTINGS_URL = '/settings';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
@@ -21,6 +23,7 @@ class Routes {
     POST_URL: (context) => PostPage(),
     SIGN_UP_URL: (context) => SignUpPage(),
     TICKET_URL: (context) => TicketPage(),
+    SETTINGS_URL: (context) => SettingsPage(),
   };
 
   static final bodyTitle = ["Home", "Calendar", "Profile"];
