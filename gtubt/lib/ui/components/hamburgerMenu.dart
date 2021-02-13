@@ -43,6 +43,45 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     );
   }
 
+  void _settingsButtonFunction() {
+    BlocProvider.of<PageBloc>(context).add(
+      PageChanged(
+        context: context,
+        routeName: SETTINGS_URL,
+      ),
+    );
+  }
+
+  Widget _buildProfileHeader(String username, String profileImage) {
+    return Column(
+      children: [
+        Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            clipBehavior: Clip.antiAlias,
+            child: FittedBox(
+              child: profileImage != null
+                  ? Image.network(
+                      profileImage,
+                    )
+                  : Icon(
+                      Icons.account_circle,
+                      color: ColorSets.pageBackgroundColor,
+                    ),
+            )),
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0, bottom: 30.0),
+          child: Text(
+            username ?? '',
+            style:
+                TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _buildHamburgerMenuItem(String menuItemName, dynamic function) {
     return InkWell(
       child: Container(
@@ -50,7 +89,11 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         height: 50,
         color: ColorSets.profilePageThemeColor,
         child: Center(
-          child: Text(menuItemName, style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),),
+          child: Text(
+            menuItemName,
+            style:
+                TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
+          ),
         ),
       ),
       onTap: () => function(),
@@ -61,16 +104,18 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     List<Widget> _menuItems = List<Widget>();
 
     if (_authBloc.state is AuthenticationAuthenticated) {
-      _menuItems.add(_buildHamburgerMenuItem('PROFILE FOTO', null));
-      _menuItems.add(_buildHamburgerMenuItem('USERNAME', null));
+      _menuItems.add(
+          _buildProfileHeader('User Name', 'http://placekitten.com/400/400'));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
-      _menuItems.add(_buildHamburgerMenuItem('SETTINGS', null));
+      _menuItems
+          .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));
       _menuItems.add(_buildHamburgerMenuItem('LOGOUT', _logoutButtonFunction));
     } else {
+      _menuItems.add(_buildProfileHeader(null, null));
       _menuItems.add(_buildHamburgerMenuItem('LOGIN', _loginButtonFunction));
-      _menuItems.add(_buildHamburgerMenuItem('SETTINGS', null));
+      _menuItems
+          .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));
     }
-
 
     return ListView(
       padding: EdgeInsets.zero,
@@ -83,11 +128,9 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   Widget build(BuildContext context) {
     return Drawer(
       child: BlocListener<AuthenticationBloc, AuthenticationState>(
-        listener: (context, state){
-
-        },
+        listener: (context, state) {},
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state){
+          builder: (context, state) {
             return Container(
               color: ColorSets.barBackgroundColor,
               alignment: Alignment.center,
