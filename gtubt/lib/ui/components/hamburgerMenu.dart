@@ -100,18 +100,25 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     );
   }
 
+  Widget _buildSpacer(double spaceFactor){
+    var _height = MediaQuery.of(context).size.height;
+    return SizedBox(
+      height: _height*spaceFactor,
+    );
+  }
+
   Widget _buildHamburgerMenu() {
     List<Widget> _menuItems = List<Widget>();
 
-    if (_authBloc.state is AuthenticationAuthenticated) {
+    if (_authBloc.state is !AuthenticationAuthenticated) {
       _menuItems.add(
-          _buildProfileHeader('User Name', 'http://placekitten.com/400/400'));
+          _buildProfileHeader('Your Name', 'http://placekitten.com/400/400'));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
       _menuItems
           .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));
+      _menuItems.add(_buildSpacer(0.2));
       _menuItems.add(_buildHamburgerMenuItem('LOGOUT', _logoutButtonFunction));
     } else {
-      _menuItems.add(_buildProfileHeader(null, null));
       _menuItems.add(_buildHamburgerMenuItem('LOGIN', _loginButtonFunction));
       _menuItems
           .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));
