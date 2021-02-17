@@ -1,11 +1,14 @@
 import 'package:GTUBT/service/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:GTUBT/models/user.dart';
-import 'package:http/http.dart';
 
 void main() {
   test('Get User with email', () async {
-    User user = await UserService().get("yasir.nacak@gmail.com");
+    var result = await UserService().get("yasir.nacak@gmail.com");
+    User user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.name, "Yasir");
   });
@@ -21,35 +24,46 @@ void main() {
     user.year = 2016;
     user.profilePhoto = "google.com";
 
-    Response response = await UserService().post(user);
-    expect(response == null, false);
-    expect(response.statusCode, 200);
+    User newUser = await UserService().post(user);
+    expect(newUser == null, false);
+    expect(newUser.studentId, user.studentId);
   });
 
   test('Update User', () async {
-    User user = await UserService().get("ahmtergn5@gmail.com");
+    var result = await UserService().get("ahmtergn5@gmail.com");
+    User user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
     user.phone = "5464351277";
 
-    Response response = await UserService().patch(user);
-    expect(response == null, false);
-    expect(response.statusCode, 200);
+    User updatedUser = await UserService().patch(user);
+    expect(updatedUser == null, false);
+    expect(updatedUser.phone, "5464351277");
 
-    user = await UserService().get("ahmtergn5@gmail.com");
+    result = await UserService().get("ahmtergn5@gmail.com");
+    user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.phone, "0546 435 12 77");
   });
 
   test('Delete User', () async {
-    User user = await UserService().get("ahmtergn5@gmail.com");
+    var result = await UserService().get("ahmtergn5@gmail.com");
+    User user = result.fold(
+            (user) => user,
+            (userFailure) => null
+    );
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
     var id = user.id;
-    Response response = await UserService().delete(id);
-    expect(response == null, false);
-    expect(response.statusCode, 200);
+    bool isDeleted = await UserService().delete(id);
+    expect(isDeleted, true);
   });
 }

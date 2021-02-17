@@ -28,12 +28,12 @@ void main() {
     );
     Map<String, dynamic> data = json.decode(
         '{"title":"Event Title","description":"Lorem ipsum dolor","coverImageUrl":"http://someurl.com/somepath","date":"$now", "createdDate":"$now"}');
-    Event ev = Event.fromJson(data);
-    expect(announcement.description, Event.fromJson(data).description);
-    expect(announcement.title, Event.fromJson(data).title);
-    expect(announcement.date, Event.fromJson(data).date);
-    expect(announcement.coverImageUrl, Event.fromJson(data).coverImageUrl);
-    expect(announcement.createdDate, Event.fromJson(data).createdDate);
+    Event event = Event.fromJson(data);
+    expect(announcement.description, event.description);
+    expect(announcement.title, event.title);
+    expect(announcement.date, event.date);
+    expect(announcement.coverImageUrl, event.coverImageUrl);
+    expect(announcement.createdDate, event.createdDate);
   });
 
   test('Update Event', () {

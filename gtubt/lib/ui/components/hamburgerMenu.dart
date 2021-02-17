@@ -2,6 +2,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +50,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         height: 50,
         color: ColorSets.profilePageThemeColor,
         child: Center(
-          child: Text(menuItemName),
+          child: Text(menuItemName, style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),),
         ),
       ),
       onTap: () => function(),

@@ -1,4 +1,6 @@
 import 'package:GTUBT/models/post.dart';
+import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class PostItem extends StatelessWidget {
@@ -42,12 +44,15 @@ class PostItem extends StatelessWidget {
             Container(
               child: Text(
                 item.title,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyles.subtitle1.copyWith(color: ColorSets.defaultTextColor),
               ),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),
-              child: Text(item.summary),
+              child: Text(
+                item.summary,
+                style: TextStyles.bodyText2.copyWith(color: ColorSets.defaultTextColor),
+              ),
             ),
           ],
         ),

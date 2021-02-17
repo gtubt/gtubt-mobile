@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -87,14 +87,6 @@ class _SignUpPageState extends State<SignUpPage> {
         !_registerBloc.state.isSubmitting;
   }
 
-  final TextStyle _headerTextStyle = TextStyle(
-    color: ColorSets.profilePageThemeColor,
-    fontSize: 16.0,
-    backgroundColor: Colors.white,
-    height: -2,
-    fontWeight: FontWeight.w700,
-  );
-
   Widget _imageBackground() {
     return Container(
       height: 120.0,
@@ -137,31 +129,6 @@ class _SignUpPageState extends State<SignUpPage> {
         )
       ],
     );
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 50),
-            width: 140.0,
-            height: 140.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              // image: DecorationImage(
-              //   image: AssetImage(
-              //     "assets/images/as.jpg"
-              //   ),
-              // ),
-              borderRadius: BorderRadius.circular(80),
-              border: Border.all(
-                color: ColorSets.profilePageThemeColor,
-                width: 5,
-              ),
-            ),
-          ),
-        ]
-      )
-    );
   }
 
   Widget _nameForm() {
@@ -171,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(top: 20, left: 25, right:25),
           child: TextFormField(
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _nameController,
@@ -192,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _lastnameController,
@@ -215,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
@@ -238,7 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _studentNumberController,
@@ -261,7 +228,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right:25, top: 20),
           child: TextFormField(
-            autovalidate: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             obscureText: true,
             keyboardType: TextInputType.text,
@@ -291,13 +258,7 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         child: Text(
           'Create Account',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 16,
-          ),
+          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
     );

@@ -1,33 +1,17 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class ProfilePage extends StatelessWidget {
-  final String _fullname = "İsim Soyisim";
-  final String _email = "adsoyad@eposta.com";
-  final String _department = "Bilgisayar Mühendsliği";
-  final String _year = "3. Sınıf";
-  final String _studentnumber = "161044123";
-  final String _phonenumber = "+90 5xx xxx xx xx";
+  UserBloc _userBloc;
 
-  bool _editMode = false;
-
-  final TextStyle _headerTextStyle = TextStyle(
-    color: ColorSets.profilePageThemeColor,
-    fontSize: 16.0,
-    backgroundColor: Colors.white,
-    height: -2,
-    fontWeight: FontWeight.w700,
-  );
-
-  final TextStyle _nameTextStyle = TextStyle(
-    color: ColorSets.defaultTextColor,
-    fontSize: 16.0,
-    height: 1.4,
-    fontWeight: FontWeight.w500,
-  );
+  final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
+  final TextStyle _nameTextStyle = TextStyles.subtitle2.copyWith(height: 1.4, color: ColorSets.defaultTextColor);
 
   Widget _imageBackground() {
     return Container(
@@ -62,14 +46,17 @@ class ProfilePage extends StatelessWidget {
 
   Widget _fullName(String name) {
     Widget form;
-    if (_editMode) {
+    if (_userBloc.state.editMode) {
       var controller = TextEditingController();
       controller.text = name;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
       });
-      form = TextFormField(controller: controller, textAlign: TextAlign.center,);
+      form = TextFormField(
+        controller: controller,
+        textAlign: TextAlign.center,
+      );
     } else {
       form = Text(
         name,
@@ -78,7 +65,8 @@ class ProfilePage extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 32.0, right: 32.0),
+      padding:
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 32.0, right: 32.0),
       child: Container(
         height: 30.0,
         child: form,
@@ -98,7 +86,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(email),
+          formWidget(EmailChanged(), email),
         ],
       ),
       width: 350.0,
@@ -115,6 +103,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _deparmentInfo(String department) {
+    //TODO: must be dropdown
     return Container(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                 style: _headerTextStyle,
               ),
             ),
-            formWidget(department),
+            formWidget(DepartmentChanged(), department),
           ]),
       width: 350.0,
       height: 40.0,
@@ -153,7 +142,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(year),
+          formWidget(YearChanged(), year),
         ],
       ),
       width: 350.0,
@@ -169,7 +158,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _studentNumber(String studentnumber) {
+  Widget _studentNumber(String studentId) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,7 +170,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(studentnumber),
+          formWidget(StudentNumberChanged(), studentId),
         ],
       ),
       width: 350.0,
@@ -197,7 +186,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _phoneNumber(String phonenumber) {
+  Widget _phoneNumber(String phone) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +198,7 @@ class ProfilePage extends StatelessWidget {
               style: _headerTextStyle,
             ),
           ),
-          formWidget(phonenumber),
+          formWidget(PhoneChanged(), phone),
         ],
       ),
       width: 350.0,
@@ -225,17 +214,19 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget formWidget(formData) {
+  Widget formWidget(UserEvent field, formData) {
     Widget form;
-    if (_editMode) {
-      var controller = TextEditingController();
+    if (_userBloc.state.editMode) {
+      TextEditingController controller = _userBloc.textEditingController(field);
       controller.text = formData;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
-        // TODO: Update related field with this data in every change.
+        _userBloc.add(field);
       });
-      form = TextFormField(controller: controller, );
+      form = TextFormField(
+        controller: controller,
+      );
     } else {
       form = Text(formData, style: _nameTextStyle);
     }
@@ -249,7 +240,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    _editMode = state.editMode;
+    User user = _userBloc.userService.currentUser;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -262,26 +253,26 @@ class ProfilePage extends StatelessWidget {
                     height: 50,
                   ),
                   _profileImage(),
-                  _fullName(_fullname),
-                  new Container(
+                  _fullName(user.fullName),
+                  Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _eMail(_email),
+                    child: _eMail(user.email),
                   ),
-                  new Container(
+                  Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _deparmentInfo(_department),
+                    child: _deparmentInfo(user.department.toString()),
                   ),
-                  new Container(
+                  Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _yearInfo(_year),
+                    child: _yearInfo(user.year.toString()),
                   ),
-                  new Container(
+                  Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _studentNumber(_studentnumber),
+                    child: _studentNumber(user.studentId),
                   ),
-                  new Container(
+                  Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _phoneNumber(_phonenumber),
+                    child: _phoneNumber(user.phone),
                   ),
                 ],
               ),
@@ -294,9 +285,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _userBloc = BlocProvider.of<UserBloc>(context);
     return BlocConsumer<UserBloc, UserState>(
         builder: (context, state) {
-          _editMode = state.editMode;
           return buildAll(context, state);
         },
         listener: (context, state) {});

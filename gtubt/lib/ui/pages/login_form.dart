@@ -3,10 +3,12 @@ import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/text_styles.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// ignore: must_be_immutable
 class LoginForm extends StatelessWidget {
   static String tag = 'login-page';
 
@@ -30,6 +32,14 @@ class LoginForm extends StatelessWidget {
     _loginBloc.add(LoginWithCredentialsPressed());
   }
 
+  void _onForgotPasswordPressed() {
+    _loginBloc.add(
+      ForgotPasswordPressed(
+        email: _loginBloc.emailController.text.trim(),
+      ),
+    );
+  }
+
   Widget _logoArea() {
     return Container(
       height: 200,
@@ -44,13 +54,7 @@ class LoginForm extends StatelessWidget {
       child: Text(
         labelName,
         textAlign: TextAlign.left,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          fontFamily: 'Palanquin',
-          letterSpacing: 0.5,
-          fontSize: 12,
-        ),
+        style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
       ),
     );
   }
@@ -116,12 +120,32 @@ class LoginForm extends StatelessWidget {
         color: ColorSets.selectedBarItemColor,
         child: Text(
           'Login',
+          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
+        ),
+      ),
+    );
+  }
+
+  Widget _forgotPasswordButton() {
+    return Container(
+      alignment: Alignment.topRight,
+      height: 15,
+      width: 135,
+      child: FlatButton(
+        onPressed: () => (_currentState.isEmailValid &&
+                _loginBloc.emailController.text != '')
+            ? _onForgotPasswordPressed()
+            : null,
+        color: ColorSets.barBackgroundColor,
+        child: Text(
+          'Forgot Password',
+          textAlign: TextAlign.right,
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
             fontFamily: 'Palanquin',
             letterSpacing: 0.5,
-            fontSize: 16,
+            fontSize: 12,
           ),
         ),
       ),
@@ -142,13 +166,7 @@ class LoginForm extends StatelessWidget {
         child: Text(
           'Not a Member?\nRegister!',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 12,
-          ),
+          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
       decoration: BoxDecoration(
@@ -175,13 +193,7 @@ class LoginForm extends StatelessWidget {
         child: Text(
           'Continue Without Registration',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 12,
-          ),
+          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
       decoration: BoxDecoration(
@@ -209,6 +221,22 @@ class LoginForm extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(LoggedIn(context: context));
         }
+        if (state.isPwRequestSent) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Password Reset Mail Sent!'),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
+        }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
@@ -224,6 +252,8 @@ class LoginForm extends StatelessWidget {
                 _emailTextFormField(),
                 SizedBox(height: 16.0),
                 _passwordTextFormField(),
+                SizedBox(height: 10.0),
+                _forgotPasswordButton(),
                 SizedBox(height: 32.0),
                 Container(
                   child: Column(
