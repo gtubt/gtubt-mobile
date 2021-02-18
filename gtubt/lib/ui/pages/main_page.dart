@@ -57,44 +57,38 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     var actions = _generateActions();
 
-    return BlocListener<AppbarBloc, AppbarState>(
-        listener: (BuildContext context, AppbarState state) {
-          // Regenerate actions in this state change
-          actions = _generateActions();
-        },
-        child: BlocBuilder<AppbarBloc, AppbarState>(
-            builder: (context, state) {
-              return BlocBuilder<PageBloc, PageState>(
-                  builder: (context, state) {
-                    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                        builder: (context, authState) {
-                          return Scaffold(
-                            appBar: AppBar(
-                              backgroundColor: ColorSets.barBackgroundColor,
-                              title: Text(Routes.bodyTitle[state.currentPage]),
-                              actions: actions,
-                            ),
-                            bottomNavigationBar: BottomNavigationBar(
-                              unselectedItemColor: ColorSets.unselectedBarItemColor,
-                              selectedIconTheme: IconThemeData(
-                                color: ColorSets.selectedBarItemColor,
-                              ),
-                              unselectedIconTheme: IconThemeData(
-                                color: ColorSets.unselectedBarItemColor,
-                              ),
-                              currentIndex: state.currentPage,
-                              backgroundColor: ColorSets.barBackgroundColor,
-                              onTap: _onNavigation,
-                              items: authState is AuthenticationAuthenticated
-                                  ? Routes.navListLoggedIn
-                                  : Routes.navList,
-                            ),
-                            drawer: HamburgerMenuComponents(),
-                            body: Routes.bodyList[state.currentPage],
-                          );
-                        });
-                  });
-            })
-    );
+    return BlocBuilder<AppbarBloc, AppbarState>(
+      builder: (context, state) {
+        return BlocBuilder<PageBloc, PageState>(
+          builder: (context, state) {
+            return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                builder: (context, authState) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      backgroundColor: ColorSets.barBackgroundColor,
+                      title: Text(Routes.bodyTitle[state.currentPage]),
+                      actions: actions,
+                    ),
+                    bottomNavigationBar: BottomNavigationBar(
+                      unselectedItemColor: ColorSets.unselectedBarItemColor,
+                      selectedIconTheme: IconThemeData(
+                        color: ColorSets.selectedBarItemColor,
+                      ),
+                      unselectedIconTheme: IconThemeData(
+                        color: ColorSets.unselectedBarItemColor,
+                      ),
+                      currentIndex: state.currentPage,
+                      backgroundColor: ColorSets.barBackgroundColor,
+                      onTap: _onNavigation,
+                      items: authState is AuthenticationAuthenticated
+                          ? Routes.navListLoggedIn
+                          : Routes.navList,
+                    ),
+                    drawer: HamburgerMenuComponents(),
+                    body: Routes.bodyList[state.currentPage],
+                  );
+                });
+          });
+    });
   }
 }
