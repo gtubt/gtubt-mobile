@@ -5,17 +5,22 @@ import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:GTUBT/ui/style/form_box_container.dart';
+
+import '../style/color_sets.dart';
+import '../style/color_sets.dart';
+import '../style/form_box_container.dart';
 
 // ignore: must_be_immutable
 class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
 
   final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
-  final TextStyle _nameTextStyle = TextStyles.subtitle2.copyWith(height: 1.4, color: ColorSets.defaultTextColor);
+  final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(height: 1.4, color: ColorSets.defaultTextColor, letterSpacing: 0, fontWeight: FontWeight.w500);
 
   Widget _imageBackground() {
     return Container(
-      height: 150.0,
+      height: 120.0,
       decoration: BoxDecoration(
         color: ColorSets.profilePageThemeColor,
       ),
@@ -25,8 +30,8 @@ class ProfilePage extends StatelessWidget {
   Widget _profileImage() {
     return Center(
       child: Container(
-        width: 140.0,
-        height: 140.0,
+        width: 130.0,
+        height: 130.0,
         decoration: BoxDecoration(
           color: Colors.white,
           // image: DecorationImage(
@@ -44,6 +49,7 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+
   Widget _fullName(String name) {
     Widget form;
     if (_userBloc.state.editMode) {
@@ -60,13 +66,14 @@ class ProfilePage extends StatelessWidget {
     } else {
       form = Text(
         name,
+        textAlign: TextAlign.center,
         style: _nameTextStyle,
       );
     }
 
     return Container(
       padding:
-          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 32.0, right: 32.0),
+          const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 50.0, right: 50.0),
       child: Container(
         height: 30.0,
         child: form,
@@ -80,25 +87,12 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              "  E-posta  ",
-              style: _headerTextStyle,
-            ),
+            child: formWidget(EmailChanged(), email, "E-mail"),
           ),
-          formWidget(EmailChanged(), email),
         ],
       ),
       width: 350.0,
-      height: 40.0,
-      decoration: BoxDecoration(
-        color: ColorSets.defaultBarBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
-        ),
-      ),
+      height: 60.0,
     );
   }
 
@@ -109,24 +103,11 @@ class ProfilePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(left: 25),
-              child: Text(
-                "  Bölüm  ",
-                style: _headerTextStyle,
-              ),
+              child: formWidget(DepartmentChanged(), department, "Department"),
             ),
-            formWidget(DepartmentChanged(), department),
           ]),
       width: 350.0,
-      height: 40.0,
-      decoration: BoxDecoration(
-        color: ColorSets.defaultBarBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
-        ),
-      ),
+      height: 60.0,
     );
   }
 
@@ -136,25 +117,13 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              "  Sınıf  ",
-              style: _headerTextStyle,
-            ),
+            child: formWidget(YearChanged(), year, "Year"),
           ),
-          formWidget(YearChanged(), year),
         ],
       ),
       width: 350.0,
-      height: 40.0,
-      decoration: BoxDecoration(
-        color: ColorSets.defaultBarBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
-        ),
-      ),
+      height: 60.0,
+
     );
   }
 
@@ -164,25 +133,12 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              "  Öğrenci No  ",
-              style: _headerTextStyle,
-            ),
+            child: formWidget(StudentNumberChanged(), studentId, "Student ID"),
           ),
-          formWidget(StudentNumberChanged(), studentId),
         ],
       ),
       width: 350.0,
-      height: 40.0,
-      decoration: BoxDecoration(
-        color: ColorSets.defaultBarBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
-        ),
-      ),
+      height: 60.0,
     );
   }
 
@@ -192,29 +148,16 @@ class ProfilePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 25),
-            child: Text(
-              "  Telefon No  ",
-              style: _headerTextStyle,
-            ),
+            child: formWidget(PhoneChanged(), phone, "Phone"),
           ),
-          formWidget(PhoneChanged(), phone),
         ],
       ),
       width: 350.0,
-      height: 40.0,
-      decoration: BoxDecoration(
-        color: ColorSets.defaultBarBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
-        ),
-      ),
+      height: 60.0,
     );
   }
 
-  Widget formWidget(UserEvent field, formData) {
+  Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
     if (_userBloc.state.editMode) {
       TextEditingController controller = _userBloc.textEditingController(field);
@@ -224,16 +167,24 @@ class ProfilePage extends StatelessWidget {
         controller.value = controller.value.copyWith(text: text);
         _userBloc.add(field);
       });
-      form = TextFormField(
+      form =  TextFormField(
         controller: controller,
+        readOnly: !_userBloc.state.editMode,
+        decoration: FormBoxContainer.textFieldStyle(labelTextStr: "  " + fieldName + "  "),
       );
     } else {
-      form = Text(formData, style: _nameTextStyle);
+      form =  TextFormField(
+        controller: null,
+        readOnly: !_userBloc.state.editMode,
+        enabled: false,
+        initialValue: formData,
+        decoration: FormBoxContainer.textFieldStyle(labelTextStr: "  " + fieldName + "  "),
+      );
     }
 
     return Expanded(
       child: Container(
-        padding: EdgeInsets.only(left: 25),
+        padding: EdgeInsets.only(left: 25, right: 25),
         child: form,
       ),
     );
@@ -255,24 +206,67 @@ class ProfilePage extends StatelessWidget {
                   _profileImage(),
                   _fullName(user.fullName),
                   Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 12.0, bottom: 5.0),
                     child: _eMail(user.email),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(bottom: 5.0),
                     child: _deparmentInfo(user.department.toString()),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(bottom: 5.0),
                     child: _yearInfo(user.year.toString()),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(bottom: 5.0),
                     child: _studentNumber(user.studentId),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8.0),
                     child: _phoneNumber(user.phone),
+                  ),
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    padding: const EdgeInsets.only(bottom: 5.0, right: 30),
+                    child: IconButton(
+                       icon: Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                          size: 32,
+                        ),
+                      onPressed: (){
+                         showDialog(
+                             context: context,
+                             builder: (context) {
+                               return Dialog(
+                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                 backgroundColor: ColorSets.popUpColor,
+                                 elevation: 40,
+                                 child: Container(
+                                   height: 200,
+                                   width: 400,
+                                   child: Column(
+
+                                     children: [
+                                       Padding(
+                                         padding: const EdgeInsets.only(top: 12.0, left: 6.0, right: 6.0),
+                                         child: Text(
+                                           "To delete the account please enter your password",
+                                           textAlign: TextAlign.center,
+                                           style: TextStyle(
+                                             color: Colors.white,
+                                             fontWeight: FontWeight.w700
+                                           )
+                                         ),
+                                       ),
+                                     ],
+                                   )
+                                 )
+                               );
+                             }
+                         );
+                         //_userBloc.userService.delete(user.email);
+                      },
+                    ),
                   ),
                 ],
               ),
