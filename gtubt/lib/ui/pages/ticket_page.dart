@@ -37,21 +37,19 @@ class _TicketPageState extends State<TicketPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TicketPageBloc, TicketPageState>(
+    return BlocConsumer<TicketPageBloc, TicketPageState>(
       listener: (context, state) {},
-      child: BlocBuilder<TicketPageBloc, TicketPageState>(
-        builder: (context, TicketPageState state) {
-          return Scaffold(
-              backgroundColor: ColorSets.pageBackgroundColor,
-              appBar: AppBar(
-                title: Text("Tickets"),
-                centerTitle: true,
-                backgroundColor: ColorSets.barBackgroundColor,
-                elevation: 0.0,
-              ),
-              body: _buildBody(state));
-        },
-      ),
+      builder: (context, TicketPageState state) {
+        return Scaffold(
+            backgroundColor: ColorSets.pageBackgroundColor,
+            appBar: AppBar(
+              title: Text("Tickets"),
+              centerTitle: true,
+              backgroundColor: ColorSets.barBackgroundColor,
+              elevation: 0.0,
+            ),
+            body: _buildBody(state));
+      },
     );
   }
 
