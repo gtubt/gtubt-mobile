@@ -51,7 +51,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
       else{
         print("USERS DONT MATCH");
-        currentState = UserState(doesPasswordMatch: !currentState.doesPasswordMatch);
       }
     }
 
