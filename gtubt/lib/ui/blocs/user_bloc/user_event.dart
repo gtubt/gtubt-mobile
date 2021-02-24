@@ -1,3 +1,4 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
@@ -69,4 +70,13 @@ class ToggleEditMode extends UserEvent {
   @override
   String toString() => 'Toggle Edit Mode';
 
+}
+
+class OnAccountDeletion extends UserEvent{
+  final BuildContext context;
+
+  OnAccountDeletion({@required this.context}): super(field:'');
+
+  @override
+  String toString() => 'On Account Deletion';
 }

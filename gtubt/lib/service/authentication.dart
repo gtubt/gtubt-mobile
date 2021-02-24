@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
@@ -19,6 +20,18 @@ class AuthService {
       return (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  Future<auth.User> reAuthenticate(
+      String email,
+      String password,
+      ) async {
+    try {
+      EmailAuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+      return (await _auth.currentUser.reauthenticateWithCredential(credential)).user;
     } catch (error) {
       return null;
     }
@@ -48,4 +61,10 @@ class AuthService {
    Future<void> sendPasswordResetEmail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
+
+  Future<void> deleteUser() async{
+    await _auth.currentUser.delete();
+  }
+
+
 }

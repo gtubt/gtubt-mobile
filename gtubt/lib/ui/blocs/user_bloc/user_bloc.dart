@@ -1,11 +1,14 @@
 import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
+import 'package:GTUBT/ui/routes.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'user_event.dart';
 import 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
+  AuthService authService = AuthService();
   UserService userService = UserService();
   User editedUser;
   Map<UserEvent, TextEditingController> eventMap = {};
@@ -20,6 +23,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     return eventMap[field];
   }
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Stream<UserState> mapEventToState(event) async* {
@@ -36,6 +40,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
 
       currentState = UserState(editMode: !currentState.editMode);
+    }
+    else if(event is OnAccountDeletion){
+      var reauthUser = await authService.reAuthenticate(userService.currentUser.email, passwordController.text);
+      if(reauthUser != null){
+          userService.delete(userService.currentUser.id);
+          authService.deleteUser();
+          Navigator.pushReplacementNamed(event.context, LOGIN_URL);
+
+      }
+      else{
+        print("USERS DONT MATCH");
+        currentState = UserState(doesPasswordMatch: !currentState.doesPasswordMatch);
+      }
     }
 
     yield currentState;

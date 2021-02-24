@@ -190,6 +190,104 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  Widget accountDeletionDialog(BuildContext context){
+
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      backgroundColor: ColorSets.popUpColor,
+      elevation: 40,
+      child: Container(
+          height: 200,
+          width: 600,
+          padding: const EdgeInsets.only(top: 25.0,left: 25.0, right: 25.0),
+          child: Column(
+            children: [
+              Text(
+                  "To delete your account please enter your password",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16
+                  )
+              ),
+              SizedBox(height: 15),
+              Container(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _userBloc.passwordController,
+                          obscureText: true,
+                          decoration: new InputDecoration(
+                            contentPadding: EdgeInsets.only(left: 15.0),
+                            enabledBorder: new OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0),
+                              ),
+                            ),
+                            focusedBorder: new OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.white,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0),
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+              ),
+              SizedBox(height: 15),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RaisedButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      color: ColorSets.barBackgroundColor,
+                      textColor: ColorSets.lightTextColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+
+                      child: const Text(
+                          "Cancel"
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    RaisedButton(
+                      onPressed: (){
+                        _userBloc.add(OnAccountDeletion(context: context));
+                      },
+                      color: ColorSets.profilePageThemeColor,
+                      textColor: ColorSets.lightTextColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: ColorSets.lightTextColor)
+                      ),
+                      child: const Text(
+                          "Delete Account"
+                      ),
+                    )
+                  ]
+              )
+            ],
+          )
+      ),
+    );
+  }
+
   Widget buildAll(BuildContext context, UserState state) {
     User user = _userBloc.userService.currentUser;
     return Scaffold(
@@ -237,31 +335,8 @@ class ProfilePage extends StatelessWidget {
                          showDialog(
                              context: context,
                              builder: (context) {
-                               return Dialog(
-                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                 backgroundColor: ColorSets.popUpColor,
-                                 elevation: 40,
-                                 child: Container(
-                                   height: 200,
-                                   width: 400,
-                                   child: Column(
-
-                                     children: [
-                                       Padding(
-                                         padding: const EdgeInsets.only(top: 12.0, left: 6.0, right: 6.0),
-                                         child: Text(
-                                           "To delete the account please enter your password",
-                                           textAlign: TextAlign.center,
-                                           style: TextStyle(
-                                             color: Colors.white,
-                                             fontWeight: FontWeight.w700
-                                           )
-                                         ),
-                                       ),
-                                     ],
-                                   )
-                                 )
-                               );
+                                _userBloc.passwordController.clear();
+                                return accountDeletionDialog(context);
                              }
                          );
                          //_userBloc.userService.delete(user.email);
