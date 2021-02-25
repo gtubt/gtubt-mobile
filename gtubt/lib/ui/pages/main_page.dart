@@ -36,10 +36,8 @@ class _MainPageState extends State<MainPage> {
   List<Widget> _generateActions() {
     var actions = <Widget>[];
     var _selectedPage = BlocProvider.of<PageBloc>(context).state;
-    if (Routes.bodyTitle[_selectedPage.currentPage].toLowerCase() ==
-        "profile") {
-      bool desiredMode =
-          BlocProvider.of<AppbarBloc>(context).getCurrentEditButtonState();
+    if (Routes.bodyTitle[_selectedPage.currentPage] == Routes.PROFILE) {
+      bool desiredMode = BlocProvider.of<AppbarBloc>(context).state.editMode;
 
       if (desiredMode) {
         actions.add(
@@ -57,38 +55,36 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     var actions = _generateActions();
 
-    return BlocBuilder<AppbarBloc, AppbarState>(
-      builder: (context, state) {
-        return BlocBuilder<PageBloc, PageState>(
-          builder: (context, state) {
-            return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, authState) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      backgroundColor: ColorSets.barBackgroundColor,
-                      title: Text(Routes.bodyTitle[state.currentPage]),
-                      actions: actions,
-                    ),
-                    bottomNavigationBar: BottomNavigationBar(
-                      unselectedItemColor: ColorSets.unselectedBarItemColor,
-                      selectedIconTheme: IconThemeData(
-                        color: ColorSets.selectedBarItemColor,
-                      ),
-                      unselectedIconTheme: IconThemeData(
-                        color: ColorSets.unselectedBarItemColor,
-                      ),
-                      currentIndex: state.currentPage,
-                      backgroundColor: ColorSets.barBackgroundColor,
-                      onTap: _onNavigation,
-                      items: authState is AuthenticationAuthenticated
-                          ? Routes.navListLoggedIn
-                          : Routes.navList,
-                    ),
-                    drawer: HamburgerMenuComponents(),
-                    body: Routes.bodyList[state.currentPage],
-                  );
-                });
-          });
+    return BlocBuilder<AppbarBloc, AppbarState>(builder: (context, state) {
+      return BlocBuilder<PageBloc, PageState>(builder: (context, state) {
+        return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, authState) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: ColorSets.barBackgroundColor,
+              title: Text(Routes.bodyTitle[state.currentPage]),
+              actions: actions,
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              unselectedItemColor: ColorSets.unselectedBarItemColor,
+              selectedIconTheme: IconThemeData(
+                color: ColorSets.selectedBarItemColor,
+              ),
+              unselectedIconTheme: IconThemeData(
+                color: ColorSets.unselectedBarItemColor,
+              ),
+              currentIndex: state.currentPage,
+              backgroundColor: ColorSets.barBackgroundColor,
+              onTap: _onNavigation,
+              items: authState is AuthenticationAuthenticated
+                  ? Routes.navListLoggedIn
+                  : Routes.navList,
+            ),
+            drawer: HamburgerMenuComponents(),
+            body: Routes.bodyList[state.currentPage],
+          );
+        });
+      });
     });
   }
 }

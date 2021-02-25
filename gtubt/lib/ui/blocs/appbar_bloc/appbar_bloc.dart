@@ -15,17 +15,9 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
         userService.patch(userService.currentUser);
       }
 
-      yield AppbarState(editMode: !getCurrentEditButtonState());
+      yield AppbarState(editMode: !this.state.editMode);
     } else if (event is PageChangedAppbarEvent) {
       yield AppbarState();
     }
-  }
-
-  bool getCurrentEditButtonState() {
-    bool isEditMode = false;
-
-    isEditMode = this.state.editMode;
-
-    return isEditMode;
   }
 }

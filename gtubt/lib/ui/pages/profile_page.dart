@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _fullName(String name) {
     Widget form;
-    if (_appbarBloc.getCurrentEditButtonState()) {
+    if (_appbarBloc.state.editMode) {
       var controller = TextEditingController();
       controller.text = name;
       controller.addListener(() {
@@ -219,7 +219,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget formWidget(UserEvent field, formData) {
     Widget form;
-    if (_appbarBloc.getCurrentEditButtonState()) {
+    if (_appbarBloc.state.editMode) {
       TextEditingController controller = _userBloc.textEditingController(field);
       controller.text = formData;
       controller.addListener(() {
