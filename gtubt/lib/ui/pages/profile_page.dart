@@ -8,13 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 
 import '../style/color_sets.dart';
-import '../style/color_sets.dart';
 import '../style/form_box_container.dart';
 
 // ignore: must_be_immutable
 class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
-
+  final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
   final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(height: 1.4, color: ColorSets.defaultTextColor, letterSpacing: 0, fontWeight: FontWeight.w500);
 
@@ -191,13 +190,12 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget accountDeletionDialog(BuildContext context){
-
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: ColorSets.popUpColor,
       elevation: 40,
       child: Container(
-          height: 200,
+          height: 236,
           width: 600,
           padding: const EdgeInsets.only(top: 25.0,left: 25.0, right: 25.0),
           child: Column(
@@ -213,74 +211,82 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 15),
               Container(
-                  height: 40,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: TextFormField(
-                          controller: _userBloc.passwordController,
-                          obscureText: true,
-                          decoration: new InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 15.0),
-                            enabledBorder: new OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
+                        child: Form(
+                          key: _passwordFieldKey,
+                          child: TextFormField(
+                            controller: _userBloc.passwordController,
+                            obscureText: true,
+                            validator: (value){
+                              return !_userBloc.state.passwordsMatch ? 'Passwords doesn\'t match' : null;
+                            },
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(left: 15.0),
+                              enabledBorder: new OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
+                                ),
                               ),
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10.0),
+                              focusedBorder: new OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.white,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
+                                ),
                               ),
+                              filled: true,
+                              fillColor: Colors.white,
                             ),
-                            focusedBorder: new OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.white,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                const Radius.circular(10.0),
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Colors.white,
                           ),
                         ),
                       )
                     ],
                   )
               ),
-              SizedBox(height: 15),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RaisedButton(
-                      onPressed: (){
-                        Navigator.pop(context);
-                      },
-                      color: ColorSets.barBackgroundColor,
-                      textColor: ColorSets.lightTextColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-
-                      child: const Text(
-                          "Cancel"
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    RaisedButton(
-                      onPressed: (){
-                        _userBloc.add(OnAccountDeletion(context: context));
-                      },
-                      color: ColorSets.profilePageThemeColor,
-                      textColor: ColorSets.lightTextColor,
-                      shape: RoundedRectangleBorder(
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 20),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RaisedButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        color: ColorSets.barBackgroundColor,
+                        textColor: ColorSets.lightTextColor,
+                        shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          side: BorderSide(color: ColorSets.lightTextColor)
+                        ),
+
+                        child: const Text(
+                            "Cancel"
+                        ),
                       ),
-                      child: const Text(
-                          "Delete Account"
-                      ),
-                    )
-                  ]
+                      SizedBox(width: 20),
+                      RaisedButton(
+                        onPressed: (){
+                          _userBloc.add(OnAccountDeletion(context: context));
+                          _passwordFieldKey.currentState.validate();
+                        },
+                        color: ColorSets.profilePageThemeColor,
+                        textColor: ColorSets.lightTextColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            side: BorderSide(color: ColorSets.lightTextColor)
+                        ),
+                        child: const Text(
+                            "Delete Account"
+                        ),
+                      )
+                    ]
+                ),
               )
             ],
           )
