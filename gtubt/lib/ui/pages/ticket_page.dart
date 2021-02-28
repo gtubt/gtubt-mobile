@@ -55,6 +55,10 @@ class _TicketPageState extends State<TicketPage> {
 
   Widget _buildBody(TicketPageState state) {
     Widget body;
+    if (state is TicketsLoadingError) {
+      body = Text('An Error Occur' // state.failure.toString()
+          );
+    }
 
     if (state is TicketPageInitState || state is TicketsLoading) {
       body = Center(

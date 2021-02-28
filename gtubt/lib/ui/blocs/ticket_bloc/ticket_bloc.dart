@@ -62,6 +62,7 @@ class TicketPageBloc extends Bloc<TicketPageEvent, TicketPageState> {
 
     // TODO: call backend service method
     // TODO: _userService.getTickets();
+    //if(error) yield TicketsLoadingError
     Future.delayed(Duration(seconds: 1));
     yield TicketsLoaded(tickets: pageTickets);
   }
