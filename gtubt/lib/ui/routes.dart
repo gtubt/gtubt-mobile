@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/ticket_bloc/bloc.dart';
 import 'package:GTUBT/ui/pages/calendar_page.dart';
 import 'package:GTUBT/ui/pages/home_page/page.dart';
 import 'package:GTUBT/ui/pages/login_page.dart';
@@ -7,6 +8,7 @@ import 'package:GTUBT/ui/pages/signup_page.dart';
 import 'package:GTUBT/ui/pages/post_page.dart';
 import 'package:GTUBT/ui/pages/ticket_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 const ROOT_URL = '/';
 const LOGIN_URL = '/login';
@@ -20,7 +22,10 @@ class Routes {
     LOGIN_URL: (context) => LoginPage(),
     POST_URL: (context) => PostPage(),
     SIGN_UP_URL: (context) => SignUpPage(),
-    TICKET_URL: (context) => TicketPage(),
+    TICKET_URL: (context) => BlocProvider(
+          create: (context) => TicketPageBloc(),
+          child: TicketPage(),
+        ),
   };
   static const HOME = "Home";
   static const CALENDAR = "Calendar";
