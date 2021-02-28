@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
@@ -43,7 +44,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PostBloc>(
           create: (context) => PostBloc(),
-        )
+        ),
+        BlocProvider<AppbarBloc>(
+          create: (context) => AppbarBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'GTU BT',

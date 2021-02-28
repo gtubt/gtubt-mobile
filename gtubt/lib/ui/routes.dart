@@ -22,8 +22,10 @@ class Routes {
     SIGN_UP_URL: (context) => SignUpPage(),
     TICKET_URL: (context) => TicketPage(),
   };
-
-  static final bodyTitle = ["Home", "Calendar", "Profile"];
+  static const HOME = "Home";
+  static const CALENDAR = "Calendar";
+  static const PROFILE = "Profile";
+  static final bodyTitle = [HOME, CALENDAR, PROFILE];
   static final bodyList = <Widget>[
     HomePage(),
     CalendarPage(),
