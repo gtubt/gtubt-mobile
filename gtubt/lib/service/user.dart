@@ -76,6 +76,7 @@ class UserService extends BaseService {
           ApiResponseSingle<User>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
         currentUser = apiResponse.body;
+        // TODO: Fire some userBloc event to update current profile page with new user data
         return apiResponse.body;
       }
     }

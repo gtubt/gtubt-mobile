@@ -2,6 +2,7 @@ library api_response;
 
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/models/post.dart';
+import 'package:GTUBT/models/ticket.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -11,7 +12,7 @@ part 'api_response.g.dart';
 class ApiResponse {
   @JsonKey(name: 'Status')
   int status;
-  
+
   @JsonKey(name: 'Message')
   String message;
 
@@ -20,7 +21,8 @@ class ApiResponse {
     this.message,
   });
 
-  factory ApiResponse.fromJson(Map<String, dynamic> json) => _$ApiResponseFromJson(json);
+  factory ApiResponse.fromJson(Map<String, dynamic> json) =>
+      _$ApiResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiResponseToJson(this);
 
@@ -33,7 +35,6 @@ class ApiResponse {
   }
 }
 
-
 @JsonSerializable()
 class ApiResponseList<T> extends ApiResponse {
   @JsonKey(name: 'Body')
@@ -41,11 +42,13 @@ class ApiResponseList<T> extends ApiResponse {
   List<T> body;
 
   ApiResponseList({
-    int status, String message,
+    int status,
+    String message,
     this.body,
   }) : super(status: status, message: message);
 
-  factory ApiResponseList.fromJson(Map<String, dynamic> json) => _$ApiResponseListFromJson(json);
+  factory ApiResponseList.fromJson(Map<String, dynamic> json) =>
+      _$ApiResponseListFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiResponseListToJson(this);
 
@@ -66,11 +69,13 @@ class ApiResponseSingle<T> extends ApiResponse {
   T body;
 
   ApiResponseSingle({
-    int status, String message,
+    int status,
+    String message,
     this.body,
   }) : super(status: status, message: message);
 
-  factory ApiResponseSingle.fromJson(Map<String, dynamic> json) => _$ApiResponseSingleFromJson(json);
+  factory ApiResponseSingle.fromJson(Map<String, dynamic> json) =>
+      _$ApiResponseSingleFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApiResponseSingleToJson(this);
 
@@ -106,6 +111,12 @@ class _Converter<T> implements JsonConverter<T, Object> {
         json.containsKey('summary')) {
       return Post.fromJson(json) as T;
     }
+    if (json is Map<String, dynamic> &&
+        json.containsKey('title') &&
+        json.containsKey('date') &&
+        json.containsKey('codeUrl')) {
+      return Ticket.fromJson(json) as T;
+    }
 
     return json as T;
   }
@@ -127,6 +138,13 @@ class _Converter<T> implements JsonConverter<T, Object> {
         json.containsKey('title') &&
         json.containsKey('summary')) {
       return Post.fromJson(json);
+    }
+
+    if (json is Map<String, dynamic> &&
+        json.containsKey('title') &&
+        json.containsKey('date') &&
+        json.containsKey('codeUrl')) {
+      return Ticket.fromJson(json) as T;
     }
 
     return json as T;
