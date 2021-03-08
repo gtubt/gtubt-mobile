@@ -51,6 +51,34 @@ class _MainPageState extends State<MainPage> {
     return actions;
   }
 
+  Future<bool> _onBackPressed() {
+    return showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: Text('Are you sure?'),
+            content: Text('Do you want to exit an App'),
+            actions: [
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(false),
+                child: Text(
+                  "NO",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 16),
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(true),
+                child: Text(
+                  "YES",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var actions = _generateActions();
@@ -59,29 +87,36 @@ class _MainPageState extends State<MainPage> {
       return BlocBuilder<PageBloc, PageState>(builder: (context, state) {
         return BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, authState) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorSets.barBackgroundColor,
-              title: Text(Routes.bodyTitle[state.currentPage]),
-              actions: actions,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              unselectedItemColor: ColorSets.unselectedBarItemColor,
-              selectedIconTheme: IconThemeData(
-                color: ColorSets.selectedBarItemColor,
+          return WillPopScope(
+            // ignore: missing_return
+            onWillPop: () {
+              if (authState is AuthenticationAuthenticated)
+                return _onBackPressed();
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: ColorSets.barBackgroundColor,
+                title: Text(Routes.bodyTitle[state.currentPage]),
+                actions: actions,
               ),
-              unselectedIconTheme: IconThemeData(
-                color: ColorSets.unselectedBarItemColor,
+              bottomNavigationBar: BottomNavigationBar(
+                unselectedItemColor: ColorSets.unselectedBarItemColor,
+                selectedIconTheme: IconThemeData(
+                  color: ColorSets.selectedBarItemColor,
+                ),
+                unselectedIconTheme: IconThemeData(
+                  color: ColorSets.unselectedBarItemColor,
+                ),
+                currentIndex: state.currentPage,
+                backgroundColor: ColorSets.barBackgroundColor,
+                onTap: _onNavigation,
+                items: authState is AuthenticationAuthenticated
+                    ? Routes.navListLoggedIn
+                    : Routes.navList,
               ),
-              currentIndex: state.currentPage,
-              backgroundColor: ColorSets.barBackgroundColor,
-              onTap: _onNavigation,
-              items: authState is AuthenticationAuthenticated
-                  ? Routes.navListLoggedIn
-                  : Routes.navList,
+              drawer: HamburgerMenuComponents(),
+              body: Routes.bodyList[state.currentPage],
             ),
-            drawer: HamburgerMenuComponents(),
-            body: Routes.bodyList[state.currentPage],
           );
         });
       });
