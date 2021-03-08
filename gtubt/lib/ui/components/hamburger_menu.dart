@@ -57,6 +57,19 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     );
   }
 
+  Widget _buildProfileImage(String profileImage) {
+    if (profileImage == null) {
+      return Icon(
+        Icons.account_circle,
+        color: ColorSets.pageBackgroundColor,
+      );
+    } else {
+      return Image.network(
+        profileImage,
+      );
+    }
+  }
+
   Widget _buildProfileHeader(String username, String profileImage) {
     return Column(
       children: [
@@ -65,16 +78,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
             height: 150,
             decoration: BoxDecoration(shape: BoxShape.circle),
             clipBehavior: Clip.antiAlias,
-            child: FittedBox(
-              child: profileImage != null
-                  ? Image.network(
-                      profileImage,
-                    )
-                  : Icon(
-                      Icons.account_circle,
-                      color: ColorSets.pageBackgroundColor,
-                    ),
-            )),
+            child: FittedBox(child: _buildProfileImage(profileImage))),
         Padding(
           padding: const EdgeInsets.only(top: 12.0, bottom: 30.0),
           child: Text(
