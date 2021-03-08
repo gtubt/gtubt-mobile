@@ -1,14 +1,8 @@
 class UserState {
-  bool editMode;
-
-  UserState({
-    this.editMode = false,
-  });
+  UserState();
 
   @override
   String toString() {
-    return '''User { 
-      editMode: $editMode,
-    }''';
+    return '''User{}''';
   }
 }
