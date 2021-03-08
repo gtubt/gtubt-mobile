@@ -1,5 +1,7 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/ui/blocs/user_bloc/user_bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -14,11 +16,14 @@ class HamburgerMenuComponents extends StatefulWidget {
 
 class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   AuthenticationBloc _authBloc;
+  UserBloc _userBloc;
+  User user;
 
   @override
   void initState() {
     super.initState();
     _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    _userBloc = BlocProvider.of<UserBloc>(context);
   }
 
   void _loginButtonFunction() {
@@ -100,19 +105,19 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     );
   }
 
-  Widget _buildSpacer(double spaceFactor){
+  Widget _buildSpacer(double spaceFactor) {
     var _height = MediaQuery.of(context).size.height;
     return SizedBox(
-      height: _height*spaceFactor,
+      height: _height * spaceFactor,
     );
   }
 
   Widget _buildHamburgerMenu() {
     List<Widget> _menuItems = List<Widget>();
+    user = _userBloc.userService.currentUser;
 
-    if (_authBloc.state is !AuthenticationAuthenticated) {
-      _menuItems.add(
-          _buildProfileHeader('Your Name', 'http://placekitten.com/400/400'));
+    if (_authBloc.state is AuthenticationAuthenticated) {
+      _menuItems.add(_buildProfileHeader(user.fullName, user.profilePhoto));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
       _menuItems
           .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));

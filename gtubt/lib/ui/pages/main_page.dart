@@ -3,7 +3,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/user_bloc.dart';
-import 'package:GTUBT/ui/components/hamburgerMenu.dart';
+import 'package:GTUBT/ui/components/hamburger_menu.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:flutter/material.dart';
