@@ -1,5 +1,6 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/models/api_response.dart';
+import 'package:GTUBT/service/event.dart';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:GTUBT/service/base.dart';
@@ -8,7 +9,7 @@ import 'dart:convert';
 class UserFailure {
   final String message;
 
-  UserFailure( this.message );
+  UserFailure(this.message);
 
   @override
   String toString() => message;
@@ -30,7 +31,8 @@ class UserService extends BaseService {
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      final apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
         currentUser = apiResponse.body;
         return Left(apiResponse.body);
@@ -39,7 +41,7 @@ class UserService extends BaseService {
     return Right(UserFailure("Couldn't find the user 😱"));
   }
 
-  Future<User> post(User user) async {
+  Future<Either<User, UserFailure>> post(User user) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/';
     var userJson = user.toJson();
     var bodyData = json.encode(userJson);
@@ -54,13 +56,13 @@ class UserService extends BaseService {
           ApiResponseSingle<User>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
         currentUser = apiResponse.body;
-        return apiResponse.body;
+        return left(apiResponse.body);
       }
     }
-    return null;
+    return right(UserFailure("Couldn't find the user 😱"));
   }
 
-  Future<User> patch(User user) async {
+  Future<Either<User, UserFailure>> patch(User user) async {
     var id = user.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
     var userJson = user.toJson();
@@ -77,25 +79,24 @@ class UserService extends BaseService {
       if (apiResponse.status == 200) {
         currentUser = apiResponse.body;
         // TODO: Fire some userBloc event to update current profile page with new user data
-        return apiResponse.body;
+        return left(apiResponse.body);
       }
     }
-    return null;
+    return right(UserFailure("Couldn't update the user 😱"));
   }
 
-  Future<bool> delete(String id) async {
+  Future<Either<bool, UserFailure>> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await http.delete('$url');
     if (response.statusCode == 200) {
-      final apiResponse =
-        ApiResponse.fromJson(json.decode(response.body));
+      final apiResponse = ApiResponse.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
         currentUser = null;
-        return true;
+        return left(true);
       }
     }
-    return false;
+    return right(UserFailure("Couldn't delete the user 😱"));
   }
 
   void clearUser() {

@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -48,4 +49,17 @@ class AuthenticationLoading extends AuthenticationState {
 
   @override
   List<Object> get props => [];
+}
+
+class AuthenticationError extends AuthenticationState {
+  final String message;
+
+  AuthenticationError(this.message);
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() {
+    return "AuthenticationError";
+  }
 }

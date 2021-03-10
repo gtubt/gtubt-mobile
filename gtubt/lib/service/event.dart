@@ -10,13 +10,13 @@ import 'dart:convert';
 class EventFailure {
   final String message;
 
-  EventFailure( this.message );
+  EventFailure(this.message);
 
   @override
   String toString() => message;
 }
 
-class EventService extends BaseService{
+class EventService extends BaseService {
   static final EventService _eventService = EventService._internal();
   final servicePath = 'event';
   EventService._internal();
@@ -27,11 +27,12 @@ class EventService extends BaseService{
 
   Future<Either<List<Event>, EventFailure>> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
-    
+
     final response = await http.get('$url');
 
     if (response.statusCode == 200) {
-      final apiResponse = ApiResponseList<Event>.fromJson(json.decode(response.body));
+      final apiResponse =
+          ApiResponseList<Event>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
         return Left(apiResponse.body);
       }
@@ -39,50 +40,51 @@ class EventService extends BaseService{
     return Right(EventFailure("Couldn't find the event 😱"));
   }
 
-  Future<Event> delete(String id) async {
+  Future<Either<Event, EventFailure>> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
-    
+
     final response = await http.delete('$url');
 
     if (response.statusCode == 200) {
-      final apiResponse = ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+      final apiResponse =
+          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
-        return apiResponse.body;
+        return left(apiResponse.body);
       }
     }
-
-    return null;
+    return Right(EventFailure("Couldn't delete the event 😱"));
   }
 
-  Future<http.Response> patch(Event event) async {
+  Future<Either<http.Response, EventFailure>> patch(Event event) async {
     var id = event.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
     var eventJson = event.toJson();
     var bodyData = json.encode(eventJson);
-    
-    final response = await http.patch(
-      '$url',
-      headers: <String, String> {
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: bodyData
-    );
 
-    return response;
+    final response = await http.patch('$url',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: bodyData);
+    if (response.statusCode == 200) {
+      return left(response);
+    }
+    return Right(EventFailure("Couldn't patch the event 😱"));
   }
 
   Future<Either<Event, EventFailure>> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
-    try{
+    try {
       final response = await http.get('$url');
 
       if (response.statusCode == 200) {
-        final apiResponse = ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+        final apiResponse =
+            ApiResponseSingle<Event>.fromJson(json.decode(response.body));
         if (apiResponse.status == 200) {
           return Left(apiResponse.body);
         }
       }
-    }on HttpException {
+    } on HttpException {
       return Right(EventFailure("Couldn't find the event 😱"));
     }
     return Right(EventFailure("Couldn't find the event 😱"));

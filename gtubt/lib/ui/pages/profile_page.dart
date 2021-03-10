@@ -13,8 +13,10 @@ class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
   AppbarBloc _appbarBloc;
 
-  final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
-  final TextStyle _nameTextStyle = TextStyles.subtitle2.copyWith(height: 1.4, color: ColorSets.defaultTextColor);
+  final TextStyle _headerTextStyle = TextStyles.subtitle1
+      .copyWith(height: -2, color: ColorSets.profilePageThemeColor);
+  final TextStyle _nameTextStyle = TextStyles.subtitle2
+      .copyWith(height: 1.4, color: ColorSets.defaultTextColor);
 
   Widget _imageBackground() {
     return Container(
@@ -294,7 +296,13 @@ class ProfilePage extends StatelessWidget {
       builder: (context, state) {
         return BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
-            return buildAll(context, state);
+            if (state.isFailure) {
+              return Center(
+                child: Text(state.errorMessage),
+              );
+            } else {
+              return buildAll(context, state);
+            }
           },
         );
       },
