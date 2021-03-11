@@ -11,10 +11,10 @@ class PageBloc extends Bloc<PageEvent, PageState> {
   Stream<PageState> mapEventToState(event) async* {
     if (event is NavBarPageChanged) {
       yield PageState(currentPage: event.page);
-    } else if(event is PageChanged){
-      Navigator.of(event.context).pushNamed(event.routeName);
+    } else if (event is PageChanged) {
+      Navigator.pushNamedAndRemoveUntil(
+          event.context, event.routeName, (route) => false);
       yield PageState(currentPage: 0);
     }
-
   }
 }
