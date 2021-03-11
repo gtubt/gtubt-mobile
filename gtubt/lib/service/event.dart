@@ -49,7 +49,7 @@ class EventService extends BaseService {
       final apiResponse =
           ApiResponseSingle<Event>.fromJson(json.decode(response.body));
       if (apiResponse.status == 200) {
-        return left(apiResponse.body);
+        return Left(apiResponse.body);
       }
     }
     return Right(EventFailure("Couldn't delete the event 😱"));
@@ -67,26 +67,26 @@ class EventService extends BaseService {
         },
         body: bodyData);
     if (response.statusCode == 200) {
-      return left(response);
+      return Left(response);
     }
     return Right(EventFailure("Couldn't patch the event 😱"));
   }
 
   Future<Either<Event, EventFailure>> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+    var apiResponse;
     try {
       final response = await http.get('$url');
 
       if (response.statusCode == 200) {
-        final apiResponse =
+        apiResponse =
             ApiResponseSingle<Event>.fromJson(json.decode(response.body));
         if (apiResponse.status == 200) {
           return Left(apiResponse.body);
         }
       }
-    } on HttpException {
-      return Right(EventFailure("Couldn't find the event 😱"));
+    } catch (e) {
+      return Right(EventFailure(apiResponse.message));
     }
-    return Right(EventFailure("Couldn't find the event 😱"));
   }
 }

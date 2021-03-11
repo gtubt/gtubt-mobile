@@ -26,23 +26,24 @@ class AuthService {
     String password,
   ) async {
     try {
-      return left((await _auth.signInWithEmailAndPassword(
+      return Left((await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user);
     } catch (error) {
-      return right(AuthFailure("Could not sign in"));
+      return Right(AuthFailure("Could not sign in"));
     }
   }
 
-  Future<Either<void, AuthFailure>> signUp(Map<String, dynamic> data) async {
+  Future<Either<auth.User, AuthFailure>> signUp(
+      Map<String, dynamic> data) async {
     try {
       final auth.User firebaseUser =
           (await _auth.createUserWithEmailAndPassword(
                   email: data['email'], password: data['password']))
               .user;
-      return left(firebaseUser);
+      return Left(firebaseUser);
     } catch (error) {
-      return right(AuthFailure("Could not create account"));
+      return Right(AuthFailure("Could not create account"));
     }
   }
 
@@ -54,16 +55,16 @@ class AuthService {
     try {
       await _auth.signOut();
     } catch (error) {
-      return right(AuthFailure("Could not Sign Out"));
+      return Right(AuthFailure("Could not Sign Out"));
     }
-    return right(AuthFailure("Could not Sign Out"));
+    return Right(AuthFailure("Could not Sign Out"));
   }
 
   Future<Either<auth.User, AuthFailure>> getUser() async {
     try {
       return left(_auth.currentUser);
     } catch (e) {
-      return right(AuthFailure("Could not get User"));
+      return Right(AuthFailure("Could not get User"));
     }
   }
 
