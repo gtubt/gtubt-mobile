@@ -37,10 +37,11 @@ class AuthenticationBloc
       if (result.isLeft()) {
         auth.User firebaseUser = result as auth.User;
         await _userService.get(firebaseUser.email);
+        yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
       } else {
         var error = result as AuthFailure;
         yield AuthenticationError(error.toString());
-        yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
+        yield AuthenticationUnauthenticated();
       }
     } else {
       yield AuthenticationUnauthenticated();

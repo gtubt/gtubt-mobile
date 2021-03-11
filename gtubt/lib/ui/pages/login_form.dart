@@ -238,20 +238,7 @@ class LoginForm extends StatelessWidget {
             );
         }
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(state.errorMessage),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          // TODO: SHOW ERROR MESSAGE
         }
       },
       child: BlocBuilder<LoginBloc, LoginState>(

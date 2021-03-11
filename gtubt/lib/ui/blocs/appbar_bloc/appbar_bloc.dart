@@ -19,7 +19,7 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
           var user = result as User; //not used ?
           yield AppbarState(editMode: !this.state.editMode);
         } else {
-          //error state
+          yield AppbarErrorState();
         }
       }
     } else if (event is PageChangedAppbarEvent) {
