@@ -45,14 +45,16 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapLoggedInToState(event) async* {
     auth.User firebaseUser = await _authService.getUser();
     await _userService.get(firebaseUser.email);
-    Navigator.pushReplacementNamed(event.context, ROOT_URL);
+    Navigator.pushNamedAndRemoveUntil(
+        event.context, ROOT_URL, (route) => false);
     yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState(event) async* {
     await _authService.signOut();
     _userService.clearUser();
-    Navigator.pushReplacementNamed(event.context, ROOT_URL);
+    Navigator.pushNamedAndRemoveUntil(
+        event.context, ROOT_URL, (route) => false);
     yield AuthenticationUnauthenticated();
   }
 }

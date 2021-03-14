@@ -10,7 +10,6 @@ import 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   AuthService authService = AuthService();
   UserService userService = UserService();
-  User editedUser;
   Map<UserEvent, TextEditingController> eventMap = {};
 
   @override
@@ -29,17 +28,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(event) async* {
     // TODO: check all event and send data
     if (event is PhotoChanged) {
-      editedUser.profilePhoto = eventMap[event].text.trim();
+      userService.currentUser.profilePhoto = eventMap[event].text.trim();
     } else if (event is PhoneChanged) {
-      editedUser.phone = eventMap[event].text.trim();
-    } else if (event is ToggleEditMode) {
-      if (currentState.editMode) {
-        userService.patch(editedUser);
-      } else {
-        editedUser = User.clone(userService.currentUser);
-      }
-
-      currentState = UserState(editMode: !currentState.editMode);
+      userService.currentUser.phone = eventMap[event].text.trim();
     }
     else if(event is OnAccountDeletion){
       var reauthUser = await authService.reAuthenticate(userService.currentUser.email, passwordController.text);

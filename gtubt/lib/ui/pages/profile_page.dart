@@ -1,4 +1,6 @@
 import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
+import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -14,6 +16,8 @@ import '../style/form_box_container.dart';
 class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
+  AppbarBloc _appbarBloc;
+
   final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
   final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(height: 1.4, color: ColorSets.defaultTextColor, letterSpacing: 0, fontWeight: FontWeight.w500);
 
@@ -51,7 +55,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _fullName(String name) {
     Widget form;
-    if (_userBloc.state.editMode) {
+    if (_appbarBloc.state.editMode) {
       var controller = TextEditingController();
       controller.text = name;
       controller.addListener(() {
@@ -158,7 +162,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
-    if (_userBloc.state.editMode) {
+    if (_appbarBloc.state.editMode) {
       TextEditingController controller = _userBloc.textEditingController(field);
       controller.text = formData;
       controller.addListener(() {
@@ -361,10 +365,15 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _userBloc = BlocProvider.of<UserBloc>(context);
-    return BlocConsumer<UserBloc, UserState>(
-        builder: (context, state) {
-          return buildAll(context, state);
-        },
-        listener: (context, state) {});
+    _appbarBloc = BlocProvider.of<AppbarBloc>(context);
+    return BlocBuilder<AppbarBloc, AppbarState>(
+      builder: (context, state) {
+        return BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            return buildAll(context, state);
+          },
+        );
+      },
+    );
   }
 }

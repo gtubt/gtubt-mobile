@@ -1,3 +1,4 @@
+import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
@@ -6,7 +7,6 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
@@ -21,12 +21,6 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    OneSignal.shared.init("3f4bf8af-bd07-4353-bdb9-ed92a96908aa", iOSSettings: {
-      OSiOSSettings.autoPrompt: false,
-      OSiOSSettings.inAppLaunchUrl: true
-    });
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthenticationBloc>(
@@ -43,7 +37,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<PostBloc>(
           create: (context) => PostBloc(),
-        )
+        ),
+        BlocProvider<AppbarBloc>(
+          create: (context) => AppbarBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'GTU BT',

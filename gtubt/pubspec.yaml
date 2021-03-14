@@ -10,7 +10,6 @@ dependencies:
   flutter_bloc: 3.2.0
   equatable: ^1.1.0
   built_value: 6.7.1
-  onesignal_flutter: ^2.6.1
   json_annotation:
   http: ^0.12.1
   flutter:
@@ -21,7 +20,7 @@ dependencies:
   dartz: ^0.9.0-dev.5
   timeago: ^2.0.27
   intl: ^0.16.1
-
+  another_flushbar: ^1.10.11
   cupertino_icons: ^0.1.2
 
 dev_dependencies:

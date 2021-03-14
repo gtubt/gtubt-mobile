@@ -61,15 +61,6 @@ class DepartmentChanged extends UserEvent {
 
   @override
   String toString() => 'User Changed Department';
-
-}
-
-class ToggleEditMode extends UserEvent {
-  ToggleEditMode() : super(field: 'EditMode');
-
-  @override
-  String toString() => 'Toggle Edit Mode';
-
 }
 
 class OnAccountDeletion extends UserEvent{
