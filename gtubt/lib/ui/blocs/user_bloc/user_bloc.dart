@@ -1,4 +1,3 @@
-import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/routes.dart';
