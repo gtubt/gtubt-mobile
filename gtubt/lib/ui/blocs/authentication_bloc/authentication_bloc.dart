@@ -64,7 +64,8 @@ class AuthenticationBloc
     } else {
       var error = result as AuthFailure;
       yield AuthenticationError(error.toString());
-      Navigator.pushReplacementNamed(event.context, ROOT_URL);
+      Navigator.pushNamedAndRemoveUntil(
+        event.context, ROOT_URL, (route) => false);
       yield AuthenticationUnauthenticated();
     }
   }
@@ -72,7 +73,8 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapLoggedOutToState(event) async* {
     await _authService.signOut();
     _userService.clearUser();
-    Navigator.pushReplacementNamed(event.context, ROOT_URL);
+    Navigator.pushNamedAndRemoveUntil(
+        event.context, ROOT_URL, (route) => false);
     yield AuthenticationUnauthenticated();
   }
 }
