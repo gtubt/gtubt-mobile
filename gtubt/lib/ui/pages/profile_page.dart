@@ -286,13 +286,13 @@ class ProfilePage extends StatelessWidget {
   Widget buildAll(BuildContext context, UserState state) {
     User user = _userBloc.userService.currentUser;
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-          _imageBackground(),
-          _profileImage(),
-          SafeArea(
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: <Widget>[
+            _imageBackground(),
+            _profileImage(),
+            SafeArea(
               child: Column(
                 children: <Widget>[
                   SizedBox(
@@ -340,9 +340,9 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
