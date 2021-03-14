@@ -9,9 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 
-import '../style/color_sets.dart';
-import '../style/form_box_container.dart';
-
 // ignore: must_be_immutable
 class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
