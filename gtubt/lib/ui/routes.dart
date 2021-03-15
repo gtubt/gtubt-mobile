@@ -28,6 +28,7 @@ class Routes {
           create: (context) => TicketPageBloc(),
           child: TicketPage(),
         ),
+    SETTINGS_URL: (context) => SettingsPage(),
   };
   static const HOME = "Home";
   static const CALENDAR = "Calendar";
