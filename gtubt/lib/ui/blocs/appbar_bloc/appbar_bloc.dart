@@ -5,8 +5,8 @@ import 'package:bloc/bloc.dart';
 
 class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
   UserService userService = UserService();
-  @override
-  AppbarState get initialState => AppbarState();
+
+  AppbarBloc() : super(AppbarState());
 
   @override
   Stream<AppbarState> mapEventToState(AppbarEvent event) async* {

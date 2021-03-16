@@ -8,10 +8,8 @@ import 'package:bloc/bloc.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthService _authService = AuthService();
   final UserService _userService = UserService();
-  RegisterBloc();
 
-  @override
-  RegisterState get initialState => RegisterState.empty();
+  RegisterBloc() : super(RegisterState.empty());
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {

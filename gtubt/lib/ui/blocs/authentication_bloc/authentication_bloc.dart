@@ -10,10 +10,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthService _authService = AuthService();
   final UserService _userService = UserService();
-  AuthenticationBloc();
-
-  @override
-  AuthenticationState get initialState => AuthenticationUninitialized();
+  AuthenticationBloc() : super(AuthenticationUninitialized());
 
   @override
   Stream<AuthenticationState> mapEventToState(
