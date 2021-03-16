@@ -1,8 +1,6 @@
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_event.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_state.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -109,25 +107,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Post> pageItems = [];
-    return BlocListener<PostBloc, PostState>(
+    return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
         //todo Single event loading will be handled here
       },
-      child: BlocBuilder<PostBloc, PostState>(
-        builder: (context, state) {
-          if (state.isInitial) {
-            BlocProvider.of<PostBloc>(context).add(
-              LoadAllPosts(),
-            );
-            return Center(child: CircularProgressIndicator());
-          } else if (state.isSuccess) {
-            pageItems = state.postList;
-            return buildHomePage(context, pageItems);
-          }
-          //todo burada hata sayfası görünecek veya popup basılacak
-          return Text("POST RECEIVE ERROR");
-        },
-      ),
+      builder: (context, state) {
+        if (state.isInitial) {
+          context.read<PostBloc>().add(
+                LoadAllPosts(),
+              );
+          return Center(child: CircularProgressIndicator());
+        } else if (state.isSuccess) {
+          pageItems = state.postList;
+          return buildHomePage(context, pageItems);
+        }
+        //todo burada hata sayfası görünecek veya popup basılacak
+        return Text("POST RECEIVE ERROR");
+      },
     );
     //return buildHomePage(context, pageItems);
   }

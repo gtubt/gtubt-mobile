@@ -1,6 +1,6 @@
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';

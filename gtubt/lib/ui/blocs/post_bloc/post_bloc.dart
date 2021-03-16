@@ -1,6 +1,5 @@
 import 'package:GTUBT/service/post.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_event.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_state.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
