@@ -7,6 +7,7 @@ class LoginState {
   bool isSuccess;
   bool isFailure;
   bool isPwRequestSent;
+  String errorMessage;
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
@@ -17,6 +18,7 @@ class LoginState {
     @required this.isSuccess,
     @required this.isFailure,
     @required this.isPwRequestSent,
+    this.errorMessage,
   });
 
   factory LoginState.empty() {
@@ -41,7 +43,7 @@ class LoginState {
     );
   }
 
-  factory LoginState.failure() {
+  factory LoginState.failure(errorMessage) {
     return LoginState(
       isEmailValid: true,
       isPasswordValid: true,
@@ -49,6 +51,7 @@ class LoginState {
       isFailure: true,
       isSuccess: false,
       isPwRequestSent: false,
+      errorMessage: errorMessage,
     );
   }
 

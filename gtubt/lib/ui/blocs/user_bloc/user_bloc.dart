@@ -21,6 +21,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     return eventMap[field];
   }
+
   final TextEditingController passwordController = TextEditingController();
 
   @override
@@ -30,20 +31,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       userService.currentUser.profilePhoto = eventMap[event].text.trim();
     } else if (event is PhoneChanged) {
       userService.currentUser.phone = eventMap[event].text.trim();
-    }
-    else if(event is OnAccountDeletion){
-      var reauthUser = await authService.reAuthenticate(userService.currentUser.email, passwordController.text);
-      if(reauthUser != null){
-          userService.delete(userService.currentUser.id);
-          authService.deleteUser();
-          Navigator.pushReplacementNamed(event.context, LOGIN_URL);
-
-      }
-      else{
+    } else if (event is OnAccountDeletion) {
+      var reauthUser = await authService.reAuthenticate(
+          userService.currentUser.email, passwordController.text);
+      if (reauthUser != null) {
+        userService.delete(userService.currentUser.id);
+        authService.deleteUser();
+        Navigator.pushReplacementNamed(event.context, LOGIN_URL);
+      } else {
         currentState = UserState(passwordsMatch: false);
       }
     }
-
     yield currentState;
   }
 }

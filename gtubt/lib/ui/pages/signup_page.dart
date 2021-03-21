@@ -16,7 +16,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _studentNumberController = TextEditingController();
+  final TextEditingController _studentNumberController =
+      TextEditingController();
 
   RegisterBloc _registerBloc;
 
@@ -98,14 +99,14 @@ class _SignUpPageState extends State<SignUpPage> {
     return Stack(
       children: <Widget>[
         Positioned(
-            child: _imageBackground(),
+          child: _imageBackground(),
         ),
         Container(
           child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top:50),
+                  margin: EdgeInsets.only(top: 50),
                   width: 140.0,
                   height: 140.0,
                   decoration: BoxDecoration(
@@ -122,8 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                 ),
-              ]
-          ),
+              ]),
         )
       ],
     );
@@ -134,13 +134,14 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(top: 20, left: 25, right:25),
+          padding: EdgeInsets.only(top: 20, left: 25, right: 25),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _nameController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
+            decoration:
+                FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
             validator: (String value) {
               return !_registerBloc.state.isNameValid ? 'Invalid format' : null;
             },
@@ -155,13 +156,14 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
+          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _lastnameController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Surname   "),
+            decoration:
+                FormBoxContainer.textFieldStyle(labelTextStr: "   Surname   "),
             validator: (String value) {
               return !_registerBloc.state.isLastnameValid
                   ? 'Invalid format'
@@ -178,13 +180,14 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
+          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   E-mail   "),
+            decoration:
+                FormBoxContainer.textFieldStyle(labelTextStr: "   E-mail   "),
             validator: (String value) {
               return !_registerBloc.state.isEmailValid
                   ? 'Invalid Email Format'
@@ -201,13 +204,14 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
+          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _studentNumberController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Student Number   "),
+            decoration: FormBoxContainer.textFieldStyle(
+                labelTextStr: "   Student Number   "),
             validator: (String value) {
               return !_registerBloc.state.isStudentNumberValid
                   ? 'Invalid Student Number'
@@ -224,14 +228,15 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 25, right:25, top: 20),
+          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             obscureText: true,
             keyboardType: TextInputType.text,
             controller: _passwordController,
-            decoration: FormBoxContainer.textFieldStyle(labelTextStr: "   Password   "),
+            decoration:
+                FormBoxContainer.textFieldStyle(labelTextStr: "   Password   "),
             validator: (String value) {
               return !_registerBloc.state.isPasswordValid
                   ? 'Invalid format'
@@ -293,7 +298,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Registration Failure...'),
+                    Text(state.errorMessage),
                     Icon(Icons.error)
                   ],
                 ),
@@ -305,31 +310,27 @@ class _SignUpPageState extends State<SignUpPage> {
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
           return Scaffold(
-
             body: Stack(
               children: <Widget>[
-
                 SafeArea(
-
                   child: SingleChildScrollView(
-
                     child: Column(
                       children: <Widget>[
-                         _profileImage(),
+                        _profileImage(),
                         _nameForm(),
                         _lastnameForm(),
                         _emailForm(),
                         _studentNumberForm(),
                         _passwordForm(),
                         Container(
-                          padding: EdgeInsets.only(left: 205, top: 20, right: 25),
+                          padding:
+                              EdgeInsets.only(left: 205, top: 20, right: 25),
                           child: _createProfileButton(),
                         ),
                       ],
                     ),
                   ),
                 ),
-
               ],
             ),
           );

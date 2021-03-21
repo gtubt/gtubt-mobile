@@ -4,6 +4,7 @@ import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ class ProfilePage extends StatelessWidget {
 
   final TextStyle _headerTextStyle = TextStyles.subtitle1
       .copyWith(height: -2, color: ColorSets.profilePageThemeColor);
+
   final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(
       height: 1.4,
       color: ColorSets.defaultTextColor,
@@ -354,9 +356,19 @@ class ProfilePage extends StatelessWidget {
     _width = MediaQuery.of(context).size.width;
     return BlocBuilder<AppbarBloc, AppbarState>(
       builder: (context, state) {
-        return BlocBuilder<UserBloc, UserState>(
+        return BlocConsumer<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state.isFailure) {
+              NotificationFactory.errorFactory(message: state.errorMessage)
+                  .show(context);
+            }
+          },
           builder: (context, state) {
-            return buildAll(context, state);
+            if (!state.isFailure) {
+              return buildAll(context, state);
+            } else {
+              return Scaffold();
+            }
           },
         );
       },

@@ -1,6 +1,11 @@
 class UserState {
   bool passwordsMatch;
+  String errorMessage;
+  bool isFailure;
+
   UserState({
+    this.errorMessage = '',
+    this.isFailure = false,
     this.passwordsMatch = true,
   });
 
@@ -10,5 +15,12 @@ class UserState {
       
       passwordsMatch: $passwordsMatch
     }''';
+  }
+
+  factory UserState.failure(errorMessage) {
+    return UserState(
+      errorMessage: errorMessage,
+      isFailure: true,
+    );
   }
 }
