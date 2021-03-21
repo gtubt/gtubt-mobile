@@ -1,3 +1,4 @@
+import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
@@ -10,6 +11,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthService _authService = AuthService();
   final UserService _userService = UserService();
+
   AuthenticationBloc();
 
   @override
@@ -29,25 +31,43 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     bool isSignedIn = await _authService.isSignedIn();
-    try {
-      if (isSignedIn) {
-        auth.User firebaseUser = await _authService.getUser();
+    auth.User firebaseUser;
+    if (isSignedIn) {
+      var result = await _authService.getUser();
+      if (result.isLeft()) {
+        auth.User firebaseUser = result as auth.User;
         await _userService.get(firebaseUser.email);
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
       } else {
+        var error = result as AuthFailure;
+        yield AuthenticationError(error.toString());
         yield AuthenticationUnauthenticated();
       }
-    } catch (_) {
+    } else {
       yield AuthenticationUnauthenticated();
     }
   }
 
   Stream<AuthenticationState> _mapLoggedInToState(event) async* {
-    auth.User firebaseUser = await _authService.getUser();
-    await _userService.get(firebaseUser.email);
-    Navigator.pushNamedAndRemoveUntil(
+    var result = await _authService.getUser();
+    auth.User firebaseUser;
+    if (result.isLeft()) {
+      firebaseUser = result as auth.User;
+      var getResult = await _userService.get(firebaseUser.email);
+      if (getResult.isLeft()) {
+        User user = getResult as User;
+      } else {
+        var error = getResult as AuthFailure;
+        yield AuthenticationError(error.toString());
+        yield AuthenticationUnauthenticated();
+      }
+    } else {
+      var error = result as AuthFailure;
+      yield AuthenticationError(error.toString());
+      Navigator.pushNamedAndRemoveUntil(
         event.context, ROOT_URL, (route) => false);
-    yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
+      yield AuthenticationUnauthenticated();
+    }
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState(event) async* {

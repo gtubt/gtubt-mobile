@@ -6,20 +6,14 @@ import 'package:http/http.dart' as http;
 void main() {
   test('ENDPOINT=POSTS METHOD=GET URL=/posts', () async {
     var result = await PostService().getAll();
-    List<Post> posts = result.fold(
-            (posts) => posts,
-            (postFailure) => null
-    );
+    List<Post> posts = result.fold((posts) => posts, (postFailure) => null);
     expect(posts == null, false);
     expect(posts.length > 0, true);
   });
 
   test('ENDPOINT=POSTS METHOD=GET URL=/posts/(id)', () async {
     var result = await PostService().get("TEST_POST_DONT_DELETE");
-    Post post = result.fold(
-            (post) => post,
-            (postFailure) => null
-    );
+    Post post = result.fold((post) => post, (postFailure) => null);
     expect(post == null, false);
     expect(post.type, PostType.news);
     expect(post.title, "TEST_TITLE");
@@ -36,7 +30,7 @@ void main() {
     post.type = PostType.news;
     post.startDate = DateTime(2020, 7, 13, 15, 30);
     post.endDate = DateTime(2020, 7, 13, 15, 30);
-    http.Response response = await PostService().post(post);
+    http.Response response = (await PostService().post(post)) as http.Response;
     expect(response.statusCode == 200, true);
   });
 }
