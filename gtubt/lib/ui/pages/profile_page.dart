@@ -4,7 +4,6 @@ import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
-import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +13,8 @@ class ProfilePage extends StatelessWidget {
   UserBloc _userBloc;
   AppbarBloc _appbarBloc;
 
-  final TextStyle _headerTextStyle = TextStyles.subtitle1
-      .copyWith(height: -2, color: ColorSets.profilePageThemeColor);
-  final TextStyle _nameTextStyle = TextStyles.subtitle2
-      .copyWith(height: 1.4, color: ColorSets.defaultTextColor);
+  final TextStyle _headerTextStyle = TextStyles.subtitle1.copyWith(height: -2, color: ColorSets.profilePageThemeColor);
+  final TextStyle _nameTextStyle = TextStyles.subtitle2.copyWith(height: 1.4, color: ColorSets.defaultTextColor);
 
   Widget _imageBackground() {
     return Container(
@@ -295,19 +292,9 @@ class ProfilePage extends StatelessWidget {
     _appbarBloc = BlocProvider.of<AppbarBloc>(context);
     return BlocBuilder<AppbarBloc, AppbarState>(
       builder: (context, state) {
-        return BlocConsumer<UserBloc, UserState>(
-          listener: (context, state) {
-            if (state.isFailure) {
-              NotificationFactory.errorFactory(message: state.errorMessage)
-                  .show(context);
-            }
-          },
+        return BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
-            if (!state.isFailure) {
-              return buildAll(context, state);
-            } else {
-              return Scaffold();
-            }
+            return buildAll(context, state);
           },
         );
       },

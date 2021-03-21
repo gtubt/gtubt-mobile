@@ -39,8 +39,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is LoginWithCredentialsPressed) {
       yield* _mapLoginWithCredentialsPressedToState(
           emailController.text.trim(), passwordController.text.trim());
-    } else if (event is ForgotPasswordPressed) {
-      yield* _mapForgotPasswordPressedToState(event.email);
+    }else if (event is ForgotPasswordPressed) {
+      yield* _mapForgotPasswordPressedToState(
+          event.email);
     }
   }
 
@@ -55,12 +56,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _mapLoginWithCredentialsPressedToState(
       String email, String password) async* {
     yield LoginState.loading();
-    var result = await _authService.signInWithEmailAndPassword(email, password);
-    if (result.isLeft()) {
+    try {
+      await _authService.signInWithEmailAndPassword(email, password);
       yield LoginState.success();
-    } else {
-      AuthFailure failure = result as AuthFailure;
-      yield LoginState.failure(failure.toString());
+    } catch (_) {
+      yield LoginState.failure();
     }
   }
 

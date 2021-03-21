@@ -237,9 +237,6 @@ class LoginForm extends StatelessWidget {
               ),
             );
         }
-        if (state.isFailure) {
-          // TODO: SHOW ERROR MESSAGE
-        }
       },
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {

@@ -1,8 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-class AppbarState extends Equatable {
-  final editMode;
+class AppbarState {
+  bool editMode = false;
 
   AppbarState({this.editMode = false});
 
@@ -10,12 +9,4 @@ class AppbarState extends Equatable {
   String toString() {
     return '''AppbarState {EditMode: $editMode}''';
   }
-
-  @override
-  List<Object> get props => [];
-}
-
-class AppbarErrorState extends AppbarState {
-  @override
-  List<Object> get props => [];
 }
