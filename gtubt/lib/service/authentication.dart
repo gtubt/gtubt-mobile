@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthFailure {
@@ -20,30 +20,33 @@ class AuthService {
     return _authService;
   }
 
-  // sign in with email and password
-  Future<Either<auth.User, AuthFailure>> signInWithEmailAndPassword(
+  Future<auth.User> signInWithEmailAndPassword(
     String email,
     String password,
   ) async {
     try {
-      return Left((await _auth.signInWithEmailAndPassword(
+      return (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
-          .user);
-    } catch (error) {
-      return Right(AuthFailure("Could not sign in"));
+          .user;
+    } on auth.FirebaseAuthException catch (error) {
+      throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
     }
   }
 
-  Future<Either<auth.User, AuthFailure>> signUp(
-      Map<String, dynamic> data) async {
+  Future<auth.User> signUp(Map<String, dynamic> data) async {
     try {
       final auth.User firebaseUser =
           (await _auth.createUserWithEmailAndPassword(
                   email: data['email'], password: data['password']))
               .user;
-      return Left(firebaseUser);
-    } catch (error) {
-      return Right(AuthFailure("Could not create account"));
+
+      return firebaseUser;
+    } on auth.FirebaseAuthException catch (error) {
+      throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
     }
   }
 
@@ -51,21 +54,16 @@ class AuthService {
     return _auth.currentUser != null;
   }
 
-  Future<Either<void, AuthFailure>> signOut() async {
-    try {
-      await _auth.signOut();
-    } catch (error) {
-      return Right(AuthFailure("Could not Sign Out"));
-    }
-    return Right(AuthFailure("Could not Sign Out"));
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 
-  Future<Either<auth.User, AuthFailure>> getUser() async {
-    try {
-      return left(_auth.currentUser);
-    } catch (e) {
-      return Right(AuthFailure("Could not get User"));
+  auth.User getUser() {
+    auth.User user = _auth.currentUser;
+    if (user == null) {
+      throw AuthenticationException();
     }
+    return user;
   }
 
   Future<void> sendPasswordResetEmail(String email) async {

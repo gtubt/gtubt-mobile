@@ -1,4 +1,4 @@
-import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_event.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
@@ -11,14 +11,12 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
 
   @override
   Stream<AppbarState> mapEventToState(AppbarEvent event) async* {
-    var result;
     if (event is UserEditButtonPressed) {
       if (this.state.editMode) {
-        result = userService.patch(userService.currentUser);
-        if (result.isLeft()) {
-          var user = result as User; //not used ?
+        try {
+          userService.patch(userService.currentUser);
           yield AppbarState(editMode: !this.state.editMode);
-        } else {
+        } on UserException catch (_) {
           yield AppbarErrorState();
         }
       }

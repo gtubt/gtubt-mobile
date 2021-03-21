@@ -1,19 +1,9 @@
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/models/api_response.dart';
-import 'package:GTUBT/service/event.dart';
-import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:GTUBT/service/base.dart';
 import 'dart:convert';
-
-class UserFailure {
-  final String message;
-
-  UserFailure(this.message);
-
-  @override
-  String toString() => message;
-}
 
 class UserService extends BaseService {
   final servicePath = 'user';
@@ -26,22 +16,25 @@ class UserService extends BaseService {
     return _userService;
   }
 
-  Future<Either<User, UserFailure>> get(String email) async {
+  Future<User> get(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     final response = await http.get(url);
     var apiResponse;
-    if (response.statusCode == 200) {
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        currentUser = apiResponse.body;
-        return Left(apiResponse.body);
-      }
+    if (response.statusCode != 200) {
+      throw UserException();
     }
-    return Right(UserFailure(apiResponse.message));
+
+    apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
+
+    if (apiResponse.status != 200) {
+      throw UserException(apiResponse.message);
+    }
+
+    this.currentUser = apiResponse.body;
+    return apiResponse.body;
   }
 
-  Future<Either<User, UserFailure>> post(User user) async {
+  Future<User> post(User user) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/';
     var userJson = user.toJson();
     var bodyData = json.encode(userJson);
@@ -52,18 +45,18 @@ class UserService extends BaseService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: bodyData);
-    if (response.statusCode == 200) {
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        currentUser = apiResponse.body;
-        return left(apiResponse.body);
-      }
+    if (response.statusCode != 200) {
+      throw UserException(response.body);
     }
-    return Right(UserFailure(apiResponse.message));
+    apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
+    if (apiResponse.status != 200) {
+      throw UserException(apiResponse.message);
+    }
+    currentUser = apiResponse.body;
+    return apiResponse.body;
   }
 
-  Future<Either<User, UserFailure>> patch(User user) async {
+  Future<User> patch(User user) async {
     var id = user.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
     var userJson = user.toJson();
@@ -75,31 +68,34 @@ class UserService extends BaseService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: bodyData);
-    if (response.statusCode == 200) {
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        currentUser = apiResponse.body;
-        // TODO: Fire some userBloc event to update current profile page with new user data
-        return Left(apiResponse.body);
-      }
+
+    if (response.statusCode != 200) {
+      throw UserException();
     }
-    return Right(UserFailure(apiResponse.message));
+
+    apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
+    if (apiResponse.status != 200) {
+      throw UserException(apiResponse.message);
+    }
+    currentUser = apiResponse.body;
+    // TODO: Fire some userBloc event to update current profile page with new user data
+    return apiResponse.body;
   }
 
-  Future<Either<bool, UserFailure>> delete(String id) async {
+  Future<bool> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
     var apiResponse;
 
     final response = await http.delete('$url');
-    if (response.statusCode == 200) {
-      apiResponse = ApiResponse.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        currentUser = null;
-        return Left(true);
-      }
+    if (response.statusCode != 200) {
+      throw UserException();
     }
-    return Right(UserFailure(apiResponse.message));
+    apiResponse = ApiResponse.fromJson(json.decode(response.body));
+    if (apiResponse.status != 200) {
+      throw UserException(apiResponse.message);
+    }
+    currentUser = null;
+    return true;
   }
 
   void clearUser() {

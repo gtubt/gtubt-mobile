@@ -1,3 +1,4 @@
+import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rxdart/rxdart.dart';
@@ -55,12 +56,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> _mapLoginWithCredentialsPressedToState(
       String email, String password) async* {
     yield LoginState.loading();
-    var result = await _authService.signInWithEmailAndPassword(email, password);
-    if (result.isLeft()) {
+    try {
+      await _authService.signInWithEmailAndPassword(email, password);
       yield LoginState.success();
-    } else {
-      AuthFailure failure = result as AuthFailure;
-      yield LoginState.failure(failure.toString());
+    } on AuthenticationException catch (error) {
+      yield LoginState.failure(error.message);
     }
   }
 
