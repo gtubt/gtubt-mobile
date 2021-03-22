@@ -1,5 +1,6 @@
 import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/event.dart';
@@ -37,21 +38,24 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CalendarPageBloc, CalendarPageState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is EventsLoadingError) {
+          NotificationFactory.errorFactory(message: "Loading error!");
+        }
+      },
       builder: (context, CalendarPageState state) {
         return Scaffold(
             backgroundColor: ColorSets.pageBackgroundColor,
             body: _buildBody(state));
+      },
+      buildWhen: (CalendarPageState previous, CalendarPageState current) {
+        return (previous is EventsLoading && current is EventsLoaded);
       },
     );
   }
 
   Widget _buildBody(CalendarPageState state) {
     Widget body;
-    if (state is EventsLoadingError) {
-      body = Text('An Error Occur' // state.failure.toString()
-          );
-    }
 
     if (state is CalendarPageInitState || state is EventsLoading) {
       body = Center(
