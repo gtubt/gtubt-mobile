@@ -22,12 +22,16 @@ class PostItem extends StatelessWidget {
       height: 200,
       child: Hero(
         child: FadeInImage.assetNetwork(
-            alignment: Alignment.topCenter,
-            // add this
-            placeholder: 'assets/logo.png',
-            image: item.coverImageUrl,
-            height: 300,
-            fit: BoxFit.fitWidth),
+          alignment: Alignment.topCenter,
+          // add this
+          placeholder: 'assets/logo.png',
+          image: item.coverImageUrl,
+          height: 300,
+          fit: BoxFit.fitWidth,
+          imageErrorBuilder: (context, error, stackTrace) {
+            return Image.asset("assets/error.png");
+          },
+        ),
         tag: heroTag,
       ),
     );
