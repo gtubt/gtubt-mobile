@@ -11,15 +11,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
-    if(event is LoadAllPosts){
+    if (event is LoadAllPosts) {
       var result = await _postService.getAll();
       var postState = result.fold(
         (postList) => PostState.success(postList),
-        (postFailure) => PostState.failure()
+        (postFailure) => PostState.failure(postFailure.toString()),
       );
       yield postState;
-    }
-    else{
+    } else {
       yield this.initialState;
     }
   }

@@ -4,20 +4,25 @@ import 'package:GTUBT/ui/pages/home_page/page.dart';
 import 'package:GTUBT/ui/pages/login_page.dart';
 import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/pages/profile_page.dart';
+import 'package:GTUBT/ui/pages/settings_page.dart';
 import 'package:GTUBT/ui/pages/signup_page.dart';
 import 'package:GTUBT/ui/pages/post_page.dart';
+import 'package:GTUBT/ui/pages/splash_page.dart';
 import 'package:GTUBT/ui/pages/ticket_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+const SPLASH_URL = '/splash';
 const ROOT_URL = '/';
 const LOGIN_URL = '/login';
 const POST_URL = '/post';
 const SIGN_UP_URL = '/sign_up';
 const TICKET_URL = '/ticket';
+const SETTINGS_URL = '/settings';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
+    SPLASH_URL: (context) => SplashPage(),
     ROOT_URL: (context) => MainPage(),
     LOGIN_URL: (context) => LoginPage(),
     POST_URL: (context) => PostPage(),
@@ -26,6 +31,7 @@ class Routes {
           create: (context) => TicketPageBloc(),
           child: TicketPage(),
         ),
+    SETTINGS_URL: (context) => SettingsPage(),
   };
   static const HOME = "Home";
   static const CALENDAR = "Calendar";

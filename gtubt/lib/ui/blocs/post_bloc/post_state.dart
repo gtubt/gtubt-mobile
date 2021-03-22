@@ -5,7 +5,7 @@ class PostState {
   bool isLoading;
   bool isSuccess;
   bool isInitial;
-
+  String errorMessage;
   List<Post> postList;
 
   PostState({
@@ -13,6 +13,7 @@ class PostState {
     @required this.isSuccess,
     @required this.isInitial,
     @required this.postList,
+    this.errorMessage,
   });
 
   factory PostState.initial() {
@@ -33,12 +34,13 @@ class PostState {
     );
   }
 
-  factory PostState.failure() {
+  factory PostState.failure(errorMessage) {
     return PostState(
       isLoading: false,
       isSuccess: false,
       isInitial: false,
       postList: null,
+      errorMessage: errorMessage,
     );
   }
 

@@ -28,7 +28,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is PhoneChanged) {
       userService.currentUser.phone = eventMap[event].text.trim();
     }
-
     yield currentState;
   }
 }
