@@ -1,4 +1,4 @@
-abstract class BaseException<T> implements Exception {
+abstract class BaseException implements Exception {
   final dynamic message;
   BaseException([this.message]);
 
