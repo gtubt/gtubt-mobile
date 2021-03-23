@@ -4,8 +4,8 @@ abstract class PostEvent extends Equatable {
   PostEvent() : super();
 }
 
-class LoadAllPosts extends PostEvent {
-  LoadAllPosts() : super();
+class FetchPosts extends PostEvent {
+  FetchPosts() : super();
 
   @override
   String toString() {
