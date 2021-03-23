@@ -2,7 +2,6 @@ import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
-import 'package:GTUBT/service/post.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
