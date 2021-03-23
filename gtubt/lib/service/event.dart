@@ -1,18 +1,9 @@
+import 'package:GTUBT/exceptions/event.dart';
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/service/base.dart';
-import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-class EventFailure {
-  final String message;
-
-  EventFailure(this.message);
-
-  @override
-  String toString() => message;
-}
 
 class EventService extends BaseService {
   static final EventService _eventService = EventService._internal();
@@ -23,68 +14,83 @@ class EventService extends BaseService {
     return _eventService;
   }
 
-  Future<Either<List<Event>, EventFailure>> getAll() async {
+  Future<List<Event>> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
 
     final response = await http.get('$url');
 
-    if (response.statusCode == 200) {
-      final apiResponse =
-          ApiResponseList<Event>.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        return Left(apiResponse.body);
-      }
+    if (response.statusCode != 200) {
+      throw EventException();
     }
-    return Right(EventFailure("Couldn't find the event 😱"));
+
+    final apiResponse =
+        ApiResponseList<Event>.fromJson(json.decode(response.body));
+    if (apiResponse.status != 200) {
+      throw EventException.message(apiResponse.message);
+    }
+    return apiResponse.body;
   }
 
-  Future<Either<Event, EventFailure>> delete(String id) async {
+  Future<Event> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await http.delete('$url');
 
-    if (response.statusCode == 200) {
-      final apiResponse =
-          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-      if (apiResponse.status == 200) {
-        return Left(apiResponse.body);
-      }
+    if (response.statusCode != 200) {
+      throw EventException();
     }
-    return Right(EventFailure("Couldn't delete the event 😱"));
+    final apiResponse =
+        ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+    if (apiResponse.status != 200) {
+      throw EventException.message(apiResponse.message);
+    }
+    return apiResponse.body;
   }
 
-  Future<Either<http.Response, EventFailure>> patch(Event event) async {
+  Future<Event> patch(Event event) async {
     var id = event.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
-    var eventJson = event.toJson();
-    var bodyData = json.encode(eventJson);
+    try {
+      var eventJson = event.toJson();
+      var bodyData = json.encode(eventJson);
+      
+      final response = await http.patch('$url',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: bodyData);
 
-    final response = await http.patch('$url',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: bodyData);
-    if (response.statusCode == 200) {
-      return Left(response);
+      if (response.statusCode != 200) {
+        throw EventException();
+      }
+
+      final apiResponse =
+          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw EventException.message(apiResponse.message);
+      }
+
+      return apiResponse.body;
+    } catch (_) {
+      throw EventException();
     }
-    return Right(EventFailure("Couldn't patch the event 😱"));
   }
 
-  Future<Either<Event, EventFailure>> get(String id) async {
+  Future<Event> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
-    var apiResponse;
-    try {
-      final response = await http.get('$url');
 
-      if (response.statusCode == 200) {
-        apiResponse =
-            ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-        if (apiResponse.status == 200) {
-          return Left(apiResponse.body);
-        }
-      }
-    } catch (e) {
-      return Right(EventFailure(apiResponse.message));
+    final response = await http.get('$url');
+
+    if (response.statusCode != 200) {
+      throw EventException();
     }
+
+    final apiResponse =
+        ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+    if (apiResponse.status != 200) {
+      throw EventException.message(apiResponse.message);
+    }
+
+    return apiResponse.body;
   }
 }
