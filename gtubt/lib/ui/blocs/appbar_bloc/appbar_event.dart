@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
-abstract class AppbarEvent {
+abstract class AppbarEvent extends Equatable{
   AppbarEvent() : super();
 }
 

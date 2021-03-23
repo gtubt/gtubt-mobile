@@ -1,15 +1,6 @@
 import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
-class AuthFailure {
-  final String message;
-
-  AuthFailure(this.message);
-
-  @override
-  String toString() => message;
-}
-
 class AuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   static final AuthService _authService = AuthService._internal();

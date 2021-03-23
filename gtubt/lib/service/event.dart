@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/service/base.dart';
