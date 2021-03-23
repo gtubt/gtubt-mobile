@@ -6,6 +6,7 @@ import 'package:GTUBT/ui/blocs/post_bloc/post_state.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,27 +109,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Post> pageItems = [];
-    return BlocListener<PostBloc, PostState>(
+    return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
-        //todo Single event loading will be handled here
+        if (state.isInitial) {
+          BlocProvider.of<PostBloc>(context).add(
+            FetchPosts(),
+          );
+        }
+        if (state.isFailed) {
+          NotificationFactory.errorFactory(message: state.errorMessage)
+            ..show(context);
+        }
       },
-      child: BlocBuilder<PostBloc, PostState>(
-        builder: (context, state) {
-          if (state.isInitial) {
-            BlocProvider.of<PostBloc>(context).add(
-              LoadAllPosts(),
-            );
-            return Center(child: CircularProgressIndicator());
-          } else if (state.isSuccess) {
-            pageItems = state.postList;
-            return buildHomePage(context, pageItems);
-          }
-          //todo burada hata sayfası görünecek veya popup basılacak
-          return Text("POST RECEIVE ERROR");
-        },
-      ),
+      buildWhen: (previous, current) {
+        return !(previous.isLoaded && current.isFailed);
+      },
+      builder: (context, state) {
+        Widget body;
+        if (state.isInitial || state.isLoading) {
+          body = Center(child: CircularProgressIndicator());
+        } else if (state.isLoaded) {
+          body = buildHomePage(context, state.postList);
+        }
+        return body;
+      },
     );
-    //return buildHomePage(context, pageItems);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:GTUBT/ui/blocs/ticket_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/ticket.dart';
@@ -38,7 +39,15 @@ class _TicketPageState extends State<TicketPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TicketPageBloc, TicketPageState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is TicketsError) {
+          NotificationFactory.errorFactory(message: state.message)
+            ..show(context);
+        }
+      },
+      buildWhen: (previous, current) {
+        return (previous is! TicketsLoaded && current is! TicketsError);
+      },
       builder: (context, TicketPageState state) {
         return Scaffold(
             backgroundColor: ColorSets.pageBackgroundColor,
@@ -55,11 +64,6 @@ class _TicketPageState extends State<TicketPage> {
 
   Widget _buildBody(TicketPageState state) {
     Widget body;
-    if (state is TicketsLoadingError) {
-      body = Text('An Error Occur' // state.failure.toString()
-          );
-    }
-
     if (state is TicketPageInitState || state is TicketsLoading) {
       body = Center(
         child: CircularProgressIndicator(),

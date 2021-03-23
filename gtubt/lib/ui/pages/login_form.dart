@@ -215,11 +215,8 @@ class LoginForm extends StatelessWidget {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          AuthenticationBloc _authBloc =
-              BlocProvider.of<AuthenticationBloc>(context);
-          if (_authBloc.isBroadcast)
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(LoggedIn(context: context));
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
           Scaffold.of(context)
