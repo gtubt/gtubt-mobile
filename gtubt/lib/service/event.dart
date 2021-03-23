@@ -22,13 +22,16 @@ class EventService extends BaseService {
     if (response.statusCode != 200) {
       throw EventException();
     }
-
-    final apiResponse =
-        ApiResponseList<Event>.fromJson(json.decode(response.body));
-    if (apiResponse.status != 200) {
-      throw EventException.message(apiResponse.message);
+    try {
+      final apiResponse =
+          ApiResponseList<Event>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw EventException.message(apiResponse.message);
+      }
+      return apiResponse.body;
+    } catch (_) {
+      throw EventException();
     }
-    return apiResponse.body;
   }
 
   Future<Event> delete(String id) async {
@@ -39,12 +42,16 @@ class EventService extends BaseService {
     if (response.statusCode != 200) {
       throw EventException();
     }
-    final apiResponse =
-        ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-    if (apiResponse.status != 200) {
-      throw EventException.message(apiResponse.message);
+    try {
+      final apiResponse =
+          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw EventException.message(apiResponse.message);
+      }
+      return apiResponse.body;
+    } catch (_) {
+      throw EventException();
     }
-    return apiResponse.body;
   }
 
   Future<Event> patch(Event event) async {
@@ -53,7 +60,7 @@ class EventService extends BaseService {
     try {
       var eventJson = event.toJson();
       var bodyData = json.encode(eventJson);
-      
+
       final response = await http.patch('$url',
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -84,13 +91,16 @@ class EventService extends BaseService {
     if (response.statusCode != 200) {
       throw EventException();
     }
+    try {
+      final apiResponse =
+          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw EventException.message(apiResponse.message);
+      }
 
-    final apiResponse =
-        ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-    if (apiResponse.status != 200) {
-      throw EventException.message(apiResponse.message);
+      return apiResponse.body;
+    } catch (_) {
+      throw EventException();
     }
-
-    return apiResponse.body;
   }
 }
