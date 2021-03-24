@@ -71,7 +71,7 @@ class PostState {
 
   @override
   String toString() {
-    return '''LoginState {
+    return '''PostState {
       isLoading: $isLoading,
       isLoaded: $isLoaded,
       isInitial: $isInitial,

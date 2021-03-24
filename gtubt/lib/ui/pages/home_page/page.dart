@@ -13,7 +13,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+     BlocProvider.of<PostBloc>(context).add(FetchPosts());
+    super.initState();
+  }
+
   void postTapEvent(BuildContext context, Post post, String heroTag) {
     Navigator.pushNamed(context, POST_URL,
         arguments: PostViewArguments(post, heroTag));
@@ -111,11 +123,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
-        if (state.isInitial) {
-          BlocProvider.of<PostBloc>(context).add(
-            FetchPosts(),
-          );
-        }
         if (state.isFailed) {
           NotificationFactory.errorFactory(message: state.errorMessage)
             ..show(context);
@@ -126,6 +133,7 @@ class HomePage extends StatelessWidget {
       },
       builder: (context, state) {
         Widget body;
+        print(state);
         if (state.isInitial || state.isLoading) {
           body = Center(child: CircularProgressIndicator());
         } else if (state.isLoaded) {
