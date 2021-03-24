@@ -17,10 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
-     BlocProvider.of<PostBloc>(context).add(FetchPosts());
+    context.read<PostBloc>().add(FetchPosts());
     super.initState();
   }
 

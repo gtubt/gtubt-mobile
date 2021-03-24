@@ -200,9 +200,9 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          BlocProvider.of<PageBloc>(_context).add(
-            PageChanged(routeName: ROOT_URL, context: _context),
-          );
+          context.read<PageBloc>().add(
+                PageChanged(routeName: ROOT_URL, context: _context),
+              );
         },
         color: ColorSets.barBackgroundColor,
         child: Text(
@@ -226,8 +226,7 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          BlocProvider.of<AuthenticationBloc>(context)
-              .add(LoggedIn(context: context));
+          context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
           Scaffold.of(context)

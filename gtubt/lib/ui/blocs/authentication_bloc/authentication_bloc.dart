@@ -31,7 +31,6 @@ class AuthenticationBloc
     if (isSignedIn) {
       try {
         auth.User firebaseUser = _authService.getUser();
-
         await _userService.get(firebaseUser.email);
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
       } on AuthenticationException catch (_) {
@@ -46,6 +45,8 @@ class AuthenticationBloc
     try {
       auth.User firebaseUser = _authService.getUser();
       await _userService.get(firebaseUser.email);
+      Navigator.pushNamedAndRemoveUntil(
+              event.context, ROOT_URL, (route) => false);
     } on AuthenticationException catch (error) {
       yield* _handleLoggedInExceptions(error.message, event.context);
     } on UserException catch (error) {

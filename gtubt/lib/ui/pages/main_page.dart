@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   Widget body;
 
   void _onNavigation(int index) {
-    BlocProvider.of<PageBloc>(context).add(
+    context.read<PageBloc>().add(
       NavBarPageChanged(
         page: index,
         context: context,
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
   /// Returns appbar actions for every page and appbar state.
   List<Widget> _generateActions() {
     var actions = <Widget>[];
-    var _selectedPage = BlocProvider.of<PageBloc>(context).state;
+    var _selectedPage = context.read<PageBloc>().state;
     if (Routes.bodyTitle[_selectedPage.currentPage] == Routes.PROFILE) {
       bool desiredMode = context.read<AppbarBloc>().state.editMode;
 
