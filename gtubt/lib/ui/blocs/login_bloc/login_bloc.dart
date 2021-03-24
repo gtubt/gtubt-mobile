@@ -1,3 +1,4 @@
+import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:flutter/widgets.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
@@ -56,8 +57,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _authService.signInWithEmailAndPassword(email, password);
       yield LoginState.success();
-    } catch (_) {
-      yield LoginState.failure();
+    } on AuthenticationException catch (error) {
+      yield LoginState.failure(error.message);
     }
   }
 

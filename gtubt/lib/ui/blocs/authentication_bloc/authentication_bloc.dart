@@ -1,3 +1,5 @@
+import 'package:GTUBT/exceptions/authentication.dart';
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
@@ -26,25 +28,37 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     bool isSignedIn = await _authService.isSignedIn();
-    try {
-      if (isSignedIn) {
-        auth.User firebaseUser = await _authService.getUser();
+    if (isSignedIn) {
+      try {
+        auth.User firebaseUser = _authService.getUser();
+
         await _userService.get(firebaseUser.email);
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
-      } else {
+      } on AuthenticationException catch (_) {
         yield AuthenticationUnauthenticated();
       }
-    } catch (_) {
+    } else {
       yield AuthenticationUnauthenticated();
     }
   }
 
   Stream<AuthenticationState> _mapLoggedInToState(event) async* {
-    auth.User firebaseUser = await _authService.getUser();
-    await _userService.get(firebaseUser.email);
-    Navigator.pushNamedAndRemoveUntil(
-        event.context, ROOT_URL, (route) => false);
-    yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
+    try {
+      auth.User firebaseUser = _authService.getUser();
+      await _userService.get(firebaseUser.email);
+    } on AuthenticationException catch (error) {
+      yield* _handleLoggedInExceptions(error.message, event.context);
+    } on UserException catch (error) {
+      yield* _handleLoggedInExceptions(error.message, event.context);
+    }
+  }
+
+  Stream<AuthenticationState> _handleLoggedInExceptions(
+      String message, BuildContext context) async* {
+    yield AuthenticationError(message);
+    // TODO: is that required?
+    Navigator.pushNamedAndRemoveUntil(context, ROOT_URL, (route) => false);
+    yield AuthenticationUnauthenticated();
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState(event) async* {

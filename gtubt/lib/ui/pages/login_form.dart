@@ -226,8 +226,8 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          if (context.read<AuthenticationBloc>().isBroadcast)
-            context.read<AuthenticationBloc>().add(LoggedIn(context: context));
+          BlocProvider.of<AuthenticationBloc>(context)
+              .add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
           Scaffold.of(context)
@@ -244,6 +244,9 @@ class _LoginFormState extends State<LoginForm> {
                 backgroundColor: ColorSets.snackBarErrorColor,
               ),
             );
+        }
+        if (state.isFailure) {
+          // TODO: SHOW ERROR MESSAGE
         }
       },
       builder: (context, state) {

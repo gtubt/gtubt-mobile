@@ -1,3 +1,4 @@
+import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthService {
@@ -10,7 +11,6 @@ class AuthService {
     return _authService;
   }
 
-  // sign in with email and password
   Future<auth.User> signInWithEmailAndPassword(
     String email,
     String password,
@@ -19,33 +19,45 @@ class AuthService {
       return (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
-    } catch (error) {
-      return null;
+    } on auth.FirebaseAuthException catch (error) {
+      throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
     }
   }
 
   Future<auth.User> signUp(Map<String, dynamic> data) async {
-    final auth.User firebaseUser =
-        (await _auth.createUserWithEmailAndPassword(
-                email: data['email'], password: data['password']))
-            .user;
+    try {
+      final auth.User firebaseUser =
+          (await _auth.createUserWithEmailAndPassword(
+                  email: data['email'], password: data['password']))
+              .user;
 
-    return firebaseUser;
+      return firebaseUser;
+    } on auth.FirebaseAuthException catch (error) {
+      throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
+    }
   }
 
   Future<bool> isSignedIn() async {
-    return  _auth.currentUser != null;
+    return _auth.currentUser != null;
   }
 
   Future<void> signOut() async {
     await _auth.signOut();
   }
 
-  Future<auth.User> getUser() async {
-    return _auth.currentUser;
+  auth.User getUser() {
+    auth.User user = _auth.currentUser;
+    if (user == null) {
+      throw AuthenticationException();
+    }
+    return user;
   }
 
-   Future<void> sendPasswordResetEmail(String email) async {
+  Future<void> sendPasswordResetEmail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
 }

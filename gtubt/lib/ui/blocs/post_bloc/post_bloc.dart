@@ -1,3 +1,5 @@
+import 'package:GTUBT/exceptions/post.dart';
+import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/service/post.dart';
 import 'package:GTUBT/ui/blocs/post_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -9,13 +11,14 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
-    if (event is LoadAllPosts) {
-      var result = await _postService.getAll();
-      var postState = result.fold((postList) => PostState.success(postList),
-          (postFailure) => PostState.failure());
-      yield postState;
-    } else {
-      yield PostState.initial();
+    if (event is FetchPosts) {
+      yield PostState.loading();
+      try {
+        List<Post> posts = await _postService.getAll();
+        yield PostState.loaded(posts);
+      } on PostException catch (err) {
+        yield PostState.failure(err.message);
+      }
     }
   }
 }

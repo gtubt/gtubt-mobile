@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
@@ -301,7 +299,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Registration Failure...'),
+                    Text(state.errorMessage),
                     Icon(Icons.error)
                   ],
                 ),

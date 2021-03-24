@@ -49,3 +49,16 @@ class AuthenticationLoading extends AuthenticationState {
   @override
   List<Object> get props => [];
 }
+
+class AuthenticationError extends AuthenticationState {
+  final String message;
+
+  AuthenticationError(this.message);
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() {
+    return "AuthenticationError";
+  }
+}
