@@ -1,4 +1,5 @@
-import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/exceptions/authentication.dart';
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
@@ -31,16 +32,13 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     bool isSignedIn = await _authService.isSignedIn();
-    auth.User firebaseUser;
     if (isSignedIn) {
-      var result = await _authService.getUser();
-      if (result.isLeft()) {
-        auth.User firebaseUser = result as auth.User;
+      try {
+        auth.User firebaseUser = _authService.getUser();
+
         await _userService.get(firebaseUser.email);
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
-      } else {
-        var error = result as AuthFailure;
-        yield AuthenticationError(error.toString());
+      } on AuthenticationException catch (_) {
         yield AuthenticationUnauthenticated();
       }
     } else {
@@ -49,25 +47,22 @@ class AuthenticationBloc
   }
 
   Stream<AuthenticationState> _mapLoggedInToState(event) async* {
-    var result = await _authService.getUser();
-    auth.User firebaseUser;
-    if (result.isLeft()) {
-      firebaseUser = result as auth.User;
-      var getResult = await _userService.get(firebaseUser.email);
-      if (getResult.isLeft()) {
-        User user = getResult as User;
-      } else {
-        var error = getResult as AuthFailure;
-        yield AuthenticationError(error.toString());
-        yield AuthenticationUnauthenticated();
-      }
-    } else {
-      var error = result as AuthFailure;
-      yield AuthenticationError(error.toString());
-      Navigator.pushNamedAndRemoveUntil(
-        event.context, ROOT_URL, (route) => false);
-      yield AuthenticationUnauthenticated();
+    try {
+      auth.User firebaseUser = _authService.getUser();
+      await _userService.get(firebaseUser.email);
+    } on AuthenticationException catch (error) {
+      yield* _handleLoggedInExceptions(error.message, event.context);
+    } on UserException catch (error) {
+      yield* _handleLoggedInExceptions(error.message, event.context);
     }
+  }
+
+  Stream<AuthenticationState> _handleLoggedInExceptions(
+      String message, BuildContext context) async* {
+    yield AuthenticationError(message);
+    // TODO: is that required?
+    Navigator.pushNamedAndRemoveUntil(context, ROOT_URL, (route) => false);
+    yield AuthenticationUnauthenticated();
   }
 
   Stream<AuthenticationState> _mapLoggedOutToState(event) async* {

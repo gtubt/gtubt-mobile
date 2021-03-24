@@ -1,6 +1,7 @@
+import 'package:GTUBT/exceptions/authentication.dart';
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
-import 'package:GTUBT/service/post.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
@@ -45,22 +46,17 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         lastname: event.lastname,
         department: Department.cse,
         studentId: event.studentNumber);
-
-    var signUpResult = await _authService.signUp({
-      'email': user.email,
-      'password': event.password,
-    });
-    if (signUpResult.isLeft()) {
-      var postResult = await _userService.post(user);
-      if (postResult.isLeft()) {
-        yield RegisterState.success();
-      } else {
-        var failure = postResult as PostFailure;
-        yield RegisterState.failure(failure.toString());
-      }
-    } else {
-      var failure = signUpResult as PostFailure;
-      yield RegisterState.failure(failure.toString());
+    try {
+      await _authService.signUp({
+        'email': user.email,
+        'password': event.password,
+      });
+      await _userService.post(user);
+      yield RegisterState.success();
+    } on AuthenticationException catch (error) {
+      yield RegisterState.failure(error.message);
+    } on UserException catch (error) {
+      yield RegisterState.failure(error.message);
     }
   }
 }
