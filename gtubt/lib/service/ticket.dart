@@ -4,8 +4,7 @@ import 'package:GTUBT/exceptions/ticket.dart';
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/ticket.dart';
 import 'package:GTUBT/models/user.dart';
-import 'package:GTUBT/service/base.dart';
-import 'package:http/http.dart' as http;
+import 'package:GTUBT/service/service.dart';
 
 class TicketService extends BaseService {
   final servicePath = 'ticket';
@@ -31,7 +30,7 @@ class TicketService extends BaseService {
     List<Ticket> _tickets = List();
 
     String url = '$baseUrl....';
-    final response = await http.get('$url');
+    final response = await GET('$url');
 
     if (response.statusCode != 200) {
       throw TicketException();
