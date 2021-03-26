@@ -7,8 +7,7 @@ import 'bloc.dart';
 class TicketPageBloc extends Bloc<TicketPageEvent, TicketPageState> {
   final UserService _userService = UserService();
 
-  @override
-  TicketPageState get initialState => TicketPageInitState();
+  TicketPageBloc() : super(TicketPageInitState());
 
   List<Ticket> pageTickets = [
     Ticket(

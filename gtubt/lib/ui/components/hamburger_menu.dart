@@ -15,46 +15,42 @@ class HamburgerMenuComponents extends StatefulWidget {
 }
 
 class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
-  AuthenticationBloc _authBloc;
-  UserBloc _userBloc;
   User user;
 
   @override
   void initState() {
     super.initState();
-    _authBloc = BlocProvider.of<AuthenticationBloc>(context);
-    _userBloc = BlocProvider.of<UserBloc>(context);
   }
 
   void _loginButtonFunction() {
-    BlocProvider.of<PageBloc>(context).add(
-      PageChanged(
-        context: context,
-        routeName: LOGIN_URL,
-      ),
-    );
+    context.read<PageBloc>().add(
+          PageChanged(
+            context: context,
+            routeName: LOGIN_URL,
+          ),
+        );
   }
 
   void _logoutButtonFunction() {
-    _authBloc.add(LoggedOut(context: context));
+    context.read<AuthenticationBloc>().add(LoggedOut(context: context));
   }
 
   void _ticketButtonFunction() {
-    BlocProvider.of<PageBloc>(context).add(
-      PageChanged(
-        context: context,
-        routeName: TICKET_URL,
-      ),
-    );
+    context.read<PageBloc>().add(
+          PageChanged(
+            context: context,
+            routeName: TICKET_URL,
+          ),
+        );
   }
 
   void _settingsButtonFunction() {
-    BlocProvider.of<PageBloc>(context).add(
-      PageChanged(
-        context: context,
-        routeName: SETTINGS_URL,
-      ),
-    );
+    context.read<PageBloc>().add(
+          PageChanged(
+            context: context,
+            routeName: SETTINGS_URL,
+          ),
+        );
   }
 
   Widget _buildProfileImage(String profileImage) {
@@ -118,9 +114,10 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
 
   Widget _buildHamburgerMenu() {
     List<Widget> _menuItems = List<Widget>();
-    user = _userBloc.userService.currentUser;
+    user = context.read<UserBloc>().userService.currentUser;
 
-    if (_authBloc.state is AuthenticationAuthenticated) {
+    if (context.read<AuthenticationBloc>().state
+        is AuthenticationAuthenticated) {
       _menuItems.add(_buildProfileHeader(user.fullName, user.profilePhoto));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
       _menuItems
@@ -156,10 +153,5 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

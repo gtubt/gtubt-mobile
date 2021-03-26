@@ -33,7 +33,7 @@ class _TicketPageState extends State<TicketPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<TicketPageBloc>(context).add(FetchTickets());
+    context.read<TicketPageBloc>().add(FetchTickets());
   }
 
   @override

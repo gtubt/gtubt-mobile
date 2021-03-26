@@ -1,8 +1,6 @@
 import 'package:GTUBT/models/post.dart';
 import 'package:GTUBT/models/view_models/post_view_arguments.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_event.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_state.dart';
+import 'package:GTUBT/ui/blocs/post_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -19,10 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
-     BlocProvider.of<PostBloc>(context).add(FetchPosts());
+    context.read<PostBloc>().add(FetchPosts());
     super.initState();
   }
 
