@@ -22,15 +22,16 @@ abstract class BaseService {
     }
   }
 
-  Future<http.Response> GET(url,
-      {Map<String, String> headers = const {}}) async {
+  Future<http.Response> GET(url, {Map<String, String> headers}) async {
+    headers ??= {};
     _tokenResolver();
     headers.addAll(baseHeader);
     return await http.get(url, headers: headers);
   }
 
   Future<http.Response> POST(url,
-      {Map<String, String> headers = const {}, body, Encoding encoding}) async {
+      {Map<String, String> headers, body, Encoding encoding}) async {
+    headers ??= {};
     _tokenResolver();
     headers.addAll(baseHeader);
     return await http.post(url,
@@ -38,17 +39,18 @@ abstract class BaseService {
   }
 
   Future<http.Response> PATCH(url,
-      {Map<String, String> headers = const {}, body, Encoding encoding}) async {
+      {Map<String, String> headers, body, Encoding encoding}) async {
+    headers ??= {};
     _tokenResolver();
     headers.addAll(baseHeader);
     return await http.patch(url,
         headers: headers, body: body, encoding: encoding);
   }
 
-  Future<http.Response> DELETE(url,
-      {Map<String, String> headers = const {}}) async {
+  Future<http.Response> DELETE(url, {Map<String, String> headers}) async {
+    headers ??= {};
     _tokenResolver();
     headers.addAll(baseHeader);
     return await http.delete(url, headers: headers);
   }
-}
+} 
