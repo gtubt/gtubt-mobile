@@ -46,7 +46,8 @@ class AuthenticationBloc
       auth.User firebaseUser = _authService.getUser();
       await _userService.get(firebaseUser.email);
       Navigator.pushNamedAndRemoveUntil(
-              event.context, ROOT_URL, (route) => false);
+          event.context, ROOT_URL, (route) => false);
+      yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
     } on AuthenticationException catch (error) {
       yield* _handleLoggedInExceptions(error.message, event.context);
     } on UserException catch (error) {
