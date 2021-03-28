@@ -7,6 +7,7 @@ class AuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   static final AuthService _authService = AuthService._internal();
   AuthService._internal();
+  KiwiContainer container = KiwiContainer();
 
   factory AuthService() {
     return _authService;
@@ -20,7 +21,6 @@ class AuthService {
       final auth.User firebaseUser = (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
-      KiwiContainer container = KiwiContainer();
       container.clear();
       container.registerInstance<auth.User>(_auth.currentUser,
           name: "firebaseUser");
@@ -48,7 +48,6 @@ class AuthService {
   }
 
   Future<bool> isSignedIn() async {
-    KiwiContainer container = KiwiContainer();
     container.clear();
     container.registerInstance<auth.User>(_auth.currentUser,
         name: "firebaseUser");
@@ -57,7 +56,6 @@ class AuthService {
 
   Future<void> signOut() async {
     await _auth.signOut();
-    KiwiContainer container = KiwiContainer();
     container.clear();
   }
 
