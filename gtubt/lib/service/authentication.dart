@@ -7,7 +7,6 @@ class AuthService {
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   static final AuthService _authService = AuthService._internal();
   AuthService._internal();
-  String userToken;
 
   factory AuthService() {
     return _authService;
