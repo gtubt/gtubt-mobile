@@ -45,7 +45,8 @@ abstract class BaseService {
         headers: headers, body: body, encoding: encoding);
   }
 
-  Future<http.Response> DELETE(url, {Map<String, String> headers = const {}}) async {
+  Future<http.Response> DELETE(url,
+      {Map<String, String> headers = const {}}) async {
     _tokenResolver();
     headers.addAll(baseHeader);
     return await http.delete(url, headers: headers);
