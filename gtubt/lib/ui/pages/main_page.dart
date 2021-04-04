@@ -4,7 +4,7 @@ import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
-import 'package:GTUBT/ui/components/AppBarLinearProgressIndicator.dart';
+import 'package:GTUBT/ui/components/appbar_linear_progress_indicator.dart';
 import 'package:GTUBT/ui/components/hamburger_menu.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
