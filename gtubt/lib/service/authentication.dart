@@ -60,4 +60,19 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     await _auth.sendPasswordResetEmail(email: email);
   }
+
+  Future<void> validateUserWithEmail() async {
+    try {
+      await _auth.currentUser.sendEmailVerification();
+    } catch (e) {
+      throw AuthenticationException.message(e.toString());
+    }
+  }
+
+  bool isVerified() {
+    if (!_auth.currentUser.emailVerified) {
+      return false;
+    }
+    return true;
+  }
 }
