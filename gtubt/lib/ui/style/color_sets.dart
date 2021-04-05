@@ -13,4 +13,6 @@ class ColorSets {
   static const pageBackgroundColor = Color(0xFFFFFFFF);
 
   static const snackBarErrorColor = Color(0xFFF44336);
+  static const snackBarSuccessColor = Color(0xFF4CAF50);
+  static const snackBarLoadingColor = Color(0xFFFFC107);
 }

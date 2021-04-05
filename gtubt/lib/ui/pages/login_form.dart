@@ -131,7 +131,25 @@ class _LoginFormState extends State<LoginForm> {
       height: 40,
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
-        onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
+        onPressed: () {
+          if(_isLoginButtonEnabled()){
+            Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Logging in...'),
+                    Icon(Icons.hourglass_top)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarLoadingColor,
+              ),
+            );
+            _onFormSubmitted();
+          }
+        },
         color: ColorSets.selectedBarItemColor,
         child: Text(
           'Login',
@@ -173,6 +191,20 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Signing up...'),
+                    Icon(Icons.hourglass_top)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarLoadingColor,
+              ),
+            );
           context.read<PageBloc>().add(
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
@@ -227,6 +259,25 @@ class _LoginFormState extends State<LoginForm> {
       listener: (context, state) {
         if (state.isSuccess) {
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text('Success'),
+                    Icon(Icons.verified)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarSuccessColor,
+              ),
+            );
+          AuthenticationBloc _authBloc =
+              BlocProvider.of<AuthenticationBloc>(context);
+          if (_authBloc.isBroadcast)
+            BlocProvider.of<AuthenticationBloc>(context)
+                .add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
           Scaffold.of(context)
@@ -245,7 +296,20 @@ class _LoginFormState extends State<LoginForm> {
             );
         }
         if (state.isFailure) {
-          // TODO: SHOW ERROR MESSAGE
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(state.errorMessage),
+                    Icon(Icons.error)
+                  ],
+                ),
+                backgroundColor: ColorSets.snackBarErrorColor,
+              ),
+            );
         }
       },
       builder: (context, state) {
