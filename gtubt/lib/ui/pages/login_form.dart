@@ -1,6 +1,7 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -200,9 +201,8 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          context.read<PageBloc>().add(
-                PageChanged(routeName: ROOT_URL, context: _context),
-              );
+          Navigator.pushNamedAndRemoveUntil(
+              _context, ROOT_URL, (route) => false);
         },
         color: ColorSets.barBackgroundColor,
         child: Text(
