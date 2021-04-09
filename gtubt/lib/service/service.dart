@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:http/http.dart' as http;
 import 'package:kiwi/kiwi.dart';
 
 abstract class BaseService {
@@ -14,8 +12,8 @@ abstract class BaseService {
   void _tokenResolver() async {
     KiwiContainer container = KiwiContainer();
     try {
-      auth.User user = container.resolve("firebaseUser");
-      baseHeader = {HttpHeaders.authorizationHeader: await user.getIdToken()};
+      auth.User user = container.resolve();
+      baseHeader = {"authHeader": await user.getIdToken()};
     } catch (_) {
       baseHeader.clear();
     }

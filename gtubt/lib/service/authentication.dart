@@ -1,6 +1,5 @@
 import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
 class AuthService {
@@ -21,9 +20,7 @@ class AuthService {
       final auth.User firebaseUser = (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
-      container.clear();
-      container.registerInstance<auth.User>(_auth.currentUser,
-          name: "firebaseUser");
+      container.registerInstance<auth.User>(_auth.currentUser);
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
@@ -48,15 +45,14 @@ class AuthService {
   }
 
   Future<bool> isSignedIn() async {
-    container.clear();
-    container.registerInstance<auth.User>(_auth.currentUser,
-        name: "firebaseUser");
+    container.unregister<auth.User>();
+    container.registerInstance<auth.User>(_auth.currentUser);
     return _auth.currentUser != null;
   }
 
   Future<void> signOut() async {
     await _auth.signOut();
-    container.clear();
+    container.unregister<auth.User>();
   }
 
   auth.User getUser() {
