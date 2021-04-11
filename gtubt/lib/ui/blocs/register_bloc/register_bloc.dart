@@ -48,6 +48,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         'email': user.email,
         'password': event.password,
       });
+      await _authService.validateUserWithEmail();
       await _userService.post(user);
       yield RegisterState.success();
     } on AuthenticationException catch (error) {

@@ -145,7 +145,9 @@ class _SignUpPageState extends State<SignUpPage> {
             decoration:
                 FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
             validator: (String value) {
-              return !context.read<RegisterBloc>().state.isNameValid ? 'Invalid format' : null;
+              return !context.read<RegisterBloc>().state.isNameValid
+                  ? 'Invalid format'
+                  : null;
             },
           ),
         )
