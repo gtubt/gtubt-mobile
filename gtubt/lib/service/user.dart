@@ -5,7 +5,7 @@ import 'package:GTUBT/service/service.dart';
 import 'dart:convert';
 
 class UserService extends BaseService {
-  final servicePath = 'user';
+  final servicePath = 'users';
   User currentUser;
   static final UserService _userService = UserService._internal();
 
@@ -95,7 +95,7 @@ class UserService extends BaseService {
     }
   }
 
-  Future<bool> delete(String id) async {
+  Future<bool> delete(int id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
     var apiResponse;
 
