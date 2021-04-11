@@ -20,6 +20,7 @@ dependencies:
   timeago: ^2.0.30
   intl: ^0.16.1
   another_flushbar: ^1.10.11
+  kiwi: ^2.1.1
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
