@@ -11,7 +11,10 @@ class PageBloc extends Bloc<PageEvent, PageState> {
     if (event is NavBarPageChanged) {
       yield PageState(currentPage: event.page);
     } else if (event is PageChanged) {
-      Navigator.of(event.context).pushNamed(event.routeName);
+      if (event.isRoutingActive) {
+        Navigator.of(event.context).pushNamed(event.routeName);
+      }
+
       yield PageState(currentPage: 0);
     }
   }
