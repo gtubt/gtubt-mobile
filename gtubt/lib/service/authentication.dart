@@ -45,14 +45,9 @@ class AuthService {
   }
 
   Future<bool> isSignedIn() async {
-<<<<<<< HEAD
     if (_auth.currentUser != null){
       container.registerInstance<auth.User>(_auth.currentUser);
     }
-=======
-    container.unregister<auth.User>();
-    container.registerInstance<auth.User>(_auth.currentUser);
->>>>>>> cdca3f7d3b59f4c0cf5128930608a213d20894c1
     return _auth.currentUser != null;
   }
 
