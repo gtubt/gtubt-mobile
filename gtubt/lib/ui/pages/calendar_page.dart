@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:GTUBT/ui/utils/constants.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -14,19 +14,16 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  final List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+  var months = Constants.months;
+  var days = Constants.daysShort;
+  var colors = [
+    Color(0xFFCA4F4B),
+    Color(0xFFCBB14E),
+    Color(0xFFD87E4A),
+    Color(0xFF4DCA93),
+    Color(0xFFC04CCA),
+    Color(0xFF99CC4D),
+    Color(0xFF4DADCC),
   ];
 
   @override
