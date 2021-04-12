@@ -1,3 +1,5 @@
+import 'package:GTUBT/exceptions/authentication.dart';
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/user.dart';
@@ -8,10 +10,8 @@ import 'package:bloc/bloc.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthService _authService = AuthService();
   final UserService _userService = UserService();
-  RegisterBloc();
 
-  @override
-  RegisterState get initialState => RegisterState.empty();
+  RegisterBloc() : super(RegisterState.empty());
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
@@ -37,23 +37,24 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Stream<RegisterState> _mapSubmittedToState(Submitted event) async* {
     yield RegisterState.loading();
 
+    User user = User(
+        email: event.email,
+        name: event.name,
+        lastname: event.lastname,
+        department: Department.cse,
+        studentId: event.studentNumber);
     try {
-      User user = User(
-          email: event.email,
-          name: event.name,
-          lastname: event.lastname,
-          department: Department.cse,
-          studentId: event.studentNumber);
-
       await _authService.signUp({
         'email': user.email,
         'password': event.password,
       });
+      await _authService.validateUserWithEmail();
       await _userService.post(user);
       yield RegisterState.success();
-    } catch (error) {
-      print(error);
-      yield RegisterState.failure();
+    } on AuthenticationException catch (error) {
+      yield RegisterState.failure(error.message);
+    } on UserException catch (error) {
+      yield RegisterState.failure(error.message);
     }
   }
 }

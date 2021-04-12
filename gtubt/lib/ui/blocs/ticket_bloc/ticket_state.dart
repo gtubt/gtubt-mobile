@@ -1,5 +1,4 @@
 import 'package:GTUBT/models/ticket.dart';
-import 'package:GTUBT/service/ticket.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
@@ -24,11 +23,11 @@ class TicketsLoaded extends TicketPageState {
   List<Object> get props => [];
 }
 
-class TicketsLoadingError extends TicketPageState {
-  final TicketFailure failure;
+class TicketsError extends TicketPageState {
+  final String message;
 
-  TicketsLoadingError(this.failure);
+  TicketsError(this.message);
 
   @override
-  List<Object> get props => [failure];
+  List<Object> get props => [message];
 }

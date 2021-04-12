@@ -12,6 +12,7 @@ class RegisterState {
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
+  final String errorMessage;
 
   bool get isFormValid =>
       isEmailValid &&
@@ -35,6 +36,7 @@ class RegisterState {
     @required this.isSubmitting,
     @required this.isSuccess,
     @required this.isFailure,
+    this.errorMessage,
   });
 
   factory RegisterState.empty() {
@@ -67,19 +69,21 @@ class RegisterState {
         isSubmitting: true);
   }
 
-  factory RegisterState.failure() {
+  factory RegisterState.failure(errorMessage) {
     return RegisterState(
-        isPasswordValid: true,
-        isEmailValid: true,
-        isNameValid: true,
-        isLastnameValid: true,
-        isPhoneNumberValid: true,
-        isStudentNumberValid: true,
-        isGradeValid: true,
-        isDepartmentValid: true,
-        isSuccess: false,
-        isFailure: true,
-        isSubmitting: false);
+      isPasswordValid: true,
+      isEmailValid: true,
+      isNameValid: true,
+      isLastnameValid: true,
+      isPhoneNumberValid: true,
+      isStudentNumberValid: true,
+      isGradeValid: true,
+      isDepartmentValid: true,
+      isSuccess: false,
+      isFailure: true,
+      isSubmitting: false,
+      errorMessage: errorMessage,
+    );
   }
 
   factory RegisterState.success() {

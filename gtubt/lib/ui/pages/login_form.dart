@@ -1,6 +1,7 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -9,19 +10,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   static String tag = 'login-page';
 
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
   BuildContext _context;
+
   LoginState _currentState;
-  LoginBloc _loginBloc;
+
+  @override
+  void initState() {
+    context.read<LoginBloc>().emailController.addListener(_onEmailChanged);
+    context
+        .read<LoginBloc>()
+        .passwordController
+        .addListener(_onPasswordChanged);
+    super.initState();
+  }
 
   void _onEmailChanged() {
-    _loginBloc.add(EmailChanged());
+    context.read<LoginBloc>().add(EmailChanged());
   }
 
   void _onPasswordChanged() {
-    _loginBloc.add(PasswordChanged());
+    context.read<LoginBloc>().add(PasswordChanged());
   }
 
   bool _isLoginButtonEnabled() {
@@ -29,15 +45,15 @@ class LoginForm extends StatelessWidget {
   }
 
   void _onFormSubmitted() {
-    _loginBloc.add(LoginWithCredentialsPressed());
+    context.read<LoginBloc>().add(LoginWithCredentialsPressed());
   }
 
   void _onForgotPasswordPressed() {
-    _loginBloc.add(
-      ForgotPasswordPressed(
-        email: _loginBloc.emailController.text.trim(),
-      ),
-    );
+    context.read<LoginBloc>().add(
+          ForgotPasswordPressed(
+            email: context.read<LoginBloc>().emailController.text.trim(),
+          ),
+        );
   }
 
   Widget _logoArea() {
@@ -66,7 +82,7 @@ class LoginForm extends StatelessWidget {
         children: <Widget>[
           _buildTextFormFieldLabel('Email'),
           TextFormField(
-            controller: _loginBloc.emailController,
+            controller: context.read<LoginBloc>().emailController,
             keyboardType: TextInputType.emailAddress,
             autocorrect: false,
             autofocus: false,
@@ -92,7 +108,7 @@ class LoginForm extends StatelessWidget {
         children: <Widget>[
           _buildTextFormFieldLabel('Password'),
           TextFormField(
-            controller: _loginBloc.passwordController,
+            controller: context.read<LoginBloc>().passwordController,
             autocorrect: false,
             autofocus: false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -133,7 +149,7 @@ class LoginForm extends StatelessWidget {
       width: 135,
       child: FlatButton(
         onPressed: () => (_currentState.isEmailValid &&
-                _loginBloc.emailController.text != '')
+                context.read<LoginBloc>().emailController.text != '')
             ? _onForgotPasswordPressed()
             : null,
         color: ColorSets.barBackgroundColor,
@@ -158,9 +174,9 @@ class LoginForm extends StatelessWidget {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          BlocProvider.of<PageBloc>(_context).add(
-            PageChanged(context: _context, routeName: SIGN_UP_URL),
-          );
+          context.read<PageBloc>().add(
+                PageChanged(context: context, routeName: SIGN_UP_URL),
+              );
         },
         color: ColorSets.barBackgroundColor,
         child: Text(
@@ -185,9 +201,8 @@ class LoginForm extends StatelessWidget {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          BlocProvider.of<PageBloc>(_context).add(
-            PageChanged(routeName: ROOT_URL, context: _context),
-          );
+          Navigator.pushNamedAndRemoveUntil(
+              _context, ROOT_URL, (route) => false);
         },
         color: ColorSets.barBackgroundColor,
         child: Text(
@@ -208,18 +223,10 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
-    _loginBloc.emailController.addListener(_onEmailChanged);
-    _loginBloc.passwordController.addListener(_onPasswordChanged);
-
-    return BlocListener<LoginBloc, LoginState>(
+    return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          AuthenticationBloc _authBloc =
-              BlocProvider.of<AuthenticationBloc>(context);
-          if (_authBloc.isBroadcast)
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(LoggedIn(context: context));
+          context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
           Scaffold.of(context)
@@ -237,44 +244,45 @@ class LoginForm extends StatelessWidget {
               ),
             );
         }
+        if (state.isFailure) {
+          // TODO: SHOW ERROR MESSAGE
+        }
       },
-      child: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
-          _currentState = state;
-          _context = context;
-          return Center(
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(left: 40.0, right: 40.0),
-              children: <Widget>[
-                _logoArea(),
-                SizedBox(height: 32.0),
-                _emailTextFormField(),
-                SizedBox(height: 16.0),
-                _passwordTextFormField(),
-                SizedBox(height: 10.0),
-                _forgotPasswordButton(),
-                SizedBox(height: 32.0),
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _signInButton(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _signUpButton(),
-                          _continueWithAnonymousButton(),
-                        ],
-                      )
-                    ],
-                  ),
+      builder: (context, state) {
+        _currentState = state;
+        _context = context;
+        return Center(
+          child: ListView(
+            shrinkWrap: true,
+            padding: EdgeInsets.only(left: 40.0, right: 40.0),
+            children: <Widget>[
+              _logoArea(),
+              SizedBox(height: 32.0),
+              _emailTextFormField(),
+              SizedBox(height: 16.0),
+              _passwordTextFormField(),
+              SizedBox(height: 10.0),
+              _forgotPasswordButton(),
+              SizedBox(height: 32.0),
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _signInButton(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _signUpButton(),
+                        _continueWithAnonymousButton(),
+                      ],
+                    )
+                  ],
                 ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

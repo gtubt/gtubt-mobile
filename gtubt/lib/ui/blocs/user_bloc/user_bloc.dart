@@ -1,4 +1,3 @@
-import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserService userService = UserService();
   Map<UserEvent, TextEditingController> eventMap = {};
 
-  @override
-  get initialState => UserState();
+  UserBloc(): super(UserState());
 
   UserState currentState = UserState();
 
@@ -28,7 +26,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is PhoneChanged) {
       userService.currentUser.phone = eventMap[event].text.trim();
     }
-
     yield currentState;
   }
 }

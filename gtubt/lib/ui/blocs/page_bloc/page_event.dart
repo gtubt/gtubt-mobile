@@ -21,8 +21,13 @@ class NavBarPageChanged extends PageEvent {
 class PageChanged extends PageEvent {
   final BuildContext context;
   final String routeName;
+  bool isRoutingActive;
 
-  PageChanged({@required this.context, @required this.routeName});
+  PageChanged({
+    @required this.context,
+    @required this.routeName,
+    this.isRoutingActive = true,
+  });
 
   @override
   String toString() => 'PageChanged {routeName: $routeName}';
