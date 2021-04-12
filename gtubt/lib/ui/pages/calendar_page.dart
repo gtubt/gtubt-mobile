@@ -62,45 +62,109 @@ class _CalendarPageState extends State<CalendarPage> {
 
     if (state is EventsLoaded) {
       List<Event> events = state.events;
+      int length = events.length;
       body = ListView.builder(
-        itemCount: events.length,
+        itemCount: length,
         itemBuilder: (BuildContext context, int index) {
-          var event = events[index];
-          var cardPadding = index == 0
-              ? EdgeInsets.only(
-                  left: 22.0, right: 22.0, bottom: 22.0, top: 22.0)
-              : EdgeInsets.only(left: 22.0, right: 22.0, bottom: 22.0);
+          var cardPadding = EdgeInsets.zero;
 
-          return Padding(
-            padding: cardPadding,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: ColorSets.profilePageThemeColor,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "${event.date.day} ${months[event.date.month - 1]} ${event.date.year}\n",
-                      style: TextStyles.subtitle1
-                          .copyWith(color: ColorSets.lightTextColor),
+          var event = events[index];
+          var month = event.date.month;
+          var day = event.date.day;
+          Widget monthHeader = Container();
+          Widget dayHeader = Container();
+
+          if (index + 1 != length) {
+            var nextEvent = events[index + 1];
+            var nextMonth = nextEvent.date.month;
+            var nextDay = nextEvent.date.day;
+            var nextWeekday = days[nextEvent.date.weekday - 1];
+
+            if (index == 0 || nextMonth != month) {
+              cardPadding = EdgeInsets.only(top: 22.0);
+
+              monthHeader = Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  months[nextMonth - 1],
+                  style: TextStyles.subtitle1
+                      .copyWith(color: ColorSets.defaultTextColor),
+                ),
+              );
+            }
+            if (index == 0 || nextDay != day) {
+              cardPadding = EdgeInsets.only(top: 22.0);
+
+              dayHeader = RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "$nextDay\n",
+                      style: TextStyles.headline4
+                          .copyWith(color: ColorSets.defaultTextColor),
                     ),
-                    Text(
-                      event.title,
-                      style: TextStyles.headline6
-                          .copyWith(color: ColorSets.lightTextColor),
+                    TextSpan(
+                      text: nextWeekday,
+                      style: TextStyles.headline5
+                          .copyWith(color: ColorSets.defaultTextColor),
                     ),
                   ],
                 ),
-              ),
+              );
+            }
+          }
+
+          return Padding(
+            padding: cardPadding,
+            child: Column(
+              children: [
+                monthHeader,
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Spacer(
+                      flex: 2,
+                    ),
+                    Expanded(
+                      flex: 8,
+                      child: dayHeader,
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    Expanded(
+                      flex: 54,
+                      child: _buildEventCard(event.title, colors[index % 7]),
+                    ),
+                    Spacer(
+                      flex: 2,
+                    ),
+                  ],
+                )
+              ],
             ),
           );
         },
       );
     }
     return body;
+  }
+
+  Widget _buildEventCard(String title, Color color) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 4.0,
+      color: color,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14),
+        child: Text(
+          title,
+          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
+        ),
+      ),
+    );
   }
 }
