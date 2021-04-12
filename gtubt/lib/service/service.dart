@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/foundation.dart';
@@ -5,11 +6,21 @@ import 'package:http/http.dart' as http;
 import 'package:kiwi/kiwi.dart';
 
 abstract class BaseService {
-  final String baseUrl = kDebugMode
-      ? 'http://10.0.2.2:3000'
-      : 'https://us-central1-gtubtmobile-bb186.cloudfunctions.net';
+  final String baseUrl =  getBaseUrl();
   final String endpointPrefix = kDebugMode ? 'api/v1' : 'gtubt-api';
   Map<String, String> baseHeader = {"accept": "application/json"};
+
+  static String getBaseUrl() {
+    if (kDebugMode) {
+      if (Platform.isAndroid) {
+        return 'http://10.0.2.2:3000';
+      }
+      if (Platform.isIOS) {
+        return 'http://localhost:3000';
+      }
+    }
+    return 'https://us-central1-gtubtmobile-bb186.cloudfunctions.net';
+  }
 
   void _tokenResolver() async {
     KiwiContainer container = KiwiContainer();
