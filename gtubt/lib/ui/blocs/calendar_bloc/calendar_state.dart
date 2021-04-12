@@ -24,10 +24,10 @@ class EventsLoaded extends CalendarPageState {
   List<Object> get props => [];
 }
 
-class EventsLoadingError extends CalendarPageState {
+class EventsError extends CalendarPageState {
   final EventFailure failure;
 
-  EventsLoadingError(this.failure);
+  EventsError(this.failure);
 
   @override
   List<Object> get props => [failure];

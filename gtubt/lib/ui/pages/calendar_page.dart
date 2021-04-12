@@ -36,7 +36,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<CalendarPageBloc, CalendarPageState>(
       listener: (context, state) {
-        if (state is EventsLoadingError) {
+        if (state is EventsError) {
           NotificationFactory.errorFactory(message: "Loading error!");
         }
       },
@@ -46,7 +46,7 @@ class _CalendarPageState extends State<CalendarPage> {
             body: _buildBody(state));
       },
       buildWhen: (CalendarPageState previous, CalendarPageState current) {
-        return (previous is EventsLoading && current is EventsLoaded);
+        return current is! EventsError;
       },
     );
   }
