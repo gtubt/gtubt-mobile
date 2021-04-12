@@ -74,6 +74,7 @@ class _CalendarPageState extends State<CalendarPage> {
           Widget monthHeader = Container();
           Widget dayHeader = Container();
 
+          /* check next event until last item */
           if (index + 1 != length) {
             var nextEvent = events[index + 1];
             var nextMonth = nextEvent.date.month;
@@ -82,36 +83,11 @@ class _CalendarPageState extends State<CalendarPage> {
 
             if (index == 0 || nextMonth != month) {
               cardPadding = EdgeInsets.only(top: 22.0);
-
-              monthHeader = Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  months[nextMonth - 1],
-                  style: TextStyles.subtitle1
-                      .copyWith(color: ColorSets.defaultTextColor),
-                ),
-              );
+              monthHeader = _monthHeader(months[nextMonth - 1]);
             }
             if (index == 0 || nextDay != day) {
               cardPadding = EdgeInsets.only(top: 22.0);
-
-              dayHeader = RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "$nextDay\n",
-                      style: TextStyles.headline4
-                          .copyWith(color: ColorSets.defaultTextColor),
-                    ),
-                    TextSpan(
-                      text: nextWeekday,
-                      style: TextStyles.headline5
-                          .copyWith(color: ColorSets.defaultTextColor),
-                    ),
-                  ],
-                ),
-              );
+              dayHeader = _dayHeader(nextDay, nextWeekday);
             }
           }
 
@@ -164,6 +140,36 @@ class _CalendarPageState extends State<CalendarPage> {
           title,
           style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
         ),
+      ),
+    );
+  }
+
+  Widget _dayHeader(int day, String weekday) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        children: <TextSpan>[
+          TextSpan(
+            text: "$day\n",
+            style: TextStyles.headline4
+                .copyWith(color: ColorSets.defaultTextColor),
+          ),
+          TextSpan(
+            text: weekday,
+            style: TextStyles.headline5
+                .copyWith(color: ColorSets.defaultTextColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _monthHeader(String month) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        month,
+        style: TextStyles.subtitle1.copyWith(color: ColorSets.defaultTextColor),
       ),
     );
   }
