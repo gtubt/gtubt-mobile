@@ -12,30 +12,58 @@ class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
 
   List<Event> pageEvents = [
     Event(
-      title: "GeekDay 2020",
+      title: "Game Workshop First Lesson: Introduction",
       description: "location1",
-      date: DateTime(2020, 7, 13),
+      date: DateTime(2021, 8, 20),
       coverImageUrl:
           "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
     ),
     Event(
-      title: "GeekDay 2021",
+      title: "Alumni Meeting 2021",
       description: "location1",
-      date: DateTime(2020, 7, 13),
+      date: DateTime(2021, 8, 20),
       coverImageUrl:
           "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
     ),
     Event(
-      title: "GeekDay 2022",
+      title: "Software Development Lifecycles",
       description: "location1",
-      date: DateTime(2020, 7, 13),
+      date: DateTime(2021, 8, 21),
       coverImageUrl:
           "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
     ),
     Event(
-      title: "GeekDay 2023",
+      title: "Bilişim Vadisi Teknik Gezisi",
       description: "location1",
-      date: DateTime(2020, 7, 13),
+      date: DateTime(2021, 9, 22),
+      coverImageUrl:
+          "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
+    ),
+    Event(
+      title: "Güvenlik Görevlileri Konseri",
+      description: "location1",
+      date: DateTime(2021, 9, 22),
+      coverImageUrl:
+          "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
+    ),
+    Event(
+      title: "Kriptoloji Yarışması #1",
+      description: "location1",
+      date: DateTime(2021, 9, 22),
+      coverImageUrl:
+          "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
+    ),
+    Event(
+      title: "Tanışma Toplantısı",
+      description: "location1",
+      date: DateTime(2021, 9, 23),
+      coverImageUrl:
+          "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
+    ),
+    Event(
+      title: "Yönetim Kurulu Seçimi",
+      description: "location1",
+      date: DateTime(2021, 9, 23),
       coverImageUrl:
           "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
     ),
