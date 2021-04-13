@@ -241,12 +241,8 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          NotificationFactory.successFactory(message: "Login Successful").show(context);
-          AuthenticationBloc _authBloc =
-              BlocProvider.of<AuthenticationBloc>(context);
-          if (_authBloc.isBroadcast)
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(LoggedIn(context: context));
+          NotificationFactory.successFactory(message: "Login Successful").show(context); 
+          context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
           NotificationFactory.successFactory(message: "Password Reset Mail Sent!").show(context);
