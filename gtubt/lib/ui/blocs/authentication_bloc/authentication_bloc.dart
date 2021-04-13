@@ -28,13 +28,22 @@ class AuthenticationBloc
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     bool isSignedIn = await _authService.isSignedIn();
+    auth.User firebaseUser;
     if (isSignedIn) {
       try {
-        auth.User firebaseUser = _authService.getUser();
+        firebaseUser = _authService.getUser();
         await _userService.get(firebaseUser.email);
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
       } on AuthenticationException catch (_) {
         yield AuthenticationUnauthenticated();
+      } on UserException catch (_) {
+        if (firebaseUser != null) {
+          // TODO: delete firebaseUser
+          _authService.signOut();
+          yield AuthenticationUnauthenticated();
+        } else {
+          yield AuthenticationUnauthenticated();
+        }
       }
     } else {
       yield AuthenticationUnauthenticated();

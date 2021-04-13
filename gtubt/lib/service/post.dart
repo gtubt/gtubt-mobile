@@ -1,8 +1,7 @@
 import 'package:GTUBT/exceptions/post.dart';
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/post.dart';
-import 'package:GTUBT/service/base.dart';
-import 'package:http/http.dart' as http;
+import 'package:GTUBT/service/service.dart';
 import 'dart:convert';
 
 class PostService extends BaseService {
@@ -17,7 +16,7 @@ class PostService extends BaseService {
   Future<List<Post>> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
 
-    final response = await http.get('$url');
+    final response = await GET('$url');
 
     if (response.statusCode != 200) {
       throw PostException();
@@ -38,7 +37,7 @@ class PostService extends BaseService {
   Future<Post> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
-    final response = await http.get('$url');
+    final response = await GET('$url');
     if (response.statusCode != 200) {
       throw PostException();
     }
@@ -60,7 +59,7 @@ class PostService extends BaseService {
       var postInJson = post.toJson();
       var bodyData = json.encode(postInJson);
 
-      final response = await http.post('$url',
+      final response = await POST('$url',
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },

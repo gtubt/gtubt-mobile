@@ -1,6 +1,7 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -18,7 +19,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   BuildContext _context;
-
+  final _formKey = GlobalKey<FormState>();
   LoginState _currentState;
 
   @override
@@ -48,11 +49,13 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onForgotPasswordPressed() {
-    context.read<LoginBloc>().add(
-          ForgotPasswordPressed(
-            email: context.read<LoginBloc>().emailController.text.trim(),
-          ),
-        );
+    if (_formKey.currentState.validate()) {
+      context.read<LoginBloc>().add(
+            ForgotPasswordPressed(
+              email: context.read<LoginBloc>().emailController.text.trim(),
+            ),
+          );
+    }
   }
 
   Widget _logoArea() {
@@ -86,8 +89,17 @@ class _LoginFormState extends State<LoginForm> {
             autocorrect: false,
             autofocus: false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (val) =>
-                !_currentState.isEmailValid ? 'Invalid email!' : null,
+            validator: (val) {
+              if (!_currentState.isEmailValid) {
+                return 'Invalid email!';
+              }
+
+              if (val == null || val.isEmpty) {
+                return 'Email required!';
+              }
+
+              return null;
+            },
             decoration: InputDecoration(
 //                hintText: 'Email',
               fillColor: Colors.white,
@@ -147,10 +159,7 @@ class _LoginFormState extends State<LoginForm> {
       height: 15,
       width: 135,
       child: FlatButton(
-        onPressed: () => (_currentState.isEmailValid &&
-                context.read<LoginBloc>().emailController.text != '')
-            ? _onForgotPasswordPressed()
-            : null,
+        onPressed: _onForgotPasswordPressed,
         color: ColorSets.barBackgroundColor,
         child: Text(
           'Forgot Password',
@@ -200,9 +209,8 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          context.read<PageBloc>().add(
-                PageChanged(routeName: ROOT_URL, context: _context),
-              );
+          Navigator.pushNamedAndRemoveUntil(
+              _context, ROOT_URL, (route) => false);
         },
         color: ColorSets.barBackgroundColor,
         child: Text(
@@ -251,35 +259,38 @@ class _LoginFormState extends State<LoginForm> {
       builder: (context, state) {
         _currentState = state;
         _context = context;
-        return Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 40.0, right: 40.0),
-            children: <Widget>[
-              _logoArea(),
-              SizedBox(height: 32.0),
-              _emailTextFormField(),
-              SizedBox(height: 16.0),
-              _passwordTextFormField(),
-              SizedBox(height: 10.0),
-              _forgotPasswordButton(),
-              SizedBox(height: 32.0),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _signInButton(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _signUpButton(),
-                        _continueWithAnonymousButton(),
-                      ],
-                    )
-                  ],
+        return Form(
+          key: _formKey,
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 40.0, right: 40.0),
+              children: <Widget>[
+                _logoArea(),
+                SizedBox(height: 32.0),
+                _emailTextFormField(),
+                SizedBox(height: 16.0),
+                _passwordTextFormField(),
+                SizedBox(height: 10.0),
+                _forgotPasswordButton(),
+                SizedBox(height: 32.0),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _signInButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _signUpButton(),
+                          _continueWithAnonymousButton(),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

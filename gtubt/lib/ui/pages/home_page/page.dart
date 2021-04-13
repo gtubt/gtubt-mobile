@@ -129,8 +129,8 @@ class _HomePageState extends State<HomePage> {
         return !(previous.isLoaded && current.isFailed);
       },
       builder: (context, state) {
-        Widget body;
-        print(state);
+        Widget body = Container();
+
         if (state.isInitial || state.isLoading) {
           body = Center(child: CircularProgressIndicator());
         } else if (state.isLoaded) {
