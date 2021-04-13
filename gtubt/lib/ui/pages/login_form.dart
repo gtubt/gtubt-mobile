@@ -4,6 +4,7 @@ import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -133,20 +134,7 @@ class _LoginFormState extends State<LoginForm> {
       child: RaisedButton(
         onPressed: () {
           if(_isLoginButtonEnabled()){
-            Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Logging in...'),
-                    Icon(Icons.hourglass_top)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarLoadingColor,
-              ),
-            );
+            NotificationFactory.loadingFactory(message: "Logging in...").show(context);
             _onFormSubmitted();
           }
         },
@@ -191,20 +179,7 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Signing up...'),
-                    Icon(Icons.hourglass_top)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarLoadingColor,
-              ),
-            );
+          NotificationFactory.loadingFactory(message: "Signing up...").show(context);
           context.read<PageBloc>().add(
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
@@ -258,21 +233,7 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isSuccess) {
-          context.read<AuthenticationBloc>().add(LoggedIn(context: context));
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Success'),
-                    Icon(Icons.verified)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarSuccessColor,
-              ),
-            );
+          NotificationFactory.successFactory(message: "Login Successful").show(context);
           AuthenticationBloc _authBloc =
               BlocProvider.of<AuthenticationBloc>(context);
           if (_authBloc.isBroadcast)
@@ -280,36 +241,10 @@ class _LoginFormState extends State<LoginForm> {
                 .add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Password Reset Mail Sent!'),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          NotificationFactory.successFactory(message: "Password Reset Mail Sent!").show(context);
         }
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(state.errorMessage),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          NotificationFactory.errorFactory(message: "Fail! " + state.errorMessage).show(context);
         }
       },
       builder: (context, state) {
