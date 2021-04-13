@@ -196,6 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _phoneNumber(String phone) {
+    phone ??= '';
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

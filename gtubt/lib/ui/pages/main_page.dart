@@ -19,12 +19,23 @@ class _MainPageState extends State<MainPage> {
   Widget body;
 
   void _onNavigation(int index) {
-    context.read<PageBloc>().add(
-      NavBarPageChanged(
-        page: index,
-        context: context,
-      ),
-    );
+    if (context.read<AuthenticationBloc>().state
+            is AuthenticationUnauthenticated &&
+        index == 2) {
+      context.read<PageBloc>().add(
+            PageChanged(
+              routeName: LOGIN_URL,
+              context: context,
+            ),
+          );
+    } else {
+      context.read<PageBloc>().add(
+            NavBarPageChanged(
+              page: index,
+              context: context,
+            ),
+          );
+    }
     context.read<AppbarBloc>().add(PageChangedAppbarEvent());
   }
 
@@ -60,29 +71,32 @@ class _MainPageState extends State<MainPage> {
         return BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, authState) {
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorSets.barBackgroundColor,
-              title: Text(Routes.bodyTitle[state.currentPage]),
-              actions: actions,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              unselectedItemColor: ColorSets.unselectedBarItemColor,
-              selectedIconTheme: IconThemeData(
-                color: ColorSets.selectedBarItemColor,
+              appBar: AppBar(
+                backgroundColor: ColorSets.barBackgroundColor,
+                title: Text(authState is AuthenticationAuthenticated
+                    ? Routes.bodyTitleLoggedIn[state.currentPage]
+                    : Routes.bodyTitle[state.currentPage]),
+                actions: actions,
               ),
-              unselectedIconTheme: IconThemeData(
-                color: ColorSets.unselectedBarItemColor,
+              bottomNavigationBar: BottomNavigationBar(
+                unselectedItemColor: ColorSets.unselectedBarItemColor,
+                selectedIconTheme: IconThemeData(
+                  color: ColorSets.selectedBarItemColor,
+                ),
+                unselectedIconTheme: IconThemeData(
+                  color: ColorSets.unselectedBarItemColor,
+                ),
+                currentIndex: state.currentPage,
+                backgroundColor: ColorSets.barBackgroundColor,
+                onTap: _onNavigation,
+                items: authState is AuthenticationAuthenticated
+                    ? Routes.navListLoggedIn
+                    : Routes.navList,
               ),
-              currentIndex: state.currentPage,
-              backgroundColor: ColorSets.barBackgroundColor,
-              onTap: _onNavigation,
-              items: authState is AuthenticationAuthenticated
-                  ? Routes.navListLoggedIn
-                  : Routes.navList,
-            ),
-            drawer: HamburgerMenuComponents(),
-            body: Routes.bodyList[state.currentPage],
-          );
+              drawer: HamburgerMenuComponents(),
+              body: authState is AuthenticationAuthenticated
+                  ? Routes.bodyListLoggenIn[state.currentPage]
+                  : Routes.bodyList[state.currentPage]);
         });
       });
     });

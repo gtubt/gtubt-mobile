@@ -32,6 +32,13 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   void _logoutButtonFunction() {
+    context.read<PageBloc>().add(
+          PageChanged(
+            context: context,
+            routeName: LOGIN_URL,
+            isRoutingActive: false,
+          ),
+        );
     context.read<AuthenticationBloc>().add(LoggedOut(context: context));
   }
 

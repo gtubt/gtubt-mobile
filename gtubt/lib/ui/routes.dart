@@ -19,6 +19,7 @@ const POST_URL = '/post';
 const SIGN_UP_URL = '/sign_up';
 const TICKET_URL = '/ticket';
 const SETTINGS_URL = '/settings';
+const CALENDER_URL = '/calender';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
@@ -32,28 +33,36 @@ class Routes {
           child: TicketPage(),
         ),
     SETTINGS_URL: (context) => SettingsPage(),
+    CALENDER_URL: (context) => CalendarPage(),
   };
   static const HOME = "Home";
   static const CALENDAR = "Calendar";
   static const PROFILE = "Profile";
-  static final bodyTitle = [HOME, CALENDAR, PROFILE];
-  static final bodyList = <Widget>[
+  static const LOGIN = "Login";
+  static final bodyTitleLoggedIn = [HOME, CALENDAR, PROFILE];
+  static final bodyTitle = [HOME, CALENDAR, LOGIN];
+  static final bodyListLoggenIn = <Widget>[
     HomePage(),
     CalendarPage(),
     ProfilePage(),
   ];
+  static final bodyList = <Widget>[
+    HomePage(),
+    CalendarPage(),
+    LoginPage(),
+  ];
   static final navListLoggedIn = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
-      label: bodyTitle[0],
+      label: bodyTitleLoggedIn[0],
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.calendar_today),
-      label: bodyTitle[1],
+      label: bodyTitleLoggedIn[1],
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.person_outline),
-      label: bodyTitle[2],
+      label: bodyTitleLoggedIn[2],
     ),
   ];
   static final navList = <BottomNavigationBarItem>[
@@ -64,6 +73,10 @@ class Routes {
     BottomNavigationBarItem(
       icon: Icon(Icons.calendar_today),
       label: bodyTitle[1],
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.login),
+      label: bodyTitle[2],
     ),
   ];
 }

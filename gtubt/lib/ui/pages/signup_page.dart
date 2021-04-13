@@ -145,7 +145,9 @@ class _SignUpPageState extends State<SignUpPage> {
             decoration:
                 FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
             validator: (String value) {
-              return !context.read<RegisterBloc>().state.isNameValid ? 'Invalid format' : null;
+              return !context.read<RegisterBloc>().state.isNameValid
+                  ? 'Invalid format'
+                  : null;
             },
           ),
         )
@@ -274,38 +276,38 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Registering...'),
-                    CircularProgressIndicator()
-                  ],
-                ),
-              ),
-            );
+          // Scaffold.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(
+          //     SnackBar(
+          //       content: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: <Widget>[
+          //           Text('Registering...'),
+          //           CircularProgressIndicator()
+          //         ],
+          //       ),
+          //     ),
+          //   );
         }
         if (state.isSuccess) {
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(state.errorMessage),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          // Scaffold.of(context)
+          //   ..hideCurrentSnackBar()
+          //   ..showSnackBar(
+          //     SnackBar(
+          //       content: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         children: <Widget>[
+          //           Text(state.errorMessage),
+          //           Icon(Icons.error)
+          //         ],
+          //       ),
+          //       backgroundColor: ColorSets.snackBarErrorColor,
+          //     ),
+          //   );
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
