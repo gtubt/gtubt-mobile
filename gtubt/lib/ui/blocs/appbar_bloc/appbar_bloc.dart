@@ -12,13 +12,17 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
   @override
   Stream<AppbarState> mapEventToState(AppbarEvent event) async* {
     if (event is UserEditButtonPressed) {
-      if (this.state.editMode) {
+      var editMode = this.state.editMode;
+      if (editMode) {
         try {
-          userService.patch(userService.currentUser);
-          yield AppbarState(editMode: !this.state.editMode);
+          yield AppbarLoadingState();
+          await userService.patch(userService.currentUser);
+          yield AppbarState(editMode: !editMode);
         } on UserException catch (_) {
           yield AppbarErrorState();
         }
+      } else {
+        yield AppbarState(editMode: !editMode);
       }
     } else if (event is PageChangedAppbarEvent) {
       yield AppbarState();
