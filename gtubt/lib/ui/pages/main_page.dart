@@ -73,18 +73,13 @@ class _MainPageState extends State<MainPage> {
           var isLoading =
               context.read<AppbarBloc>().state is AppbarLoadingState;
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: ColorSets.barBackgroundColor,
-              title: Text(authState is AuthenticationAuthenticated
+              appBar: AppBar(
+                backgroundColor: ColorSets.barBackgroundColor,
+                title: Text(authState is AuthenticationAuthenticated
                     ? Routes.bodyTitleLoggedIn[state.currentPage]
                     : Routes.bodyTitle[state.currentPage]),
-              actions: actions,
-              bottom: AppBarLinearProgressIndicator(isLoading),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              unselectedItemColor: ColorSets.unselectedBarItemColor,
-              selectedIconTheme: IconThemeData(
-                color: ColorSets.selectedBarItemColor,
+                actions: actions,
+                bottom: AppBarLinearProgressIndicator(isLoading),
               ),
               bottomNavigationBar: BottomNavigationBar(
                 unselectedItemColor: ColorSets.unselectedBarItemColor,
