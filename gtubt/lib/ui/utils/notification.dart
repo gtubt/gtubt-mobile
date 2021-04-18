@@ -16,7 +16,7 @@ class NotificationFactory {
       icon: Icon(Icons.info),
       duration: Duration(seconds: 5),
       margin: getFlushbarMargin(),
-      borderRadius: 8,
+      borderRadius: BorderRadius.circular(10),
     );
   }
 
@@ -30,7 +30,7 @@ class NotificationFactory {
       icon: Icon(Icons.error),
       duration: Duration(seconds: 5),
       margin: getFlushbarMargin(),
-      borderRadius: 8,
+      borderRadius: BorderRadius.circular(10),
     );
   }
 
@@ -44,7 +44,7 @@ class NotificationFactory {
       icon: Icon(Icons.error),
       duration: Duration(seconds: 5),
       margin: getFlushbarMargin(),
-      borderRadius: 8,
+      borderRadius: BorderRadius.circular(10),
     );
   }
 
@@ -71,7 +71,7 @@ class NotificationFactory {
       icon: Icon(Icons.info),
       duration: Duration(seconds: 5),
       margin: getFlushbarMargin(),
-      borderRadius: 8,
+      borderRadius: BorderRadius.circular(10),
     );
   }
 }
