@@ -4,6 +4,7 @@ import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
+import 'package:GTUBT/ui/components/appbar_linear_progress_indicator.dart';
 import 'package:GTUBT/ui/components/hamburger_menu.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
@@ -64,12 +65,13 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    var actions = _generateActions();
-
     return BlocBuilder<AppbarBloc, AppbarState>(builder: (context, state) {
       return BlocBuilder<PageBloc, PageState>(builder: (context, state) {
         return BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, authState) {
+          var actions = _generateActions();
+          var isLoading =
+              context.read<AppbarBloc>().state is AppbarLoadingState;
           return Scaffold(
               appBar: AppBar(
                 backgroundColor: ColorSets.barBackgroundColor,
@@ -77,6 +79,7 @@ class _MainPageState extends State<MainPage> {
                     ? Routes.bodyTitleLoggedIn[state.currentPage]
                     : Routes.bodyTitle[state.currentPage]),
                 actions: actions,
+                bottom: AppBarLinearProgressIndicator(isLoading),
               ),
               bottomNavigationBar: BottomNavigationBar(
                 unselectedItemColor: ColorSets.unselectedBarItemColor,

@@ -26,7 +26,7 @@ abstract class BaseService {
     KiwiContainer container = KiwiContainer();
     try {
       auth.User user = container.resolve();
-      baseHeader = {"X-FIREBASE-HEADER": await user.getIdToken()};
+      baseHeader = {"X-FIREBASE-TOKEN": await user.getIdToken()};
     } catch (_) {
       baseHeader.clear();
     }
