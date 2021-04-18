@@ -5,6 +5,7 @@ import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -233,27 +234,24 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
+        if (state.isSubmitting) {
+          NotificationFactory.loadingFactory(message: "Logging in...")
+              .show(context);
+        }
         if (state.isSuccess) {
+          NotificationFactory.successFactory(message: "Login Successful")
+              .show(context);
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Password Reset Mail Sent!'),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          NotificationFactory.successFactory(
+                  message: "Password Reset Mail Sent!")
+              .show(context);
         }
         if (state.isFailure) {
-          // TODO: SHOW ERROR MESSAGE
+          NotificationFactory.errorFactory(
+                  message: "Fail! " + state.errorMessage)
+              .show(context);
         }
       },
       builder: (context, state) {

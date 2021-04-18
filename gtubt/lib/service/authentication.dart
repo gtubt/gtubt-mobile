@@ -24,7 +24,11 @@ class AuthService {
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
-    } catch (_) {
+    } catch (error) {
+      try {
+        container.unregister<auth.User>();
+      } catch (_) {}
+
       throw AuthenticationException();
     }
   }
@@ -45,7 +49,7 @@ class AuthService {
   }
 
   Future<bool> isSignedIn() async {
-    if (_auth.currentUser != null){
+    if (_auth.currentUser != null) {
       container.registerInstance<auth.User>(_auth.currentUser);
     }
     return _auth.currentUser != null;
