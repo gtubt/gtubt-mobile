@@ -19,14 +19,16 @@ class _PostPage extends State<PostPage> {
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
           child: Text(
             TimeAgoFormatter(post.startDate).toString(),
-            style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
+            style: TextStyles.subtitle2
+                .copyWith(color: ColorSets.defaultTextColor),
           ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
           child: Text(
             post.body,
-            style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
+            style: TextStyles.subtitle2
+                .copyWith(color: ColorSets.defaultTextColor),
           ),
         ),
       ],
@@ -50,12 +52,20 @@ class _PostPage extends State<PostPage> {
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
                     title: Text(post.title,
-                        style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor)),
+                        style: TextStyles.subtitle1
+                            .copyWith(color: ColorSets.lightTextColor)),
                     background: Hero(
                       tag: postArgs.heroTag,
                       child: Image.network(
                         post.coverImageUrl,
                         fit: BoxFit.cover,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace stacktrace) {
+                          return Image.asset(
+                            "assets/error.png",
+                            fit: BoxFit.cover,
+                          );
+                        },
                       ),
                     )),
               ),

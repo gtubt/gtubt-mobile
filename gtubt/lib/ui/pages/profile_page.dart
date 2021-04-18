@@ -11,11 +11,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 
 // ignore: must_be_immutable
-class ProfilePage extends StatelessWidget {
-  UserBloc _userBloc;
+
+
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
-  AppbarBloc _appbarBloc;
-  double _width;
 
   final TextStyle _headerTextStyle = TextStyles.subtitle1
       .copyWith(height: -2, color: ColorSets.profilePageThemeColor);
@@ -25,6 +29,7 @@ class ProfilePage extends StatelessWidget {
       color: ColorSets.defaultTextColor,
       letterSpacing: 0,
       fontWeight: FontWeight.w500);
+
 
   Widget _imageBackground() {
     return Container(
@@ -52,7 +57,7 @@ class ProfilePage extends StatelessWidget {
 
   Widget _fullName(String name) {
     Widget form;
-    if (_appbarBloc.state.editMode) {
+    if (context.read<AppbarBloc>().state.editMode) {
       var controller = TextEditingController();
       controller.text = name;
       controller.addListener(() {
@@ -142,6 +147,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _phoneNumber(String phone) {
+    phone ??= '';
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,24 +164,24 @@ class ProfilePage extends StatelessWidget {
 
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
-    if (_appbarBloc.state.editMode) {
-      TextEditingController controller = _userBloc.textEditingController(field);
+    if (context.read<AppbarBloc>().state.editMode) {
+      TextEditingController controller = context.read<UserBloc>().textEditingController(field);
       controller.text = formData;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
-        _userBloc.add(field);
+        context.read<UserBloc>().add(field);
       });
       form = TextFormField(
         controller: controller,
-        readOnly: !_userBloc.state.editMode,
+        readOnly: !context.read<UserBloc>().state.editMode,
         decoration: FormBoxContainer.textFieldStyle(
             labelTextStr: "  " + fieldName + "  "),
       );
     } else {
       form = TextFormField(
         controller: null,
-        readOnly: !_userBloc.state.editMode,
+        readOnly: !context.read<UserBloc>().state.editMode,
         enabled: false,
         initialValue: formData,
         decoration: FormBoxContainer.textFieldStyle(
@@ -217,10 +223,10 @@ class ProfilePage extends StatelessWidget {
                     child: Form(
                       key: _passwordFieldKey,
                       child: TextFormField(
-                        controller: _userBloc.passwordController,
+                        controller: context.read<UserBloc>().passwordController,
                         obscureText: true,
                         validator: (value) {
-                          return !_userBloc.state.passwordsMatch
+                          return !context.read<UserBloc>().state.passwordsMatch
                               ? 'Passwords doesn\'t match'
                               : null;
                         },
@@ -268,7 +274,7 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(width: 20),
                   RaisedButton(
                     onPressed: () {
-                      _userBloc.add(OnAccountDeletion(context: context));
+                      context.read<UserBloc>().add(OnAccountDeletion(context: context));
                       _passwordFieldKey.currentState.validate();
                     },
                     color: ColorSets.profilePageThemeColor,
@@ -286,7 +292,7 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    User user = _userBloc.userService.currentUser;
+    User user = context.read<UserBloc>().userService.currentUser;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -333,10 +339,10 @@ class ProfilePage extends StatelessWidget {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              _userBloc.passwordController.clear();
+                              context.read<UserBloc>().passwordController.clear();
                               return accountDeletionDialog(context);
                             });
-                        //_userBloc.userService.delete(user.email);
+                        //context.read<UserBloc>().userService.delete(user.email);
                       },
                     ),
                   ),
@@ -351,9 +357,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _userBloc = BlocProvider.of<UserBloc>(context);
-    _appbarBloc = BlocProvider.of<AppbarBloc>(context);
-    _width = MediaQuery.of(context).size.width;
     return BlocBuilder<AppbarBloc, AppbarState>(
       builder: (context, state) {
         return BlocConsumer<UserBloc, UserState>(

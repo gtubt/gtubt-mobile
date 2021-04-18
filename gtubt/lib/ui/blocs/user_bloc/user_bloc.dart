@@ -11,8 +11,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserService userService = UserService();
   Map<UserEvent, TextEditingController> eventMap = {};
 
-  @override
-  get initialState => UserState();
+  UserBloc(): super(UserState());
 
   UserState currentState = UserState();
 
