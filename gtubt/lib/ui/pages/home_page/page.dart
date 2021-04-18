@@ -79,14 +79,14 @@ class _HomePageState extends State<HomePage> {
     return dayText;
   }
 
-  Future<void> _refreshPosts() {
-    // todo: Refresh Posts
-    return Future.delayed(Duration(seconds: 1)); // Temp return
-  }
-
   Widget buildHomePage(BuildContext context, List<Post> postItems) {
     return RefreshIndicator(
-      onRefresh: _refreshPosts,
+      onRefresh: () async {
+        postItems = [];
+        BlocProvider.of<PostBloc>(context).add(
+          FetchPosts(),
+        );
+      },
       child: Container(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: ListView.builder(

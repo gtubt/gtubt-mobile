@@ -20,6 +20,7 @@ class PostItem extends StatelessWidget {
   Widget buildPostItemPicturePart() {
     return Container(
       height: 200,
+      width: 400,
       child: Hero(
         child: FadeInImage.assetNetwork(
           alignment: Alignment.topCenter,
@@ -27,7 +28,7 @@ class PostItem extends StatelessWidget {
           placeholder: 'assets/logo.png',
           image: item.coverImageUrl,
           height: 300,
-          fit: BoxFit.fitWidth,
+          fit: BoxFit.fitHeight,
           imageErrorBuilder: (context, error, stackTrace) {
             return Image.asset("assets/error.png");
           },

@@ -6,6 +6,7 @@ part 'post.g.dart';
 
 @JsonSerializable()
 class Post {
+  int id;
   String title;
   String body;
   String coverImageUrl;
@@ -15,6 +16,7 @@ class Post {
   DateTime endDate;
 
   Post({
+    this.id,
     this.title,
     this.body,
     this.coverImageUrl,

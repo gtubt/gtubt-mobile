@@ -14,7 +14,7 @@ class PostService extends BaseService {
   }
 
   Future<List<Post>> getAll() async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath';
+    String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
 
     final response = await GET('$url');
 
@@ -22,8 +22,15 @@ class PostService extends BaseService {
       throw PostException();
     }
     try {
-      final apiResponse =
-          ApiResponseList<Post>.fromJson(json.decode(response.body));
+      List<Post> body = new List();
+      ApiResponseList<Post> apiResponse = new ApiResponseList();
+      final postList = json.decode(response.body);
+      apiResponse.status = response.statusCode;
+      postList.forEach((post) {
+        body.add(Post.fromJson(post));
+      });
+      apiResponse.body = body.reversed.toList();
+
       if (apiResponse.status != 200) {
         throw PostException.message(apiResponse.message);
       }
