@@ -22,8 +22,8 @@ class PostService extends BaseService {
       throw PostException();
     }
     try {
-      List<Post> body = new List();
-      ApiResponseList<Post> apiResponse = new ApiResponseList();
+      List<Post> body = [];
+      ApiResponseList<Post> apiResponse = ApiResponseList();
       final postList = json.decode(response.body);
       apiResponse.status = response.statusCode;
       postList.forEach((post) {
