@@ -92,8 +92,16 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       height: 120.0,
       decoration: BoxDecoration(
-        color: ColorSets.profilePageThemeColor,
+        color: ColorSets.barBackgroundColor,
       ),
+    );
+  }
+
+  Widget _logoArea() {
+    return Container(
+      height: 160,
+      width: 180,
+      child: Image.asset('assets/logo.png'),
     );
   }
 
@@ -313,13 +321,14 @@ class _SignUpPageState extends State<SignUpPage> {
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: ColorSets.barBackgroundColor,
             body: Stack(
               children: <Widget>[
                 SafeArea(
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-                        _profileImage(),
+                        _logoArea(),
                         _nameForm(),
                         _lastnameForm(),
                         _emailForm(),
