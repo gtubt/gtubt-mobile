@@ -3,6 +3,7 @@ import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -284,38 +285,14 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          // Scaffold.of(context)
-          //   ..hideCurrentSnackBar()
-          //   ..showSnackBar(
-          //     SnackBar(
-          //       content: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: <Widget>[
-          //           Text('Registering...'),
-          //           CircularProgressIndicator()
-          //         ],
-          //       ),
-          //     ),
-          //   );
+          return NotificationFactory.successFactory(
+              message: "Sign Up Successful");
         }
         if (state.isSuccess) {
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          // Scaffold.of(context)
-          //   ..hideCurrentSnackBar()
-          //   ..showSnackBar(
-          //     SnackBar(
-          //       content: Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: <Widget>[
-          //           Text(state.errorMessage),
-          //           Icon(Icons.error)
-          //         ],
-          //       ),
-          //       backgroundColor: ColorSets.snackBarErrorColor,
-          //     ),
-          //   );
+          return NotificationFactory.errorFactory(message: state.errorMessage);
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
