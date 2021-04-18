@@ -145,8 +145,7 @@ class _LoginFormState extends State<LoginForm> {
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
         onPressed: () {
-          if(_isLoginButtonEnabled()){
-            NotificationFactory.loadingFactory(message: "Logging in...").show(context);
+          if (_isLoginButtonEnabled()) {
             _onFormSubmitted();
           }
         },
@@ -188,7 +187,6 @@ class _LoginFormState extends State<LoginForm> {
       width: 135,
       child: RaisedButton(
         onPressed: () {
-          NotificationFactory.loadingFactory(message: "Signing up...").show(context);
           context.read<PageBloc>().add(
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
@@ -240,15 +238,24 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
+        if (state.isSubmitting) {
+          NotificationFactory.loadingFactory(message: "Logging in...")
+              .show(context);
+        }
         if (state.isSuccess) {
-          NotificationFactory.successFactory(message: "Login Successful").show(context); 
+          NotificationFactory.successFactory(message: "Login Successful")
+              .show(context);
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
-          NotificationFactory.successFactory(message: "Password Reset Mail Sent!").show(context);
+          NotificationFactory.successFactory(
+                  message: "Password Reset Mail Sent!")
+              .show(context);
         }
         if (state.isFailure) {
-          NotificationFactory.errorFactory(message: "Fail! " + state.errorMessage).show(context);
+          NotificationFactory.errorFactory(
+                  message: "Fail! " + state.errorMessage)
+              .show(context);
         }
       },
       builder: (context, state) {
