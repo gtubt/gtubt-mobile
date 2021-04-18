@@ -144,11 +144,7 @@ class _LoginFormState extends State<LoginForm> {
       height: 40,
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
-        onPressed: () {
-          if (_isLoginButtonEnabled()) {
-            _onFormSubmitted();
-          }
-        },
+        onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
         color: ColorSets.selectedBarItemColor,
         child: Text(
           'Login',
