@@ -55,6 +55,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     } on AuthenticationException catch (error) {
       yield RegisterState.failure(error.message);
     } on UserException catch (error) {
+      // TODO: delete firebaseUser
       yield RegisterState.failure(error.message);
     }
   }

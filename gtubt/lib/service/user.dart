@@ -95,8 +95,8 @@ class UserService extends BaseService {
     }
   }
 
-  Future<bool> delete(int id) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+  Future<bool> delete(String email) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     var apiResponse;
 
     final response = await DELETE('$url');

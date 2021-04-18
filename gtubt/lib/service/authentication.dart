@@ -33,17 +33,18 @@ class AuthService {
     }
   }
 
-  Future<auth.User> reAuthenticate(
+  Future<void> reAuthenticate(
     String email,
     String password,
   ) async {
     try {
       auth.EmailAuthCredential credential =
           auth.EmailAuthProvider.credential(email: email, password: password);
-      return (await _auth.currentUser.reauthenticateWithCredential(credential))
-          .user;
-    } catch (error) {
-      return null;
+      await _auth.currentUser.reauthenticateWithCredential(credential);
+    } on auth.FirebaseAuthException catch (error) {
+      throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
     }
   }
 
@@ -53,7 +54,7 @@ class AuthService {
           (await _auth.createUserWithEmailAndPassword(
                   email: data['email'], password: data['password']))
               .user;
-
+      container.registerInstance<auth.User>(_auth.currentUser);
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);

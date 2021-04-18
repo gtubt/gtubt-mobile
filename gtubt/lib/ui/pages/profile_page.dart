@@ -1,7 +1,10 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
+import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
+import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
+import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
@@ -12,7 +15,6 @@ import 'package:GTUBT/ui/style/form_box_container.dart';
 
 // ignore: must_be_immutable
 
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -20,6 +22,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
 
   final TextStyle _headerTextStyle = TextStyles.subtitle1
       .copyWith(height: -2, color: ColorSets.profilePageThemeColor);
@@ -29,7 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
       color: ColorSets.defaultTextColor,
       letterSpacing: 0,
       fontWeight: FontWeight.w500);
-
 
   Widget _imageBackground() {
     return Container(
@@ -165,7 +167,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
     if (context.read<AppbarBloc>().state.editMode) {
-      TextEditingController controller = context.read<UserBloc>().textEditingController(field);
+      TextEditingController controller =
+          context.read<UserBloc>().textEditingController(field);
       controller.text = formData;
       controller.addListener(() {
         final text = controller.text;
@@ -174,14 +177,14 @@ class _ProfilePageState extends State<ProfilePage> {
       });
       form = TextFormField(
         controller: controller,
-        readOnly: !context.read<UserBloc>().state.editMode,
+        readOnly: !context.read<AppbarBloc>().state.editMode,
         decoration: FormBoxContainer.textFieldStyle(
             labelTextStr: "  " + fieldName + "  "),
       );
     } else {
       form = TextFormField(
         controller: null,
-        readOnly: !context.read<UserBloc>().state.editMode,
+        readOnly: !context.read<AppbarBloc>().state.editMode,
         enabled: false,
         initialValue: formData,
         decoration: FormBoxContainer.textFieldStyle(
@@ -208,12 +211,14 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
           child: Column(
             children: [
-              Text("To delete your account please enter your password",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16)),
+              Text(
+                "To delete your account please enter your password",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16),
+              ),
               SizedBox(height: 15),
               Container(
                   child: Row(
@@ -223,16 +228,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Form(
                       key: _passwordFieldKey,
                       child: TextFormField(
-                        controller: context.read<UserBloc>().passwordController,
+                        controller: _passwordController,
                         obscureText: true,
                         validator: (value) {
-                          return !context.read<UserBloc>().state.passwordsMatch
-                              ? 'Passwords doesn\'t match'
-                              : null;
+                          final authState =
+                              context.read<AuthenticationBloc>().state;
+                          if (authState is AuthenticationError) {
+                            return authState.message;
+                          }
+                          return null;
                         },
-                        decoration: new InputDecoration(
+                        decoration: InputDecoration(
                           contentPadding: EdgeInsets.only(left: 15.0),
-                          enabledBorder: new OutlineInputBorder(
+                          enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.white,
                             ),
@@ -240,7 +248,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               const Radius.circular(10.0),
                             ),
                           ),
-                          focusedBorder: new OutlineInputBorder(
+                          focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.white,
                             ),
@@ -269,20 +277,26 @@ class _ProfilePageState extends State<ProfilePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: const Text("Cancel"),
+                    child: Text("Cancel"),
                   ),
                   SizedBox(width: 20),
                   RaisedButton(
                     onPressed: () {
-                      context.read<UserBloc>().add(OnAccountDeletion(context: context));
-                      _passwordFieldKey.currentState.validate();
+                      if (_passwordFieldKey.currentState.validate()) {
+                        context.read<AuthenticationBloc>().add(
+                              DeleteAcc(
+                                password: _passwordController.text.trim(),
+                              ),
+                            );
+                      }
                     },
                     color: ColorSets.profilePageThemeColor,
                     textColor: ColorSets.lightTextColor,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: ColorSets.lightTextColor)),
-                    child: const Text("Delete Account"),
+                      borderRadius: BorderRadius.circular(10.0),
+                      side: BorderSide(color: ColorSets.lightTextColor),
+                    ),
+                    child: Text("Delete Account"),
                   )
                 ]),
               )
@@ -339,7 +353,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              context.read<UserBloc>().passwordController.clear();
+                              _passwordController.clear();
                               return accountDeletionDialog(context);
                             });
                         //context.read<UserBloc>().userService.delete(user.email);
@@ -357,21 +371,39 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppbarBloc, AppbarState>(
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is AuthenticationError) {
+          _passwordFieldKey.currentState.validate();
+        }
+        if (state is AuthenticationUnauthenticated) {
+          // TODO refactor after merge
+          // https://github.com/gtubt/gtubt-mobile/pull/110
+          context
+              .read<PageBloc>()
+              .add(PageChanged(context: context, routeName: ROOT_URL));
+          Navigator.pushNamedAndRemoveUntil(
+              context, ROOT_URL, (route) => false);
+        }
+      },
       builder: (context, state) {
-        return BlocConsumer<UserBloc, UserState>(
-          listener: (context, state) {
-            if (state.isFailure) {
-              NotificationFactory.errorFactory(message: state.errorMessage)
-                  .show(context);
-            }
-          },
+        return BlocBuilder<AppbarBloc, AppbarState>(
           builder: (context, state) {
-            if (!state.isFailure) {
-              return buildAll(context, state);
-            } else {
-              return Scaffold();
-            }
+            return BlocConsumer<UserBloc, UserState>(
+              listener: (context, state) {
+                if (state.isFailure) {
+                  NotificationFactory.errorFactory(message: state.errorMessage)
+                      .show(context);
+                }
+              },
+              builder: (context, state) {
+                if (!state.isFailure) {
+                  return buildAll(context, state);
+                } else {
+                  return Scaffold();
+                }
+              },
+            );
           },
         );
       },

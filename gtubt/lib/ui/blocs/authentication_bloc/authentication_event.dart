@@ -43,3 +43,16 @@ class LoggedOut extends AuthenticationEvent {
   @override
   List<Object> get props => [];
 }
+
+class DeleteAcc extends AuthenticationEvent {
+  final String password;
+  DeleteAcc({this.password});
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() {
+    return "DeleteAcc";
+  }
+}

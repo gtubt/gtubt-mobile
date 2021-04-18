@@ -23,6 +23,8 @@ class AuthenticationBloc
       yield* _mapLoggedInToState(event);
     } else if (event is LoggedOut) {
       yield* _mapLoggedOutToState(event);
+    } else if (event is DeleteAcc) {
+      yield* _mapDeleteAccToState(event.password);
     }
   }
 
@@ -78,5 +80,21 @@ class AuthenticationBloc
     Navigator.pushNamedAndRemoveUntil(
         event.context, ROOT_URL, (route) => false);
     yield AuthenticationUnauthenticated();
+  }
+
+  Stream<AuthenticationState> _mapDeleteAccToState(String password) async* {
+    try {
+      await _authService.reAuthenticate(
+          _userService.currentUser.email, password);
+      await _userService.delete(_userService.currentUser.email);
+      await _authService.deleteUser();
+      yield AuthenticationUnauthenticated();
+    } on AuthenticationException catch (error) {
+      yield AuthenticationError(error.message);
+    } on UserException catch (error) {
+      yield AuthenticationError(error.message);
+    } on auth.FirebaseAuthException catch (_) {
+      yield AuthenticationError('Please login again!');
+    }
   }
 }
