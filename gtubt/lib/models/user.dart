@@ -16,7 +16,7 @@ class User {
   @JsonKey(nullable: true)
   int year;
 
-  String id;
+  int id;
   String studentId;
 
   @JsonKey(nullable: true)

@@ -11,6 +11,4 @@ class ColorSets {
   static const lightTextColor = Colors.white;
 
   static const pageBackgroundColor = Color(0xFFFFFFFF);
-
-  static const snackBarErrorColor = Color(0xFFF44336);
 }

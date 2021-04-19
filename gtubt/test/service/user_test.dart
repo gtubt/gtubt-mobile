@@ -4,11 +4,7 @@ import 'package:GTUBT/models/user.dart';
 
 void main() {
   test('Get User with email', () async {
-    var result = await UserService().get("yasir.nacak@gmail.com");
-    User user = result.fold(
-            (user) => user,
-            (userFailure) => null
-    );
+    User user = await UserService().get("yasir.nacak@gmail.com");
     expect(user == null, false);
     expect(user.name, "Yasir");
   });
@@ -30,11 +26,7 @@ void main() {
   });
 
   test('Update User', () async {
-    var result = await UserService().get("ahmtergn5@gmail.com");
-    User user = result.fold(
-            (user) => user,
-            (userFailure) => null
-    );
+    User user = await UserService().get("ahmtergn5@gmail.com");
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
@@ -44,21 +36,14 @@ void main() {
     expect(updatedUser == null, false);
     expect(updatedUser.phone, "5464351277");
 
-    result = await UserService().get("ahmtergn5@gmail.com");
-    user = result.fold(
-            (user) => user,
-            (userFailure) => null
-    );
+    user = await UserService().get("ahmtergn5@gmail.com");
     expect(user == null, false);
     expect(user.phone, "0546 435 12 77");
   });
 
   test('Delete User', () async {
-    var result = await UserService().get("ahmtergn5@gmail.com");
-    User user = result.fold(
-            (user) => user,
-            (userFailure) => null
-    );
+    User user = await UserService().get("ahmtergn5@gmail.com");
+    
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
