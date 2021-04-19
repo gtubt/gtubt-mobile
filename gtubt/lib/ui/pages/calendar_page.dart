@@ -1,7 +1,6 @@
 import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
@@ -37,7 +36,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return BlocConsumer<CalendarPageBloc, CalendarPageState>(
       listener: (context, state) {
         if (state is EventsError) {
-          NotificationFactory.errorFactory(message: "Loading error!");
+          NotificationFactory.errorFactory(message: state.failure.message);
         }
       },
       builder: (context, CalendarPageState state) {
@@ -51,80 +50,68 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Widget _buildBody(CalendarPageState state) {
-    Widget body;
+  Widget _buildCalendar(List<Event> events){
+    int length = events.length;
+    return ListView.builder(
+      itemCount: length,
+      itemBuilder: (BuildContext context, int index) {
+        var cardPadding = EdgeInsets.zero;
 
-    if (state is CalendarPageInitState || state is EventsLoading) {
-      body = Center(
-        child: CircularProgressIndicator(),
-      );
-    }
+        var event = events[index];
+        var month = event.date.month;
+        var day = event.date.day;
+        Widget monthHeader = Container();
+        Widget dayHeader = Container();
 
-    if (state is EventsLoaded) {
-      List<Event> events = state.events;
-      int length = events.length;
-      body = ListView.builder(
-        itemCount: length,
-        itemBuilder: (BuildContext context, int index) {
-          var cardPadding = EdgeInsets.zero;
+        /* check next event until last item */
+        if (index + 1 != length) {
+          var nextEvent = events[index + 1];
+          var nextMonth = nextEvent.date.month;
+          var nextDay = nextEvent.date.day;
+          var nextWeekday = days[nextEvent.date.weekday - 1];
 
-          var event = events[index];
-          var month = event.date.month;
-          var day = event.date.day;
-          Widget monthHeader = Container();
-          Widget dayHeader = Container();
-
-          /* check next event until last item */
-          if (index + 1 != length) {
-            var nextEvent = events[index + 1];
-            var nextMonth = nextEvent.date.month;
-            var nextDay = nextEvent.date.day;
-            var nextWeekday = days[nextEvent.date.weekday - 1];
-
-            if (index == 0 || nextMonth != month) {
-              cardPadding = EdgeInsets.only(top: 22.0);
-              monthHeader = _monthHeader(months[nextMonth - 1]);
-            }
-            if (index == 0 || nextDay != day) {
-              cardPadding = EdgeInsets.only(top: 22.0);
-              dayHeader = _dayHeader(nextDay, nextWeekday);
-            }
+          if (index == 0 || nextMonth != month) {
+            cardPadding = EdgeInsets.only(top: 22.0);
+            monthHeader = _monthHeader(months[nextMonth - 1]);
           }
+          if (index == 0 || nextDay != day) {
+            cardPadding = EdgeInsets.only(top: 22.0);
+            dayHeader = _dayHeader(nextDay, nextWeekday);
+          }
+        }
 
-          return Padding(
-            padding: cardPadding,
-            child: Column(
-              children: [
-                monthHeader,
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Spacer(
-                      flex: 2,
-                    ),
-                    Expanded(
-                      flex: 8,
-                      child: dayHeader,
-                    ),
-                    Spacer(
-                      flex: 1,
-                    ),
-                    Expanded(
-                      flex: 54,
-                      child: _buildEventCard(event.title, colors[index % 7]),
-                    ),
-                    Spacer(
-                      flex: 2,
-                    ),
-                  ],
-                )
-              ],
-            ),
-          );
-        },
-      );
-    }
-    return body;
+        return Padding(
+          padding: cardPadding,
+          child: Column(
+            children: [
+              monthHeader,
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Spacer(
+                    flex: 2,
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: dayHeader,
+                  ),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  Expanded(
+                    flex: 54,
+                    child: _buildEventCard(event.title, colors[index % 7]),
+                  ),
+                  Spacer(
+                    flex: 2,
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildEventCard(String title, Color color) {
@@ -173,4 +160,20 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
     );
   }
+
+  Widget _buildBody(CalendarPageState state) {
+    Widget body = Container();
+
+    if (state is CalendarPageInitState || state is EventsLoading) {
+      body = Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (state is EventsLoaded) {
+      List<Event> events = state.events;
+      int length = events.length;
+      body = _buildCalendar(events);
+    }
+    return body;
 }
