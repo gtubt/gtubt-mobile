@@ -18,7 +18,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     _initialize().then((value) {
-      Navigator.of(context).pushReplacementNamed(ROOT_URL);
+      Navigator.of(context).pushReplacementNamed(MAIN_URL);
     });
   }
 
