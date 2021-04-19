@@ -22,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextStyle _nameTextStyle = TextStyles.subtitle2
       .copyWith(height: 1.4, color: ColorSets.defaultTextColor);
 
-  User user;
   final picker = ImagePicker();
 
   Widget _imageBackground() {
