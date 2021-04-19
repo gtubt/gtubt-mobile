@@ -356,7 +356,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               _passwordController.clear();
                               return accountDeletionDialog(context);
                             });
-                        //context.read<UserBloc>().userService.delete(user.email);
                       },
                     ),
                   ),
