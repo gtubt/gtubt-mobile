@@ -8,6 +8,7 @@ import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class ProfilePage extends StatefulWidget {
@@ -21,6 +22,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextStyle _nameTextStyle = TextStyles.subtitle2
       .copyWith(height: 1.4, color: ColorSets.defaultTextColor);
 
+  User user;
+  final picker = ImagePicker();
 
   Widget _imageBackground() {
     return Container(
@@ -31,24 +34,111 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _profileImage() {
-    return Center(
-      child: Container(
-        width: 140.0,
-        height: 140.0,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // image: DecorationImage(
-          //   image: AssetImage(
-          //     "assets/images/as.jpg"
-          //   ),
-          // ),
-          borderRadius: BorderRadius.circular(80),
-          border: Border.all(
-            color: ColorSets.profilePageThemeColor,
-            width: 5,
-          ),
+  Future<void> _getImage(ImageSource imageSource) async {
+    var imageFile = await picker.getImage(source: imageSource);
+    if (imageFile == null) return;
+    print('get image: ' + imageFile.path);
+    /* TODO: save image to user.profilePhoto */
+  }
+
+  void _imagePickerMenu() {
+    var _menuItems = [
+      ListTile(
+        leading: Icon(Icons.image),
+        title: Text('Select from gallery'),
+        onTap: () {
+          Navigator.of(context).pop();
+          _getImage(ImageSource.gallery);
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.camera_alt),
+        title: Text('Take a photo'),
+        onTap: () {
+          Navigator.of(context).pop();
+          _getImage(ImageSource.camera);
+        },
+      ),
+    ];
+
+    if (user.profilePhoto != null) {
+      _menuItems.add(
+        ListTile(
+          leading: Icon(Icons.delete),
+          title: Text('Remove'),
+          onTap: () {
+            Navigator.of(context).pop();
+            /* TODO: remove users profile photo */
+          },
         ),
+      );
+    }
+
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+        ),
+        builder: (context) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _menuItems,
+            ),
+          );
+        });
+  }
+
+  Widget _profileImage() {
+    Widget profilePhoto;
+
+    if (user.profilePhoto == null) {
+      profilePhoto = Icon(
+        Icons.account_circle,
+        color: ColorSets.profilePageThemeColor,
+      );
+    } else {
+      profilePhoto = Image.network(
+        user.profilePhoto,
+      );
+    }
+
+    profilePhoto = Image.network(
+      "https://i.picsum.photos/id/218/200/300.jpg?hmac=S2tW-K1x-k9tZ7xyNVAdnie_NW9LJEby6GBgYpL7kfo"
+    );
+
+    return Center(
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Container(
+            clipBehavior: Clip.antiAlias,
+            child: FittedBox(
+              fit: BoxFit.cover,
+              child: profilePhoto,
+            ),
+            width: 155.0,
+            height: 140.0,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: ColorSets.profilePageThemeColor,
+                width: 5,
+              ),
+
+            ),
+          ),
+          FloatingActionButton(
+            backgroundColor: ColorSets.barBackgroundColor,
+            mini: true,
+            onPressed: _imagePickerMenu,
+            child: Icon(
+              Icons.edit,
+              color: ColorSets.pageBackgroundColor,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -111,7 +201,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _deparmentInfo(String department) {
+  Widget _departmentInfo(String department) {
     //TODO: must be dropdown
     return Container(
       child: Column(
@@ -269,7 +359,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: _deparmentInfo(user.department.toString()),
+                    child: _departmentInfo(user.department.toString()),
                   ),
                   Container(
                     padding: const EdgeInsets.all(8.0),
