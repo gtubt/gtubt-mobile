@@ -1,14 +1,14 @@
 import 'package:GTUBT/exceptions/base.dart';
 
-class PostException extends BaseException {
+class NewsException extends BaseException {
   final String message;
   
-  PostException([String message])
+  NewsException([String message])
       : message = message == null ? defaultMessage : message,
         super();
 
-  factory PostException.message(String message) {
-    return PostException(message);
+  factory NewsException.message(String message) {
+    return NewsException(message);
   }
 
   static String get defaultMessage => "Something went wrong!";

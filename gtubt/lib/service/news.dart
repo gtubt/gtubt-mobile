@@ -1,70 +1,70 @@
-import 'package:GTUBT/exceptions/post.dart';
+import 'package:GTUBT/exceptions/news.dart';
 import 'package:GTUBT/models/api_response.dart';
-import 'package:GTUBT/models/post.dart';
+import 'package:GTUBT/models/news.dart';
 import 'package:GTUBT/service/service.dart';
 import 'dart:convert';
 
-class PostService extends BaseService {
-  static final PostService _postService = PostService._internal();
-  final servicePath = 'posts';
-  PostService._internal();
+class NewsService extends BaseService {
+  static final NewsService _newsService = NewsService._internal();
+  final servicePath = 'news';
+  NewsService._internal();
 
-  factory PostService() {
-    return _postService;
+  factory NewsService() {
+    return _newsService;
   }
 
-  Future<List<Post>> getAll() async {
+  Future<List<News>> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
 
     final response = await GET('$url');
 
     if (response.statusCode != 200) {
-      throw PostException();
+      throw NewsException();
     }
     try {
-      List<Post> body = [];
-      ApiResponseList<Post> apiResponse = ApiResponseList();
-      final postList = json.decode(response.body);
+      List<News> body = [];
+      ApiResponseList<News> apiResponse = ApiResponseList();
+      final newsList = json.decode(response.body);
       apiResponse.status = response.statusCode;
-      postList.forEach((post) {
-        body.add(Post.fromJson(post));
+      newsList.forEach((news) {
+        body.add(News.fromJson(news));
       });
       apiResponse.body = body.reversed.toList();
 
       if (apiResponse.status != 200) {
-        throw PostException.message(apiResponse.message);
+        throw NewsException.message(apiResponse.message);
       }
 
       return apiResponse.body;
     } catch (_) {
-      throw PostException();
+      throw NewsException();
     }
   }
 
-  Future<Post> get(String id) async {
+  Future<News> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await GET('$url');
     if (response.statusCode != 200) {
-      throw PostException();
+      throw NewsException();
     }
     try {
       final apiResponse =
-          ApiResponseSingle<Post>.fromJson(json.decode(response.body));
+          ApiResponseSingle<News>.fromJson(json.decode(response.body));
       if (apiResponse.status != 200) {
-        throw PostException.message(apiResponse.message);
+        throw NewsException.message(apiResponse.message);
       }
       return apiResponse.body;
     } catch (e) {
-      throw PostException();
+      throw NewsException();
     }
   }
 
-  Future<Post> post(Post post) async {
+  Future<News> news(News news) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
     try {
-      var postInJson = post.toJson();
-      var bodyData = json.encode(postInJson);
+      var newsInJson = news.toJson();
+      var bodyData = json.encode(newsInJson);
 
       final response = await POST('$url',
           headers: <String, String>{
@@ -72,17 +72,17 @@ class PostService extends BaseService {
           },
           body: bodyData);
       if (response.statusCode != 200) {
-        throw PostException();
+        throw NewsException();
       }
 
       final apiResponse =
           ApiResponseSingle.fromJson(json.decode(response.body));
       if (apiResponse.status != 200) {
-        throw PostException.message(apiResponse.message);
+        throw NewsException.message(apiResponse.message);
       }
       return apiResponse.body;
     } catch (_) {
-      throw PostException();
+      throw NewsException();
     }
   }
 }

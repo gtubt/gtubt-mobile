@@ -1,23 +1,23 @@
-import 'package:GTUBT/models/post.dart';
+import 'package:GTUBT/models/news.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 
-class PostItem extends StatelessWidget {
+class NewsItem extends StatelessWidget {
   final EdgeInsets cardMargin;
   final BorderRadius _borderRadius = BorderRadius.circular(20);
-  final Post item;
+  final News item;
   final dynamic onTapEvent;
   final String heroTag;
 
-  PostItem({
+  NewsItem({
     @required this.cardMargin,
     @required this.item,
     @required this.onTapEvent,
     @required this.heroTag,
   });
 
-  Widget buildPostItemPicturePart() {
+  Widget buildNewsItemPicturePart() {
     return Container(
       height: 200,
       width: 400,
@@ -38,7 +38,7 @@ class PostItem extends StatelessWidget {
     );
   }
 
-  Widget buildPostItemDescriptionPart() {
+  Widget buildNewsItemDescriptionPart() {
     return Positioned(
       top: 130,
       child: Container(
@@ -89,8 +89,8 @@ class PostItem extends StatelessWidget {
             borderRadius: _borderRadius,
             child: Stack(
               children: <Widget>[
-                buildPostItemPicturePart(),
-                buildPostItemDescriptionPart()
+                buildNewsItemPicturePart(),
+                buildNewsItemDescriptionPart()
               ],
             )),
       ),
