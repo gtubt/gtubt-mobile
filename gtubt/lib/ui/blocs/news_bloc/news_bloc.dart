@@ -5,7 +5,7 @@ import 'package:GTUBT/ui/blocs/news_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
-  final NewsService _postService = NewsService();
+  final NewsService _newsService = NewsService();
 
   NewsBloc() : super(NewsState.initial());
 
@@ -14,8 +14,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     if (event is FetchNews) {
       yield NewsState.loading();
       try {
-        List<News> posts = await _postService.getAll();
-        yield NewsState.loaded(posts);
+        List<News> news = await _newsService.getAll();
+        yield NewsState.loaded(news);
       } on NewsException catch (err) {
         yield NewsState.failure(err.message);
       }
