@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: Routes.routes,
-        initialRoute: '/splash',
+        initialRoute: ROOT_URL,
       ),
     );
   }
