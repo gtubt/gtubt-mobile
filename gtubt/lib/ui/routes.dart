@@ -6,7 +6,7 @@ import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/pages/profile_page.dart';
 import 'package:GTUBT/ui/pages/settings_page.dart';
 import 'package:GTUBT/ui/pages/signup_page.dart';
-import 'package:GTUBT/ui/pages/post_page.dart';
+import 'package:GTUBT/ui/pages/news_page.dart';
 import 'package:GTUBT/ui/pages/splash_page.dart';
 import 'package:GTUBT/ui/pages/ticket_page.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class Routes {
     ROOT_URL: (context) => SplashPage(),
     MAIN_URL: (context) => MainPage(),
     LOGIN_URL: (context) => LoginPage(),
-    POST_URL: (context) => PostPage(),
+    POST_URL: (context) => NewsPage(),
     SIGN_UP_URL: (context) => SignUpPage(),
     TICKET_URL: (context) => BlocProvider(
           create: (context) => TicketPageBloc(),

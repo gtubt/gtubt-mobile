@@ -1,7 +1,7 @@
 library api_response;
 
 import 'package:GTUBT/models/event.dart';
-import 'package:GTUBT/models/post.dart';
+import 'package:GTUBT/models/news.dart';
 import 'package:GTUBT/models/ticket.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -109,7 +109,7 @@ class _Converter<T> implements JsonConverter<T, Object> {
     if (json is Map<String, dynamic> &&
         json.containsKey('title') &&
         json.containsKey('summary')) {
-      return Post.fromJson(json) as T;
+      return News.fromJson(json) as T;
     }
     if (json is Map<String, dynamic> &&
         json.containsKey('title') &&
@@ -137,7 +137,7 @@ class _Converter<T> implements JsonConverter<T, Object> {
     if (json is Map<String, dynamic> &&
         json.containsKey('title') &&
         json.containsKey('summary')) {
-      return Post.fromJson(json);
+      return News.fromJson(json);
     }
 
     if (json is Map<String, dynamic> &&

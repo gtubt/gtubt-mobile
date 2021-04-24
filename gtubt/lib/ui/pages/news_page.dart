@@ -2,23 +2,23 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:GTUBT/models/post.dart';
-import 'package:GTUBT/models/view_models/post_view_arguments.dart';
+import 'package:GTUBT/models/news.dart';
+import 'package:GTUBT/models/view_models/news_view_arguments.dart';
 
-class PostPage extends StatefulWidget {
+class NewsPage extends StatefulWidget {
   @override
-  _PostPage createState() => _PostPage();
+  _NewsPage createState() => _NewsPage();
 }
 
-class _PostPage extends State<PostPage> {
-  Widget buildBody(Post post) {
+class _NewsPage extends State<NewsPage> {
+  Widget buildBody(News news) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
           child: Text(
-            TimeAgoFormatter(post.startDate).toString(),
+            TimeAgoFormatter(news.startDate).toString(),
             style: TextStyles.subtitle2
                 .copyWith(color: ColorSets.defaultTextColor),
           ),
@@ -26,7 +26,7 @@ class _PostPage extends State<PostPage> {
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
           child: Text(
-            post.body,
+            news.body,
             style: TextStyles.subtitle2
                 .copyWith(color: ColorSets.defaultTextColor),
           ),
@@ -37,8 +37,8 @@ class _PostPage extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    PostViewArguments postArgs = ModalRoute.of(context).settings.arguments;
-    var post = postArgs.post;
+    NewsViewArguments newsArgs = ModalRoute.of(context).settings.arguments;
+    var news = newsArgs.news;
     return Scaffold(
       body: DefaultTabController(
         length: 2,
@@ -51,13 +51,13 @@ class _PostPage extends State<PostPage> {
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    title: Text(post.title,
+                    title: Text(news.title,
                         style: TextStyles.subtitle1
                             .copyWith(color: ColorSets.lightTextColor)),
                     background: Hero(
-                      tag: postArgs.heroTag,
+                      tag: newsArgs.heroTag,
                       child: Image.network(
-                        post.coverImageUrl,
+                        news.coverImageUrl,
                         fit: BoxFit.cover,
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace stacktrace) {
@@ -71,7 +71,7 @@ class _PostPage extends State<PostPage> {
               ),
             ];
           },
-          body: buildBody(post),
+          body: buildBody(news),
         ),
       ),
     );
