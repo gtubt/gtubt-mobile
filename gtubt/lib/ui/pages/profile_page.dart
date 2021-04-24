@@ -93,9 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: formWidget(EmailChanged(), email, "E-mail"),
-          ),
+          formWidget(EmailChanged(), email, "E-mail"),
         ],
       ),
       width: 350.0,
@@ -109,9 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              child: formWidget(DepartmentChanged(), department, "Department"),
-            ),
+            formWidget(DepartmentChanged(), department, "Department"),
           ]),
       width: 350.0,
       height: 60.0,
@@ -123,9 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: formWidget(YearChanged(), year, "Year"),
-          ),
+          formWidget(YearChanged(), year, "Year"),
         ],
       ),
       width: 350.0,
@@ -138,9 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: formWidget(StudentNumberChanged(), studentId, "Student ID"),
-          ),
+          formWidget(StudentNumberChanged(), studentId, "Student ID"),
         ],
       ),
       width: 350.0,
@@ -154,9 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: formWidget(PhoneChanged(), phone, "Phone"),
-          ),
+          formWidget(PhoneChanged(), phone, "Phone"),
         ],
       ),
       width: 350.0,
