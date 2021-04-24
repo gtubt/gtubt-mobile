@@ -211,7 +211,7 @@ class _LoginFormState extends State<LoginForm> {
       child: RaisedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
-              _context, ROOT_URL, (route) => false);
+              _context, MAIN_URL, (route) => false);
         },
         color: ColorSets.barBackgroundColor,
         child: Text(

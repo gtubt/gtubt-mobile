@@ -1,77 +1,77 @@
-import 'package:GTUBT/models/post.dart';
+import 'package:GTUBT/models/news.dart';
 import 'package:meta/meta.dart';
 
-class PostState {
+class NewsState {
   bool isLoading;
   bool isLoaded;
   bool isInitial;
   bool isFailed;
   String errorMessage;
-  List<Post> postList;
+  List<News> newsList;
 
-  PostState({
+  NewsState({
     @required this.isLoading,
     @required this.isLoaded,
     @required this.isInitial,
     @required this.isFailed,
-    @required this.postList,
+    @required this.newsList,
     this.errorMessage,
   });
 
-  factory PostState.initial() {
-    return PostState(
+  factory NewsState.initial() {
+    return NewsState(
       isLoading: false,
       isLoaded: true,
       isInitial: true,
       isFailed: false,
-      postList: List<Post>(),
+      newsList: List<News>(),
     );
   }
 
-  factory PostState.empty() {
-    return PostState(
+  factory NewsState.empty() {
+    return NewsState(
       isLoading: false,
       isLoaded: true,
       isInitial: false,
       isFailed: false,
-      postList: List<Post>(),
+      newsList: List<News>(),
     );
   }
 
-  factory PostState.failure(errorMessage) {
-    return PostState(
+  factory NewsState.failure(errorMessage) {
+    return NewsState(
       isLoading: false,
       isLoaded: false,
       isInitial: false,
       isFailed: true,
-      postList: null,
+      newsList: null,
       errorMessage: errorMessage,
     );
   }
 
-  factory PostState.loaded(List<Post> postList) {
-    return PostState(
+  factory NewsState.loaded(List<News> newsList) {
+    return NewsState(
       isLoading: false,
       isLoaded: true,
       isInitial: false,
       isFailed: false,
-      postList: postList,
+      newsList: newsList,
     );
   }
 
-  factory PostState.loading() {
-    return PostState(
+  factory NewsState.loading() {
+    return NewsState(
       isLoading: true,
       isLoaded: false,
       isInitial: false,
       isFailed: false,
-      postList: null,
+      newsList: null,
     );
   }
 
   @override
   String toString() {
-    return '''PostState {
+    return '''NewsState {
       isLoading: $isLoading,
       isLoaded: $isLoaded,
       isInitial: $isInitial,
