@@ -107,7 +107,8 @@ class LoginState {
       isSubmitting: $isSubmitting,
       isSuccess: $isSuccess,
       isFailure: $isFailure,
-      isPwRequestSent: $isPwRequestSent
+      isPwRequestSent: $isPwRequestSent,
+      errorMessage: $errorMessage
     }''';
   }
 }

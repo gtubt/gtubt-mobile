@@ -25,9 +25,10 @@ abstract class BaseService {
   void _tokenResolver() async {
     KiwiContainer container = KiwiContainer();
     try {
-      auth.User user = container.resolve();
-      baseHeader = {"X-FIREBASE-TOKEN": await user.getIdToken()};
-    } catch (_) {
+      auth.User user = container.resolve<auth.User>();
+      var token = await user.getIdToken();
+      baseHeader = {"X-FIREBASE-TOKEN": token};
+    } catch (error) {
       baseHeader.clear();
     }
   }
