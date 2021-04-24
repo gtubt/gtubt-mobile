@@ -376,13 +376,13 @@ class _ProfilePageState extends State<ProfilePage> {
           _passwordFieldKey.currentState.validate();
         }
         if (state is AuthenticationUnauthenticated) {
-          // TODO refactor after merge
-          // https://github.com/gtubt/gtubt-mobile/pull/110
-          context
-              .read<PageBloc>()
-              .add(PageChanged(context: context, routeName: ROOT_URL));
-          Navigator.pushNamedAndRemoveUntil(
-              context, ROOT_URL, (route) => false);
+          context.read<PageBloc>().add(
+                PageChanged(
+                  context: context,
+                  routeName: ROOT_URL,
+                  clearStack: true,
+                ),
+              );
         }
       },
       builder: (context, state) {
