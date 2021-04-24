@@ -103,6 +103,9 @@ class AuthService {
   }
 
   Future<void> deleteUser() async {
+    try {
+      container.unregister<auth.User>();
+    } catch (_) {}
     await _auth.currentUser.delete();
   }
 }
