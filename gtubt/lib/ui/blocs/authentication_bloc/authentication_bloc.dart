@@ -40,7 +40,6 @@ class AuthenticationBloc
         yield AuthenticationUnauthenticated();
       } on UserException catch (_) {
         if (firebaseUser != null) {
-          // TODO: delete firebaseUser
           _authService.signOut();
           yield AuthenticationUnauthenticated();
         } else {
@@ -69,7 +68,6 @@ class AuthenticationBloc
   Stream<AuthenticationState> _handleLoggedInExceptions(
       String message, BuildContext context) async* {
     yield AuthenticationError(message);
-    // TODO: is that required?
     Navigator.pushNamedAndRemoveUntil(context, MAIN_URL, (route) => false);
     yield AuthenticationUnauthenticated();
   }

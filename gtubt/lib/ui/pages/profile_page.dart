@@ -13,8 +13,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 
-// ignore: must_be_immutable
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -23,9 +21,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-
-  final TextStyle _headerTextStyle = TextStyles.subtitle1
-      .copyWith(height: -2, color: ColorSets.profilePageThemeColor);
 
   final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(
       height: 1.4,
