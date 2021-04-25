@@ -11,10 +11,15 @@ class AppbarState extends Equatable {
   }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [editMode];
 }
 
 class AppbarErrorState extends AppbarState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => ["AppbarErrorState"];
+}
+
+class AppbarLoadingState extends AppbarState {
+  @override
+  List<Object> get props => ["AppbarLoadingState"];
 }

@@ -8,7 +8,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserService userService = UserService();
   Map<UserEvent, TextEditingController> eventMap = {};
 
-  UserBloc(): super(UserState());
+  UserBloc() : super(UserState());
 
   UserState currentState = UserState();
 
@@ -20,7 +20,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   @override
   Stream<UserState> mapEventToState(event) async* {
-    // TODO: check all event and send data
     if (event is PhotoChanged) {
       userService.currentUser.profilePhoto = eventMap[event].text.trim();
     } else if (event is PhoneChanged) {

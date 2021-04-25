@@ -19,7 +19,7 @@ dependencies:
   dartz: ^0.9.2
   timeago: ^2.0.30
   intl: ^0.16.1
-  another_flushbar: ^1.10.11
+  another_flushbar: ^1.10.18
   kiwi: ^2.1.1
   cupertino_icons: ^1.0.0
   image_picker: ^0.6.7+13

@@ -5,7 +5,7 @@ import 'package:GTUBT/service/service.dart';
 import 'dart:convert';
 
 class UserService extends BaseService {
-  final servicePath = 'user';
+  final servicePath = 'users';
   User currentUser;
   static final UserService _userService = UserService._internal();
 
@@ -88,15 +88,14 @@ class UserService extends BaseService {
         throw UserException.message(apiResponse.message);
       }
       currentUser = apiResponse.body;
-      // TODO: Fire some userBloc event to update current profile page with new user data
       return apiResponse.body;
     } catch (_) {
       throw UserException();
     }
   }
 
-  Future<bool> delete(String id) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+  Future<bool> delete(String email) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     var apiResponse;
 
     final response = await DELETE('$url');

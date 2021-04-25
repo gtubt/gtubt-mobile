@@ -5,6 +5,7 @@ import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   BuildContext _context;
-
+  final _formKey = GlobalKey<FormState>();
   LoginState _currentState;
 
   @override
@@ -49,11 +50,13 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onForgotPasswordPressed() {
-    context.read<LoginBloc>().add(
-          ForgotPasswordPressed(
-            email: context.read<LoginBloc>().emailController.text.trim(),
-          ),
-        );
+    if (_formKey.currentState.validate()) {
+      context.read<LoginBloc>().add(
+            ForgotPasswordPressed(
+              email: context.read<LoginBloc>().emailController.text.trim(),
+            ),
+          );
+    }
   }
 
   Widget _logoArea() {
@@ -87,8 +90,17 @@ class _LoginFormState extends State<LoginForm> {
             autocorrect: false,
             autofocus: false,
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (val) =>
-                !_currentState.isEmailValid ? 'Invalid email!' : null,
+            validator: (val) {
+              if (!_currentState.isEmailValid) {
+                return 'Invalid email!';
+              }
+
+              if (val == null || val.isEmpty) {
+                return 'Email required!';
+              }
+
+              return null;
+            },
             decoration: InputDecoration(
 //                hintText: 'Email',
               fillColor: Colors.white,
@@ -148,10 +160,7 @@ class _LoginFormState extends State<LoginForm> {
       height: 15,
       width: 135,
       child: FlatButton(
-        onPressed: () => (_currentState.isEmailValid &&
-                context.read<LoginBloc>().emailController.text != '')
-            ? _onForgotPasswordPressed()
-            : null,
+        onPressed: _onForgotPasswordPressed,
         color: ColorSets.barBackgroundColor,
         child: Text(
           'Forgot Password',
@@ -202,7 +211,7 @@ class _LoginFormState extends State<LoginForm> {
       child: RaisedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
-              _context, ROOT_URL, (route) => false);
+              _context, MAIN_URL, (route) => false);
         },
         color: ColorSets.barBackgroundColor,
         child: Text(
@@ -225,61 +234,61 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
+        if (state.isSubmitting) {
+          NotificationFactory.loadingFactory(message: "Logging in...")
+              .show(context);
+        }
         if (state.isSuccess) {
+          NotificationFactory.successFactory(message: "Login Successful")
+              .show(context);
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isPwRequestSent) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text('Password Reset Mail Sent!'),
-                    Icon(Icons.error)
-                  ],
-                ),
-                backgroundColor: ColorSets.snackBarErrorColor,
-              ),
-            );
+          NotificationFactory.successFactory(
+                  message: "Password Reset Mail Sent!")
+              .show(context);
         }
         if (state.isFailure) {
-          // TODO: SHOW ERROR MESSAGE
+          NotificationFactory.errorFactory(
+                  message: "Fail! " + state.errorMessage)
+              .show(context);
         }
       },
       builder: (context, state) {
         _currentState = state;
         _context = context;
-        return Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 40.0, right: 40.0),
-            children: <Widget>[
-              _logoArea(),
-              SizedBox(height: 32.0),
-              _emailTextFormField(),
-              SizedBox(height: 16.0),
-              _passwordTextFormField(),
-              SizedBox(height: 10.0),
-              _forgotPasswordButton(),
-              SizedBox(height: 32.0),
-              Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _signInButton(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _signUpButton(),
-                        _continueWithAnonymousButton(),
-                      ],
-                    )
-                  ],
+        return Form(
+          key: _formKey,
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 40.0, right: 40.0),
+              children: <Widget>[
+                _logoArea(),
+                SizedBox(height: 32.0),
+                _emailTextFormField(),
+                SizedBox(height: 16.0),
+                _passwordTextFormField(),
+                SizedBox(height: 10.0),
+                _forgotPasswordButton(),
+                SizedBox(height: 32.0),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _signInButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _signUpButton(),
+                          _continueWithAnonymousButton(),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

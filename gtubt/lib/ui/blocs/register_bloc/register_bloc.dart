@@ -42,7 +42,8 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         name: event.name,
         lastname: event.lastname,
         department: Department.cse,
-        studentId: event.studentNumber);
+        studentId: event.studentNumber,
+        year: 1);
     try {
       await _authService.signUp({
         'email': user.email,
@@ -54,6 +55,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     } on AuthenticationException catch (error) {
       yield RegisterState.failure(error.message);
     } on UserException catch (error) {
+      await _authService.deleteUser();
       yield RegisterState.failure(error.message);
     }
   }
