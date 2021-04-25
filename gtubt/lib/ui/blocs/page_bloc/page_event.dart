@@ -22,11 +22,13 @@ class PageChanged extends PageEvent {
   final BuildContext context;
   final String routeName;
   bool isRoutingActive;
+  bool clearStack;
 
   PageChanged({
     @required this.context,
     @required this.routeName,
     this.isRoutingActive = true,
+    this.clearStack = false,
   });
 
   @override

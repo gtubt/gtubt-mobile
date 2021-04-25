@@ -47,8 +47,7 @@ void main() {
     expect(user == null, false);
     expect(user.name, "Ahmet");
 
-    var id = user.id;
-    bool isDeleted = await UserService().delete(id);
+    bool isDeleted = await UserService().delete(user.email);
     expect(isDeleted, true);
   });
 }

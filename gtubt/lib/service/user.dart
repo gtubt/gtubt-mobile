@@ -88,15 +88,14 @@ class UserService extends BaseService {
         throw UserException.message(apiResponse.message);
       }
       currentUser = apiResponse.body;
-      // TODO: Fire some userBloc event to update current profile page with new user data
       return apiResponse.body;
     } catch (_) {
       throw UserException();
     }
   }
 
-  Future<bool> delete(int id) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
+  Future<bool> delete(String email) async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     var apiResponse;
 
     final response = await DELETE('$url');

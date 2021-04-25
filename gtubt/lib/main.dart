@@ -1,7 +1,7 @@
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
-import 'package:GTUBT/ui/blocs/post_bloc/post_bloc.dart';
+import 'package:GTUBT/ui/blocs/news_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:bloc/bloc.dart';
@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterBloc>(
           create: (context) => RegisterBloc(),
         ),
-        BlocProvider<PostBloc>(
-          create: (context) => PostBloc(),
+        BlocProvider<NewsBloc>(
+          create: (context) => NewsBloc(),
         ),
         BlocProvider<AppbarBloc>(
           create: (context) => AppbarBloc(),
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         routes: Routes.routes,
-        initialRoute: '/splash',
+        initialRoute: ROOT_URL,
       ),
     );
   }

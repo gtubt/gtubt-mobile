@@ -1,11 +1,18 @@
 class UserState {
   String errorMessage;
   bool isFailure;
-  UserState({this.errorMessage = '', this.isFailure = false});
+
+  UserState({
+    this.errorMessage = '',
+    this.isFailure = false,
+  });
 
   @override
   String toString() {
-    return '''User{}''';
+    return '''
+      isFailure: $isFailure,
+      errorMessage: $errorMessage
+    }''';
   }
 
   factory UserState.failure(errorMessage) {
