@@ -1,5 +1,4 @@
 import 'package:GTUBT/models/event.dart';
-import 'package:GTUBT/service/event.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
@@ -25,10 +24,10 @@ class EventsLoaded extends CalendarPageState {
 }
 
 class EventsError extends CalendarPageState {
-  final EventFailure failure;
+  final String message;
 
-  EventsError(this.failure);
+  EventsError(this.message);
 
   @override
-  List<Object> get props => [failure];
+  List<Object> get props => [message];
 }

@@ -28,7 +28,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CalendarPageBloc>(context).add(FetchEvents());
+    context.read<CalendarPageBloc>().add(FetchEvents());
   }
 
   @override
@@ -36,7 +36,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return BlocConsumer<CalendarPageBloc, CalendarPageState>(
       listener: (context, state) {
         if (state is EventsError) {
-          NotificationFactory.errorFactory(message: state.failure.message);
+          NotificationFactory.errorFactory(message: state.message);
         }
       },
       builder: (context, CalendarPageState state) {
@@ -50,7 +50,7 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Widget _buildCalendar(List<Event> events){
+  Widget _buildCalendar(List<Event> events) {
     int length = events.length;
     return ListView.builder(
       itemCount: length,
@@ -172,8 +172,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
     if (state is EventsLoaded) {
       List<Event> events = state.events;
-      int length = events.length;
       body = _buildCalendar(events);
     }
     return body;
+  }
 }
