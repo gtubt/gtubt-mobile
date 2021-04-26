@@ -1,5 +1,6 @@
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
+import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/news_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AppbarBloc>(
           create: (context) => AppbarBloc(),
+        ),
+        BlocProvider<CalendarPageBloc>(
+          create: (context) => CalendarPageBloc(),
         ),
       ],
       child: MaterialApp(
