@@ -70,6 +70,15 @@ class TicketPopup {
                                   codeUrl,
                                   height: 130,
                                   width: 130,
+                                  errorBuilder: (BuildContext context, 
+                                    Object exception,
+                                    StackTrace stacktrace) {
+                                    return Image.asset(
+                                    "assets/qr.png",
+                                    height: 130,
+                                    width: 130,
+                                    );
+                                  },
                                 ),
                               ],
                             )),
