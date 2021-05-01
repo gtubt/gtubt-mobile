@@ -21,13 +21,13 @@ abstract class BaseService {
     return 'https://us-central1-gtubtmobile-bb186.cloudfunctions.net';
   }
 
-  Future<Map<String,String>> _tokenResolver() async {
+  Future<Map<String, String>> _tokenResolver() async {
     KiwiContainer container = KiwiContainer();
     try {
       auth.User user = container.resolve<auth.User>();
       return {"X-FIREBASE-TOKEN": await user.getIdToken()};
     } catch (error) {
-      return {"accept": "application/json"};
+      return {};
     }
   }
 
@@ -40,6 +40,7 @@ abstract class BaseService {
   Future<http.Response> POST(url,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers ??= {};
+    headers.addAll({"accept": "application/json"});
     headers.addAll(await _tokenResolver());
     return await http.post(url,
         headers: headers, body: body, encoding: encoding);
@@ -48,6 +49,7 @@ abstract class BaseService {
   Future<http.Response> PATCH(url,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers ??= {};
+    headers.addAll({"accept": "application/json"});
     headers.addAll(await _tokenResolver());
     return await http.patch(url,
         headers: headers, body: body, encoding: encoding);
