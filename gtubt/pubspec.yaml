@@ -37,6 +37,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/error.png
+    - assets/qr.png
 
   # assets:
   #  - images/a_dot_burr.jpeg
