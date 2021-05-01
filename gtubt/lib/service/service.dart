@@ -8,7 +8,6 @@ import 'package:kiwi/kiwi.dart';
 abstract class BaseService {
   final String baseUrl = getBaseUrl();
   final String endpointPrefix = kDebugMode ? 'api/v1' : 'gtubt-api';
-  Map<String, String> baseHeader = {"accept": "application/json"};
 
   static String getBaseUrl() {
     if (kDebugMode) {
@@ -22,15 +21,14 @@ abstract class BaseService {
     return 'https://us-central1-gtubtmobile-bb186.cloudfunctions.net';
   }
 
-  Future<Map> _tokenResolver() async {
+  Future<Map<String,String>> _tokenResolver() async {
     KiwiContainer container = KiwiContainer();
     try {
       auth.User user = container.resolve<auth.User>();
-      baseHeader = {"X-FIREBASE-TOKEN": await user.getIdToken()};
+      return {"X-FIREBASE-TOKEN": await user.getIdToken()};
     } catch (error) {
-      baseHeader.clear();
+      return {"accept": "application/json"};
     }
-    return baseHeader;
   }
 
   Future<http.Response> GET(url, {Map<String, String> headers}) async {
