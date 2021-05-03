@@ -120,7 +120,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   Widget _buildHamburgerMenu() {
-    List<Widget> _menuItems = List<Widget>();
+    List<Widget> _menuItems = [];
     user = context.read<UserBloc>().userService.currentUser;
 
     if (context.read<AuthenticationBloc>().state
