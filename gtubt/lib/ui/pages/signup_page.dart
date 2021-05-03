@@ -257,12 +257,12 @@ class _SignUpPageState extends State<SignUpPage> {
       width: 200,
       height: 50,
       margin: EdgeInsets.only(bottom: 32),
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.selectedBarItemColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+        style: ElevatedButton.styleFrom(
+            primary: ColorSets.selectedBarItemColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0))),
         child: Text(
           'Create Account',
           style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
