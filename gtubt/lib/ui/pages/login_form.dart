@@ -143,9 +143,10 @@ class _LoginFormState extends State<LoginForm> {
       width: 130,
       height: 40,
       margin: EdgeInsets.only(bottom: 32),
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.selectedBarItemColor,
+        style:
+            ElevatedButton.styleFrom(primary: ColorSets.selectedBarItemColor),
         child: Text(
           'Login',
           style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
@@ -159,9 +160,9 @@ class _LoginFormState extends State<LoginForm> {
       alignment: Alignment.topRight,
       height: 15,
       width: 135,
-      child: FlatButton(
+      child: TextButton(
         onPressed: _onForgotPasswordPressed,
-        color: ColorSets.barBackgroundColor,
+        style: TextButton.styleFrom(primary: ColorSets.barBackgroundColor),
         child: Text(
           'Forgot Password',
           textAlign: TextAlign.right,
@@ -181,13 +182,13 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       height: 45,
       width: 135,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () {
           context.read<PageBloc>().add(
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
         },
-        color: ColorSets.barBackgroundColor,
+        style: ElevatedButton.styleFrom(primary: ColorSets.barBackgroundColor),
         child: Text(
           'Not a Member?\nRegister!',
           textAlign: TextAlign.center,
@@ -208,12 +209,12 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       height: 45,
       width: 135,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
               _context, MAIN_URL, (route) => false);
         },
-        color: ColorSets.barBackgroundColor,
+        style: ElevatedButton.styleFrom(primary: ColorSets.barBackgroundColor),
         child: Text(
           'Continue Without Registration',
           textAlign: TextAlign.center,
