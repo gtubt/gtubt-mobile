@@ -1,12 +1,9 @@
 import 'package:GTUBT/models/ticket.dart';
-import 'package:GTUBT/service/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc.dart';
 
 class TicketPageBloc extends Bloc<TicketPageEvent, TicketPageState> {
-  final UserService _userService = UserService();
-
   TicketPageBloc() : super(TicketPageInitState());
 
   List<Ticket> pageTickets = [

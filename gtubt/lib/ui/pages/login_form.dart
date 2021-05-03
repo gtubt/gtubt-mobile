@@ -1,7 +1,6 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
-import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
