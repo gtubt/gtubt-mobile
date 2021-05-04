@@ -60,7 +60,7 @@ class NewsService extends BaseService {
     }
   }
 
-  Future<News> news(News news) async {
+  Future<News> post(News news) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
     try {
       var newsInJson = news.toJson();

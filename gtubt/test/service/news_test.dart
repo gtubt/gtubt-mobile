@@ -30,7 +30,7 @@ void main() {
     news.type = NewsType.news;
     news.startDate = DateTime(2020, 7, 13, 15, 30);
     news.endDate = DateTime(2020, 7, 13, 15, 30);
-    http.Response response = (await NewsService().news(news)) as http.Response;
+    http.Response response = (await NewsService().post(news)) as http.Response;
     expect(response.statusCode == 200, true);
   });
 }
