@@ -4,7 +4,9 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -147,6 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(top: 20, left: 25, right: 25),
           child: TextFormField(
+            cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
@@ -171,6 +174,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
+            cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
@@ -195,6 +199,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
+            cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
@@ -219,6 +224,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
+            cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
@@ -243,6 +249,7 @@ class _SignUpPageState extends State<SignUpPage> {
         Container(
           padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
+            cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             obscureText: true,
@@ -263,20 +270,77 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _createProfileButton() {
     return Container(
-      width: 200,
+      width: 150,
       height: 50,
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.selectedBarItemColor,
+        color: Color.fromRGBO(52, 88, 178, 1),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Text(
           'Create Account',
-          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
+          style: TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
+    );
+  }
+
+  Widget _createLoginButton() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          width: 2,
+          color: Colors.white,
+        ),
+      ),
+      width: 150,
+      height: 50,
+      margin: EdgeInsets.only(bottom: 32),
+      child: RaisedButton(
+        onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
+        color: ColorSets.barBackgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Text(
+          'Have an Account? Login',
+          style: TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor),
+        ),
+      ),
+    );
+  }
+
+  bool _value1 = false;
+  bool _value2 = false;
+
+  Widget _createCheckBox(String message, choice) {
+    return Row(
+      children: [
+        SizedBox(width: 15),
+        Checkbox(
+          checkColor: Colors.white,
+          // hoverColor: Colors.red,
+          // focusColor: Colors.green,
+          activeColor: ColorSets.barBackgroundColor,
+          onChanged: (bool value) {
+            setState(() {
+              choice == 1 ? _value1 = value : _value2 = value;
+            });
+          },
+          value: choice == 1 ? _value1 : _value2,
+        ),
+        SizedBox(width: 15),
+        Text(
+          message,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+          overflow: TextOverflow.fade,
+        ),
+      ],
     );
   }
 
@@ -311,10 +375,27 @@ class _SignUpPageState extends State<SignUpPage> {
                         _emailForm(),
                         _studentNumberForm(),
                         _passwordForm(),
-                        Container(
-                          padding:
-                              EdgeInsets.only(left: 205, top: 20, right: 25),
-                          child: _createProfileButton(),
+                        SizedBox(height: 10),
+                        _createCheckBox(
+                            "KVKK Aydınlatma Metni’ni okudum ve kabul \nediyorum.",
+                            1),
+                        _createCheckBox(
+                            "Kullanıcı Sözleşmesi’ni okudum ve kabul \nediyorum.",
+                            2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding:
+                                  EdgeInsets.only(left: 10, top: 20, right: 10),
+                              child: _createLoginButton(),
+                            ),
+                            Container(
+                              padding:
+                                  EdgeInsets.only(left: 10, top: 20, right: 10),
+                              child: _createProfileButton(),
+                            ),
+                          ],
                         ),
                       ],
                     ),
