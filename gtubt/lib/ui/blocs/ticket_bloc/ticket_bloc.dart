@@ -1,56 +1,17 @@
+import 'package:GTUBT/exceptions/ticket.dart';
 import 'package:GTUBT/models/ticket.dart';
-import 'package:GTUBT/service/user.dart';
+import 'package:GTUBT/service/ticket.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc.dart';
 
-class TicketPageBloc extends Bloc<TicketPageEvent, TicketPageState> {
-  final UserService _userService = UserService();
+class TicketPageBloc extends Bloc<TicketEvent, TicketPageState> {
+  final TicketService _ticketService = TicketService();
 
   TicketPageBloc() : super(TicketPageInitState());
 
-  List<Ticket> pageTickets = [
-    Ticket(
-      title: "GeekDay 2020",
-      name: "name1",
-      location: "location1",
-      date: DateTime(2020, 7, 13),
-      codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg",
-    ),
-    Ticket(
-        title: "GeekDay 2021",
-        name: "name2",
-        location: "location2",
-        date: DateTime(2020, 7, 13),
-        codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg"),
-    Ticket(
-        title: "GeekDay 2022",
-        name: "name3",
-        location: "location3",
-        date: DateTime(2020, 7, 13),
-        codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg"),
-    Ticket(
-        title: "GeekDay 2023",
-        name: "name4",
-        location: "location4",
-        date: DateTime(2020, 7, 13),
-        codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg"),
-    Ticket(
-        title: "GeekDay 2024",
-        name: "name5",
-        location: "location5",
-        date: DateTime(2020, 7, 13),
-        codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg"),
-    Ticket(
-        title: "GeekDay 2025",
-        name: "name6",
-        location: "location6",
-        date: DateTime(2020, 7, 13),
-        codeUrl: "https://upload.wikimedia.org/wikipedia/tr/d/d3/QR_kodu.jpeg")
-  ];
-
   @override
-  Stream<TicketPageState> mapEventToState(TicketPageEvent event) async* {
+  Stream<TicketPageState> mapEventToState(TicketEvent event) async* {
     if (event is FetchTickets) {
       yield* _mapFetchTicketsToState();
     }
@@ -58,11 +19,11 @@ class TicketPageBloc extends Bloc<TicketPageEvent, TicketPageState> {
 
   Stream<TicketPageState> _mapFetchTicketsToState() async* {
     yield TicketsLoading();
-
-    // TODO: call backend service method
-    // TODO: _userService.getTickets();
-    //if(error) yield TicketsLoadingError
-    Future.delayed(Duration(seconds: 1));
-    yield TicketsLoaded(tickets: pageTickets);
+    try {
+      List<Ticket> tickets = await _ticketService.getAll();
+      yield TicketsLoaded(tickets: tickets);
+    } on TicketException catch (err) {
+      yield TicketsError(err.message);
+    }
   }
 }

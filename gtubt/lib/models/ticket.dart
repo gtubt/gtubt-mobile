@@ -6,13 +6,15 @@ part 'ticket.g.dart';
 
 @JsonSerializable()
 class Ticket {
+  int id;
   String title;
   String name;
   String location;
   DateTime date;
   String codeUrl;
 
-  Ticket({this.title, this.name, this.location, this.date, this.codeUrl});
+  Ticket(
+      {this.id, this.title, this.name, this.location, this.date, this.codeUrl});
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 

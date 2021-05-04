@@ -2,6 +2,7 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/ticket.dart';
+import 'package:intl/intl.dart';
 
 // Usage: TicketPopup.showTicket(context, ticket);
 class TicketPopup {
@@ -9,7 +10,7 @@ class TicketPopup {
     String title = ticket.title;
     String name = ticket.name;
     String location = ticket.location;
-    String date = ticket.date.toString();
+    String date = DateFormat("dd.MM.yyyy, HH:mm").format(ticket.date);
     String codeUrl = ticket.codeUrl;
     showDialog(
         context: context,
@@ -46,7 +47,7 @@ class TicketPopup {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 LabeledText(
-                                  label: "Attandee: ",
+                                  label: "Attendee: ",
                                   text: name,
                                 ),
                                 LabeledText(
