@@ -23,6 +23,8 @@ class AuthenticationBloc
       yield* _mapLoggedInToState(event);
     } else if (event is LoggedOut) {
       yield* _mapLoggedOutToState(event);
+    } else if (event is DeleteAcc) {
+      yield* _mapDeleteAccToState(event.password);
     }
   }
 
@@ -38,7 +40,6 @@ class AuthenticationBloc
         yield AuthenticationUnauthenticated();
       } on UserException catch (_) {
         if (firebaseUser != null) {
-          // TODO: delete firebaseUser
           _authService.signOut();
           yield AuthenticationUnauthenticated();
         } else {
@@ -55,7 +56,7 @@ class AuthenticationBloc
       auth.User firebaseUser = _authService.getUser();
       await _userService.get(firebaseUser.email);
       Navigator.pushNamedAndRemoveUntil(
-          event.context, ROOT_URL, (route) => false);
+          event.context, MAIN_URL, (route) => false);
       yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
     } on AuthenticationException catch (error) {
       yield* _handleLoggedInExceptions(error.message, event.context);
@@ -67,8 +68,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> _handleLoggedInExceptions(
       String message, BuildContext context) async* {
     yield AuthenticationError(message);
-    // TODO: is that required?
-    Navigator.pushNamedAndRemoveUntil(context, ROOT_URL, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(context, MAIN_URL, (route) => false);
     yield AuthenticationUnauthenticated();
   }
 
@@ -76,7 +76,23 @@ class AuthenticationBloc
     await _authService.signOut();
     _userService.clearUser();
     Navigator.pushNamedAndRemoveUntil(
-        event.context, ROOT_URL, (route) => false);
+        event.context, MAIN_URL, (route) => false);
     yield AuthenticationUnauthenticated();
+  }
+
+  Stream<AuthenticationState> _mapDeleteAccToState(String password) async* {
+    try {
+      await _authService.reAuthenticate(
+          _userService.currentUser.email, password);
+      await _userService.delete(_userService.currentUser.email);
+      await _authService.deleteUser();
+      yield AuthenticationUnauthenticated();
+    } on AuthenticationException catch (error) {
+      yield AuthenticationError(error.message);
+    } on UserException catch (error) {
+      yield AuthenticationError(error.message);
+    } on auth.FirebaseAuthException catch (_) {
+      yield AuthenticationError('Please login again!');
+    }
   }
 }

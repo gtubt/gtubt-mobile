@@ -12,7 +12,12 @@ class PageBloc extends Bloc<PageEvent, PageState> {
       yield PageState(currentPage: event.page);
     } else if (event is PageChanged) {
       if (event.isRoutingActive) {
-        Navigator.of(event.context).pushNamed(event.routeName);
+        if (event.clearStack) {
+          Navigator.of(event.context).pushNamedAndRemoveUntil(
+              event.routeName, (Route<dynamic> route) => false);
+        } else {
+          Navigator.of(event.context).pushNamed(event.routeName);
+        }
       }
 
       yield PageState(currentPage: 0);

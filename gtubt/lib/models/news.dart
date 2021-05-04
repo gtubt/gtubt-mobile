@@ -1,20 +1,22 @@
-library post;
+library news;
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'post.g.dart';
+part 'news.g.dart';
 
 @JsonSerializable()
-class Post {
+class News {
+  int id;
   String title;
   String body;
   String coverImageUrl;
   String summary;
-  PostType type;
+  NewsType type;
   DateTime startDate;
   DateTime endDate;
 
-  Post({
+  News({
+    this.id,
     this.title,
     this.body,
     this.coverImageUrl,
@@ -24,9 +26,9 @@ class Post {
     this.endDate,
   });
 
-  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PostToJson(this);
+  Map<String, dynamic> toJson() => _$NewsToJson(this);
 
   @override
   String toString() {
@@ -42,4 +44,4 @@ class Post {
   }
 }
 
-enum PostType { announcement, news }
+enum NewsType { announcement, news }

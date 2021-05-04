@@ -48,7 +48,13 @@ class _MainPageState extends State<MainPage> {
   List<Widget> _generateActions() {
     var actions = <Widget>[];
     var _selectedPage = context.read<PageBloc>().state;
-    if (Routes.bodyTitle[_selectedPage.currentPage] == Routes.PROFILE) {
+    var routesList = Routes.bodyTitle;
+    if (context.read<AuthenticationBloc>().state
+        is AuthenticationAuthenticated) {
+      routesList = Routes.bodyTitleLoggedIn;
+    }
+
+    if (routesList[_selectedPage.currentPage] == Routes.PROFILE) {
       bool desiredMode = context.read<AppbarBloc>().state.editMode;
 
       if (desiredMode) {

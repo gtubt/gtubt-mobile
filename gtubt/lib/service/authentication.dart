@@ -33,13 +33,28 @@ class AuthService {
     }
   }
 
+  Future<void> reAuthenticate(
+    String email,
+    String password,
+  ) async {
+    try {
+      auth.EmailAuthCredential credential =
+          auth.EmailAuthProvider.credential(email: email, password: password);
+      await _auth.currentUser.reauthenticateWithCredential(credential);
+    } on auth.FirebaseAuthException catch (error) {
+      throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
+    }
+  }
+
   Future<auth.User> signUp(Map<String, dynamic> data) async {
     try {
       final auth.User firebaseUser =
           (await _auth.createUserWithEmailAndPassword(
                   email: data['email'], password: data['password']))
               .user;
-
+      container.registerInstance<auth.User>(_auth.currentUser);
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
@@ -85,5 +100,12 @@ class AuthService {
       return false;
     }
     return true;
+  }
+
+  Future<void> deleteUser() async {
+    try {
+      container.unregister<auth.User>();
+    } catch (_) {}
+    await _auth.currentUser.delete();
   }
 }
