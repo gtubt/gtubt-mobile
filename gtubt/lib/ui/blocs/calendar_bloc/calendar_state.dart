@@ -1,6 +1,5 @@
 import 'package:GTUBT/models/event.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 abstract class CalendarPageState extends Equatable {}
 
@@ -17,7 +16,7 @@ class EventsLoading extends CalendarPageState {
 class EventsLoaded extends CalendarPageState {
   final List<Event> events;
 
-  EventsLoaded({@required this.events});
+  EventsLoaded({required this.events});
 
   @override
   List<Object> get props => [];

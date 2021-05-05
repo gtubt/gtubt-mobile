@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 abstract class RegisterEvent extends Equatable {
   RegisterEvent([List props = const []]) : super();
@@ -8,7 +7,7 @@ abstract class RegisterEvent extends Equatable {
 class EmailChanged extends RegisterEvent {
   final String email;
 
-  EmailChanged({@required this.email});
+  EmailChanged({required this.email});
 
   @override
   List<Object> get props => [email];
@@ -17,7 +16,7 @@ class EmailChanged extends RegisterEvent {
 class NameChanged extends RegisterEvent {
   final String name;
 
-  NameChanged({@required this.name});
+  NameChanged({required this.name});
 
   @override
   String toString() {
@@ -31,7 +30,7 @@ class NameChanged extends RegisterEvent {
 class LastnameChanged extends RegisterEvent {
   final String lastname;
 
-  LastnameChanged({@required this.lastname});
+  LastnameChanged({required this.lastname});
 
   @override
   String toString() {
@@ -45,7 +44,7 @@ class LastnameChanged extends RegisterEvent {
 class StudentNumberChanged extends RegisterEvent {
   final String studentNumber;
 
-  StudentNumberChanged({@required this.studentNumber});
+  StudentNumberChanged({required this.studentNumber});
 
   @override
   String toString() {
@@ -59,7 +58,7 @@ class StudentNumberChanged extends RegisterEvent {
 class PasswordChanged extends RegisterEvent {
   final String password;
 
-  PasswordChanged({@required this.password});
+  PasswordChanged({required this.password});
 
   @override
   String toString() {
@@ -78,11 +77,11 @@ class Submitted extends RegisterEvent {
   final String studentNumber;
 
   Submitted({
-    @required this.name,
-    @required this.lastname,
-    @required this.password,
-    @required this.email,
-    @required this.studentNumber,
+    required this.name,
+    required this.lastname,
+    required this.password,
+    required this.email,
+    required this.studentNumber,
   });
 
   @override

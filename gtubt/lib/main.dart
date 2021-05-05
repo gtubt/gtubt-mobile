@@ -67,13 +67,13 @@ class MyApp extends StatelessWidget {
 
 class SimpleBlocDelegate extends BlocObserver {
   @override
-  void onEvent(Bloc bloc, Object event) {
+  void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
     print(event);
   }
 
   @override
-  void onError(Cubit bloc, Object error, StackTrace stacktrace) {
+  void onError(BlocBase bloc, Object error, StackTrace stacktrace) {
     super.onError(bloc, error, stacktrace);
     print(error);
   }

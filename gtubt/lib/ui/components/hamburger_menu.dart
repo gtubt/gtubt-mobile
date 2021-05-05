@@ -15,7 +15,7 @@ class HamburgerMenuComponents extends StatefulWidget {
 }
 
 class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
-  User user;
+  User? user;
 
   @override
   void initState() {
@@ -60,7 +60,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         );
   }
 
-  Widget _buildProfileImage(String profileImage) {
+  Widget _buildProfileImage(String? profileImage) {
     if (profileImage == null) {
       return Icon(
         Icons.account_circle,
@@ -73,7 +73,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     }
   }
 
-  Widget _buildProfileHeader(String username, String profileImage) {
+  Widget _buildProfileHeader(String? username, String? profileImage) {
     return Column(
       children: [
         Container(
@@ -120,12 +120,12 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   Widget _buildHamburgerMenu() {
-    List<Widget> _menuItems = List<Widget>();
+    List<Widget> _menuItems = [];
     user = context.read<UserBloc>().userService.currentUser;
 
     if (context.read<AuthenticationBloc>().state
         is AuthenticationAuthenticated) {
-      _menuItems.add(_buildProfileHeader(user.fullName, user.profilePhoto));
+      _menuItems.add(_buildProfileHeader(user!.fullName, user!.profilePhoto));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
       _menuItems
           .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));

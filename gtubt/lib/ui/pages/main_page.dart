@@ -17,7 +17,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  Widget body;
+  Widget? body;
 
   void _onNavigation(int index) {
     if (context.read<AuthenticationBloc>().state

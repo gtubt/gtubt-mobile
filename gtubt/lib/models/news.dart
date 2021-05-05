@@ -6,14 +6,14 @@ part 'news.g.dart';
 
 @JsonSerializable()
 class News {
-  int id;
-  String title;
-  String body;
-  String coverImageUrl;
-  String summary;
-  NewsType type;
-  DateTime startDate;
-  DateTime endDate;
+  int? id;
+  String? title;
+  String? body;
+  String? coverImageUrl;
+  String? summary;
+  NewsType? type;
+  DateTime? startDate;
+  DateTime? endDate;
 
   News({
     this.id,

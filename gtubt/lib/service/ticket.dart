@@ -9,25 +9,25 @@ import 'package:GTUBT/service/service.dart';
 class TicketService extends BaseService {
   final servicePath = 'ticket';
 
-  Future<Ticket> get(User user) async {
+  Future<Ticket?> get(User user) async {
     //  TODO: implement
   }
 
-  Future<Ticket> post(User user) async {
+  Future<Ticket?> post(User user) async {
     //  TODO: implement
   }
 
-  Future<Ticket> patch(User user) async {
+  Future<Ticket?> patch(User user) async {
     //  TODO: implement
   }
 
-  Future<Ticket> delete(User user) async {
+  Future<Ticket?> delete(User user) async {
     //  TODO: implement
   }
 
-  Future<List<Ticket>> getAll(User user) async {
+  Future<List<Ticket?>?> getAll(User user) async {
     // FIXME
-    List<Ticket> _tickets = List();
+    List<Ticket?>? _tickets = [];
 
     String url = '$baseUrl....';
     final response = await GET('$url');

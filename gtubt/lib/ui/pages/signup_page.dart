@@ -144,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: _nameController,
             decoration:
                 FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
-            validator: (String value) {
+            validator: (String? value) {
               return !context.read<RegisterBloc>().state.isNameValid
                   ? 'Invalid format'
                   : null;
@@ -168,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: _lastnameController,
             decoration:
                 FormBoxContainer.textFieldStyle(labelTextStr: "   Surname   "),
-            validator: (String value) {
+            validator: (String? value) {
               return !context.read<RegisterBloc>().state.isLastnameValid
                   ? 'Invalid format'
                   : null;
@@ -192,7 +192,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: _emailController,
             decoration:
                 FormBoxContainer.textFieldStyle(labelTextStr: "   E-mail   "),
-            validator: (String value) {
+            validator: (String? value) {
               return !context.read<RegisterBloc>().state.isEmailValid
                   ? 'Invalid Email Format'
                   : null;
@@ -216,7 +216,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: _studentNumberController,
             decoration: FormBoxContainer.textFieldStyle(
                 labelTextStr: "   Student Number   "),
-            validator: (String value) {
+            validator: (String? value) {
               return !context.read<RegisterBloc>().state.isStudentNumberValid
                   ? 'Invalid Student Number'
                   : null;
@@ -241,7 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
             controller: _passwordController,
             decoration:
                 FormBoxContainer.textFieldStyle(labelTextStr: "   Password   "),
-            validator: (String value) {
+            validator: (String? value) {
               return !context.read<RegisterBloc>().state.isPasswordValid
                   ? 'Invalid format'
                   : null;

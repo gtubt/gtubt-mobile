@@ -31,33 +31,33 @@ abstract class BaseService {
     }
   }
 
-  Future<http.Response> GET(url, {Map<String, String> headers}) async {
+  Future<http.Response> GET(url, {Map<String, String>? headers}) async {
     headers ??= {};
     headers.addAll(await _tokenResolver());
-    return await http.get(url, headers: headers);
+    return await http.get(Uri.parse(url), headers: headers);
   }
 
   Future<http.Response> POST(url,
-      {Map<String, String> headers, body, Encoding encoding}) async {
+      {Map<String, String>? headers, body, Encoding? encoding}) async {
     headers ??= {};
     headers.addAll({"accept": "application/json"});
     headers.addAll(await _tokenResolver());
-    return await http.post(url,
+    return await http.post(Uri.parse(url),
         headers: headers, body: body, encoding: encoding);
   }
 
   Future<http.Response> PATCH(url,
-      {Map<String, String> headers, body, Encoding encoding}) async {
+      {Map<String, String>? headers, body, Encoding? encoding}) async {
     headers ??= {};
     headers.addAll({"accept": "application/json"});
     headers.addAll(await _tokenResolver());
-    return await http.patch(url,
+    return await http.patch(Uri.parse(url),
         headers: headers, body: body, encoding: encoding);
   }
 
-  Future<http.Response> DELETE(url, {Map<String, String> headers}) async {
+  Future<http.Response> DELETE(url, {Map<String, String>? headers}) async {
     headers ??= {};
     headers.addAll(await _tokenResolver());
-    return await http.delete(url, headers: headers);
+    return await http.delete(Uri.parse(url), headers: headers);
   }
 }

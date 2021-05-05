@@ -7,8 +7,8 @@ EdgeInsets getFlushbarMargin() {
 
 class NotificationFactory {
   static Flushbar successFactory({
-    String title,
-    @required String message,
+    String? title,
+    required String message,
   }) {
     return Flushbar(
       title: title,
@@ -21,8 +21,8 @@ class NotificationFactory {
   }
 
   static Flushbar errorFactory({
-    String title,
-    @required String message,
+    String? title,
+    required String? message,
   }) {
     return Flushbar(
       title: title,
@@ -35,8 +35,8 @@ class NotificationFactory {
   }
 
   static Flushbar warningFactory({
-    String title,
-    @required String message,
+    String? title,
+    required String message,
   }) {
     return Flushbar(
       title: title,
@@ -49,8 +49,8 @@ class NotificationFactory {
   }
 
   static Flushbar loadingFactory({
-    String title,
-    @required String message,
+    String? title,
+    required String message,
   }) {
     return Flushbar(
       title: title,
@@ -62,8 +62,8 @@ class NotificationFactory {
   }
 
   static Flushbar informationFactory({
-    String title,
-    @required String message,
+    String? title,
+    required String message,
   }) {
     return Flushbar(
       title: title,

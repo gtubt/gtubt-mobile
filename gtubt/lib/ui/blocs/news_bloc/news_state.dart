@@ -1,20 +1,19 @@
 import 'package:GTUBT/models/news.dart';
-import 'package:meta/meta.dart';
 
 class NewsState {
   bool isLoading;
   bool isLoaded;
   bool isInitial;
   bool isFailed;
-  String errorMessage;
-  List<News> newsList;
+  String? errorMessage;
+  List<News?>? newsList;
 
   NewsState({
-    @required this.isLoading,
-    @required this.isLoaded,
-    @required this.isInitial,
-    @required this.isFailed,
-    @required this.newsList,
+    required this.isLoading,
+    required this.isLoaded,
+    required this.isInitial,
+    required this.isFailed,
+    required this.newsList,
     this.errorMessage,
   });
 
@@ -24,7 +23,7 @@ class NewsState {
       isLoaded: true,
       isInitial: true,
       isFailed: false,
-      newsList: List<News>(),
+      newsList: [],
     );
   }
 
@@ -34,7 +33,7 @@ class NewsState {
       isLoaded: true,
       isInitial: false,
       isFailed: false,
-      newsList: List<News>(),
+      newsList: [],
     );
   }
 
@@ -49,7 +48,7 @@ class NewsState {
     );
   }
 
-  factory NewsState.loaded(List<News> newsList) {
+  factory NewsState.loaded(List<News?>? newsList) {
     return NewsState(
       isLoading: false,
       isLoaded: true,

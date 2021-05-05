@@ -1,7 +1,6 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
-import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -19,9 +18,9 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  BuildContext _context;
+  late BuildContext _context;
   final _formKey = GlobalKey<FormState>();
-  LoginState _currentState;
+  late LoginState _currentState;
 
   @override
   void initState() {
@@ -50,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onForgotPasswordPressed() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       context.read<LoginBloc>().add(
             ForgotPasswordPressed(
               email: context.read<LoginBloc>().emailController.text.trim(),
@@ -250,7 +249,7 @@ class _LoginFormState extends State<LoginForm> {
         }
         if (state.isFailure) {
           NotificationFactory.errorFactory(
-                  message: "Fail! " + state.errorMessage)
+                  message: "Fail! " + state.errorMessage!)
               .show(context);
         }
       },

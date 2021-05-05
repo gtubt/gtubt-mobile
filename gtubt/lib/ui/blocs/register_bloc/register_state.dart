@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 class RegisterState {
   final bool isEmailValid;
   final bool isPasswordValid;
@@ -12,7 +10,7 @@ class RegisterState {
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
-  final String errorMessage;
+  final String? errorMessage;
 
   bool get isFormValid =>
       isEmailValid &&
@@ -25,17 +23,17 @@ class RegisterState {
       isPhoneNumberValid;
 
   RegisterState({
-    @required this.isEmailValid,
-    @required this.isPasswordValid,
-    @required this.isNameValid,
-    @required this.isLastnameValid,
-    @required this.isGradeValid,
-    @required this.isDepartmentValid,
-    @required this.isStudentNumberValid,
-    @required this.isPhoneNumberValid,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
+    required this.isEmailValid,
+    required this.isPasswordValid,
+    required this.isNameValid,
+    required this.isLastnameValid,
+    required this.isGradeValid,
+    required this.isDepartmentValid,
+    required this.isStudentNumberValid,
+    required this.isPhoneNumberValid,
+    required this.isSubmitting,
+    required this.isSuccess,
+    required this.isFailure,
     this.errorMessage,
   });
 
@@ -102,17 +100,17 @@ class RegisterState {
   }
 
   RegisterState copyWith({
-    bool isPasswordValid,
-    bool isEmailValid,
-    bool isNameValid,
-    bool isLastnameValid,
-    bool isPhoneNumberValid,
-    bool isStudentNumberValid,
-    bool isGradeValid,
-    bool isDepartmentValid,
-    bool isSuccess,
-    bool isFailure,
-    bool isSubmitting,
+    bool? isPasswordValid,
+    bool? isEmailValid,
+    bool? isNameValid,
+    bool? isLastnameValid,
+    bool? isPhoneNumberValid,
+    bool? isStudentNumberValid,
+    bool? isGradeValid,
+    bool? isDepartmentValid,
+    bool? isSuccess,
+    bool? isFailure,
+    bool? isSubmitting,
   }) {
     return RegisterState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
@@ -130,14 +128,14 @@ class RegisterState {
   }
 
   RegisterState update({
-    bool isPasswordValid,
-    bool isEmailValid,
-    bool isNameValid,
-    bool isLastnameValid,
-    bool isPhoneNumberValid,
-    bool isStudentNumberValid,
-    bool isGradeValid,
-    bool isDepartmentValid,
+    bool? isPasswordValid,
+    bool? isEmailValid,
+    bool? isNameValid,
+    bool? isLastnameValid,
+    bool? isPhoneNumberValid,
+    bool? isStudentNumberValid,
+    bool? isGradeValid,
+    bool? isDepartmentValid,
   }) {
     return copyWith(
       isPasswordValid: isPasswordValid,

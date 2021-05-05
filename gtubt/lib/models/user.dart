@@ -6,24 +6,15 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  String name;
-  String lastname;
-  String email;
-
-  @JsonKey(nullable: true)
-  Department department;
-
-  @JsonKey(nullable: true)
-  int year;
-
-  int id;
-  String studentId;
-
-  @JsonKey(nullable: true)
-  String phone;
-
-  @JsonKey(nullable: true)
-  String profilePhoto;
+  String? name;
+  String? lastname;
+  String? email;
+  Department? department;
+  int? year;
+  int? id;
+  String? studentId;
+  String? phone;
+  String? profilePhoto;
 
   User({
     this.id,

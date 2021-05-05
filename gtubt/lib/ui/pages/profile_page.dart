@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _eMail(String email) {
+  Widget _eMail(String? email) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _studentNumber(String studentId) {
+  Widget _studentNumber(String? studentId) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _phoneNumber(String phone) {
+  Widget _phoneNumber(String? phone) {
     phone ??= '';
     return Container(
       child: Column(
@@ -267,7 +267,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(width: 20),
                   RaisedButton(
                     onPressed: () {
-                      if (_passwordFieldKey.currentState.validate()) {
+                      if (_passwordFieldKey.currentState!.validate()) {
                         context.read<AuthenticationBloc>().add(
                               DeleteAcc(
                                 password: _passwordController.text.trim(),
@@ -291,7 +291,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    User user = context.read<UserBloc>().userService.currentUser;
+    User user = context.read<UserBloc>().userService.currentUser!;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -358,7 +358,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationError) {
-          _passwordFieldKey.currentState.validate();
+          _passwordFieldKey.currentState!.validate();
         }
         if (state is AuthenticationUnauthenticated) {
           context.read<PageBloc>().add(
