@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class ColorSets {
   static const profilePageThemeColor = Color(0xFF4E72CB);
-  static const barBackgroundColor = Color(0xFF1A237E);
-  static const selectedBarItemColor = Color(0xFF7986CB);
+  static const barBackgroundColor = Color(0xFF233B77);
+  static const selectedBarItemColor = Color(0xFFFFFFFF);
   static const selectedInputFieldColor = Color(0xFF818cc3);
-  static const unselectedBarItemColor = Color(0xFFFFFFFF);
-  static const popUpColor = Color(0xFF5b84ed);
+  static const unselectedBarItemColor = Color(0xFFE0E0E0);
+  static const popUpColor = Color(0xFF4E72CB);
   static const defaultBarBackgroundColor = Color(0xFFFFFFFF);
   static const defaultTextColor = Colors.black;
   static const lightTextColor = Colors.white;
