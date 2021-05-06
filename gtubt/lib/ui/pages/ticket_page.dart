@@ -52,7 +52,9 @@ class _TicketPageState extends State<TicketPage> {
         return Scaffold(
             backgroundColor: ColorSets.pageBackgroundColor,
             appBar: AppBar(
-              title: Text("Tickets"),
+              brightness: Brightness.dark,
+              iconTheme: IconThemeData(color: ColorSets.lightTextColor),
+              title: Text("Tickets", style: TextStyle(color: ColorSets.lightTextColor),),
               centerTitle: true,
               backgroundColor: ColorSets.barBackgroundColor,
               elevation: 0.0,
