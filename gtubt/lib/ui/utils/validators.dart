@@ -7,7 +7,7 @@ class Validators {
   static final RegExp _passwordRegExp =
       RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$");
 
-  static final RegExp _stringRegExp = RegExp(r"^[A-Za-z0-9\s.]+$");
+  static final RegExp _stringRegExp = RegExp(r"^[A-Za-z0-9-ğüşıöçĞÜŞİÖÇ\s.]+$");
 
   static final RegExp _phoneRegExp = RegExp(r"^(?:[+0]9)?[0-9]{10}$");
 
