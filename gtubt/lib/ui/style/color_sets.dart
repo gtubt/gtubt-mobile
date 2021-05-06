@@ -10,6 +10,7 @@ class ColorSets {
   static const defaultBarBackgroundColor = Color(0xFFFFFFFF);
   static const defaultTextColor = Colors.black;
   static const lightTextColor = Colors.white;
+  static const loginButtonColor = Color(0xFF3458B2);
 
   static const pageBackgroundColor = Color(0xFFFFFFFF);
 }

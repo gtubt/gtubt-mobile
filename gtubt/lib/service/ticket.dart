@@ -11,22 +11,18 @@ class TicketService extends BaseService {
 
   Future<Ticket> get(User user) async {
     //  TODO: implement
-    throw UnimplementedError();
   }
 
   Future<Ticket> post(User user) async {
     //  TODO: implement
-    throw UnimplementedError();
   }
 
   Future<Ticket> patch(User user) async {
     //  TODO: implement
-    throw UnimplementedError();
   }
 
   Future<Ticket> delete(User user) async {
     //  TODO: implement
-    throw UnimplementedError();
   }
 
   Future<List<Ticket>> getAll(User user) async {

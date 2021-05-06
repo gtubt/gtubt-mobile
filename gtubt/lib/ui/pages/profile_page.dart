@@ -5,6 +5,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
@@ -257,13 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    style: ElevatedButton.styleFrom(
-                        primary: ColorSets.barBackgroundColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)),
-                        textStyle: TextStyle(
-                          color: ColorSets.lightTextColor,
-                        )),
+                    style: ButtonStyles.cancelButton,
                     child: Text("Cancel"),
                   ),
                   SizedBox(width: 20),
@@ -277,15 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                        primary: ColorSets.profilePageThemeColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: BorderSide(color: ColorSets.lightTextColor),
-                        ),
-                        textStyle: TextStyle(
-                          color: ColorSets.lightTextColor,
-                        )),
+                    style: ButtonStyles.deleteAccountButton,
                     child: Text("Delete Account"),
                   )
                 ]),

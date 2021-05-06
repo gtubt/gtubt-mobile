@@ -1,5 +1,6 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -259,10 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
       margin: EdgeInsets.only(bottom: 32),
       child: ElevatedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        style: ElevatedButton.styleFrom(
-            primary: ColorSets.selectedBarItemColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0))),
+        style: ButtonStyles.createAccountButton,
         child: Text(
           'Create Account',
           style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
