@@ -14,7 +14,7 @@ class TimeAgoFormatter {
     final now = DateTime.now();
     final difference = now.difference(formattedString);
     final dateTime = DateTime.now().subtract(difference);
-    timeago.setLocaleMessages('tr', timeago.TrMessages());
-    return timeago.format(dateTime, locale: "tr");
+    timeago.setLocaleMessages('en', timeago.EnMessages());
+    return timeago.format(dateTime, locale: "en");
   }
 }
