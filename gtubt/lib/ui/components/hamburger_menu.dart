@@ -152,7 +152,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             return Container(
-              color: ColorSets.barBackgroundColor,
+              color: ColorSets.hamburgerMenuBackgroundColor,
               alignment: Alignment.center,
               child: _buildHamburgerMenu(),
             );
