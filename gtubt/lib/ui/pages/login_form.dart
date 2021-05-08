@@ -145,10 +145,9 @@ class _LoginFormState extends State<LoginForm> {
       margin: EdgeInsets.only(bottom: 32),
       child: ElevatedButton(
         onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
-        style: ButtonStyles.loginButton,
+        style: ButtonStyles.containedButton,
         child: Text(
           'Login',
-          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
     );
@@ -157,17 +156,16 @@ class _LoginFormState extends State<LoginForm> {
   Widget _forgotPasswordButton() {
     return Container(
       alignment: Alignment.topRight,
-      height: 15,
+      height: 30,
       width: 135,
       child: TextButton(
         onPressed: _onForgotPasswordPressed,
-        style: ButtonStyles.forgotPasswordButton,
+        style: ButtonStyles.textButton,
         child: Text(
           'Forgot Password',
           textAlign: TextAlign.right,
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
             fontFamily: 'Palanquin',
             letterSpacing: 0.5,
             fontSize: 12,
@@ -187,14 +185,13 @@ class _LoginFormState extends State<LoginForm> {
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
         },
-        style: ButtonStyles.loginPageButton,
+        style: ButtonStyles.outlinedButton,
         child: Text(
           'Not a Member?\nRegister!',
           textAlign: TextAlign.center,
           style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
-      decoration: ButtonDecorations.loginPageButton,
     );
   }
 
@@ -207,14 +204,13 @@ class _LoginFormState extends State<LoginForm> {
           Navigator.pushNamedAndRemoveUntil(
               _context, MAIN_URL, (route) => false);
         },
-        style: ButtonStyles.loginPageButton,
+        style: ButtonStyles.outlinedButton,
         child: Text(
           'Continue Without Registration',
           textAlign: TextAlign.center,
           style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
-      decoration: ButtonDecorations.loginPageButton,
     );
   }
 

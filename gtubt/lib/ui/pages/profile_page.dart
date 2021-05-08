@@ -189,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget accountDeletionDialog(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: ColorSets.popUpColor,
+      backgroundColor: ColorSets.popUpBackgroundColor,
       elevation: 40,
       child: Container(
           height: 236,
@@ -258,7 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    style: ButtonStyles.cancelButton,
+                    style: ButtonStyles.outlinedButton,
                     child: Text("Cancel"),
                   ),
                   SizedBox(width: 20),
@@ -272,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                       }
                     },
-                    style: ButtonStyles.deleteAccountButton,
+                    style: ButtonStyles.containedButton,
                     child: Text("Delete Account"),
                   )
                 ]),

@@ -25,7 +25,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorSets.barBackgroundColor,
+      color: ColorSets.appMainColor,
       alignment: Alignment.center,
       child: Row(
         children: [

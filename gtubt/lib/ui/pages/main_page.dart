@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage> {
                 centerTitle: true,
                 brightness: Brightness.dark,
                 iconTheme: IconThemeData(color: ColorSets.lightTextColor),
-                backgroundColor: ColorSets.barBackgroundColor,
+                backgroundColor: ColorSets.appMainColor,
                 title: state.currentPage == 0 ? Image.asset("assets/logo_textless.png", height: 70,)
                     : Text(authState is AuthenticationAuthenticated
                     ? Routes.bodyTitleLoggedIn[state.currentPage]
@@ -101,7 +101,7 @@ class _MainPageState extends State<MainPage> {
                   color: ColorSets.unselectedBarItemColor,
                 ),
                 currentIndex: state.currentPage,
-                backgroundColor: ColorSets.barBackgroundColor,
+                backgroundColor: ColorSets.appMainColor,
                 onTap: _onNavigation,
                 items: authState is AuthenticationAuthenticated
                     ? Routes.navListLoggedIn
