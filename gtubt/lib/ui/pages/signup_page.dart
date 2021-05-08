@@ -1,5 +1,6 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/form_box_container.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
@@ -95,7 +96,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       height: 120.0,
       decoration: BoxDecoration(
-        color: ColorSets.barBackgroundColor,
+        color: ColorSets.appMainColor,
       ),
     );
   }
@@ -273,12 +274,9 @@ class _SignUpPageState extends State<SignUpPage> {
       width: 150,
       height: 50,
       margin: EdgeInsets.only(bottom: 32),
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        color: Color.fromRGBO(52, 88, 178, 1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+        style: ButtonStyles.containedButton,
         child: Text(
           'Create Account',
           style: TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor),
@@ -301,7 +299,7 @@ class _SignUpPageState extends State<SignUpPage> {
       margin: EdgeInsets.only(bottom: 32),
       child: RaisedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.barBackgroundColor,
+        color: ColorSets.appMainColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -322,9 +320,7 @@ class _SignUpPageState extends State<SignUpPage> {
         SizedBox(width: 15),
         Checkbox(
           checkColor: Colors.white,
-          // hoverColor: Colors.red,
-          // focusColor: Colors.green,
-          activeColor: ColorSets.barBackgroundColor,
+          activeColor: ColorSets.appMainColor,
           onChanged: (bool value) {
             setState(() {
               choice == 1 ? _value1 = value : _value2 = value;
@@ -362,7 +358,7 @@ class _SignUpPageState extends State<SignUpPage> {
       child: BlocBuilder<RegisterBloc, RegisterState>(
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: ColorSets.barBackgroundColor,
+            backgroundColor: ColorSets.appMainColor,
             body: Stack(
               children: <Widget>[
                 SafeArea(

@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> {
               context.read<AppbarBloc>().state is AppbarLoadingState;
           return Scaffold(
               appBar: AppBar(
-                backgroundColor: ColorSets.barBackgroundColor,
+                backgroundColor: ColorSets.appMainColor,
                 title: Text(authState is AuthenticationAuthenticated
                     ? Routes.bodyTitleLoggedIn[state.currentPage]
                     : Routes.bodyTitle[state.currentPage]),
@@ -96,7 +96,7 @@ class _MainPageState extends State<MainPage> {
                   color: ColorSets.unselectedBarItemColor,
                 ),
                 currentIndex: state.currentPage,
-                backgroundColor: ColorSets.barBackgroundColor,
+                backgroundColor: ColorSets.appMainColor,
                 onTap: _onNavigation,
                 items: authState is AuthenticationAuthenticated
                     ? Routes.navListLoggedIn

@@ -27,7 +27,7 @@ class TicketService extends BaseService {
 
   Future<List<Ticket>> getAll(User user) async {
     // FIXME
-    List<Ticket> _tickets = List();
+    List<Ticket> _tickets = [];
 
     String url = '$baseUrl....';
     final response = await GET('$url');

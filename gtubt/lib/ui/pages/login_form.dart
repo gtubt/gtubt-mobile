@@ -1,10 +1,10 @@
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
-import 'package:GTUBT/ui/pages/main_page.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
 
 import 'package:flutter/material.dart';
@@ -143,12 +143,11 @@ class _LoginFormState extends State<LoginForm> {
       width: 130,
       height: 40,
       margin: EdgeInsets.only(bottom: 32),
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.selectedBarItemColor,
+        style: ButtonStyles.containedButton,
         child: Text(
           'Login',
-          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
     );
@@ -157,17 +156,16 @@ class _LoginFormState extends State<LoginForm> {
   Widget _forgotPasswordButton() {
     return Container(
       alignment: Alignment.topRight,
-      height: 15,
+      height: 30,
       width: 135,
-      child: FlatButton(
+      child: TextButton(
         onPressed: _onForgotPasswordPressed,
-        color: ColorSets.barBackgroundColor,
+        style: ButtonStyles.textButton,
         child: Text(
           'Forgot Password',
           textAlign: TextAlign.right,
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.w700,
             fontFamily: 'Palanquin',
             letterSpacing: 0.5,
             fontSize: 12,
@@ -181,24 +179,17 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       height: 45,
       width: 135,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () {
           context.read<PageBloc>().add(
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
         },
-        color: ColorSets.barBackgroundColor,
+        style: ButtonStyles.outlinedButton,
         child: Text(
           'Not a Member?\nRegister!',
           textAlign: TextAlign.center,
           style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: ColorSets.barBackgroundColor,
-        border: Border.all(
-          color: Colors.white,
-          width: 2.0,
         ),
       ),
     );
@@ -208,23 +199,16 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       height: 45,
       width: 135,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
               _context, MAIN_URL, (route) => false);
         },
-        color: ColorSets.barBackgroundColor,
+        style: ButtonStyles.outlinedButton,
         child: Text(
           'Continue Without Registration',
           textAlign: TextAlign.center,
           style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: ColorSets.barBackgroundColor,
-        border: Border.all(
-          color: Colors.white,
-          width: 2.0,
         ),
       ),
     );
