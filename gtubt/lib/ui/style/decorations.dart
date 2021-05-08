@@ -1,44 +1,50 @@
-import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class FormBoxContainer{
-  static InputDecoration textFieldStyle({String labelTextStr=""}) {
+class FormBoxContainer {
+  static InputDecoration textFieldStyle({String labelTextStr = ""}) {
     return InputDecoration(
       labelText: labelTextStr,
-      labelStyle: TextStyles.subtitle1.copyWith(color: ColorSets.profilePageThemeColor),
+      labelStyle: TextStyles.subtitle1.copyWith(color: Colors.white),
       contentPadding: EdgeInsets.only(left: 20),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
+          color: Colors.white,
+          width: 1.0,
         ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
-          color: ColorSets.selectedInputFieldColor,
-          width: 4.0,
+          color: Colors.white,
+          width: 1.0,
         ),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
+          color: Colors.white,
+          width: 1.0,
         ),
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(
-          color: ColorSets.profilePageThemeColor,
-          width: 4.0,
+          color: Colors.white,
+          width: 1.0,
         ),
       ),
     );
   }
+}
 
+class FormInputDecoration extends InputDecoration {
+  @override
+  Color get fillColor => Colors.white;
+  
+  @override
+  bool get filled => true;
 }
