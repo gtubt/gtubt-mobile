@@ -120,7 +120,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   Widget _buildHamburgerMenu() {
-    List<Widget> _menuItems = List<Widget>();
+    List<Widget> _menuItems = [];
     user = context.read<UserBloc>().userService.currentUser;
 
     if (context.read<AuthenticationBloc>().state
@@ -152,7 +152,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             return Container(
-              color: ColorSets.barBackgroundColor,
+              color: ColorSets.hamburgerMenuBackgroundColor,
               alignment: Alignment.center,
               child: _buildHamburgerMenu(),
             );

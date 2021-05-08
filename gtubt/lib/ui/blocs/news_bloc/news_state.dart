@@ -24,7 +24,7 @@ class NewsState {
       isLoaded: true,
       isInitial: true,
       isFailed: false,
-      newsList: List<News>(),
+      newsList: [],
     );
   }
 
@@ -34,7 +34,7 @@ class NewsState {
       isLoaded: true,
       isInitial: false,
       isFailed: false,
-      newsList: List<News>(),
+      newsList: [],
     );
   }
 

@@ -31,12 +31,14 @@ abstract class BaseService {
     }
   }
 
+  // ignore: non_constant_identifier_names
   Future<http.Response> GET(url, {Map<String, String> headers}) async {
     headers ??= {};
     headers.addAll(await _tokenResolver());
     return await http.get(url, headers: headers);
   }
 
+  // ignore: non_constant_identifier_names
   Future<http.Response> POST(url,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers ??= {};
@@ -46,6 +48,7 @@ abstract class BaseService {
         headers: headers, body: body, encoding: encoding);
   }
 
+  // ignore: non_constant_identifier_names
   Future<http.Response> PATCH(url,
       {Map<String, String> headers, body, Encoding encoding}) async {
     headers ??= {};
@@ -55,6 +58,7 @@ abstract class BaseService {
         headers: headers, body: body, encoding: encoding);
   }
 
+  // ignore: non_constant_identifier_names
   Future<http.Response> DELETE(url, {Map<String, String> headers}) async {
     headers ??= {};
     headers.addAll(await _tokenResolver());

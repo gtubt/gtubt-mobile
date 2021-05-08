@@ -6,7 +6,6 @@ import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
 
 class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
   final UserService _userService = UserService();
-
   CalendarPageBloc() : super(CalendarPageInitState());
 
   List<Event> pageEvents = [
