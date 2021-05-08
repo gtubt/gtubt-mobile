@@ -50,14 +50,15 @@ class _TicketPageState extends State<TicketPage> {
       },
       builder: (context, TicketPageState state) {
         return Scaffold(
-            backgroundColor: ColorSets.pageBackgroundColor,
-            appBar: AppBar(
-              title: Text("Tickets"),
-              centerTitle: true,
-              backgroundColor: ColorSets.barBackgroundColor,
-              elevation: 0.0,
-            ),
-            body: _buildBody(state));
+          backgroundColor: ColorSets.pageBackgroundColor,
+          appBar: AppBar(
+            title: Text("Tickets"),
+            centerTitle: true,
+            backgroundColor: ColorSets.appMainColor,
+            elevation: 0.0,
+          ),
+          body: _buildBody(state),
+        );
       },
     );
   }
