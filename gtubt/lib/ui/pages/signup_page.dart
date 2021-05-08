@@ -260,7 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
       margin: EdgeInsets.only(bottom: 32),
       child: ElevatedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        style: ButtonStyles.createAccountButton,
+        style: ButtonStyles.containedButton,
         child: Text(
           'Create Account',
           style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
