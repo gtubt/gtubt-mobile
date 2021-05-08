@@ -12,7 +12,7 @@ import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:GTUBT/ui/style/form_box_container.dart';
+import 'package:GTUBT/ui/style/decorations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -86,67 +86,67 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _eMail(String email) {
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(EmailChanged(), email, "E-mail"),
+          formWidget(EmailChanged(), email, 'E-mail'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _deparmentInfo(String department) {
     //TODO: must be dropdown
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            formWidget(DepartmentChanged(), department, "Department"),
+            formWidget(DepartmentChanged(), department, 'Department'),
           ]),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _yearInfo(String year) {
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(YearChanged(), year, "Year"),
+          formWidget(YearChanged(), year, 'Year'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _studentNumber(String studentId) {
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(StudentNumberChanged(), studentId, "Student ID"),
+          formWidget(StudentNumberChanged(), studentId, 'Student ID'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _phoneNumber(String phone) {
     phone ??= '';
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(PhoneChanged(), phone, "Phone"),
+          formWidget(PhoneChanged(), phone, 'Phone'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 

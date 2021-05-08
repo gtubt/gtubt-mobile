@@ -1,4 +1,3 @@
-import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,4 +39,12 @@ class FormBoxContainer {
       ),
     );
   }
+}
+
+class FormInputDecoration extends InputDecoration {
+  @override
+  Color get fillColor => Colors.white;
+  
+  @override
+  bool get filled => true;
 }

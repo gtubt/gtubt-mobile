@@ -2,7 +2,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
-import 'package:GTUBT/ui/style/form_box_container.dart';
+import 'package:GTUBT/ui/style/decorations.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,6 +22,10 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _studentNumberController =
       TextEditingController();
+  final Map<String, bool> _aggrements = {
+    'kvkk': false,
+    'userAgreement': false,
+  };
 
   @override
   void initState() {
@@ -78,13 +82,17 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void _onFormSubmitted() {
-    context.read<RegisterBloc>().add(Submitted(
-          name: _nameController.text.trim(),
-          lastname: _lastnameController.text.trim(),
-          password: _passwordController.text.trim(),
-          studentNumber: _studentNumberController.text.trim(),
-          email: _emailController.text.trim(),
-        ));
+    context.read<RegisterBloc>().add(
+          Submitted(
+            name: _nameController.text.trim(),
+            lastname: _lastnameController.text.trim(),
+            password: _passwordController.text.trim(),
+            studentNumber: _studentNumberController.text.trim(),
+            email: _emailController.text.trim(),
+            isAcceptKVKK: _aggrements['kvkk'],
+            isAcceptUserAgreement: _aggrements['userAgreement'],
+          ),
+        );
   }
 
   bool isSignUpButtonEnabled() {
@@ -92,52 +100,26 @@ class _SignUpPageState extends State<SignUpPage> {
     return state.isFormValid && isPopulated && !state.isSubmitting;
   }
 
-  Widget _imageBackground() {
-    return Container(
-      height: 120.0,
-      decoration: BoxDecoration(
-        color: ColorSets.appMainColor,
-      ),
-    );
-  }
-
   Widget _logoArea() {
-    return Container(
-      height: 160,
-      width: 180,
-      child: Image.asset('assets/logo.png'),
-    );
-  }
-
-  Widget _profileImage() {
-    return Stack(
-      children: <Widget>[
-        Positioned(
-          child: _imageBackground(),
+    return Column(
+      children: [
+        Container(
+          height: 160,
+          width: 180,
+          child: Image.asset('assets/logo.png'),
+        ),
+        SizedBox(
+          height: 20,
         ),
         Container(
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 50),
-                  width: 140.0,
-                  height: 140.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    // image: DecorationImage(
-                    //   image: AssetImage(
-                    //     "assets/images/as.jpg"
-                    //   ),
-                    // ),
-                    borderRadius: BorderRadius.circular(80),
-                    border: Border.all(
-                      color: ColorSets.profilePageThemeColor,
-                      width: 5,
-                    ),
-                  ),
-                ),
-              ]),
+          child: Text(
+            'Create an Accout',
+            style: TextStyle(
+              fontSize: 18,
+              color: ColorSets.lightTextColor,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         )
       ],
     );
@@ -147,16 +129,15 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        _buildTextFormFieldLabel('Name'),
         Container(
-          padding: EdgeInsets.only(top: 20, left: 25, right: 25),
           child: TextFormField(
             cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _nameController,
-            decoration:
-                FormBoxContainer.textFieldStyle(labelTextStr: "   Name   "),
+            decoration: FormInputDecoration(),
             validator: (String value) {
               return !context.read<RegisterBloc>().state.isNameValid
                   ? 'Invalid format'
@@ -172,16 +153,15 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        _buildTextFormFieldLabel('Surname'),
         Container(
-          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _lastnameController,
-            decoration:
-                FormBoxContainer.textFieldStyle(labelTextStr: "   Surname   "),
+            decoration: FormInputDecoration(),
             validator: (String value) {
               return !context.read<RegisterBloc>().state.isLastnameValid
                   ? 'Invalid format'
@@ -197,16 +177,15 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        _buildTextFormFieldLabel('Email'),
         Container(
-          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             controller: _emailController,
-            decoration:
-                FormBoxContainer.textFieldStyle(labelTextStr: "   E-mail   "),
+            decoration: FormInputDecoration(),
             validator: (String value) {
               return !context.read<RegisterBloc>().state.isEmailValid
                   ? 'Invalid Email Format'
@@ -222,16 +201,15 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        _buildTextFormFieldLabel('Student Number'),
         Container(
-          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
             keyboardType: TextInputType.text,
             controller: _studentNumberController,
-            decoration: FormBoxContainer.textFieldStyle(
-                labelTextStr: "   Student Number   "),
+            decoration: FormInputDecoration(),
             validator: (String value) {
               return !context.read<RegisterBloc>().state.isStudentNumberValid
                   ? 'Invalid Student Number'
@@ -247,8 +225,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        _buildTextFormFieldLabel('Password'),
         Container(
-          padding: EdgeInsets.only(left: 25, right: 25, top: 20),
           child: TextFormField(
             cursorColor: Colors.white,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -256,8 +234,7 @@ class _SignUpPageState extends State<SignUpPage> {
             obscureText: true,
             keyboardType: TextInputType.text,
             controller: _passwordController,
-            decoration:
-                FormBoxContainer.textFieldStyle(labelTextStr: "   Password   "),
+            decoration: FormInputDecoration(),
             validator: (String value) {
               return !context.read<RegisterBloc>().state.isPasswordValid
                   ? 'Invalid format'
@@ -269,10 +246,21 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _createProfileButton() {
+  Widget _buildTextFormFieldLabel(String labelName) {
     return Container(
-      width: 150,
-      height: 50,
+      margin: EdgeInsets.only(bottom: 2),
+      child: Text(
+        labelName,
+        textAlign: TextAlign.left,
+        style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
+      ),
+    );
+  }
+
+  Widget _buildSignUpButton() {
+    return Container(
+      width: 130,
+      height: 40,
       margin: EdgeInsets.only(bottom: 32),
       child: ElevatedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
@@ -285,24 +273,14 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _createLoginButton() {
+  Widget _buildLoginButton() {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          width: 2,
-          color: Colors.white,
-        ),
-      ),
-      width: 150,
-      height: 50,
+      width: 130,
+      height: 40,
       margin: EdgeInsets.only(bottom: 32),
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.appMainColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+        style: ButtonStyles.outlinedButton,
         child: Text(
           'Have an Account? Login',
           style: TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor),
@@ -311,30 +289,31 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  bool _value1 = false;
-  bool _value2 = false;
-
-  Widget _createCheckBox(String message, choice) {
+  Widget _buildCheckBox(String message, type) {
     return Row(
       children: [
-        SizedBox(width: 15),
-        Checkbox(
-          checkColor: Colors.white,
-          activeColor: ColorSets.appMainColor,
-          onChanged: (bool value) {
-            setState(() {
-              choice == 1 ? _value1 = value : _value2 = value;
-            });
-          },
-          value: choice == 1 ? _value1 : _value2,
+        Theme(
+          data: ThemeData(unselectedWidgetColor: Colors.white),
+          child: Checkbox(
+            checkColor: Colors.white,
+            activeColor: ColorSets.appMainColor,
+            onChanged: (bool value) {
+              setState(() {
+                _aggrements[type] = value;
+              });
+            },
+            value: _aggrements[type],
+          ),
         ),
         SizedBox(width: 15),
-        Text(
-          message,
-          style: TextStyle(
-            color: Colors.white,
+        Expanded(
+          child: Text(
+            message,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+            overflow: TextOverflow.fade,
           ),
-          overflow: TextOverflow.fade,
         ),
       ],
     );
@@ -345,14 +324,17 @@ class _SignUpPageState extends State<SignUpPage> {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
         if (state.isSubmitting) {
-          return NotificationFactory.successFactory(
-              message: "Sign Up Successful");
+          NotificationFactory.loadingFactory(message: 'Registering...')
+              .show(context);
         }
         if (state.isSuccess) {
+          NotificationFactory.successFactory(message: 'Sign Up Successful')
+              .show(context);
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          return NotificationFactory.errorFactory(message: state.errorMessage);
+          return NotificationFactory.errorFactory(message: state.errorMessage)
+              .show(context);
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(
@@ -363,37 +345,45 @@ class _SignUpPageState extends State<SignUpPage> {
               children: <Widget>[
                 SafeArea(
                   child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        _logoArea(),
-                        _nameForm(),
-                        _lastnameForm(),
-                        _emailForm(),
-                        _studentNumberForm(),
-                        _passwordForm(),
-                        SizedBox(height: 10),
-                        _createCheckBox(
-                            "KVKK Aydınlatma Metni’ni okudum ve kabul \nediyorum.",
-                            1),
-                        _createCheckBox(
-                            "Kullanıcı Sözleşmesi’ni okudum ve kabul \nediyorum.",
-                            2),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding:
-                                  EdgeInsets.only(left: 10, top: 20, right: 10),
-                              child: _createLoginButton(),
-                            ),
-                            Container(
-                              padding:
-                                  EdgeInsets.only(left: 10, top: 20, right: 10),
-                              child: _createProfileButton(),
-                            ),
-                          ],
-                        ),
-                      ],
+                    child: Container(
+                      padding: EdgeInsets.only(left: 40, right: 40, top: 20),
+                      child: Column(
+                        children: <Widget>[
+                          _logoArea(),
+                          SizedBox(height: 20),
+                          _nameForm(),
+                          SizedBox(height: 32),
+                          _lastnameForm(),
+                          SizedBox(height: 32),
+                          _emailForm(),
+                          SizedBox(height: 32),
+                          _studentNumberForm(),
+                          SizedBox(height: 32),
+                          _passwordForm(),
+                          SizedBox(height: 32),
+                          _buildCheckBox(
+                              'KVKK Aydınlatma Metni’ni okudum ve kabul ediyorum.',
+                              'kvkk'),
+                          _buildCheckBox(
+                              'Kullanıcı Sözleşmesi’ni okudum ve kabul ediyorum.',
+                              'userAgreement'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 10, top: 20, right: 10),
+                                child: _buildLoginButton(),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 10, top: 20, right: 10),
+                                child: _buildSignUpButton(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
