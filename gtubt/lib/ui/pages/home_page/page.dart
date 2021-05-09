@@ -7,7 +7,6 @@ import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:GTUBT/ui/utils/time_ago_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'components.dart';
@@ -20,9 +19,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: ColorSets.appMainColor,
-        statusBarBrightness: Brightness.dark));
     context.read<NewsBloc>().add(FetchNews());
     super.initState();
   }
