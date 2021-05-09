@@ -4,11 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class FormBoxContainer{
-  static InputDecoration textFieldStyle({String labelTextStr=""}) {
+class FormBoxContainer {
+  static InputDecoration textFieldStyle({String labelTextStr = ""}) {
     return InputDecoration(
       labelText: labelTextStr,
-      labelStyle: TextStyles.subtitle1.copyWith(color: ColorSets.profilePageThemeColor),
+      labelStyle:
+          TextStyles.subtitle1.copyWith(color: ColorSets.profilePageThemeColor),
       contentPadding: EdgeInsets.only(left: 20),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
@@ -41,4 +42,16 @@ class FormBoxContainer{
     );
   }
 
+  static InputDecoration loginPageTextFieldDecoration = InputDecoration(
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding:
+        EdgeInsets.only(left: 12.0, right: 12.0, top: 2.0, bottom: 2.0),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(15),
+      ),
+      borderSide: BorderSide.none,
+    ),
+  );
 }

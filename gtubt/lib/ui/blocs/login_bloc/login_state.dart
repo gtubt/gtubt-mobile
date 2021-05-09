@@ -7,7 +7,9 @@ class LoginState {
   bool isSuccess;
   bool isFailure;
   bool isPwRequestSent;
+  bool isForgotButton;
   String errorMessage;
+  String loadingMessage;
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
@@ -18,13 +20,15 @@ class LoginState {
     @required this.isSuccess,
     @required this.isFailure,
     @required this.isPwRequestSent,
+    this.isForgotButton,
     this.errorMessage,
+    this.loadingMessage,
   });
 
   factory LoginState.empty() {
     return LoginState(
-      isEmailValid: true,
-      isPasswordValid: true,
+      isEmailValid: false,
+      isPasswordValid: false,
       isSubmitting: false,
       isFailure: false,
       isSuccess: false,
@@ -32,7 +36,7 @@ class LoginState {
     );
   }
 
-  factory LoginState.loading() {
+  factory LoginState.loading(loadingMessage) {
     return LoginState(
       isEmailValid: true,
       isPasswordValid: true,
@@ -40,6 +44,19 @@ class LoginState {
       isFailure: false,
       isSuccess: false,
       isPwRequestSent: false,
+      loadingMessage: loadingMessage,
+    );
+  }
+
+  factory LoginState.failForgotPassword(errorMessage) {
+    return LoginState(
+      isEmailValid: false,
+      isPasswordValid: false,
+      isSubmitting: false,
+      isFailure: true,
+      isSuccess: false,
+      isPwRequestSent: false,
+      errorMessage: errorMessage,
     );
   }
 
@@ -88,14 +105,19 @@ class LoginState {
     bool isEmailValid,
     bool isPasswordValid,
     bool isPwRequestSent,
+    bool isFailure,
+    String loadingMesssage,
+    String errorMessage,
   }) {
     return LoginState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isSubmitting: false,
-      isFailure: false,
+      isFailure: isFailure ?? false,
       isSuccess: false,
-      isPwRequestSent: isPwRequestSent ?? this.isPwRequestSent,
+      isPwRequestSent: isPwRequestSent ?? false,
+      loadingMessage: loadingMessage ?? this.loadingMessage,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
