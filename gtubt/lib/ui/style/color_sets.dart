@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class ColorSets {
   static const profilePageThemeColor = Color(0xFF4E72CB);
-  static const appMainColor = Color(0xFF1A237E);
+  static const appMainColor = Color(0xFF233B77);
 
-  static const selectedBarItemColor = Color(0xFF7986CB);
-  static const unselectedBarItemColor = Color(0xFFFFFFFF);
+  static const selectedBarItemColor = Colors.white;
+  static const unselectedBarItemColor = Color(0xFFC0C0C0);
 
-  static const selectedInputFieldColor = Color(0xFF818cc3);
+  static const selectedInputFieldColor = Color(0xFF818CC3);
 
   static const defaultBarBackgroundColor = Colors.white;
 
@@ -16,10 +16,13 @@ class ColorSets {
   static const ticketInformationTextColor = Color(0xFF4E72CB);
 
   static const outlinedButtonBackgroundColor = Color(0xFF3458B2);
-  static const outlinedButtonBackgroundBarColor = Color(0xFF1A237E);
+  static const outlinedButtonBackgroundBarColor = Color(0xFF233B77);
 
-  static const pageBackgroundColor = Color(0xFFFFFFFF);
-  static const hamburgerMenuBackgroundColor = Color(0xFF1A237E);
+  static const pageBackgroundColor = Colors.white;
+  static const hamburgerMenuBackgroundColor = Color(0xFF233B77);
 
-  static const popUpBackgroundColor = Color(0xFF5b84ed);
+  static const popUpBackgroundColor = Color(0xFF5B84ED);
+
+  static const cursorColor = Color(0xFF4E72CB);
+
 }
