@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: ColorSets.barBackgroundColor,
+        statusBarColor: ColorSets.appMainColor,
         statusBarBrightness: Brightness.dark));
     context.read<NewsBloc>().add(FetchNews());
     super.initState();
