@@ -8,7 +8,7 @@ flutter_native_splash:
   # flutter pub run flutter_native_splash:remove
 
   # color is the only required parameter.  It sets the background color of your splash screen.
-  color: "#1A237E"
+  color: "#233B77"
 
   # Optional parameters are listed below.  To enable a parameter, uncomment the line by removing
   # the leading # character.
