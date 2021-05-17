@@ -76,14 +76,17 @@ class Submitted extends RegisterEvent {
   final String name;
   final String lastname;
   final String studentNumber;
+  final bool isAcceptKVKK;
+  final bool isAcceptUserAgreement;
 
-  Submitted({
-    @required this.name,
-    @required this.lastname,
-    @required this.password,
-    @required this.email,
-    @required this.studentNumber,
-  });
+  Submitted(
+      {@required this.name,
+      @required this.lastname,
+      @required this.password,
+      @required this.email,
+      @required this.studentNumber,
+      @required this.isAcceptKVKK,
+      @required this.isAcceptUserAgreement});
 
   @override
   String toString() {
@@ -96,6 +99,6 @@ class Submitted extends RegisterEvent {
         lastname,
         email,
         password,
-        studentNumber
+        studentNumber,
       ];
 }

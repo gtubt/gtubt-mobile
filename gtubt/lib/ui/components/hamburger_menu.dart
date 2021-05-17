@@ -22,15 +22,6 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
     super.initState();
   }
 
-  void _loginButtonFunction() {
-    context.read<PageBloc>().add(
-          PageChanged(
-            context: context,
-            routeName: LOGIN_URL,
-          ),
-        );
-  }
-
   void _logoutButtonFunction() {
     context.read<PageBloc>().add(
           PageChanged(
@@ -58,6 +49,25 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
             routeName: SETTINGS_URL,
           ),
         );
+  }
+
+  Widget _buildGtubtLogo() {
+    return Column(
+      children: [
+        Container(
+            width: 170,
+            height: 170,
+            decoration: BoxDecoration(shape: BoxShape.rectangle),
+            clipBehavior: Clip.antiAlias,
+            child: FittedBox(
+                child: Image.asset(
+              "assets/logo.png",
+            ))),
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0, bottom: 30.0),
+        )
+      ],
+    );
   }
 
   Widget _buildProfileImage(String profileImage) {
@@ -120,7 +130,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   Widget _buildHamburgerMenu() {
-    List<Widget> _menuItems = List<Widget>();
+    List<Widget> _menuItems = [];
     user = context.read<UserBloc>().userService.currentUser;
 
     if (context.read<AuthenticationBloc>().state
@@ -132,7 +142,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
       _menuItems.add(_buildSpacer(0.2));
       _menuItems.add(_buildHamburgerMenuItem('LOGOUT', _logoutButtonFunction));
     } else {
-      _menuItems.add(_buildHamburgerMenuItem('LOGIN', _loginButtonFunction));
+      _menuItems.add(_buildGtubtLogo());
       _menuItems
           .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));
     }
@@ -152,7 +162,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             return Container(
-              color: ColorSets.barBackgroundColor,
+              color: ColorSets.hamburgerMenuBackgroundColor,
               alignment: Alignment.center,
               child: _buildHamburgerMenu(),
             );

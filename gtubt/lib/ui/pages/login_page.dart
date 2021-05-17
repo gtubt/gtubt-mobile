@@ -9,7 +9,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: ColorSets.barBackgroundColor,
+      backgroundColor: ColorSets.appMainColor,
       body: BlocProvider(
         create: (context) {
           return LoginBloc();

@@ -80,10 +80,15 @@ class _MainPageState extends State<MainPage> {
               context.read<AppbarBloc>().state is AppbarLoadingState;
           return Scaffold(
               appBar: AppBar(
-                backgroundColor: ColorSets.barBackgroundColor,
-                title: Text(authState is AuthenticationAuthenticated
+                centerTitle: true,
+                brightness: Brightness.dark,
+                iconTheme: IconThemeData(color: ColorSets.lightTextColor),
+                backgroundColor: ColorSets.appMainColor,
+                title: state.currentPage == 0 ? Image.asset("assets/logo_textless.png", height: 70,)
+                    : Text(authState is AuthenticationAuthenticated
                     ? Routes.bodyTitleLoggedIn[state.currentPage]
-                    : Routes.bodyTitle[state.currentPage]),
+                    : Routes.bodyTitle[state.currentPage],
+                    style: TextStyle(color: ColorSets.lightTextColor),),
                 actions: actions,
                 bottom: AppBarLinearProgressIndicator(isLoading),
               ),
@@ -96,7 +101,7 @@ class _MainPageState extends State<MainPage> {
                   color: ColorSets.unselectedBarItemColor,
                 ),
                 currentIndex: state.currentPage,
-                backgroundColor: ColorSets.barBackgroundColor,
+                backgroundColor: ColorSets.appMainColor,
                 onTap: _onNavigation,
                 items: authState is AuthenticationAuthenticated
                     ? Routes.navListLoggedIn
