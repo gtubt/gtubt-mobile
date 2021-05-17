@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
     var imageFile = await picker.getImage(source: imageSource);
     if (imageFile == null) return;
     print('get image: ' + imageFile.path);
-    /* TODO: save image to user.profilePhoto */
+    // TODO: save image to user.profilePhoto
   }
 
   void _imagePickerMenu() {
@@ -137,11 +137,11 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           FloatingActionButton(
-            backgroundColor: ColorSets.barBackgroundColor,
+            backgroundColor: ColorSets.outlinedButtonBackgroundColor,
             mini: true,
             onPressed: _imagePickerMenu,
             child: Icon(
-              Icons.edit,
+              Icons.camera_alt,
               color: ColorSets.pageBackgroundColor,
             ),
           ),
@@ -380,7 +380,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    User user = context.read<UserBloc>().userService.currentUser;
+    user = context.read<UserBloc>().userService.currentUser;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
