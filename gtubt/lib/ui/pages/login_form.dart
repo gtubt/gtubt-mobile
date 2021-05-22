@@ -161,9 +161,8 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _signInButton() {
     return Container(
-      width: 150,
+      width: 140,
       height: 50,
-      margin: EdgeInsets.only(bottom: 24),
       child: Material(
         color: Colors.transparent,
         elevation: _isLoginButtonEnabled() ? 10 : 0,
@@ -193,7 +192,6 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       alignment: Alignment.topRight,
       height: 30,
-      width: 135,
       margin: EdgeInsets.only(right: 10),
       child: TextButton(
         onPressed: _onForgotPasswordPressed,
@@ -210,7 +208,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget _signUpButton() {
     return Container(
       height: 50,
-      width: 150,
+      width: MediaQuery.of(context).size.width * 0.37,
       child: ElevatedButton(
         onPressed: () {
           context.read<PageBloc>().add(
@@ -218,10 +216,15 @@ class _LoginFormState extends State<LoginForm> {
               );
         },
         style: ButtonStyles.outlinedButton,
-        child: Text(
-          'Not a member?\nRegister!',
-          textAlign: TextAlign.center,
-          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            'Not a Member?\nSign up',
+            textAlign: TextAlign.center,
+            style: TextStyles.caption.copyWith(
+              color: ColorSets.lightTextColor,
+            ),
+          ),
         ),
       ),
     );
@@ -230,7 +233,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget _continueWithAnonymousButton() {
     return Container(
       height: 50,
-      width: 150,
+      width: MediaQuery.of(context).size.width * 0.37,
       child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
