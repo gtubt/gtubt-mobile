@@ -306,6 +306,7 @@ class _LoginFormState extends State<LoginForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _signInButton(),
+                          SizedBox(height: 20.0,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
