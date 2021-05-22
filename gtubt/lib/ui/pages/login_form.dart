@@ -92,7 +92,8 @@ class _LoginFormState extends State<LoginForm> {
             borderRadius: BorderRadius.circular(15.0),
             child: TextFormField(
               keyboardType: TextInputType.emailAddress,
-              keyboardAppearance: WidgetsBinding.instance.window.platformBrightness,
+              keyboardAppearance:
+                  WidgetsBinding.instance.window.platformBrightness,
               style: TextStyles.caption,
               controller: context.read<LoginBloc>().emailController,
               autocorrect: false,
@@ -122,7 +123,8 @@ class _LoginFormState extends State<LoginForm> {
                 borderRadius: BorderRadius.circular(15.0),
                 child: TextFormField(
                   keyboardType: TextInputType.visiblePassword,
-                  keyboardAppearance: WidgetsBinding.instance.window.platformBrightness,
+                  keyboardAppearance:
+                      WidgetsBinding.instance.window.platformBrightness,
                   style: TextStyles.caption,
                   controller: context.read<LoginBloc>().passwordController,
                   autocorrect: false,
@@ -217,7 +219,7 @@ class _LoginFormState extends State<LoginForm> {
         },
         style: ButtonStyles.outlinedButton,
         child: Text(
-          'Not a Member?\nSign up',
+          'Not a member?\nRegister!',
           textAlign: TextAlign.center,
           style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
@@ -275,41 +277,45 @@ class _LoginFormState extends State<LoginForm> {
     }, builder: (context, state) {
       _currentState = state;
       _context = context;
-      return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Form(
-          key: _formKey,
-          child: Center(
-            child: ListView(
-              padding: EdgeInsets.only(
-                  top: 200, left: 40.0, right: 40.0, bottom: 20),
-              children: <Widget>[
-                _logoArea(),
-                SizedBox(height: 32.0),
-                _emailTextFormField(),
-                SizedBox(height: 16.0),
-                _passwordTextFormField(),
-                SizedBox(height: 10.0),
-                _forgotPasswordButton(),
-                SizedBox(height: 24.0),
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _signInButton(),
-                      Row(
+      return SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: 90, left: 40.0, right: 40.0, bottom: 20),
+                child: Column(
+                  children: [
+                    _logoArea(),
+                    SizedBox(height: 32.0),
+                    _emailTextFormField(),
+                    SizedBox(height: 16.0),
+                    _passwordTextFormField(),
+                    SizedBox(height: 10.0),
+                    _forgotPasswordButton(),
+                    SizedBox(height: 24.0),
+                    Container(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _continueWithAnonymousButton(),
-                          _signUpButton(),
+                          _signInButton(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _continueWithAnonymousButton(),
+                              _signUpButton(),
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
