@@ -2,14 +2,14 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/decorations.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
-import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:another_flushbar/flushbar.dart';
 
 // ignore: must_be_immutable
 class LoginForm extends StatefulWidget {
@@ -20,9 +20,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  BuildContext _context;
   final _formKey = GlobalKey<FormState>();
-  LoginState _currentState;
   bool _obscureText = true;
   Flushbar _notification = NotificationFactory.informationFactory(message: '');
 
@@ -45,7 +43,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   bool _isLoginButtonEnabled() {
-    return _currentState.isFormValid && !_currentState.isSubmitting;
+    return context.read<LoginBloc>().state.isFormValid &&
+        !context.read<LoginBloc>().state.isSubmitting;
   }
 
   void _onFormSubmitted() {
@@ -237,7 +236,7 @@ class _LoginFormState extends State<LoginForm> {
       child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
-              _context, MAIN_URL, (route) => false);
+              context, MAIN_URL, (route) => false);
         },
         style: ButtonStyles.outlinedButton,
         child: Text(
@@ -278,8 +277,6 @@ class _LoginFormState extends State<LoginForm> {
         _notification.show(context);
       }
     }, builder: (context, state) {
-      _currentState = state;
-      _context = context;
       return SafeArea(
         child: GestureDetector(
           onTap: () {
