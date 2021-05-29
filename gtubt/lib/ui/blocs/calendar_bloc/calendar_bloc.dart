@@ -1,11 +1,14 @@
 import 'package:GTUBT/models/event.dart';
+import 'package:GTUBT/service/event.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
 
 class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
-  final UserService _userService = UserService();
+  //final UserService _userService = UserService();
+  final EventService _eventService = EventService();
+
   CalendarPageBloc() : super(CalendarPageInitState());
 
   List<Event> pageEvents = [
@@ -75,12 +78,19 @@ class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
   }
 
   Stream<CalendarPageState> _mapFetchEventsToState() async* {
-    yield EventsLoading();
-
     // TODO: call backend service method
     // TODO: _userService.getEvents();
     //if(error) yield EventsLoadingError
-    Future.delayed(Duration(seconds: 1));
-    yield EventsLoaded(events: pageEvents);
+    try {
+      print("_mapFetchEventsToState");
+      yield EventsLoading();
+      final List<Event> pageEvents = await _eventService.getAll();
+      print("events:${pageEvents}");
+      print("len:${pageEvents.length}");
+      yield EventsLoaded(events: pageEvents);
+    } catch (e) {
+      print(e.toString());
+      yield EventsError("could not retrieve data");
+    }
   }
 }

@@ -28,7 +28,8 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CalendarPageBloc>().add(FetchEvents());
+    //context.read<CalendarPageBloc>().add(FetchEvents());
+    BlocProvider.of<CalendarPageBloc>(context).add(FetchEvents());
   }
 
   @override
@@ -169,10 +170,13 @@ class _CalendarPageState extends State<CalendarPage> {
         child: CircularProgressIndicator(),
       );
     }
-
     if (state is EventsLoaded) {
       List<Event> events = state.events;
+      print("gelenler $events");
       body = _buildCalendar(events);
+    }
+    if (state is EventsError) {
+      body = Center(child: Text("ERROR ${state.message}"));
     }
     return body;
   }

@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class EventService extends BaseService {
   static final EventService _eventService = EventService._internal();
-  final servicePath = 'event';
+  final servicePath = 'events';
   EventService._internal();
 
   factory EventService() {
@@ -14,22 +14,28 @@ class EventService extends BaseService {
   }
 
   Future<List<Event>> getAll() async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath';
-
+    String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
+    print(url);
     final response = await GET('$url');
+    print("getAll body response.body ${response.body}");
+    print('response:::::${response.statusCode}');
 
     if (response.statusCode != 200) {
-      throw EventException();
+      throw EventException("    if (response.statusCode != 200) {");
     }
     try {
+      print("try içi");
       final apiResponse =
           ApiResponseList<Event>.fromJson(json.decode(response.body));
+      print(apiResponse.body);
+      print('apiResponse:::::${apiResponse.status}');
+
       if (apiResponse.status != 200) {
-        throw EventException.message(apiResponse.message);
+        throw EventException.message('ne message ? ${apiResponse.message}');
       }
       return apiResponse.body;
-    } catch (_) {
-      throw EventException();
+    } catch (e) {
+      throw EventException("the last catch ${e.toString()}");
     }
   }
 
@@ -45,7 +51,7 @@ class EventService extends BaseService {
       final apiResponse =
           ApiResponseSingle<Event>.fromJson(json.decode(response.body));
       if (apiResponse.status != 200) {
-        throw EventException.message(apiResponse.message);
+        throw EventException.message('${apiResponse.message}');
       }
       return apiResponse.body;
     } catch (_) {
