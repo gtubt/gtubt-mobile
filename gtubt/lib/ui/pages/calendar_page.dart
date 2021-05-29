@@ -37,7 +37,8 @@ class _CalendarPageState extends State<CalendarPage> {
     return BlocConsumer<CalendarPageBloc, CalendarPageState>(
       listener: (context, state) {
         if (state is EventsError) {
-          NotificationFactory.errorFactory(message: state.message);
+          NotificationFactory.errorFactory(message: state.message)
+              .show(context);
         }
       },
       builder: (context, CalendarPageState state) {

@@ -24,14 +24,16 @@ class EventService extends BaseService {
       throw EventException("    if (response.statusCode != 200) {");
     }
     try {
-      print("try içi");
-      final apiResponse =
-          ApiResponseList<Event>.fromJson(json.decode(response.body));
-      print(apiResponse.body);
-      print('apiResponse:::::${apiResponse.status}');
-
+      List<Event> body = [];
+      ApiResponseList<Event> apiResponse = ApiResponseList();
+      final eventList = json.decode(response.body);
+      apiResponse.status = response.statusCode;
+      eventList.forEach((event) {
+        body.add(Event.fromJson(event));
+      });
+      apiResponse.body = body.reversed.toList();
       if (apiResponse.status != 200) {
-        throw EventException.message('ne message ? ${apiResponse.message}');
+        throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
     } catch (e) {

@@ -89,6 +89,7 @@ class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
       print("len:${pageEvents.length}");
       yield EventsLoaded(events: pageEvents);
     } catch (e) {
+      print("_mapFetchEventsToState } catch (e) {");
       print(e.toString());
       yield EventsError("could not retrieve data");
     }
