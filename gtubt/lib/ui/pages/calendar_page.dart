@@ -174,9 +174,6 @@ class _CalendarPageState extends State<CalendarPage> {
       List<Event> events = state.events;
       body = _buildCalendar(events);
     }
-    if (state is EventsError) {
-      body = Center(child: Text("ERROR ${state.message}"));
-    }
     return body;
   }
 }
