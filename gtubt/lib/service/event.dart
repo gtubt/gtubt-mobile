@@ -15,13 +15,9 @@ class EventService extends BaseService {
 
   Future<List<Event>> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
-    print(url);
     final response = await GET('$url');
-    print("getAll body response.body ${response.body}");
-    print('response:::::${response.statusCode}');
-
     if (response.statusCode != 200) {
-      throw EventException("    if (response.statusCode != 200) {");
+      throw EventException();
     }
     try {
       List<Event> body = [];
@@ -36,8 +32,8 @@ class EventService extends BaseService {
         throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
-    } catch (e) {
-      throw EventException("the last catch ${e.toString()}");
+    } catch (_) {
+      throw EventException();
     }
   }
 
