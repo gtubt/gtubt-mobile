@@ -94,6 +94,33 @@ class UserService extends BaseService {
     }
   }
 
+  Future<User> uploadProfilePhoto(dynamic photo, String imageType) async {
+    var email = currentUser.email;
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$email/photo';
+    try {
+      var apiResponse;
+      final response = await POST('$url',
+          headers: <String, String>{
+            'Content-Type': 'image/$imageType',
+          },
+          body: photo);
+
+      if (response.statusCode != 200) {
+        throw UserException();
+      }
+
+      apiResponse =
+      ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw UserException.message(apiResponse.message);
+      }
+      currentUser = apiResponse.body;
+      return apiResponse.body;
+    } catch (_) {
+      throw UserException();
+    }
+  }
+
   Future<bool> delete(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     var apiResponse;

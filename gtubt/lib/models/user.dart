@@ -22,7 +22,7 @@ class User {
   @JsonKey(nullable: true)
   String phone;
 
-  @JsonKey(nullable: true)
+  @JsonKey(nullable: true, name: "photoUrl")
   String profilePhoto;
 
   User({

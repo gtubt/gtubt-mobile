@@ -1,5 +1,6 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
+import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_event.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
@@ -44,8 +45,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> _getImage(ImageSource imageSource) async {
     var imageFile = await picker.getImage(source: imageSource);
     if (imageFile == null) return;
-    print('get image: ' + imageFile.path);
-    // TODO: save image to user.profilePhoto
+
+    context.read<UserBloc>().add(PhotoChanged(imageFile: imageFile));
   }
 
   void _imagePickerMenu() {
@@ -109,10 +110,6 @@ class _ProfilePageState extends State<ProfilePage> {
         user.profilePhoto,
       );
     }
-
-    profilePhoto = Image.network(
-      "https://i.picsum.photos/id/218/200/300.jpg?hmac=S2tW-K1x-k9tZ7xyNVAdnie_NW9LJEby6GBgYpL7kfo"
-    );
 
     return Center(
       child: Stack(
@@ -467,6 +464,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 if (state.isFailure) {
                   NotificationFactory.errorFactory(message: state.errorMessage)
                       .show(context);
+                }
+                else if (state.isLoading) {
+                  if (state.loadingMessage == null) {
+                    context.read<AppbarBloc>().add(ShowLoading());
+                  }
+                  else {
+                    NotificationFactory.loadingFactory(message: state.loadingMessage)
+                        .show(context);
+                  }
+                }
+                else {
+                  context.read<AppbarBloc>().add(HideLoading());
                 }
               },
               builder: (context, state) {
