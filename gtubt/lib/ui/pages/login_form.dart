@@ -2,14 +2,14 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/decorations.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
-import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:another_flushbar/flushbar.dart';
 
 // ignore: must_be_immutable
 class LoginForm extends StatefulWidget {
@@ -20,9 +20,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  BuildContext _context;
   final _formKey = GlobalKey<FormState>();
-  LoginState _currentState;
   bool _obscureText = true;
   Flushbar _notification = NotificationFactory.informationFactory(message: '');
 
@@ -45,7 +43,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   bool _isLoginButtonEnabled() {
-    return _currentState.isFormValid && !_currentState.isSubmitting;
+    return context.read<LoginBloc>().state.isFormValid &&
+        !context.read<LoginBloc>().state.isSubmitting;
   }
 
   void _onFormSubmitted() {
@@ -161,9 +160,8 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _signInButton() {
     return Container(
-      width: 150,
+      width: 140,
       height: 50,
-      margin: EdgeInsets.only(bottom: 24),
       child: Material(
         color: Colors.transparent,
         elevation: _isLoginButtonEnabled() ? 10 : 0,
@@ -193,7 +191,6 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       alignment: Alignment.topRight,
       height: 30,
-      width: 135,
       margin: EdgeInsets.only(right: 10),
       child: TextButton(
         onPressed: _onForgotPasswordPressed,
@@ -210,7 +207,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget _signUpButton() {
     return Container(
       height: 50,
-      width: 150,
+      width: MediaQuery.of(context).size.width * 0.37,
       child: ElevatedButton(
         onPressed: () {
           context.read<PageBloc>().add(
@@ -218,10 +215,15 @@ class _LoginFormState extends State<LoginForm> {
               );
         },
         style: ButtonStyles.outlinedButton,
-        child: Text(
-          'Not a member?\nRegister!',
-          textAlign: TextAlign.center,
-          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            'Not a Member?\nSign up',
+            textAlign: TextAlign.center,
+            style: TextStyles.caption.copyWith(
+              color: ColorSets.lightTextColor,
+            ),
+          ),
         ),
       ),
     );
@@ -230,11 +232,11 @@ class _LoginFormState extends State<LoginForm> {
   Widget _continueWithAnonymousButton() {
     return Container(
       height: 50,
-      width: 150,
+      width: MediaQuery.of(context).size.width * 0.37,
       child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
-              _context, MAIN_URL, (route) => false);
+              context, MAIN_URL, (route) => false);
         },
         style: ButtonStyles.outlinedButton,
         child: Text(
@@ -275,8 +277,6 @@ class _LoginFormState extends State<LoginForm> {
         _notification.show(context);
       }
     }, builder: (context, state) {
-      _currentState = state;
-      _context = context;
       return SafeArea(
         child: GestureDetector(
           onTap: () {
@@ -303,6 +303,7 @@ class _LoginFormState extends State<LoginForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _signInButton(),
+                          SizedBox(height: 20.0,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
