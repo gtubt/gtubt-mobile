@@ -29,7 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
   };
   bool _obscureText = true;
   bool _showPasswordHint = false;
-  ScrollController _scrollController;
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
