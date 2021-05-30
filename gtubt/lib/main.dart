@@ -20,10 +20,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocDelegate();
   await Firebase.initializeApp();
-  
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: ColorSets.appMainColor,
-        statusBarBrightness: Brightness.dark));
+      statusBarColor: ColorSets.appMainColor,
+      statusBarBrightness: Brightness.dark));
 
   runZonedGuarded<Future<void>>(() async {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
