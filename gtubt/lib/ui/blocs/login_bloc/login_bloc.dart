@@ -53,7 +53,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   Stream<LoginState> _mapLoginWithCredentialsPressedToState(
       String email, String password) async* {
-    yield LoginState.loading();
+    yield LoginState.loading("Logging in...");
     try {
       await _authService.signInWithEmailAndPassword(email, password);
       yield LoginState.success();
@@ -63,12 +63,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapForgotPasswordPressedToState(String email) async* {
-    yield LoginState.loading();
-    try {
-      await _authService.sendPasswordResetEmail(email);
-      yield state.update(isPwRequestSent: true);
-    } catch (_) {
-      yield state.update(isPwRequestSent: false);
+    if (Validators.isValidEmail(email)) {
+      yield LoginState.loading("Sending password reset email...");
+      try {
+        await _authService.sendPasswordResetEmail(email);
+        yield state.update(isPwRequestSent: true);
+      } on AuthenticationException catch (error) {
+        yield state.update(
+            errorMessage: error.message,
+            isFailure: true,
+            isPwRequestSent: false);
+      }
+    } else {
+      yield LoginState.failForgotPassword("Please enter a valid email");
     }
   }
 }

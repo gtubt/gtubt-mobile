@@ -2,10 +2,12 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/login_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
+import 'package:GTUBT/ui/style/decorations.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
-
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +20,9 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  late BuildContext _context;
   final _formKey = GlobalKey<FormState>();
-  late LoginState _currentState;
+  bool _obscureText = true;
+  Flushbar _notification = NotificationFactory.informationFactory(message: '');
 
   @override
   void initState() {
@@ -41,7 +43,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   bool _isLoginButtonEnabled() {
-    return _currentState.isFormValid && !_currentState.isSubmitting;
+    return context.read<LoginBloc>().state.isFormValid &&
+        !context.read<LoginBloc>().state.isSubmitting;
   }
 
   void _onFormSubmitted() {
@@ -68,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _buildTextFormFieldLabel(String labelName) {
     return Container(
-      margin: EdgeInsets.only(bottom: 2),
+      margin: EdgeInsets.only(bottom: 6, left: 16),
       child: Text(
         labelName,
         textAlign: TextAlign.left,
@@ -83,27 +86,21 @@ class _LoginFormState extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _buildTextFormFieldLabel('Email'),
-          TextFormField(
-            controller: context.read<LoginBloc>().emailController,
-            keyboardType: TextInputType.emailAddress,
-            autocorrect: false,
-            autofocus: false,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (val) {
-              if (!_currentState.isEmailValid) {
-                return 'Invalid email!';
-              }
-
-              if (val == null || val.isEmpty) {
-                return 'Email required!';
-              }
-
-              return null;
-            },
-            decoration: InputDecoration(
-//                hintText: 'Email',
-              fillColor: Colors.white,
-              filled: true,
+          Material(
+            elevation: 10,
+            borderRadius: BorderRadius.circular(15.0),
+            child: TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              keyboardAppearance:
+                  WidgetsBinding.instance.window.platformBrightness,
+              style: TextStyles.caption,
+              controller: context.read<LoginBloc>().emailController,
+              autocorrect: false,
+              autofocus: false,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              decoration: FormBoxContainer.loginPageTextFieldDecoration,
+              cursorColor: ColorSets.cursorColor,
+              textInputAction: TextInputAction.next,
             ),
           ),
         ],
@@ -118,19 +115,43 @@ class _LoginFormState extends State<LoginForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildTextFormFieldLabel('Password'),
-          TextFormField(
-            controller: context.read<LoginBloc>().passwordController,
-            autocorrect: false,
-            autofocus: false,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            obscureText: true,
-            validator: (val) =>
-                !_currentState.isPasswordValid ? 'Invalid password!' : null,
-            decoration: InputDecoration(
-//                hintText: 'Password',
-              fillColor: Colors.white,
-              filled: true,
-            ),
+          Stack(
+            children: <Widget>[
+              Material(
+                elevation: 10,
+                borderRadius: BorderRadius.circular(15.0),
+                child: TextFormField(
+                  keyboardType: TextInputType.visiblePassword,
+                  keyboardAppearance:
+                      WidgetsBinding.instance.window.platformBrightness,
+                  style: TextStyles.caption,
+                  controller: context.read<LoginBloc>().passwordController,
+                  autocorrect: false,
+                  autofocus: false,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  decoration: FormBoxContainer.loginPageTextFieldDecoration,
+                  cursorColor: ColorSets.cursorColor,
+                  obscureText: _obscureText,
+                  onEditingComplete: () => {
+                    _isLoginButtonEnabled()
+                        ? _onFormSubmitted()
+                        : FocusScope.of(context).unfocus(),
+                  },
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {
+                    setState(() => _obscureText = !_obscureText);
+                  },
+                  child: Icon(
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
+                    color: ColorSets.appMainColor,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -139,15 +160,28 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _signInButton() {
     return Container(
-      width: 130,
-      height: 40,
-      margin: EdgeInsets.only(bottom: 32),
-      child: RaisedButton(
-        onPressed: () => _isLoginButtonEnabled() ? _onFormSubmitted() : null,
-        color: ColorSets.selectedBarItemColor,
-        child: Text(
-          'Login',
-          style: TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor),
+      width: 140,
+      height: 50,
+      child: Material(
+        color: Colors.transparent,
+        elevation: _isLoginButtonEnabled() ? 10 : 0,
+        borderRadius: BorderRadius.circular(15),
+        child: ElevatedButton(
+          onPressed: _isLoginButtonEnabled()
+              ? () => _isLoginButtonEnabled() ? _onFormSubmitted() : null
+              : null,
+          style: _isLoginButtonEnabled()
+              ? ButtonStyles.containedButton
+              : ButtonStyles.containedButton.copyWith(
+                  backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.black.withOpacity(0.2))),
+          child: Text(
+            'Login',
+            style: _isLoginButtonEnabled()
+                ? TextStyles.subtitle1.copyWith(color: ColorSets.lightTextColor)
+                : TextStyles.subtitle1
+                    .copyWith(color: ColorSets.lightTextColor.withOpacity(0.5)),
+          ),
         ),
       ),
     );
@@ -156,21 +190,15 @@ class _LoginFormState extends State<LoginForm> {
   Widget _forgotPasswordButton() {
     return Container(
       alignment: Alignment.topRight,
-      height: 15,
-      width: 135,
-      child: FlatButton(
+      height: 30,
+      margin: EdgeInsets.only(right: 10),
+      child: TextButton(
         onPressed: _onForgotPasswordPressed,
-        color: ColorSets.barBackgroundColor,
+        style: ButtonStyles.textButton,
         child: Text(
           'Forgot Password',
           textAlign: TextAlign.right,
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'Palanquin',
-            letterSpacing: 0.5,
-            fontSize: 12,
-          ),
+          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
         ),
       ),
     );
@@ -178,26 +206,24 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _signUpButton() {
     return Container(
-      height: 45,
-      width: 135,
-      child: RaisedButton(
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.37,
+      child: ElevatedButton(
         onPressed: () {
           context.read<PageBloc>().add(
                 PageChanged(context: context, routeName: SIGN_UP_URL),
               );
         },
-        color: ColorSets.barBackgroundColor,
-        child: Text(
-          'Not a Member?\nRegister!',
-          textAlign: TextAlign.center,
-          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: ColorSets.barBackgroundColor,
-        border: Border.all(
-          color: Colors.white,
-          width: 2.0,
+        style: ButtonStyles.outlinedButton,
+        child: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            'Not a Member?\nSign up',
+            textAlign: TextAlign.center,
+            style: TextStyles.caption.copyWith(
+              color: ColorSets.lightTextColor,
+            ),
+          ),
         ),
       ),
     );
@@ -205,25 +231,18 @@ class _LoginFormState extends State<LoginForm> {
 
   Widget _continueWithAnonymousButton() {
     return Container(
-      height: 45,
-      width: 135,
-      child: RaisedButton(
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.37,
+      child: ElevatedButton(
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(
-              _context, MAIN_URL, (route) => false);
+              context, MAIN_URL, (route) => false);
         },
-        color: ColorSets.barBackgroundColor,
+        style: ButtonStyles.outlinedButton,
         child: Text(
-          'Continue Without Registration',
+          'Continue without signing in',
           textAlign: TextAlign.center,
           style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: ColorSets.barBackgroundColor,
-        border: Border.all(
-          color: Colors.white,
-          width: 2.0,
         ),
       ),
     );
@@ -231,66 +250,77 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state.isSubmitting) {
-          NotificationFactory.loadingFactory(message: "Logging in...")
-              .show(context);
-        }
-        if (state.isSuccess) {
-          NotificationFactory.successFactory(message: "Login Successful")
-              .show(context);
-          context.read<AuthenticationBloc>().add(LoggedIn(context: context));
-        }
-        if (state.isPwRequestSent) {
-          NotificationFactory.successFactory(
-                  message: "Password Reset Mail Sent!")
-              .show(context);
-        }
-        if (state.isFailure) {
-          NotificationFactory.errorFactory(
-                  message: "Fail! " + state.errorMessage!)
-              .show(context);
-        }
-      },
-      builder: (context, state) {
-        _currentState = state;
-        _context = context;
-        return Form(
-          key: _formKey,
-          child: Center(
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(left: 40.0, right: 40.0),
-              children: <Widget>[
-                _logoArea(),
-                SizedBox(height: 32.0),
-                _emailTextFormField(),
-                SizedBox(height: 16.0),
-                _passwordTextFormField(),
-                SizedBox(height: 10.0),
-                _forgotPasswordButton(),
-                SizedBox(height: 32.0),
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _signInButton(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+      if (state.isSubmitting) {
+        _notification.dismiss();
+        _notification =
+            NotificationFactory.loadingFactory(message: state.loadingMessage);
+        _notification.show(context);
+      }
+      if (state.isSuccess) {
+        _notification.dismiss();
+        _notification =
+            NotificationFactory.successFactory(message: "Login successful");
+        _notification.show(context);
+        context.read<AuthenticationBloc>().add(LoggedIn(context: context));
+      }
+      if (state.isPwRequestSent) {
+        _notification.dismiss();
+        _notification = NotificationFactory.successFactory(
+            message: "Password reset mail sent!");
+        _notification.show(context);
+      }
+      if (state.isFailure) {
+        _notification.dismiss();
+        _notification =
+            NotificationFactory.errorFactory(message: state.errorMessage!);
+        _notification.show(context);
+      }
+    }, builder: (context, state) {
+      return SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: 90, left: 40.0, right: 40.0, bottom: 20),
+                child: Column(
+                  children: [
+                    _logoArea(),
+                    SizedBox(height: 32.0),
+                    _emailTextFormField(),
+                    SizedBox(height: 16.0),
+                    _passwordTextFormField(),
+                    SizedBox(height: 10.0),
+                    _forgotPasswordButton(),
+                    SizedBox(height: 24.0),
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _signUpButton(),
-                          _continueWithAnonymousButton(),
+                          _signInButton(),
+                          SizedBox(height: 20.0,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _continueWithAnonymousButton(),
+                              _signUpButton(),
+                            ],
+                          ),
                         ],
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 }

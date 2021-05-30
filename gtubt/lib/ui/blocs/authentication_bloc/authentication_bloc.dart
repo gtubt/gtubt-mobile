@@ -40,7 +40,7 @@ class AuthenticationBloc
         yield AuthenticationUnauthenticated();
       } on UserException catch (_) {
         if (firebaseUser != null) {
-          _authService.signOut();
+          await _authService.signOut();
           yield AuthenticationUnauthenticated();
         } else {
           yield AuthenticationUnauthenticated();

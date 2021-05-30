@@ -6,9 +6,11 @@ import 'package:GTUBT/ui/blocs/calendar_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/news_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
+import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'ui/blocs/page_bloc/bloc.dart';
@@ -18,6 +20,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocDelegate();
   await Firebase.initializeApp();
+  
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: ColorSets.appMainColor,
+        statusBarBrightness: Brightness.dark));
+
   runZonedGuarded<Future<void>>(() async {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +64,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           // These will be customized for general app design
           primarySwatch: Colors.blue,
+          primaryColor: ColorSets.lightTextColor,
         ),
         routes: Routes.routes,
         initialRoute: ROOT_URL,

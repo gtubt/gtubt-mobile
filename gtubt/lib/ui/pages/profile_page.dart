@@ -5,13 +5,14 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
+import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:GTUBT/ui/style/form_box_container.dart';
+import 'package:GTUBT/ui/style/decorations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -85,67 +86,67 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _eMail(String? email) {
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(EmailChanged(), email, "E-mail"),
+          formWidget(EmailChanged(), email, 'E-mail'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _deparmentInfo(String department) {
     //TODO: must be dropdown
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            formWidget(DepartmentChanged(), department, "Department"),
+            formWidget(DepartmentChanged(), department, 'Department'),
           ]),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _yearInfo(String year) {
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(YearChanged(), year, "Year"),
+          formWidget(YearChanged(), year, 'Year'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _studentNumber(String? studentId) {
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(StudentNumberChanged(), studentId, "Student ID"),
+          formWidget(StudentNumberChanged(), studentId, 'Student ID'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
   Widget _phoneNumber(String? phone) {
     phone ??= '';
     return Container(
+      width: 350.0,
+      height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(PhoneChanged(), phone, "Phone"),
+          formWidget(PhoneChanged(), phone, 'Phone'),
         ],
       ),
-      width: 350.0,
-      height: 60.0,
     );
   }
 
@@ -188,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget accountDeletionDialog(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: ColorSets.popUpColor,
+      backgroundColor: ColorSets.popUpBackgroundColor,
       elevation: 40,
       child: Container(
           height: 236,
@@ -253,19 +254,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.only(top: 20, bottom: 20),
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    color: ColorSets.barBackgroundColor,
-                    textColor: ColorSets.lightTextColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
+                    style: ButtonStyles.outlinedButton,
                     child: Text("Cancel"),
                   ),
                   SizedBox(width: 20),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () {
                       if (_passwordFieldKey.currentState!.validate()) {
                         context.read<AuthenticationBloc>().add(
@@ -275,12 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             );
                       }
                     },
-                    color: ColorSets.profilePageThemeColor,
-                    textColor: ColorSets.lightTextColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      side: BorderSide(color: ColorSets.lightTextColor),
-                    ),
+                    style: ButtonStyles.containedButton,
                     child: Text("Delete Account"),
                   )
                 ]),

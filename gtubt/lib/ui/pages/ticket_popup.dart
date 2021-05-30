@@ -16,9 +16,9 @@ class TicketPopup {
         builder: (context) {
           return Dialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                side:
-                    BorderSide(color: ColorSets.barBackgroundColor, width: 2)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              side: BorderSide(color: ColorSets.appMainColor, width: 2),
+            ),
             child: SingleChildScrollView(
               child: Stack(
                 children: [
@@ -36,10 +36,12 @@ class TicketPopup {
                       children: <Widget>[
                         Text(
                           "Event:",
-                          style: TextStyles.headline5.copyWith(color: ColorSets.barBackgroundColor),
+                          style: TextStyles.headline5
+                              .copyWith(color: ColorSets.appMainColor),
                         ),
                         Text(title!,
-                            style: TextStyles.headline6.copyWith(color: ColorSets.profilePageThemeColor)),
+                            style: TextStyles.headline6.copyWith(
+                                color: ColorSets.ticketInformationTextColor)),
                         Padding(
                             padding: EdgeInsets.only(top: 10, bottom: 10),
                             child: Column(
@@ -63,20 +65,22 @@ class TicketPopup {
                                     bottom: 10,
                                   ),
                                   child: DashSeparator(
-                                    color: ColorSets.barBackgroundColor,
+                                    color: ColorSets.appMainColor,
                                   ),
                                 ),
                                 Image.network(
                                   codeUrl!,
                                   height: 130,
                                   width: 130,
-                                  errorBuilder: (BuildContext context, 
+                                  errorBuilder: (
+                                    BuildContext context,
                                     Object exception,
-                                    StackTrace? stacktrace) {
+                                    StackTrace? stacktrace,
+                                  ) {
                                     return Image.asset(
-                                    "assets/qr.png",
-                                    height: 130,
-                                    width: 130,
+                                      "assets/qr.png",
+                                      height: 130,
+                                      width: 130,
                                     );
                                   },
                                 ),
@@ -106,10 +110,16 @@ class LabeledText extends StatelessWidget {
       children: <Widget>[
         Text(
           label!,
-          style: TextStyles.subtitle1.copyWith(color: ColorSets.barBackgroundColor),
+          style: TextStyles.subtitle1.copyWith(
+            color: ColorSets.appMainColor,
+          ),
         ),
-        Text(text!,
-            style: TextStyles.subtitle1.copyWith(color: ColorSets.profilePageThemeColor)),
+        Text(
+          text!,
+          style: TextStyles.subtitle1.copyWith(
+            color: ColorSets.ticketInformationTextColor,
+          ),
+        ),
       ],
     );
   }

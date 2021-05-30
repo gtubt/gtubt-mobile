@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: ColorSets.barBackgroundColor,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: ColorSets.appMainColor,
       body: BlocProvider(
         create: (context) {
           return LoginBloc();

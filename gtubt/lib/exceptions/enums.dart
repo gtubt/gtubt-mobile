@@ -11,7 +11,7 @@ enum AuthenticationExceptionEnum {
 
 extension ErrorCodeExt on AuthenticationExceptionEnum {
   String getString() {
-    return this.toString().replaceAll(RegExp('_'), '-');
+    return this.toString().replaceAll(RegExp('_'), '-').split('.')[1];
   }
 
   String getMessage() {
@@ -21,14 +21,15 @@ extension ErrorCodeExt on AuthenticationExceptionEnum {
       case AuthenticationExceptionEnum.invalid_email:
         return "Invalid email.";
       case AuthenticationExceptionEnum.operation_not_allowed:
-        return "Operation not allowed";
+        return "Operation not allowed.";
       case AuthenticationExceptionEnum.weak_password:
-        return "Weak password";
+        return "Weak password!";
       case AuthenticationExceptionEnum.wrong_password:
-        return "Password or email is wrong";
+        return "Password or email is wrong!";
+      case AuthenticationExceptionEnum.user_not_found:
+        return "Password or email is wrong!";
       default:
         return "Something went wrong!";
     }
   }
 }
-
