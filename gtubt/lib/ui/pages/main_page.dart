@@ -93,6 +93,8 @@ class _MainPageState extends State<MainPage> {
                 bottom: AppBarLinearProgressIndicator(isLoading),
               ),
               bottomNavigationBar: BottomNavigationBar(
+                fixedColor: Colors.white,
+                selectedFontSize: 12,
                 unselectedItemColor: ColorSets.unselectedBarItemColor,
                 selectedIconTheme: IconThemeData(
                   color: ColorSets.selectedBarItemColor,

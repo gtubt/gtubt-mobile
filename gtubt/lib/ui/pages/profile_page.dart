@@ -43,6 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Positioned(
       top: 50,
       child: Card(
+        shape: CircleBorder().copyWith(
+            side: BorderSide(color: ColorSets.profilePageThemeColor, width: 7)),
         elevation: 8.0,
         child: Icon(
           Icons.account_circle,
@@ -91,13 +93,13 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(EmailChanged(), email, 'E-mail'),
+          formWidget(EmailChanged(), email, 'Email'),
         ],
       ),
     );
   }
 
-  Widget _deparmentInfo(String department) {
+  Widget _deparmentInfo(String? department) {
     //TODO: must be dropdown
     return Container(
       width: 350.0,
@@ -110,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _yearInfo(String year) {
+  Widget _yearInfo(String? year) {
     return Container(
       width: 350.0,
       height: 60.0,
@@ -304,7 +306,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _deparmentInfo(user.department.toString()),
+                    child: _deparmentInfo(getString(user.department)),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),

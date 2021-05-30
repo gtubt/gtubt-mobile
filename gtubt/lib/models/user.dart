@@ -48,7 +48,6 @@ class User {
     );
   }
 
-
   @override
   String toString() {
     return '''User {  
@@ -64,7 +63,15 @@ class User {
   }
 }
 
-enum Department {
-  cse,
-  eee
+enum Department { cse, eee }
+
+String? getString(Department? department) {
+  switch (department) {
+    case Department.cse:
+      return "Computer Engineering";
+    case Department.eee:
+      return "Electronic Engineering";
+    default:
+      return "";
+  }
 }
