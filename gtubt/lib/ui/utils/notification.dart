@@ -50,7 +50,7 @@ class NotificationFactory {
 
   static Flushbar loadingFactory({
     String? title,
-    required String message,
+    required String? message,
   }) {
     return Flushbar(
       title: title,

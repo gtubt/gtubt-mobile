@@ -87,8 +87,10 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } catch (error) {
+    } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
     }
   }
 

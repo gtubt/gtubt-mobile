@@ -5,7 +5,7 @@ class LoginState {
   bool isSuccess;
   bool isFailure;
   bool isPwRequestSent;
-  bool isForgotButton;
+  bool? isForgotButton;
   String? errorMessage;
   String? loadingMessage;
 

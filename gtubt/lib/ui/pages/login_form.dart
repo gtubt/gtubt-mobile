@@ -92,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
             child: TextFormField(
               keyboardType: TextInputType.emailAddress,
               keyboardAppearance:
-                  WidgetsBinding.instance.window.platformBrightness,
+                  WidgetsBinding.instance?.window.platformBrightness,
               style: TextStyles.caption,
               controller: context.read<LoginBloc>().emailController,
               autocorrect: false,
@@ -123,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   keyboardType: TextInputType.visiblePassword,
                   keyboardAppearance:
-                      WidgetsBinding.instance.window.platformBrightness,
+                      WidgetsBinding.instance?.window.platformBrightness,
                   style: TextStyles.caption,
                   controller: context.read<LoginBloc>().passwordController,
                   autocorrect: false,

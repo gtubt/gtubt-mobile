@@ -75,8 +75,8 @@ class Submitted extends RegisterEvent {
   final String name;
   final String lastname;
   final String studentNumber;
-  final bool isAcceptKVKK;
-  final bool isAcceptUserAgreement;
+  final bool? isAcceptKVKK;
+  final bool? isAcceptUserAgreement;
 
   Submitted({
     required this.name,
