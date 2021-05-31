@@ -5,17 +5,17 @@ import 'package:http/http.dart' as http;
 
 void main() {
   test('ENDPOINT=NEWS METHOD=GET URL=/news', () async {
-    List<News> news = await NewsService().getAll();
+    List<News?>? news = await NewsService().getAll();
     
     expect(news == null, false);
-    expect(news.length > 0, true);
+    expect(news!.length > 0, true);
   });
 
   test('ENDPOINT=NEWS METHOD=GET URL=/news/(id)', () async {
-    News news  = await NewsService().get("TEST_NEWS_DONT_DELETE");
+    News? news  = await NewsService().get("TEST_NEWS_DONT_DELETE");
     
     expect(news == null, false);
-    expect(news.type, NewsType.news);
+    expect(news!.type, NewsType.news);
     expect(news.title, "TEST_TITLE");
     expect(news.summary, "TEST_SUMMARY");
     expect(news.body, "TEST_BODY");

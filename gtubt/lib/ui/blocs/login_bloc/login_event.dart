@@ -56,7 +56,7 @@ class LoginWithCredentialsPressed extends LoginEvent {
 class ForgotPasswordPressed extends LoginEvent {
   final String email;
 
-  ForgotPasswordPressed({@required this.email}) : super();
+  ForgotPasswordPressed({required this.email}) : super();
 
   @override
   String toString() {

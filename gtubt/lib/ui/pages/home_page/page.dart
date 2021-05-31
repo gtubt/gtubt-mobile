@@ -28,10 +28,10 @@ class _HomePageState extends State<HomePage> {
         arguments: NewsViewArguments(news, heroTag));
   }
 
-  EdgeInsets calculateNewsItemMargin(int index, List<News> items) {
+  EdgeInsets calculateNewsItemMargin(int index, List<News?>? items) {
     EdgeInsets cardMargin;
-    if (index > 0 && (items[index].startDate == items[index - 1].startDate)) {
-      if (index == items.length - 1) {
+    if (index > 0 && (items?[index]?.startDate == items?[index - 1]?.startDate)) {
+      if (index == items!.length - 1) {
         cardMargin = EdgeInsets.only(
           top: 20.0,
           bottom: 40.0,
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         );
       }
     } else {
-      if (index == items.length - 1) {
+      if (index == items!.length - 1) {
         cardMargin = EdgeInsets.only(
           top: 50.0,
           bottom: 40.0,
@@ -66,12 +66,12 @@ class _HomePageState extends State<HomePage> {
     return cardMargin;
   }
 
-  Widget getDayText(int index, List<News> items) {
-    Widget dayText;
+  Widget? getDayText(int index, List<News?>? items) {
+    Widget? dayText;
 
-    if (index == 0 || (items[index].startDate != items[index - 1].startDate)) {
+    if (index == 0 || (items?[index]?.startDate != items?[index - 1]?.startDate)) {
       dayText = Text(
-        TimeAgoFormatter(items[index].startDate).toString(),
+        TimeAgoFormatter(items?[index]?.startDate).toString(),
         style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
       );
     }
@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     return dayText;
   }
 
-  Widget buildHomePage(BuildContext context, List<News> newsItems) {
+  Widget buildHomePage(BuildContext context, List<News?>? newsItems) {
     return RefreshIndicator(
       onRefresh: () async {
         newsItems = [];
@@ -90,10 +90,10 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: ListView.builder(
-            itemCount: newsItems.length,
+            itemCount: newsItems!.length,
             itemBuilder: (BuildContext ctxt, int index) {
               EdgeInsets cardMargin = calculateNewsItemMargin(index, newsItems);
-              Widget dayText = getDayText(index, newsItems);
+              Widget? dayText = getDayText(index, newsItems);
 
               var heroTag = "news-" + index.toString();
 
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                     cardMargin: cardMargin,
                     heroTag: heroTag,
                     onTapEvent: newsTapEvent,
-                    item: newsItems[index],
+                    item: newsItems?[index],
                   )
                 ],
               );

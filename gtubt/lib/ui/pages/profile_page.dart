@@ -43,6 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
     return Positioned(
       top: 50,
       child: Card(
+        shape: CircleBorder().copyWith(
+            side: BorderSide(color: ColorSets.profilePageThemeColor, width: 7)),
         elevation: 8.0,
         child: Icon(
           Icons.account_circle,
@@ -84,20 +86,20 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _eMail(String email) {
+  Widget _eMail(String? email) {
     return Container(
       width: 350.0,
       height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(EmailChanged(), email, 'E-mail'),
+          formWidget(EmailChanged(), email, 'Email'),
         ],
       ),
     );
   }
 
-  Widget _deparmentInfo(String department) {
+  Widget _deparmentInfo(String? department) {
     //TODO: must be dropdown
     return Container(
       width: 350.0,
@@ -110,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _yearInfo(String year) {
+  Widget _yearInfo(String? year) {
     return Container(
       width: 350.0,
       height: 60.0,
@@ -123,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _studentNumber(String studentId) {
+  Widget _studentNumber(String? studentId) {
     return Container(
       width: 350.0,
       height: 60.0,
@@ -136,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _phoneNumber(String phone) {
+  Widget _phoneNumber(String? phone) {
     phone ??= '';
     return Container(
       width: 350.0,
@@ -264,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (_passwordFieldKey.currentState.validate()) {
+                      if (_passwordFieldKey.currentState!.validate()) {
                         context.read<AuthenticationBloc>().add(
                               DeleteAcc(
                                 password: _passwordController.text.trim(),
@@ -283,7 +285,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    User user = context.read<UserBloc>().userService.currentUser;
+    User user = context.read<UserBloc>().userService.currentUser!;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -304,7 +306,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _deparmentInfo(user.department.toString()),
+                    child: _deparmentInfo(getString(user.department)),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
@@ -350,7 +352,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationError) {
-          _passwordFieldKey.currentState.validate();
+          _passwordFieldKey.currentState!.validate();
         }
         if (state is AuthenticationUnauthenticated) {
           context.read<PageBloc>().add(

@@ -65,8 +65,8 @@ class _TicketPageState extends State<TicketPage> {
     );
   }
 
-  Widget _buildBody(TicketPageState state) {
-    Widget body;
+  Widget? _buildBody(TicketPageState state) {
+    Widget? body;
     if (state is TicketPageInitState || state is TicketsLoading) {
       body = Center(
         child: CircularProgressIndicator(),
@@ -111,15 +111,15 @@ class _TicketPageState extends State<TicketPage> {
                               .copyWith(color: ColorSets.lightTextColor),
                           children: <TextSpan>[
                             TextSpan(
-                              text: ticket.date.day.toString(),
+                              text: ticket.date!.day.toString(),
                               style: TextStyles.headline4
                                   .copyWith(color: ColorSets.lightTextColor),
                             ),
                             TextSpan(
-                              text: "\n" + months[ticket.date.month - 1],
+                              text: "\n" + months[ticket.date!.month - 1],
                             ),
                             TextSpan(
-                              text: "\n" + ticket.date.year.toString(),
+                              text: "\n" + ticket.date!.year.toString(),
                             ),
                           ],
                         ),
@@ -134,7 +134,7 @@ class _TicketPageState extends State<TicketPage> {
                     Padding(
                       padding: const EdgeInsets.all(19.0),
                       child: Text(
-                        ticket.title,
+                        ticket.title!,
                         style: TextStyles.headline4
                             .copyWith(color: ColorSets.lightTextColor),
                       ),
@@ -152,18 +152,18 @@ class _TicketPageState extends State<TicketPage> {
 }
 
 class DashedLine extends StatelessWidget {
-  final int dashCount;
-  final double dashHeight;
-  final double dashWidth;
-  final Color color;
+  final int? dashCount;
+  final double? dashHeight;
+  final double? dashWidth;
+  final Color? color;
 
   DashedLine({this.dashCount, this.dashHeight, this.dashWidth, this.color});
 
   @override
   Widget build(BuildContext context) {
-    double spacerHeight = dashHeight / 1.5;
-    int spacerCount = dashCount - 1;
-    double lineHeight = (dashCount * dashHeight) + (spacerCount * spacerHeight);
+    double spacerHeight = dashHeight! / 1.5;
+    int spacerCount = dashCount! - 1;
+    double lineHeight = (dashCount! * dashHeight!) + (spacerCount * spacerHeight);
     return SizedBox(
       width: dashWidth,
       height: lineHeight,

@@ -41,7 +41,7 @@ class TicketPopup {
                           style: TextStyles.headline5
                               .copyWith(color: ColorSets.appMainColor),
                         ),
-                        Text(title,
+                        Text(title!,
                             style: TextStyles.headline6.copyWith(
                                 color: ColorSets.ticketInformationTextColor)),
                         Padding(
@@ -75,13 +75,13 @@ class TicketPopup {
                                   ),
                                 ),
                                 Image.network(
-                                  codeUrl,
+                                  codeUrl!,
                                   height: 130,
                                   width: 130,
                                   errorBuilder: (
                                     BuildContext context,
                                     Object exception,
-                                    StackTrace stacktrace,
+                                    StackTrace? stacktrace,
                                   ) {
                                     return Image.asset(
                                       "assets/qr.png",
@@ -104,8 +104,8 @@ class TicketPopup {
 }
 
 class LabeledText extends StatelessWidget {
-  final String label;
-  final String text;
+  final String? label;
+  final String? text;
 
   LabeledText({this.label, this.text});
 

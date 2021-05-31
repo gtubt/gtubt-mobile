@@ -26,7 +26,7 @@ class _NewsPage extends State<NewsPage> {
         Padding(
           padding: EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
           child: Text(
-            news.body,
+            news.body!,
             style: TextStyles.subtitle2
                 .copyWith(color: ColorSets.defaultTextColor),
           ),
@@ -37,7 +37,7 @@ class _NewsPage extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    NewsViewArguments newsArgs = ModalRoute.of(context).settings.arguments;
+    NewsViewArguments newsArgs = ModalRoute.of(context)!.settings.arguments as NewsViewArguments;
     var news = newsArgs.news;
     return Scaffold(
       body: DefaultTabController(
@@ -51,16 +51,16 @@ class _NewsPage extends State<NewsPage> {
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                     centerTitle: true,
-                    title: Text(news.title,
+                    title: Text(news.title!,
                         style: TextStyles.subtitle1
                             .copyWith(color: ColorSets.lightTextColor)),
                     background: Hero(
                       tag: newsArgs.heroTag,
                       child: Image.network(
-                        news.coverImageUrl,
+                        news.coverImageUrl!,
                         fit: BoxFit.cover,
                         errorBuilder: (BuildContext context, Object exception,
-                            StackTrace stacktrace) {
+                            StackTrace? stacktrace) {
                           return Image.asset(
                             "assets/error.png",
                             fit: BoxFit.cover,
