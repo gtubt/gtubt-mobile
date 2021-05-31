@@ -24,7 +24,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(event) async* {
     if (event is PhotoChanged) {
-      yield UserState.loading();
+      yield UserState.loading(loadingMessage: "Photo uploading...");
       try {
         var imageBytes = await event.imageFile.readAsBytes();
         var imageType = event.imageFile.path.split('.').last;
@@ -34,7 +34,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserState.failure(error.message);
       }
       finally{
-        yield UserState.failure("Photo can not be changed.");
+        yield UserState();
       }
     } else if (event is PhoneChanged) {
       userService.currentUser!.phone = eventMap[event]!.text.trim();
