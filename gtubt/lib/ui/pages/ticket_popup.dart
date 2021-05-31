@@ -7,12 +7,12 @@ import 'package:intl/intl.dart';
 // Usage: TicketPopup.showTicket(context, ticket);
 class TicketPopup {
   static void showTicket(context, Ticket ticket) {
-    String title = ticket.title;
-    String name = ticket.name;
-    String location = ticket.location;
-    String date = DateFormat('yMd').format(ticket.date);
-    String time = DateFormat('Hm').format(ticket.date);
-    String codeUrl = ticket.codeUrl;
+    String? title = ticket.title;
+    String? name = ticket.name;
+    String? location = ticket.location;
+    String date = DateFormat('yMd').format(ticket.date!);
+    String time = DateFormat('Hm').format(ticket.date!);
+    String? codeUrl = ticket.codeUrl;
     showDialog(
         context: context,
         builder: (context) {
@@ -115,10 +115,10 @@ class LabeledText extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Expanded(
-          child: new Padding(
+          child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: Text(
-              label,
+              label!,
               textAlign: TextAlign.right,
               style: TextStyles.subtitle1.copyWith(
                 color: ColorSets.appMainColor,
@@ -127,10 +127,10 @@ class LabeledText extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: new Padding(
+          child: Padding(
             padding: const EdgeInsets.all(3.0),
             child: Text(
-              text,
+              text!,
               style: TextStyles.subtitle1.copyWith(
                 color: ColorSets.ticketInformationTextColor,
               ),
