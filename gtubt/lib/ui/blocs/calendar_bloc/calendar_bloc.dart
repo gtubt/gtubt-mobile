@@ -17,7 +17,7 @@ class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
   Stream<CalendarPageState> _mapFetchEventsToState() async* {
     try {
       yield EventsLoading();
-      final List<Event> pageEvents = await _eventService.getAll();
+      List<Event?>? pageEvents = (await _eventService.getAll());
       yield EventsLoaded(events: pageEvents);
     } catch (e) {
       yield EventsError(e.toString());

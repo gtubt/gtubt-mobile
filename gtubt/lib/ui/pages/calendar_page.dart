@@ -51,15 +51,15 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
-  Widget _buildCalendar(List<Event> events) {
-    int length = events.length;
+  Widget _buildCalendar(List<Event?>? events) {
+    int length = events!.length;
     return ListView.builder(
       itemCount: length,
       itemBuilder: (BuildContext context, int index) {
         var cardPadding = EdgeInsets.zero;
 
         var event = events[index];
-        var month = event.date!.month;
+        var month = event!.date!.month;
         var day = event.date!.day;
         Widget monthHeader = Container();
         Widget dayHeader = Container();
@@ -67,7 +67,7 @@ class _CalendarPageState extends State<CalendarPage> {
         /* check next event until last item */
         if (index + 1 != length) {
           var nextEvent = events[index + 1];
-          var nextMonth = nextEvent.date!.month;
+          var nextMonth = nextEvent!.date!.month;
           var nextDay = nextEvent.date!.day;
           var nextWeekday = days[nextEvent.date!.weekday - 1];
 
@@ -171,7 +171,7 @@ class _CalendarPageState extends State<CalendarPage> {
       );
     }
     if (state is EventsLoaded) {
-      List<Event> events = state.events;
+      List<Event?>? events = state.events;
       body = _buildCalendar(events);
     }
     return body;
