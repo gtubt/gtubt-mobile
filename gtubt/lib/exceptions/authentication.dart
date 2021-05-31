@@ -4,7 +4,7 @@ import 'package:GTUBT/exceptions/enums.dart';
 class AuthenticationException extends BaseException {
   final String message;
   
-  AuthenticationException([String message])
+  AuthenticationException([String? message])
       : message = message == null ? defaultMessage : message,
         super();
 
@@ -13,7 +13,7 @@ class AuthenticationException extends BaseException {
   }
 
   factory AuthenticationException.errorCode(String errorCode) {
-    String message;
+    String? message;
     AuthenticationExceptionEnum.values.forEach((element) {
       if (element.getString() == errorCode) {
         message = element.getMessage();

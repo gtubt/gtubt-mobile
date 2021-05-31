@@ -9,7 +9,7 @@ class NavBarPageChanged extends PageEvent {
   final int page;
   final BuildContext context;
 
-  NavBarPageChanged({@required this.page, @required this.context}) : super();
+  NavBarPageChanged({required this.page, required this.context}) : super();
 
   @override
   String toString() => 'PageChanged { Page :$page }';
@@ -25,8 +25,8 @@ class PageChanged extends PageEvent {
   bool clearStack;
 
   PageChanged({
-    @required this.context,
-    @required this.routeName,
+    required this.context,
+    required this.routeName,
     this.isRoutingActive = true,
     this.clearStack = false,
   });

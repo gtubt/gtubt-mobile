@@ -11,10 +11,10 @@ part 'api_response.g.dart';
 @JsonSerializable()
 class ApiResponse {
   @JsonKey(name: 'Status')
-  int status;
+  int? status;
 
   @JsonKey(name: 'Message')
-  String message;
+  String? message;
 
   ApiResponse({
     this.status,
@@ -39,16 +39,16 @@ class ApiResponse {
 class ApiResponseList<T> extends ApiResponse {
   @JsonKey(name: 'Body')
   @_Converter()
-  List<T> body;
+  List<T?>? body;
 
   ApiResponseList({
-    int status,
-    String message,
+    int? status,
+    String? message,
     this.body,
   }) : super(status: status, message: message);
 
   factory ApiResponseList.fromJson(Map<String, dynamic> json) =>
-      _$ApiResponseListFromJson(json);
+      _$ApiResponseListFromJson(json) as ApiResponseList<T>;
 
   Map<String, dynamic> toJson() => _$ApiResponseListToJson(this);
 
@@ -66,11 +66,11 @@ class ApiResponseList<T> extends ApiResponse {
 class ApiResponseSingle<T> extends ApiResponse {
   @JsonKey(name: 'Body')
   @_Converter()
-  T body;
+  T? body;
 
   ApiResponseSingle({
-    int status,
-    String message,
+    int? status,
+    String? message,
     this.body,
   }) : super(status: status, message: message);
 
@@ -89,11 +89,11 @@ class ApiResponseSingle<T> extends ApiResponse {
   }
 }
 
-class _Converter<T> implements JsonConverter<T, Object> {
+class _Converter<T> implements JsonConverter<T?, Object?> {
   const _Converter();
 
   @override
-  T fromJson(Object json) {
+  T? fromJson(Object? json) {
     if (json is Map<String, dynamic> &&
         json.containsKey('name') &&
         json.containsKey('lastname')) {
@@ -118,7 +118,7 @@ class _Converter<T> implements JsonConverter<T, Object> {
       return Ticket.fromJson(json) as T;
     }
 
-    return json as T;
+    return json as T?;
   }
 
   dynamic modelDeserializer(Object json) {
@@ -151,7 +151,7 @@ class _Converter<T> implements JsonConverter<T, Object> {
   }
 
   @override
-  Object toJson(T object) {
+  Object? toJson(T? object) {
     // This will only work if `object` is a native JSON type:
     //   num, String, bool, null, etc
     // Or if it has a `toJson()` function`.

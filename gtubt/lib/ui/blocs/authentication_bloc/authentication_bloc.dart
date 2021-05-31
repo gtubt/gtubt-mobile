@@ -24,17 +24,17 @@ class AuthenticationBloc
     } else if (event is LoggedOut) {
       yield* _mapLoggedOutToState(event);
     } else if (event is DeleteAcc) {
-      yield* _mapDeleteAccToState(event.password);
+      yield* _mapDeleteAccToState(event.password!);
     }
   }
 
   Stream<AuthenticationState> _mapAppStartedToState() async* {
     bool isSignedIn = await _authService.isSignedIn();
-    auth.User firebaseUser;
+    auth.User? firebaseUser;
     if (isSignedIn) {
       try {
         firebaseUser = _authService.getUser();
-        await _userService.get(firebaseUser.email);
+        await _userService.get(firebaseUser.email!);
         yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
       } on AuthenticationException catch (_) {
         yield AuthenticationUnauthenticated();
@@ -54,7 +54,7 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapLoggedInToState(event) async* {
     try {
       auth.User firebaseUser = _authService.getUser();
-      await _userService.get(firebaseUser.email);
+      await _userService.get(firebaseUser.email!);
       Navigator.pushNamedAndRemoveUntil(
           event.context, MAIN_URL, (route) => false);
       yield AuthenticationAuthenticated(userEmail: firebaseUser.email);
@@ -83,8 +83,8 @@ class AuthenticationBloc
   Stream<AuthenticationState> _mapDeleteAccToState(String password) async* {
     try {
       await _authService.reAuthenticate(
-          _userService.currentUser.email, password);
-      await _userService.delete(_userService.currentUser.email);
+          _userService.currentUser!.email!, password);
+      await _userService.delete(_userService.currentUser!.email!);
       await _authService.deleteUser();
       yield AuthenticationUnauthenticated();
     } on AuthenticationException catch (error) {

@@ -58,17 +58,17 @@ class _CalendarPageState extends State<CalendarPage> {
         var cardPadding = EdgeInsets.zero;
 
         var event = events[index];
-        var month = event.date.month;
-        var day = event.date.day;
+        var month = event.date!.month;
+        var day = event.date!.day;
         Widget monthHeader = Container();
         Widget dayHeader = Container();
 
         /* check next event until last item */
         if (index + 1 != length) {
           var nextEvent = events[index + 1];
-          var nextMonth = nextEvent.date.month;
-          var nextDay = nextEvent.date.day;
-          var nextWeekday = days[nextEvent.date.weekday - 1];
+          var nextMonth = nextEvent.date!.month;
+          var nextDay = nextEvent.date!.day;
+          var nextWeekday = days[nextEvent.date!.weekday - 1];
 
           if (index == 0 || nextMonth != month) {
             cardPadding = EdgeInsets.only(top: 22.0);
@@ -100,7 +100,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                   Expanded(
                     flex: 54,
-                    child: _buildEventCard(event.title, colors[index % 7]),
+                    child: _buildEventCard(event.title!, colors[index % 7]),
                   ),
                   Spacer(
                     flex: 2,

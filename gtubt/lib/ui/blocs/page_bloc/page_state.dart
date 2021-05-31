@@ -1,10 +1,8 @@
-import 'package:flutter/foundation.dart';
-
 class PageState {
   final int currentPage;
 
   PageState({
-    @required this.currentPage
+    required this.currentPage
   });
 
   @override
