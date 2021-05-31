@@ -6,13 +6,13 @@ part 'event.g.dart';
 
 @JsonSerializable()
 class Event {
-  int id;
-  String title;
-  String description;
-  String coverImageUrl;
-  DateTime date;
-  DateTime createdDate;
-  DateTime expireDate;
+  int? id;
+  String? title;
+  String? description;
+  String? coverImageUrl;
+  DateTime? date;
+  DateTime? createdDate;
+  DateTime? expireDate;
 
   Event({
     this.id,

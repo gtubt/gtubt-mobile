@@ -13,7 +13,7 @@ class EventService extends BaseService {
     return _eventService;
   }
 
-  Future<List<Event>> getAll() async {
+  Future<List<Event?>?> getAll() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
     final response = await GET('$url');
     if (response.statusCode != 200) {
@@ -37,7 +37,7 @@ class EventService extends BaseService {
     }
   }
 
-  Future<Event> delete(String id) async {
+  Future<Event?> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await DELETE('$url');
@@ -49,7 +49,7 @@ class EventService extends BaseService {
       final apiResponse =
           ApiResponseSingle<Event>.fromJson(json.decode(response.body));
       if (apiResponse.status != 200) {
-        throw EventException.message('${apiResponse.message}');
+        throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
     } catch (_) {
@@ -57,7 +57,7 @@ class EventService extends BaseService {
     }
   }
 
-  Future<Event> patch(Event event) async {
+  Future<Event?> patch(Event event) async {
     var id = event.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
     try {
@@ -86,7 +86,7 @@ class EventService extends BaseService {
     }
   }
 
-  Future<Event> get(String id) async {
+  Future<Event?> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await GET('$url');

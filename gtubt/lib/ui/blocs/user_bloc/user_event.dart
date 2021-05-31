@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 abstract class UserEvent extends Equatable {
   final String field;
 
-  UserEvent({@required this.field}) : super();
+  UserEvent({required this.field}) : super();
 
   @override
   List<Object> get props => [field];

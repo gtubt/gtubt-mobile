@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 class NewsItem extends StatelessWidget {
   final EdgeInsets cardMargin;
   final BorderRadius _borderRadius = BorderRadius.circular(20);
-  final News item;
+  final News? item;
   final dynamic onTapEvent;
   final String heroTag;
 
   NewsItem({
-    @required this.cardMargin,
-    @required this.item,
-    @required this.onTapEvent,
-    @required this.heroTag,
+    required this.cardMargin,
+    required this.item,
+    required this.onTapEvent,
+    required this.heroTag,
   });
 
   Widget buildNewsItemPicturePart() {
@@ -26,7 +26,7 @@ class NewsItem extends StatelessWidget {
           alignment: Alignment.topCenter,
           // add this
           placeholder: 'assets/logo.png',
-          image: item.coverImageUrl,
+          image: item!.coverImageUrl!,
           height: 300,
           fit: BoxFit.fitHeight,
           imageErrorBuilder: (context, error, stackTrace) {
@@ -48,14 +48,14 @@ class NewsItem extends StatelessWidget {
           children: <Widget>[
             Container(
               child: Text(
-                item.title,
+                item!.title!,
                 style: TextStyles.subtitle1.copyWith(color: ColorSets.defaultTextColor),
               ),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),
               child: Text(
-                item.summary,
+                item!.summary!,
                 style: TextStyles.bodyText2.copyWith(color: ColorSets.defaultTextColor),
               ),
             ),
