@@ -27,7 +27,7 @@ class EventService extends BaseService {
       eventList.forEach((event) {
         body.add(Event.fromJson(event));
       });
-      apiResponse.body = body.reversed.toList();
+      apiResponse.body = body.toList();
       if (apiResponse.status != 200) {
         throw EventException.message(apiResponse.message);
       }

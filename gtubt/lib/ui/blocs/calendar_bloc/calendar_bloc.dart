@@ -15,15 +15,12 @@ class CalendarPageBloc extends Bloc<CalendarPageEvent, CalendarPageState> {
   }
 
   Stream<CalendarPageState> _mapFetchEventsToState() async* {
-    // TODO: call backend service method
-    // TODO: _userService.getEvents();
-    //if(error) yield EventsLoadingError
     try {
       yield EventsLoading();
       final List<Event> pageEvents = await _eventService.getAll();
       yield EventsLoaded(events: pageEvents);
     } catch (e) {
-      yield EventsError("could not retrieve data");
+      yield EventsError(e.toString());
     }
   }
 }
