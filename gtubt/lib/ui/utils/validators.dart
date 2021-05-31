@@ -5,7 +5,7 @@ class Validators {
   static final RegExp _emailRegExp = RegExp(
       r"^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$");
   static final RegExp _passwordRegExp =
-      RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$");
+      RegExp(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w\d\W]{8,}$");
 
   static final RegExp _stringRegExp = RegExp(r"^[A-Za-z0-9-ğüşıöçĞÜŞİÖÇ\s.]+$");
 
