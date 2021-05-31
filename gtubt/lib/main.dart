@@ -20,10 +20,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocDelegate();
   await Firebase.initializeApp();
-  
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: ColorSets.appMainColor,
-        statusBarBrightness: Brightness.dark));
+      statusBarColor: ColorSets.appMainColor,
+      statusBarBrightness: Brightness.dark));
 
   runZonedGuarded<Future<void>>(() async {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -75,13 +75,13 @@ class MyApp extends StatelessWidget {
 
 class SimpleBlocDelegate extends BlocObserver {
   @override
-  void onEvent(Bloc bloc, Object event) {
+  void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
     print(event);
   }
 
   @override
-  void onError(Cubit bloc, Object error, StackTrace stacktrace) {
+  void onError(BlocBase bloc, Object error, StackTrace stacktrace) {
     super.onError(bloc, error, stacktrace);
     print(error);
   }

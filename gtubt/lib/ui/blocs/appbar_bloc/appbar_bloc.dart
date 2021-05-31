@@ -16,7 +16,7 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
       if (editMode) {
         try {
           yield AppbarLoadingState();
-          await userService.patch(userService.currentUser);
+          await userService.patch(userService.currentUser!);
           yield AppbarState(editMode: !editMode);
         } on UserException catch (_) {
           yield AppbarErrorState();

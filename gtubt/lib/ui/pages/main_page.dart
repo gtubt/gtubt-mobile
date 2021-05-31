@@ -17,7 +17,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  Widget body;
+  Widget? body;
 
   void _onNavigation(int index) {
     if (context.read<AuthenticationBloc>().state
@@ -84,15 +84,23 @@ class _MainPageState extends State<MainPage> {
                 brightness: Brightness.dark,
                 iconTheme: IconThemeData(color: ColorSets.lightTextColor),
                 backgroundColor: ColorSets.appMainColor,
-                title: state.currentPage == 0 ? Image.asset("assets/logo_textless.png", height: 70,)
-                    : Text(authState is AuthenticationAuthenticated
-                    ? Routes.bodyTitleLoggedIn[state.currentPage]
-                    : Routes.bodyTitle[state.currentPage],
-                    style: TextStyle(color: ColorSets.lightTextColor),),
+                title: state.currentPage == 0
+                    ? Image.asset(
+                        "assets/logo_textless.png",
+                        height: 70,
+                      )
+                    : Text(
+                        authState is AuthenticationAuthenticated
+                            ? Routes.bodyTitleLoggedIn[state.currentPage]
+                            : Routes.bodyTitle[state.currentPage],
+                        style: TextStyle(color: ColorSets.lightTextColor),
+                      ),
                 actions: actions,
                 bottom: AppBarLinearProgressIndicator(isLoading),
               ),
               bottomNavigationBar: BottomNavigationBar(
+                fixedColor: Colors.white,
+                selectedFontSize: 12,
                 unselectedItemColor: ColorSets.unselectedBarItemColor,
                 selectedIconTheme: IconThemeData(
                   color: ColorSets.selectedBarItemColor,

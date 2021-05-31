@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 class LoginState {
   bool isEmailValid;
   bool isPasswordValid;
@@ -7,19 +5,19 @@ class LoginState {
   bool isSuccess;
   bool isFailure;
   bool isPwRequestSent;
-  bool isForgotButton;
-  String errorMessage;
-  String loadingMessage;
+  bool? isForgotButton;
+  String? errorMessage;
+  String? loadingMessage;
 
   bool get isFormValid => isEmailValid && isPasswordValid;
 
   LoginState({
-    @required this.isEmailValid,
-    @required this.isPasswordValid,
-    @required this.isSubmitting,
-    @required this.isSuccess,
-    @required this.isFailure,
-    @required this.isPwRequestSent,
+    required this.isEmailValid,
+    required this.isPasswordValid,
+    required this.isSubmitting,
+    required this.isSuccess,
+    required this.isFailure,
+    required this.isPwRequestSent,
     this.isForgotButton,
     this.errorMessage,
     this.loadingMessage,
@@ -84,12 +82,12 @@ class LoginState {
   }
 
   LoginState copyWith({
-    bool isEmailValid,
-    bool isPasswordValid,
-    bool isSubmitting,
-    bool isSuccess,
-    bool isFailure,
-    bool isPwRequestSent,
+    bool? isEmailValid,
+    bool? isPasswordValid,
+    bool? isSubmitting,
+    bool? isSuccess,
+    bool? isFailure,
+    bool? isPwRequestSent,
   }) {
     return LoginState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
@@ -102,12 +100,12 @@ class LoginState {
   }
 
   LoginState update({
-    bool isEmailValid,
-    bool isPasswordValid,
-    bool isPwRequestSent,
-    bool isFailure,
-    String loadingMesssage,
-    String errorMessage,
+    bool? isEmailValid,
+    bool? isPasswordValid,
+    bool? isPwRequestSent,
+    bool? isFailure,
+    String? loadingMesssage,
+    String? errorMessage,
   }) {
     return LoginState(
       isEmailValid: isEmailValid ?? this.isEmailValid,

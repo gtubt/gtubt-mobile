@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
 
-  User user;
+  User? user;
   final picker = ImagePicker();
   final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(
       height: 1.4,
@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     ];
 
-    if (user.profilePhoto != null) {
+    if (user!.profilePhoto != null) {
       _menuItems.add(
         ListTile(
           leading: Icon(Icons.delete),
@@ -112,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Widget profilePhoto;
     List<Widget> profileStack;
 
-    if (user.profilePhoto == null) {
+    if (user!.profilePhoto == null) {
       profilePhoto = Icon(
         Icons.edit,
         color: ColorSets.profilePageThemeColor,
@@ -121,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
     } else {
       profilePhoto = FittedBox(
         child: CircleAvatar(
-          foregroundImage: NetworkImage(user.profilePhoto),
+          foregroundImage: NetworkImage(user!.profilePhoto!),
         ),
       );
     }
@@ -197,20 +197,20 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _eMail(String email) {
+  Widget _eMail(String? email) {
     return Container(
       width: 350.0,
       height: 60.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          formWidget(EmailChanged(), email, 'E-mail'),
+          formWidget(EmailChanged(), email, 'Email'),
         ],
       ),
     );
   }
 
-  Widget _departmentInfo(String department) {
+  Widget _departmentInfo(String? department) {
     //TODO: must be dropdown
     return Container(
       width: 350.0,
@@ -223,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _yearInfo(String year) {
+  Widget _yearInfo(String? year) {
     return Container(
       width: 350.0,
       height: 60.0,
@@ -236,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _studentNumber(String studentId) {
+  Widget _studentNumber(String? studentId) {
     return Container(
       width: 350.0,
       height: 60.0,
@@ -249,7 +249,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _phoneNumber(String phone) {
+  Widget _phoneNumber(String? phone) {
     phone ??= '';
     return Container(
       width: 350.0,
@@ -377,7 +377,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (_passwordFieldKey.currentState.validate()) {
+                      if (_passwordFieldKey.currentState!.validate()) {
                         context.read<AuthenticationBloc>().add(
                               DeleteAcc(
                                 password: _passwordController.text.trim(),
@@ -396,7 +396,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    user = context.read<UserBloc>().userService.currentUser;
+    user = context.read<UserBloc>().userService.currentUser!;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -410,25 +410,25 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 190,
                   ),
-                  _fullName(user.fullName),
+                  _fullName(user!.fullName),
                   Container(
                     padding: const EdgeInsets.only(top: 12.0, bottom: 5.0),
-                    child: _eMail(user.email),
+                    child: _eMail(user!.email),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _departmentInfo(user.department.toString()),
+                    child: _departmentInfo(getString(user!.department)),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _yearInfo(user.year.toString()),
+                    child: _yearInfo(user!.year.toString()),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _studentNumber(user.studentId),
+                    child: _studentNumber(user!.studentId),
                   ),
                   Container(
-                    child: _phoneNumber(user.phone),
+                    child: _phoneNumber(user!.phone),
                   ),
                   Container(
                     alignment: Alignment.bottomRight,
@@ -463,7 +463,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationError) {
-          _passwordFieldKey.currentState.validate();
+          _passwordFieldKey.currentState!.validate();
         }
         if (state is AuthenticationUnauthenticated) {
           context.read<PageBloc>().add(

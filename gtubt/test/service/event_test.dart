@@ -5,23 +5,23 @@ import 'package:http/http.dart';
 
 void main() {
   test('Update Event with an ID', () async {
-    Event event  = await EventService().get("JlhujcKnR5wpwbgTJRYe");
+    Event? event  = await EventService().get("JlhujcKnR5wpwbgTJRYe");
     expect(event == null, false);
 
-    event.title = "title";
-    Response response = (await EventService().patch(event)) as Response;
+    event!.title = "title";
+    Response? response = await EventService().patch(event) as Response?;
     expect(response == null, false);
-    expect(response.statusCode, 200);
+    expect(response!.statusCode, 200);
 
     event = await EventService().get("JlhujcKnR5wpwbgTJRYe");
     
     expect(event == null, false);
-    expect(event.title, "Title");
+    expect(event!.title, "Title");
   });
   test('Get Event with an ID', () async {
-    Event event = await EventService().get("JlhujcKnR5wpwbgTJRYe");
+    Event? event = await EventService().get("JlhujcKnR5wpwbgTJRYe");
     
     expect(event == null, false);
-    expect(event.title, "Title");
+    expect(event!.title, "Title");
   });
 }

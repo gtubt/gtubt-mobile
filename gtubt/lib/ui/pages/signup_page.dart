@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/gestures.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -22,10 +23,13 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _studentNumberController =
       TextEditingController();
-  final Map<String, bool> _aggrements = {
+  Map<String, bool?> _agreements = {
     'kvkk': false,
     'userAgreement': false,
   };
+  bool _obscureText = true;
+  bool _showPasswordHint = false;
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -50,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
   bool get isPopulated =>
       _emailController.text.isNotEmpty &&
       _passwordController.text.isNotEmpty &&
-      _studentNumberController.text.isNotEmpty;
+      !_agreements.containsValue(false);
 
   void _onEmailChanged() {
     context
@@ -89,8 +93,8 @@ class _SignUpPageState extends State<SignUpPage> {
             password: _passwordController.text.trim(),
             studentNumber: _studentNumberController.text.trim(),
             email: _emailController.text.trim(),
-            isAcceptKVKK: _aggrements['kvkk'],
-            isAcceptUserAgreement: _aggrements['userAgreement'],
+            isAcceptKVKK: _agreements['kvkk'],
+            isAcceptUserAgreement: _agreements['userAgreement'],
           ),
         );
   }
@@ -104,8 +108,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Column(
       children: [
         Container(
-          height: 160,
-          width: 180,
+          height: 130,
+          width: 130,
           child: Image.asset('assets/logo.png'),
         ),
         SizedBox(
@@ -113,14 +117,17 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         Container(
           child: Text(
-            'Create an Accout',
+            'Become a Member',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 20,
               color: ColorSets.lightTextColor,
               fontWeight: FontWeight.w700,
             ),
           ),
-        )
+        ),
+        SizedBox(
+          height: 20,
+        ),
       ],
     );
   }
@@ -130,21 +137,23 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildTextFormFieldLabel('Name'),
-        Container(
+        Material(
+          elevation: 10,
+          borderRadius: BorderRadius.circular(15.0),
           child: TextFormField(
-            cursorColor: Colors.white,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.name,
+            keyboardAppearance:
+                WidgetsBinding.instance?.window.platformBrightness,
+            style: TextStyles.caption,
             controller: _nameController,
-            decoration: FormInputDecoration(),
-            validator: (String value) {
-              return !context.read<RegisterBloc>().state.isNameValid
-                  ? 'Invalid format'
-                  : null;
-            },
+            autocorrect: false,
+            autofocus: false,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: FormBoxContainer.loginPageTextFieldDecoration,
+            cursorColor: ColorSets.cursorColor,
+            textInputAction: TextInputAction.next,
           ),
-        )
+        ),
       ],
     );
   }
@@ -154,19 +163,21 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildTextFormFieldLabel('Surname'),
-        Container(
+        Material(
+          elevation: 10,
+          borderRadius: BorderRadius.circular(15.0),
           child: TextFormField(
-            cursorColor: Colors.white,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            autocorrect: false,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.name,
+            keyboardAppearance:
+                WidgetsBinding.instance?.window.platformBrightness,
+            style: TextStyles.caption,
             controller: _lastnameController,
-            decoration: FormInputDecoration(),
-            validator: (String value) {
-              return !context.read<RegisterBloc>().state.isLastnameValid
-                  ? 'Invalid format'
-                  : null;
-            },
+            autocorrect: false,
+            autofocus: false,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: FormBoxContainer.loginPageTextFieldDecoration,
+            cursorColor: ColorSets.cursorColor,
+            textInputAction: TextInputAction.next,
           ),
         ),
       ],
@@ -178,42 +189,29 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildTextFormFieldLabel('Email'),
-        Container(
+        Material(
+          elevation: 10,
+          borderRadius: BorderRadius.circular(15.0),
           child: TextFormField(
-            cursorColor: Colors.white,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            autocorrect: false,
             keyboardType: TextInputType.emailAddress,
+            keyboardAppearance:
+                WidgetsBinding.instance?.window.platformBrightness,
+            style: TextStyles.caption,
             controller: _emailController,
-            decoration: FormInputDecoration(),
-            validator: (String value) {
-              return !context.read<RegisterBloc>().state.isEmailValid
-                  ? 'Invalid Email Format'
-                  : null;
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _studentNumberForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _buildTextFormFieldLabel('Student Number'),
-        Container(
-          child: TextFormField(
-            cursorColor: Colors.white,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             autocorrect: false,
-            keyboardType: TextInputType.text,
-            controller: _studentNumberController,
-            decoration: FormInputDecoration(),
-            validator: (String value) {
-              return !context.read<RegisterBloc>().state.isStudentNumberValid
-                  ? 'Invalid Student Number'
-                  : null;
+            autofocus: false,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            decoration: FormBoxContainer.loginPageTextFieldDecoration,
+            cursorColor: ColorSets.cursorColor,
+            textInputAction: TextInputAction.next,
+            onEditingComplete: () {
+              Future.delayed(
+                  const Duration(milliseconds: 100),
+                  () => _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent,
+                      duration: Duration(seconds: 1),
+                      curve: Curves.ease));
+              FocusScope.of(context).nextFocus();
             },
           ),
         ),
@@ -226,29 +224,118 @@ class _SignUpPageState extends State<SignUpPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildTextFormFieldLabel('Password'),
-        Container(
-          child: TextFormField(
-            cursorColor: Colors.white,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            autocorrect: false,
-            obscureText: true,
-            keyboardType: TextInputType.text,
-            controller: _passwordController,
-            decoration: FormInputDecoration(),
-            validator: (String value) {
-              return !context.read<RegisterBloc>().state.isPasswordValid
-                  ? 'Invalid format'
-                  : null;
-            },
-          ),
+        Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Material(
+                  elevation: 10,
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+                    keyboardAppearance:
+                        WidgetsBinding.instance?.window.platformBrightness,
+                    style: TextStyles.caption,
+                    controller: _passwordController,
+                    autocorrect: false,
+                    autofocus: false,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: FormBoxContainer.loginPageTextFieldDecoration,
+                    cursorColor: ColorSets.cursorColor,
+                    obscureText: _obscureText,
+                    textInputAction: TextInputAction.done,
+                    onTap: () {
+                      Future.delayed(
+                          const Duration(milliseconds: 100),
+                          () => _scrollController.animateTo(
+                              _scrollController.position.maxScrollExtent,
+                              duration: Duration(seconds: 1),
+                              curve: Curves.ease));
+                    },
+                    onEditingComplete: () => {
+                      context.read<RegisterBloc>().state.isPasswordValid
+                          ? FocusScope.of(context).unfocus()
+                          : {
+                              FocusScope.of(context).unfocus(),
+                              setState(() => _showPasswordHint = true),
+                            }
+                    },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, minimumSize: Size(30, 20)),
+                      onPressed: () {
+                        setState(() => _obscureText = !_obscureText);
+                      },
+                      child: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: ColorSets.appMainColor,
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, minimumSize: Size(30, 20)),
+                      onPressed: !context
+                              .read<RegisterBloc>()
+                              .state
+                              .isPasswordValid
+                          ? () {
+                              setState(
+                                  () => _showPasswordHint = !_showPasswordHint);
+                            }
+                          : null,
+                      child: Icon(
+                        context.read<RegisterBloc>().state.isPasswordValid
+                            ? Icons.check
+                            : Icons.info_outline,
+                        color: _passwordController.text.isEmpty
+                            ? ColorSets.appMainColor
+                            : context.read<RegisterBloc>().state.isPasswordValid
+                                ? Colors.green
+                                : Colors.red,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ],
     );
   }
 
+  Widget _passwordHint() {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      child: _showPasswordHint
+          ? !context.read<RegisterBloc>().state.isPasswordValid
+              ? Container(
+                  padding: EdgeInsets.only(left: 16),
+                  child: Text(
+                    "Requires at least 8 characters with a mixture of upper & lowercase letters and numbers.",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 12, color: ColorSets.lightTextColor),
+                  ),
+                )
+              : SizedBox(
+                  height: 28.0,
+                )
+          : SizedBox(
+              height: 28.0,
+            ),
+    );
+  }
+
   Widget _buildTextFormFieldLabel(String labelName) {
     return Container(
-      margin: EdgeInsets.only(bottom: 2),
+      margin: EdgeInsets.only(bottom: 6, left: 16),
       child: Text(
         labelName,
         textAlign: TextAlign.left,
@@ -259,15 +346,26 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildSignUpButton() {
     return Container(
-      width: 130,
-      height: 40,
+      width: 140,
+      height: 50,
       margin: EdgeInsets.only(bottom: 32),
-      child: ElevatedButton(
-        onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
-        style: ButtonStyles.containedButton,
-        child: Text(
-          'Create Account',
-          style: TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor),
+      child: Material(
+        color: Colors.transparent,
+        elevation: isSignUpButtonEnabled() ? 10 : 0,
+        child: ElevatedButton(
+          onPressed: isSignUpButtonEnabled() ? () => _onFormSubmitted() : null,
+          style: isSignUpButtonEnabled()
+              ? ButtonStyles.containedButton
+              : ButtonStyles.containedButton.copyWith(
+                  backgroundColor: MaterialStateColor.resolveWith(
+                      (states) => Colors.black.withOpacity(0.2))),
+          child: Text(
+            'Sign up',
+            style: isSignUpButtonEnabled()
+                ? TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor)
+                : TextStyles.subtitle2
+                    .copyWith(color: ColorSets.lightTextColor.withOpacity(0.5)),
+          ),
         ),
       ),
     );
@@ -275,15 +373,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _buildLoginButton() {
     return Container(
-      width: 130,
-      height: 40,
+      width: 140,
+      height: 50,
       margin: EdgeInsets.only(bottom: 32),
       child: ElevatedButton(
-        onPressed: () => isSignUpButtonEnabled() ? _onFormSubmitted() : null,
+        onPressed: () {
+          Navigator.pop(context);
+        },
         style: ButtonStyles.outlinedButton,
         child: Text(
-          'Have an Account? Login',
-          style: TextStyles.subtitle2.copyWith(color: ColorSets.lightTextColor),
+          'Already a member? Login',
+          style: TextStyles.caption.copyWith(color: ColorSets.lightTextColor),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -297,22 +398,35 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Checkbox(
             checkColor: Colors.white,
             activeColor: ColorSets.appMainColor,
-            onChanged: (bool value) {
+            onChanged: (bool? value) {
               setState(() {
-                _aggrements[type] = value;
+                _agreements[type] = value;
               });
             },
-            value: _aggrements[type],
+            value: _agreements[type],
           ),
         ),
         SizedBox(width: 15),
         Expanded(
-          child: Text(
-            message,
-            style: TextStyle(
-              color: Colors.white,
+          child: RichText(
+            text: TextSpan(
+              style: TextStyle(
+                color: Colors.white,
+              ),
+              children: <TextSpan>[
+                TextSpan(text: 'I have read and agree to the terms of the '),
+                TextSpan(
+                    text: message,
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: Colors.white,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        //Pop-up for corresponding agreements
+                      }),
+              ],
             ),
-            overflow: TextOverflow.fade,
           ),
         ),
       ],
@@ -333,7 +447,7 @@ class _SignUpPageState extends State<SignUpPage> {
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          return NotificationFactory.errorFactory(message: state.errorMessage)
+          NotificationFactory.errorFactory(message: state.errorMessage)
               .show(context);
         }
       },
@@ -341,53 +455,62 @@ class _SignUpPageState extends State<SignUpPage> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: ColorSets.appMainColor,
-            body: Stack(
-              children: <Widget>[
-                SafeArea(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 40, right: 40, top: 20),
-                      child: Column(
-                        children: <Widget>[
-                          _logoArea(),
-                          SizedBox(height: 20),
-                          _nameForm(),
-                          SizedBox(height: 32),
-                          _lastnameForm(),
-                          SizedBox(height: 32),
-                          _emailForm(),
-                          SizedBox(height: 32),
-                          _studentNumberForm(),
-                          SizedBox(height: 32),
-                          _passwordForm(),
-                          SizedBox(height: 32),
-                          _buildCheckBox(
-                              'KVKK Aydınlatma Metni’ni okudum ve kabul ediyorum.',
-                              'kvkk'),
-                          _buildCheckBox(
-                              'Kullanıcı Sözleşmesi’ni okudum ve kabul ediyorum.',
-                              'userAgreement'),
-                          Row(
+            body: SafeArea(
+              child: GestureDetector(
+                onTap: () {
+                  _scrollController.animateTo(
+                      _scrollController.position.minScrollExtent,
+                      duration: Duration(seconds: 1),
+                      curve: Curves.ease);
+                  Future.delayed(const Duration(milliseconds: 300),
+                      () => FocusScope.of(context).unfocus());
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      child: _logoArea(),
+                      alignment: Alignment.center,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                            left: 40.0,
+                            right: 40.0,
+                          ),
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 10, top: 20, right: 10),
-                                child: _buildLoginButton(),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 10, top: 20, right: 10),
-                                child: _buildSignUpButton(),
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              _nameForm(),
+                              SizedBox(height: 20),
+                              _lastnameForm(),
+                              SizedBox(height: 20),
+                              _emailForm(),
+                              SizedBox(height: 20),
+                              _passwordForm(),
+                              SizedBox(height: 6),
+                              _passwordHint(),
+                              _buildCheckBox('PDPL (KVKK) Information Text', 'kvkk'),
+                              _buildCheckBox('User Agreement', 'userAgreement'),
+                              SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  _buildLoginButton(),
+                                  _buildSignUpButton(),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           );
         },

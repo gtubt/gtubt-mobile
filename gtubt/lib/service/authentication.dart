@@ -12,15 +12,15 @@ class AuthService {
     return _authService;
   }
 
-  Future<auth.User> signInWithEmailAndPassword(
+  Future<auth.User?> signInWithEmailAndPassword(
     String email,
     String password,
   ) async {
     try {
-      final auth.User firebaseUser = (await _auth.signInWithEmailAndPassword(
+      final auth.User? firebaseUser = (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
-      container.registerInstance<auth.User>(_auth.currentUser);
+      container.registerInstance<auth.User>(_auth.currentUser!);
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
@@ -39,8 +39,9 @@ class AuthService {
   ) async {
     try {
       auth.EmailAuthCredential credential =
-          auth.EmailAuthProvider.credential(email: email, password: password);
-      await _auth.currentUser.reauthenticateWithCredential(credential);
+          auth.EmailAuthProvider.credential(email: email, password: password)
+              as auth.EmailAuthCredential;
+      await _auth.currentUser!.reauthenticateWithCredential(credential);
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
     } catch (_) {
@@ -48,13 +49,13 @@ class AuthService {
     }
   }
 
-  Future<auth.User> signUp(Map<String, dynamic> data) async {
+  Future<auth.User?> signUp(Map<String, dynamic> data) async {
     try {
-      final auth.User firebaseUser =
+      final auth.User? firebaseUser =
           (await _auth.createUserWithEmailAndPassword(
                   email: data['email'], password: data['password']))
               .user;
-      container.registerInstance<auth.User>(_auth.currentUser);
+      container.registerInstance<auth.User?>(_auth.currentUser!);
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
@@ -65,7 +66,7 @@ class AuthService {
 
   Future<bool> isSignedIn() async {
     if (_auth.currentUser != null) {
-      container.registerInstance<auth.User>(_auth.currentUser);
+      container.registerInstance<auth.User>(_auth.currentUser!);
     }
     return _auth.currentUser != null;
   }
@@ -76,7 +77,7 @@ class AuthService {
   }
 
   auth.User getUser() {
-    auth.User user = _auth.currentUser;
+    auth.User? user = _auth.currentUser;
     if (user == null) {
       throw AuthenticationException();
     }
@@ -86,21 +87,23 @@ class AuthService {
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } catch (error) {
+    } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);
+    } catch (_) {
+      throw AuthenticationException();
     }
   }
 
   Future<void> validateUserWithEmail() async {
     try {
-      await _auth.currentUser.sendEmailVerification();
+      await _auth.currentUser!.sendEmailVerification();
     } catch (e) {
       throw AuthenticationException.message(e.toString());
     }
   }
 
   bool isVerified() {
-    if (!_auth.currentUser.emailVerified) {
+    if (!_auth.currentUser!.emailVerified) {
       return false;
     }
     return true;
@@ -110,6 +113,6 @@ class AuthService {
     try {
       container.unregister<auth.User>();
     } catch (_) {}
-    await _auth.currentUser.delete();
+    await _auth.currentUser!.delete();
   }
 }

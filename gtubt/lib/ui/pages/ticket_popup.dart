@@ -6,11 +6,11 @@ import 'package:GTUBT/models/ticket.dart';
 // Usage: TicketPopup.showTicket(context, ticket);
 class TicketPopup {
   static void showTicket(context, Ticket ticket) {
-    String title = ticket.title;
-    String name = ticket.name;
-    String location = ticket.location;
+    String? title = ticket.title;
+    String? name = ticket.name;
+    String? location = ticket.location;
     String date = ticket.date.toString();
-    String codeUrl = ticket.codeUrl;
+    String? codeUrl = ticket.codeUrl;
     showDialog(
         context: context,
         builder: (context) {
@@ -39,7 +39,7 @@ class TicketPopup {
                           style: TextStyles.headline5
                               .copyWith(color: ColorSets.appMainColor),
                         ),
-                        Text(title,
+                        Text(title!,
                             style: TextStyles.headline6.copyWith(
                                 color: ColorSets.ticketInformationTextColor)),
                         Padding(
@@ -69,13 +69,13 @@ class TicketPopup {
                                   ),
                                 ),
                                 Image.network(
-                                  codeUrl,
+                                  codeUrl!,
                                   height: 130,
                                   width: 130,
                                   errorBuilder: (
                                     BuildContext context,
                                     Object exception,
-                                    StackTrace stacktrace,
+                                    StackTrace? stacktrace,
                                   ) {
                                     return Image.asset(
                                       "assets/qr.png",
@@ -98,8 +98,8 @@ class TicketPopup {
 }
 
 class LabeledText extends StatelessWidget {
-  final String label;
-  final String text;
+  final String? label;
+  final String? text;
 
   LabeledText({this.label, this.text});
 
@@ -109,13 +109,13 @@ class LabeledText extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
-          label,
+          label!,
           style: TextStyles.subtitle1.copyWith(
             color: ColorSets.appMainColor,
           ),
         ),
         Text(
-          text,
+          text!,
           style: TextStyles.subtitle1.copyWith(
             color: ColorSets.ticketInformationTextColor,
           ),

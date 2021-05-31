@@ -17,7 +17,7 @@ class AuthenticationUninitialized extends AuthenticationState {
 }
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final String userEmail;
+  final String? userEmail;
 
   AuthenticationAuthenticated({this.userEmail}) : super();
 
@@ -27,7 +27,7 @@ class AuthenticationAuthenticated extends AuthenticationState {
   }
 
   @override
-  List<Object> get props => [userEmail];
+  List<Object?> get props => [userEmail];
 }
 
 class AuthenticationUnauthenticated extends AuthenticationState {

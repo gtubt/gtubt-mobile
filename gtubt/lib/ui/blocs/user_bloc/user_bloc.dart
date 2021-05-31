@@ -18,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   TextEditingController textEditingController(UserEvent field) {
     eventMap.putIfAbsent(field, () => TextEditingController());
 
-    return eventMap[field];
+    return eventMap[field]!;
   }
 
   @override
@@ -37,7 +37,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserState.failure("Photo can not be changed.");
       }
     } else if (event is PhoneChanged) {
-      userService.currentUser.phone = eventMap[event].text.trim();
+      userService.currentUser!.phone = eventMap[event]!.text.trim();
     }
     yield currentState;
   }

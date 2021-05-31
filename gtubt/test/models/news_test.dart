@@ -55,7 +55,7 @@ void main() {
         startDate: now,
         endDate: now);
 
-    announcement.title = announcement.title + " New";
+    announcement.title = announcement.title! + " New";
 
     expect(announcement.title, "News Title New");
     expect(announcement.coverImageUrl, "http://someurl.com/somepath");

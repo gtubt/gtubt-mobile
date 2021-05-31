@@ -6,24 +6,15 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  String name;
-  String lastname;
-  String email;
-
-  @JsonKey(nullable: true)
-  Department department;
-
-  @JsonKey(nullable: true)
-  int year;
-
-  int id;
-  String studentId;
-
-  @JsonKey(nullable: true)
-  String phone;
-
-  @JsonKey(nullable: true, name: "photoUrl")
-  String profilePhoto;
+  String? name;
+  String? lastname;
+  String? email;
+  Department? department;
+  int? year;
+  int? id;
+  String? studentId;
+  String? phone;
+  String? profilePhoto;
 
   User({
     this.id,
@@ -41,7 +32,7 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String?, dynamic> toJson() => _$UserToJson(this);
 
   factory User.clone(User user) {
     return User(
@@ -56,7 +47,6 @@ class User {
       id: user.id,
     );
   }
-
 
   @override
   String toString() {
@@ -73,7 +63,15 @@ class User {
   }
 }
 
-enum Department {
-  cse,
-  eee
+enum Department { cse, eee }
+
+String? getString(Department? department) {
+  switch (department) {
+    case Department.cse:
+      return "Computer Engineering";
+    case Department.eee:
+      return "Electronic Engineering";
+    default:
+      return "";
+  }
 }

@@ -8,7 +8,7 @@ class UserState {
     this.errorMessage = '',
     this.isFailure = false,
     this.isLoading = false,
-    this.loadingMessage
+    this.loadingMessage = '',
   });
 
   @override
