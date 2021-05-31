@@ -110,7 +110,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ? MediaQuery.of(context).size.width
             : MediaQuery.of(context).size.height;
     Widget profilePhoto;
-    List<Widget> profileStack;
 
     if (user!.profilePhoto == null) {
       profilePhoto = Icon(
@@ -126,42 +125,35 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    profileStack = [
-      Container(
-        height: widthFactor / 3,
-        width: widthFactor / 3,
-        clipBehavior: Clip.antiAlias,
-        child: profilePhoto,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: ColorSets.profilePageThemeColor,
-            width: 5,
-          ),
-        ),
-      ),
-    ];
-
-    if (context.read<AppbarBloc>().state.editMode) {
-      profileStack.add(
-        FloatingActionButton(
-          backgroundColor: ColorSets.outlinedButtonBackgroundColor,
-          mini: true,
-          onPressed: _imagePickerMenu,
-          child: Icon(
-            Icons.camera_alt,
-            color: ColorSets.pageBackgroundColor,
-          ),
-        ),
-      );
-    }
-
     return Padding(
       padding: EdgeInsets.only(top: (widthFactor / 7.2)),
       child: Stack(
         alignment: Alignment.topRight,
-        children: profileStack,
+        children: [
+          Container(
+            height: widthFactor / 3,
+            width: widthFactor / 3,
+            clipBehavior: Clip.antiAlias,
+            child: profilePhoto,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: ColorSets.profilePageThemeColor,
+                width: 5,
+              ),
+            ),
+          ),
+          FloatingActionButton(
+            backgroundColor: ColorSets.outlinedButtonBackgroundColor,
+            mini: true,
+            onPressed: _imagePickerMenu,
+            child: Icon(
+              Icons.camera_alt,
+              color: ColorSets.pageBackgroundColor,
+            ),
+          ),
+        ],
       ),
     );
   }

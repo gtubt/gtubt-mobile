@@ -33,9 +33,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       on UserException catch(error) {
         yield UserState.failure(error.message);
       }
-      finally{
-        yield UserState();
-      }
     } else if (event is PhoneChanged) {
       userService.currentUser!.phone = eventMap[event]!.text.trim();
     }
