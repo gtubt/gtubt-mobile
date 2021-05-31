@@ -1,3 +1,4 @@
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
@@ -29,8 +30,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         var imageType = event.imageFile.path.split('.').last;
         await userService.uploadProfilePhoto(imageBytes, imageType);
       }
-      finally {
-        yield UserState();
+      on UserException catch(error) {
+        yield UserState.failure(error.message);
+      }
+      finally{
+        yield UserState.failure("Photo can not be changed.");
       }
     } else if (event is PhoneChanged) {
       userService.currentUser.phone = eventMap[event].text.trim();

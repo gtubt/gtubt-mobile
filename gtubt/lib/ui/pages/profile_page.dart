@@ -35,9 +35,16 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _imageBackground() {
     return Container(
-      height: 120.0,
+      height: 129.0,
       decoration: BoxDecoration(
         color: ColorSets.profilePageThemeColor,
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 10))
+        ],
       ),
     );
   }
@@ -98,51 +105,63 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _profileImage() {
+    double widthFactor =
+        MediaQuery.of(context).orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.width
+            : MediaQuery.of(context).size.height;
     Widget profilePhoto;
+    List<Widget> profileStack;
 
     if (user.profilePhoto == null) {
       profilePhoto = Icon(
-        Icons.account_circle,
+        Icons.edit,
         color: ColorSets.profilePageThemeColor,
+        size: 30,
       );
     } else {
-      profilePhoto = Image.network(
-        user.profilePhoto,
+      profilePhoto = FittedBox(
+        child: CircleAvatar(
+          foregroundImage: NetworkImage(user.profilePhoto),
+        ),
       );
     }
 
-    return Center(
+    profileStack = [
+      Container(
+        height: widthFactor / 3,
+        width: widthFactor / 3,
+        clipBehavior: Clip.antiAlias,
+        child: profilePhoto,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: ColorSets.profilePageThemeColor,
+            width: 5,
+          ),
+        ),
+      ),
+    ];
+
+    if (context.read<AppbarBloc>().state.editMode) {
+      profileStack.add(
+        FloatingActionButton(
+          backgroundColor: ColorSets.outlinedButtonBackgroundColor,
+          mini: true,
+          onPressed: _imagePickerMenu,
+          child: Icon(
+            Icons.camera_alt,
+            color: ColorSets.pageBackgroundColor,
+          ),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(top: (widthFactor / 7.2)),
       child: Stack(
         alignment: Alignment.topRight,
-        children: [
-          Container(
-            clipBehavior: Clip.antiAlias,
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: profilePhoto,
-            ),
-            width: 155.0,
-            height: 140.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: ColorSets.profilePageThemeColor,
-                width: 5,
-              ),
-
-            ),
-          ),
-          FloatingActionButton(
-            backgroundColor: ColorSets.outlinedButtonBackgroundColor,
-            mini: true,
-            onPressed: _imagePickerMenu,
-            child: Icon(
-              Icons.camera_alt,
-              color: ColorSets.pageBackgroundColor,
-            ),
-          ),
-        ],
+        children: profileStack,
       ),
     );
   }
@@ -464,17 +483,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 if (state.isFailure) {
                   NotificationFactory.errorFactory(message: state.errorMessage)
                       .show(context);
-                }
-                else if (state.isLoading) {
+                } else if (state.isLoading) {
                   if (state.loadingMessage == null) {
                     context.read<AppbarBloc>().add(ShowLoading());
-                  }
-                  else {
-                    NotificationFactory.loadingFactory(message: state.loadingMessage)
+                  } else {
+                    NotificationFactory.loadingFactory(
+                            message: state.loadingMessage)
                         .show(context);
                   }
-                }
-                else {
+                } else {
                   context.read<AppbarBloc>().add(HideLoading());
                 }
               },
