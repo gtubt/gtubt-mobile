@@ -113,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (user!.profilePhoto == null) {
       profilePhoto = Icon(
-        Icons.edit,
+        null,
         color: ColorSets.profilePageThemeColor,
         size: 30,
       );
