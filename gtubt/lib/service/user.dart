@@ -33,6 +33,8 @@ class UserService extends BaseService {
 
       this.currentUser = apiResponse.body;
       return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
@@ -60,6 +62,8 @@ class UserService extends BaseService {
       }
       currentUser = apiResponse.body;
       return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
@@ -90,6 +94,8 @@ class UserService extends BaseService {
       }
       currentUser = apiResponse.body;
       return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
@@ -98,25 +104,31 @@ class UserService extends BaseService {
   Future<User> uploadProfilePhoto(dynamic photo, String imageType) async {
     var email = currentUser!.email;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email/photo';
+    try {
+      var apiResponse;
+      final response = await POST('$url',
+          headers: <String, String>{
+            'Content-Type': 'image/$imageType',
+          },
+          body: photo);
 
-    var apiResponse;
-    final response = await POST('$url',
-        headers: <String, String>{
-          'Content-Type': 'image/$imageType',
-        },
-        body: photo);
+      if (response.statusCode != 200) {
+        throw UserException(json.decode(response.body)["Message"]);
+      }
 
-    if (response.statusCode != 200) {
-      throw UserException(json.decode(response.body)["Message"]);
+      apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw UserException.message(apiResponse.message);
+      }
+
+      currentUser = apiResponse.body;
+      return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
+    } catch (_) {
+      throw UserException();
     }
-
-    apiResponse = ApiResponseSingle<User>.fromJson(json.decode(response.body));
-    if (apiResponse.status != 200) {
-      throw UserException.message(apiResponse.message);
-    }
-
-    currentUser = apiResponse.body;
-    return apiResponse.body;
   }
 
   Future<bool> delete(String email) async {
@@ -134,6 +146,8 @@ class UserService extends BaseService {
       }
       clearUser();
       return true;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
