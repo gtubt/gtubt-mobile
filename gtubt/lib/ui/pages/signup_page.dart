@@ -318,7 +318,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ? Container(
                   padding: EdgeInsets.only(left: 16),
                   child: Text(
-                    "Requires at least 8 characters with a mixture of upper & lowercase letters and numbers.",
+                    "Requires at least 8 characters with a mixture of upper & lowercase letters, numbers, and special characters.",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         fontSize: 12, color: ColorSets.lightTextColor),
