@@ -15,15 +15,15 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   TextEditingController textEditingController(UserEvent field) {
     eventMap.putIfAbsent(field, () => TextEditingController());
 
-    return eventMap[field];
+    return eventMap[field]!;
   }
 
   @override
   Stream<UserState> mapEventToState(event) async* {
     if (event is PhotoChanged) {
-      userService.currentUser.profilePhoto = eventMap[event].text.trim();
+      userService.currentUser!.profilePhoto = eventMap[event]!.text.trim();
     } else if (event is PhoneChanged) {
-      userService.currentUser.phone = eventMap[event].text.trim();
+      userService.currentUser!.phone = eventMap[event]!.text.trim();
     }
     yield currentState;
   }

@@ -6,7 +6,7 @@ import 'dart:convert';
 
 class UserService extends BaseService {
   final servicePath = 'users';
-  User currentUser;
+  User? currentUser;
   static final UserService _userService = UserService._internal();
 
   UserService._internal();
@@ -15,7 +15,7 @@ class UserService extends BaseService {
     return _userService;
   }
 
-  Future<User> get(String email) async {
+  Future<User?> get(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     final response = await GET(url);
     var apiResponse;
@@ -37,7 +37,7 @@ class UserService extends BaseService {
     }
   }
 
-  Future<User> post(User user) async {
+  Future<User?> post(User user) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/';
     try {
       var userJson = user.toJson();
@@ -64,7 +64,7 @@ class UserService extends BaseService {
     }
   }
 
-  Future<User> patch(User user) async {
+  Future<User?> patch(User user) async {
     var id = user.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
     try {

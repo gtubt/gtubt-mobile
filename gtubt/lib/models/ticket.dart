@@ -6,11 +6,11 @@ part 'ticket.g.dart';
 
 @JsonSerializable()
 class Ticket {
-  String title;
-  String name;
-  String location;
-  DateTime date;
-  String codeUrl;
+  String? title;
+  String? name;
+  String? location;
+  DateTime? date;
+  String? codeUrl;
 
   Ticket({this.title, this.name, this.location, this.date, this.codeUrl});
 

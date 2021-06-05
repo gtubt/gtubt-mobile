@@ -6,14 +6,14 @@ part 'news.g.dart';
 
 @JsonSerializable()
 class News {
-  int id;
-  String title;
-  String body;
-  String coverImageUrl;
-  String summary;
-  NewsType type;
-  DateTime startDate;
-  DateTime endDate;
+  int? id;
+  String? title;
+  String? body;
+  String? coverImageUrl;
+  String? summary;
+  NewsType? type;
+  DateTime? startDate;
+  DateTime? endDate;
 
   News({
     this.id,
@@ -28,7 +28,7 @@ class News {
 
   factory News.fromJson(Map<String, dynamic> json) => _$NewsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NewsToJson(this);
+  Map<String?, dynamic> toJson() => _$NewsToJson(this);
 
   @override
   String toString() {

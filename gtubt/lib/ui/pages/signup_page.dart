@@ -23,7 +23,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _studentNumberController =
       TextEditingController();
-  Map<String, bool> _agreements = {
+  Map<String, bool?> _agreements = {
     'kvkk': false,
     'userAgreement': false,
   };
@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: TextFormField(
             keyboardType: TextInputType.name,
             keyboardAppearance:
-                WidgetsBinding.instance.window.platformBrightness,
+                WidgetsBinding.instance?.window.platformBrightness,
             style: TextStyles.caption,
             controller: _nameController,
             autocorrect: false,
@@ -169,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: TextFormField(
             keyboardType: TextInputType.name,
             keyboardAppearance:
-                WidgetsBinding.instance.window.platformBrightness,
+                WidgetsBinding.instance?.window.platformBrightness,
             style: TextStyles.caption,
             controller: _lastnameController,
             autocorrect: false,
@@ -195,7 +195,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             keyboardAppearance:
-                WidgetsBinding.instance.window.platformBrightness,
+                WidgetsBinding.instance?.window.platformBrightness,
             style: TextStyles.caption,
             controller: _emailController,
             autocorrect: false,
@@ -234,7 +234,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     keyboardAppearance:
-                        WidgetsBinding.instance.window.platformBrightness,
+                        WidgetsBinding.instance?.window.platformBrightness,
                     style: TextStyles.caption,
                     controller: _passwordController,
                     autocorrect: false,
@@ -398,7 +398,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Checkbox(
             checkColor: Colors.white,
             activeColor: ColorSets.appMainColor,
-            onChanged: (bool value) {
+            onChanged: (bool? value) {
               setState(() {
                 _agreements[type] = value;
               });
@@ -447,7 +447,7 @@ class _SignUpPageState extends State<SignUpPage> {
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          return NotificationFactory.errorFactory(message: state.errorMessage)
+          NotificationFactory.errorFactory(message: state.errorMessage)
               .show(context);
         }
       },

@@ -19,7 +19,7 @@ class AppStarted extends AuthenticationEvent {
 class LoggedIn extends AuthenticationEvent {
   final BuildContext context;
 
-  LoggedIn({@required this.context});
+  LoggedIn({required this.context});
 
   @override
   String toString() {
@@ -33,7 +33,7 @@ class LoggedIn extends AuthenticationEvent {
 class LoggedOut extends AuthenticationEvent {
   final BuildContext context;
 
-  LoggedOut({@required this.context});
+  LoggedOut({required this.context});
 
   @override
   String toString() {
@@ -45,7 +45,7 @@ class LoggedOut extends AuthenticationEvent {
 }
 
 class DeleteAcc extends AuthenticationEvent {
-  final String password;
+  final String? password;
   DeleteAcc({this.password});
 
   @override

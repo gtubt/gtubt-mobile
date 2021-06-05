@@ -52,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _onForgotPasswordPressed() {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       context.read<LoginBloc>().add(
             ForgotPasswordPressed(
               email: context.read<LoginBloc>().emailController.text.trim(),
@@ -92,7 +92,7 @@ class _LoginFormState extends State<LoginForm> {
             child: TextFormField(
               keyboardType: TextInputType.emailAddress,
               keyboardAppearance:
-                  WidgetsBinding.instance.window.platformBrightness,
+                  WidgetsBinding.instance?.window.platformBrightness,
               style: TextStyles.caption,
               controller: context.read<LoginBloc>().emailController,
               autocorrect: false,
@@ -123,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                 child: TextFormField(
                   keyboardType: TextInputType.visiblePassword,
                   keyboardAppearance:
-                      WidgetsBinding.instance.window.platformBrightness,
+                      WidgetsBinding.instance?.window.platformBrightness,
                   style: TextStyles.caption,
                   controller: context.read<LoginBloc>().passwordController,
                   autocorrect: false,
@@ -273,7 +273,7 @@ class _LoginFormState extends State<LoginForm> {
       if (state.isFailure) {
         _notification.dismiss();
         _notification =
-            NotificationFactory.errorFactory(message: state.errorMessage);
+            NotificationFactory.errorFactory(message: state.errorMessage!);
         _notification.show(context);
       }
     }, builder: (context, state) {
