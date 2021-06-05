@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 
 abstract class UserEvent extends Equatable {
   final String field;
@@ -10,7 +12,8 @@ abstract class UserEvent extends Equatable {
 }
 
 class PhotoChanged extends UserEvent {
-  PhotoChanged() : super(field: 'Photo');
+  final PickedFile imageFile;
+  PhotoChanged({required this.imageFile}) : super(field: 'Photo');
 
   @override
   String toString() => 'Profile Photo Changed';
