@@ -1,5 +1,6 @@
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
+import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_event.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
@@ -12,6 +13,7 @@ import 'package:GTUBT/ui/utils/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:GTUBT/ui/style/decorations.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -23,6 +25,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
 
+  User? user;
+  final picker = ImagePicker();
   final TextStyle _nameTextStyle = TextStyles.subtitle1.copyWith(
       height: 1.4,
       color: ColorSets.defaultTextColor,
@@ -31,26 +35,125 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _imageBackground() {
     return Container(
-      height: 120.0,
+      height: 129.0,
       decoration: BoxDecoration(
         color: ColorSets.profilePageThemeColor,
+        boxShadow: [
+          BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 10))
+        ],
       ),
     );
   }
 
-  Widget _profileImage() {
-    double _iconSize = 140;
-    return Positioned(
-      top: 50,
-      child: Card(
-        shape: CircleBorder().copyWith(
-            side: BorderSide(color: ColorSets.profilePageThemeColor, width: 7)),
-        elevation: 8.0,
-        child: Icon(
-          Icons.account_circle,
-          color: ColorSets.profilePageThemeColor,
-          size: _iconSize,
+  Future<void> _getImage(ImageSource imageSource) async {
+    var imageFile = await picker.getImage(source: imageSource);
+    if (imageFile == null) return;
+
+    context.read<UserBloc>().add(PhotoChanged(imageFile: imageFile));
+  }
+
+  void _imagePickerMenu() {
+    var _menuItems = [
+      ListTile(
+        leading: Icon(Icons.image),
+        title: Text('Select from gallery'),
+        onTap: () {
+          Navigator.of(context).pop();
+          _getImage(ImageSource.gallery);
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.camera_alt),
+        title: Text('Take a photo'),
+        onTap: () {
+          Navigator.of(context).pop();
+          _getImage(ImageSource.camera);
+        },
+      ),
+    ];
+
+    if (user!.profilePhoto != null) {
+      _menuItems.add(
+        ListTile(
+          leading: Icon(Icons.delete),
+          title: Text('Remove'),
+          onTap: () {
+            Navigator.of(context).pop();
+            /* TODO: remove users profile photo */
+          },
         ),
+      );
+    }
+
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+        ),
+        builder: (context) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _menuItems,
+            ),
+          );
+        });
+  }
+
+  Widget _profileImage() {
+    double widthFactor =
+        MediaQuery.of(context).orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.width
+            : MediaQuery.of(context).size.height;
+    Widget profilePhoto;
+
+    if (user!.profilePhoto == null) {
+      profilePhoto = Icon(
+        null,
+        color: ColorSets.profilePageThemeColor,
+        size: 30,
+      );
+    } else {
+      profilePhoto = FittedBox(
+        child: CircleAvatar(
+          foregroundImage: NetworkImage(user!.profilePhoto!),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(top: (widthFactor / 7.2)),
+      child: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Container(
+            height: widthFactor / 3,
+            width: widthFactor / 3,
+            clipBehavior: Clip.antiAlias,
+            child: profilePhoto,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: ColorSets.profilePageThemeColor,
+                width: 5,
+              ),
+            ),
+          ),
+          FloatingActionButton(
+            backgroundColor: ColorSets.outlinedButtonBackgroundColor,
+            mini: true,
+            onPressed: _imagePickerMenu,
+            child: Icon(
+              Icons.camera_alt,
+              color: ColorSets.pageBackgroundColor,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -99,7 +202,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _deparmentInfo(String? department) {
+  Widget _departmentInfo(String? department) {
     //TODO: must be dropdown
     return Container(
       width: 350.0,
@@ -285,7 +388,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    User user = context.read<UserBloc>().userService.currentUser!;
+    user = context.read<UserBloc>().userService.currentUser!;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -299,25 +402,25 @@ class _ProfilePageState extends State<ProfilePage> {
                   SizedBox(
                     height: 190,
                   ),
-                  _fullName(user.fullName),
+                  _fullName(user!.fullName),
                   Container(
                     padding: const EdgeInsets.only(top: 12.0, bottom: 5.0),
-                    child: _eMail(user.email),
+                    child: _eMail(user!.email),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _deparmentInfo(getString(user.department)),
+                    child: _departmentInfo(getString(user!.department)),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _yearInfo(user.year.toString()),
+                    child: _yearInfo(user!.year.toString()),
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _studentNumber(user.studentId),
+                    child: _studentNumber(user!.studentId),
                   ),
                   Container(
-                    child: _phoneNumber(user.phone),
+                    child: _phoneNumber(user!.phone),
                   ),
                   Container(
                     alignment: Alignment.bottomRight,
@@ -372,6 +475,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 if (state.isFailure) {
                   NotificationFactory.errorFactory(message: state.errorMessage)
                       .show(context);
+                } else if (state.isLoading) {
+                  if (state.loadingMessage == null) {
+                    context.read<AppbarBloc>().add(ShowLoading());
+                  } else {
+                    NotificationFactory.loadingFactory(
+                            message: state.loadingMessage)
+                        .show(context);
+                  }
+                } else {
+                  context.read<AppbarBloc>().add(HideLoading());
                 }
               },
               builder: (context, state) {

@@ -23,6 +23,7 @@ dependencies:
   another_flushbar: ^1.10.20
   kiwi: ^3.0.0-nullsafety.1
   cupertino_icons: ^1.0.2
+  image_picker: ^0.7.5
   collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:

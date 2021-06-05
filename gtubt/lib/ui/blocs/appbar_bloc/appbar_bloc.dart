@@ -27,5 +27,11 @@ class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
     } else if (event is PageChangedAppbarEvent) {
       yield AppbarState();
     }
+    else if (event is ShowLoading) {
+      yield AppbarLoadingState();
+    }
+    else if (event is HideLoading){
+      yield AppbarState();
+    }
   }
 }

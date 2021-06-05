@@ -14,6 +14,8 @@ class User {
   int? id;
   String? studentId;
   String? phone;
+  
+  @JsonKey(name: "photoUrl")
   String? profilePhoto;
 
   User({
