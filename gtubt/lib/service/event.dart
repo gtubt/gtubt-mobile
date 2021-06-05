@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:GTUBT/exceptions/event.dart';
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/service/service.dart';
-import 'dart:convert';
 
 class EventService extends BaseService {
   static final EventService _eventService = EventService._internal();
-  final servicePath = 'event';
+  final servicePath = 'events';
+
   EventService._internal();
 
   factory EventService() {
@@ -14,20 +16,26 @@ class EventService extends BaseService {
   }
 
   Future<List<Event?>?> getAll() async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath';
-
+    String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
     final response = await GET('$url');
-
     if (response.statusCode != 200) {
       throw EventException();
     }
     try {
-      final apiResponse =
-          ApiResponseList<Event>.fromJson(json.decode(response.body));
+      List<Event> body = [];
+      ApiResponseList<Event> apiResponse = ApiResponseList();
+      final eventList = json.decode(response.body);
+      apiResponse.status = response.statusCode;
+      eventList.forEach((event) {
+        body.add(Event.fromJson(event));
+      });
+      apiResponse.body = body.toList();
       if (apiResponse.status != 200) {
         throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
@@ -48,6 +56,8 @@ class EventService extends BaseService {
         throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
@@ -77,6 +87,8 @@ class EventService extends BaseService {
       }
 
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
@@ -98,6 +110,8 @@ class EventService extends BaseService {
       }
 
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
