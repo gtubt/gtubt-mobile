@@ -1,8 +1,9 @@
-import 'package:GTUBT/exceptions/user.dart';
-import 'package:GTUBT/models/user.dart';
-import 'package:GTUBT/models/api_response.dart';
-import 'package:GTUBT/service/service.dart';
 import 'dart:convert';
+
+import 'package:GTUBT/exceptions/user.dart';
+import 'package:GTUBT/models/api_response.dart';
+import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/service/service.dart';
 
 class UserService extends BaseService {
   final servicePath = 'users';
@@ -32,6 +33,8 @@ class UserService extends BaseService {
 
       this.currentUser = apiResponse.body;
       return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
@@ -59,6 +62,8 @@ class UserService extends BaseService {
       }
       currentUser = apiResponse.body;
       return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
@@ -89,6 +94,38 @@ class UserService extends BaseService {
       }
       currentUser = apiResponse.body;
       return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
+    } catch (_) {
+      throw UserException();
+    }
+  }
+
+  Future<User> uploadProfilePhoto(dynamic photo, String imageType) async {
+    var email = currentUser!.email;
+    String url = '$baseUrl/$endpointPrefix/$servicePath/$email/photo';
+    try {
+      var apiResponse;
+      final response = await POST('$url',
+          headers: <String, String>{
+            'Content-Type': 'image/$imageType',
+          },
+          body: photo);
+
+      if (response.statusCode != 200) {
+        throw UserException(json.decode(response.body)["Message"]);
+      }
+
+      apiResponse =
+          ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      if (apiResponse.status != 200) {
+        throw UserException.message(apiResponse.message);
+      }
+
+      currentUser = apiResponse.body;
+      return apiResponse.body;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }
@@ -109,6 +146,8 @@ class UserService extends BaseService {
       }
       clearUser();
       return true;
+    } on UserException catch (ex) {
+      throw UserException(ex.message);
     } catch (_) {
       throw UserException();
     }

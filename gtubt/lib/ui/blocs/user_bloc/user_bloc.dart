@@ -1,6 +1,8 @@
+import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/service/user.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+
 import 'user_event.dart';
 import 'user_state.dart';
 
@@ -21,7 +23,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(event) async* {
     if (event is PhotoChanged) {
-      userService.currentUser!.profilePhoto = eventMap[event]!.text.trim();
+      yield UserState.loading(loadingMessage: "Photo uploading...");
+      try {
+        var imageBytes = await event.imageFile.readAsBytes();
+        var imageType = event.imageFile.path.split('.').last;
+        await userService.uploadProfilePhoto(imageBytes, imageType);
+      } on UserException catch (error) {
+        yield UserState.failure(error.message);
+      }
     } else if (event is PhoneChanged) {
       userService.currentUser!.phone = eventMap[event]!.text.trim();
     }

@@ -6,7 +6,7 @@ part 'event.g.dart';
 
 @JsonSerializable()
 class Event {
-  String? id;
+  int? id;
   String? title;
   String? description;
   String? coverImageUrl;

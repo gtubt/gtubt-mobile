@@ -14,7 +14,7 @@ class EventsLoading extends CalendarPageState {
 }
 
 class EventsLoaded extends CalendarPageState {
-  final List<Event> events;
+  final List<Event?>? events;
 
   EventsLoaded({required this.events});
 
