@@ -30,7 +30,7 @@ class NewsItem extends StatelessWidget {
           height: 300,
           fit: BoxFit.fitHeight,
           imageErrorBuilder: (context, error, stackTrace) {
-            return Image.asset("assets/error.png");
+            return Image.asset("assets/dummy.png");
           },
         ),
         tag: heroTag,

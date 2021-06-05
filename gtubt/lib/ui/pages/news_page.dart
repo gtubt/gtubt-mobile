@@ -62,7 +62,7 @@ class _NewsPage extends State<NewsPage> {
                         errorBuilder: (BuildContext context, Object exception,
                             StackTrace? stacktrace) {
                           return Image.asset(
-                            "assets/error.png",
+                            "assets/dummy.png",
                             fit: BoxFit.cover,
                           );
                         },
