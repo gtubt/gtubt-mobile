@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 abstract class UserEvent extends Equatable {
@@ -13,6 +12,7 @@ abstract class UserEvent extends Equatable {
 
 class PhotoChanged extends UserEvent {
   final PickedFile imageFile;
+
   PhotoChanged({required this.imageFile}) : super(field: 'Photo');
 
   @override

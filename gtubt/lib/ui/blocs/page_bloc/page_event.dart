@@ -18,6 +18,7 @@ class NavBarPageChanged extends PageEvent {
   List<Object> get props => [page, context];
 }
 
+// ignore: must_be_immutable
 class PageChanged extends PageEvent {
   final BuildContext context;
   final String routeName;

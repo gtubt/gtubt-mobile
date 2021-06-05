@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:GTUBT/exceptions/event.dart';
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/event.dart';
 import 'package:GTUBT/service/service.dart';
-import 'dart:convert';
 
 class EventService extends BaseService {
   static final EventService _eventService = EventService._internal();
   final servicePath = 'events';
+
   EventService._internal();
 
   factory EventService() {
@@ -32,6 +34,8 @@ class EventService extends BaseService {
         throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
@@ -52,6 +56,8 @@ class EventService extends BaseService {
         throw EventException.message(apiResponse.message);
       }
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
@@ -81,6 +87,8 @@ class EventService extends BaseService {
       }
 
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
@@ -102,6 +110,8 @@ class EventService extends BaseService {
       }
 
       return apiResponse.body;
+    } on EventException catch (ex) {
+      throw EventException(ex.message);
     } catch (_) {
       throw EventException();
     }
