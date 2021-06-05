@@ -2,6 +2,7 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:GTUBT/models/ticket.dart';
+import 'package:intl/intl.dart';
 
 // Usage: TicketPopup.showTicket(context, ticket);
 class TicketPopup {
@@ -9,7 +10,8 @@ class TicketPopup {
     String? title = ticket.title;
     String? name = ticket.name;
     String? location = ticket.location;
-    String date = ticket.date.toString();
+    String date = DateFormat('yMd').format(ticket.date!);
+    String time = DateFormat('Hm').format(ticket.date!);
     String? codeUrl = ticket.codeUrl;
     showDialog(
         context: context,
@@ -58,6 +60,10 @@ class TicketPopup {
                                 LabeledText(
                                   label: "Date: ",
                                   text: date,
+                                ),
+                                LabeledText(
+                                  label: "Time: ",
+                                  text: time,
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -108,16 +114,27 @@ class LabeledText extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(
-          label!,
-          style: TextStyles.subtitle1.copyWith(
-            color: ColorSets.appMainColor,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Text(
+              label!,
+              textAlign: TextAlign.right,
+              style: TextStyles.subtitle1.copyWith(
+                color: ColorSets.appMainColor,
+              ),
+            ),
           ),
         ),
-        Text(
-          text!,
-          style: TextStyles.subtitle1.copyWith(
-            color: ColorSets.ticketInformationTextColor,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(3.0),
+            child: Text(
+              text!,
+              style: TextStyles.subtitle1.copyWith(
+                color: ColorSets.ticketInformationTextColor,
+              ),
+            ),
           ),
         ),
       ],
