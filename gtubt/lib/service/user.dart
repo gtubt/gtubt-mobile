@@ -4,7 +4,7 @@ import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
-import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:kiwi/kiwi.dart';
 

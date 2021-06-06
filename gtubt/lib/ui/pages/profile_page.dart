@@ -10,6 +10,7 @@ import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
+  Flushbar _loadingNotification = NotificationFactory.loadingFactory(message: '');
 
   User? user;
   final picker = ImagePicker();
@@ -483,13 +485,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   if (state.loadingMessage.isEmpty) {
                     context.read<AppbarBloc>().add(ShowLoading());
                   } else {
-                    // TODO: Can't dismiss shown notification explicitly.
-                    NotificationFactory.loadingFactory(
-                            message: state.loadingMessage)
-                        .show(context);
+                    _loadingNotification.dismiss();
+                    _loadingNotification = NotificationFactory.loadingFactory(
+                            message: state.loadingMessage);
+                    _loadingNotification.show(context);
                   }
                 } else {
-
+                  _loadingNotification.dismiss();
                   context.read<AppbarBloc>().add(HideLoading());
                 }
               },
