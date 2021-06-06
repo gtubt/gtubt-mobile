@@ -23,17 +23,55 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(event) async* {
     if (event is PhotoChanged) {
-      yield UserState.loading(loadingMessage: "Photo uploading...");
-      try {
-        var imageBytes = await event.imageFile.readAsBytes();
-        var imageType = event.imageFile.path.split('.').last;
-        await userService.uploadProfilePhoto(imageBytes, imageType);
-      } on UserException catch (error) {
-        yield UserState.failure(error.message);
-      }
+      yield* _mapProfilePhotoChangeToStream(event);
     } else if (event is PhoneChanged) {
       userService.currentUser!.phone = eventMap[event]!.text.trim();
+    } else if (event is DepartmentChanged) {
+      // TODO: This is waiting for dropdown to be implement and its own controller.
+      // NOT Text Controller!!!
+      //userService.currentUser!.department = eventMap[event]!.text.trim();
+    } else if (event is YearChanged) {
+      _processYear(event);
+    } else if (event is NameChanged) {
+      _processName(event);
+    } else if (event is EmailChanged) {
+      userService.currentUser!.email = eventMap[event]!.text.trim();
+    } else if (event is StudentNumberChanged) {
+      userService.currentUser!.studentId = eventMap[event]!.text.trim();
     }
+
     yield currentState;
+  }
+
+  Stream<UserState> _mapProfilePhotoChangeToStream(event) async* {
+    yield UserState.loading();
+    try {
+      var imageBytes = await event.imageFile.readAsBytes();
+      var imageType = event.imageFile.path.split('.').last;
+      await userService.uploadProfilePhoto(imageBytes, imageType);
+      yield UserState();
+    } on UserException catch (error) {
+      yield UserState.failure(error.message);
+    }
+  }
+
+  void _processName(event) {
+    var fullname = eventMap[event]!.text.trim();
+    if (fullname.isNotEmpty) {
+      var names = fullname.split(" ");
+      if (names.length > 1) {
+        userService.currentUser!.lastname = names.last;
+        userService.currentUser!.name = names.sublist(0, names.length - 1).join(" ");
+      } else {
+        userService.currentUser!.name = fullname;
+      }
+    }
+  }
+
+  void _processYear(event) {
+    var year = eventMap[event]!.text.trim();
+    if (year.isNotEmpty) {
+      userService.currentUser!.year =  int.tryParse(year);
+    }
   }
 }

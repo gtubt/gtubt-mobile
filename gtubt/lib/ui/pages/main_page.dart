@@ -78,9 +78,14 @@ class _MainPageState extends State<MainPage> {
           var actions = _generateActions();
           var isLoading =
               context.read<AppbarBloc>().state is AppbarLoadingState;
+          var isEditMode = context.read<AppbarBloc>().state.editMode;
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
+                leading: isEditMode ? new IconButton(
+                  icon: new Icon(Icons.close),
+                  onPressed: () => context.read<AppbarBloc>().add(UserEditCancelled()),
+                ) : null,
                 brightness: Brightness.dark,
                 iconTheme: IconThemeData(color: ColorSets.lightTextColor),
                 backgroundColor: ColorSets.appMainColor,
@@ -115,7 +120,7 @@ class _MainPageState extends State<MainPage> {
                     ? Routes.navListLoggedIn
                     : Routes.navList,
               ),
-              drawer: HamburgerMenuComponents(),
+              drawer: isEditMode ? null : HamburgerMenuComponents(),
               body: authState is AuthenticationAuthenticated
                   ? Routes.bodyListLoggenIn[state.currentPage]
                   : Routes.bodyList[state.currentPage]);
