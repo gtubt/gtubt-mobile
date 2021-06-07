@@ -47,6 +47,13 @@ class EmailChanged extends UserEvent {
   String toString() => 'User Changed Email';
 }
 
+class NameChanged extends UserEvent {
+  NameChanged() : super(field: 'Name');
+
+  @override
+  String toString() => 'User Changed Name';
+}
+
 class DepartmentChanged extends UserEvent {
   DepartmentChanged() : super(field: 'Department');
 

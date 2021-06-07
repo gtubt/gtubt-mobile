@@ -10,6 +10,7 @@ import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
+  Flushbar _loadingNotification = NotificationFactory.loadingFactory(message: '');
 
   User? user;
   final picker = ImagePicker();
@@ -161,11 +163,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _fullName(String name) {
     Widget form;
     if (context.read<AppbarBloc>().state.editMode) {
-      var controller = TextEditingController();
+      var field = NameChanged();
+      TextEditingController controller =
+      context.read<UserBloc>().textEditingController(field);
       controller.text = name;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
+        context.read<UserBloc>().add(field);
       });
       form = TextFormField(
         controller: controller,
@@ -242,6 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _phoneNumber(String? phone) {
+    // TODO: Needs custom formatting, we should use one of phone input widgets.
     phone ??= '';
     return Container(
       width: 350.0,
@@ -257,10 +263,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
+    TextEditingController controller =
+    context.read<UserBloc>().textEditingController(field);
+    controller.text = formData;
     if (context.read<AppbarBloc>().state.editMode) {
-      TextEditingController controller =
-          context.read<UserBloc>().textEditingController(field);
-      controller.text = formData;
       controller.addListener(() {
         final text = controller.text;
         controller.value = controller.value.copyWith(text: text);
@@ -274,10 +280,10 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     } else {
       form = TextFormField(
-        controller: null,
+        controller: controller,
         readOnly: !context.read<AppbarBloc>().state.editMode,
         enabled: false,
-        initialValue: formData,
+        keyboardType: TextInputType.number,
         decoration: FormBoxContainer.textFieldStyle(
             labelTextStr: "  " + fieldName + "  "),
       );
@@ -476,14 +482,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   NotificationFactory.errorFactory(message: state.errorMessage)
                       .show(context);
                 } else if (state.isLoading) {
-                  if (state.loadingMessage == null) {
+                  if (state.loadingMessage.isEmpty) {
                     context.read<AppbarBloc>().add(ShowLoading());
                   } else {
-                    NotificationFactory.loadingFactory(
-                            message: state.loadingMessage)
-                        .show(context);
+                    _loadingNotification.dismiss();
+                    _loadingNotification = NotificationFactory.loadingFactory(
+                            message: state.loadingMessage);
+                    _loadingNotification.show(context);
                   }
                 } else {
+                  _loadingNotification.dismiss();
                   context.read<AppbarBloc>().add(HideLoading());
                 }
               },

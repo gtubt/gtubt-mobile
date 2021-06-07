@@ -5,9 +5,15 @@ import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
 
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:kiwi/kiwi.dart';
+
+
 class UserService extends BaseService {
   final servicePath = 'users';
   User? currentUser;
+  User? userBackup;
+  KiwiContainer container = KiwiContainer();
   static final UserService _userService = UserService._internal();
 
   UserService._internal();
@@ -73,6 +79,13 @@ class UserService extends BaseService {
     var id = user.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
     try {
+      var firebaseUser = container.resolve<auth.User>();
+      if (firebaseUser.email != user.email) {
+        firebaseUser.updateEmail(user.email!);
+        // TODO: Might throw requires-recent-login,
+        // TODO: needs design for password retrieval for such events
+      }
+
       var userJson = user.toJson();
       var bodyData = json.encode(userJson);
       var apiResponse;

@@ -16,6 +16,18 @@ class UserEditButtonPressed extends AppbarEvent {
   List<Object> get props => ['UserEditButtonPressed'];
 }
 
+class UserEditCancelled extends AppbarEvent {
+  UserEditCancelled();
+
+  @override
+  String toString() {
+    return 'UserEditCancelled';
+  }
+
+  @override
+  List<Object> get props => ['UserEditCancelled'];
+}
+
 class ShowLoading extends AppbarEvent {
   ShowLoading();
 
