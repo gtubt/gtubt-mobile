@@ -100,5 +100,7 @@ class Submitted extends RegisterEvent {
         email,
         password,
         studentNumber,
+        isAcceptKVKK!,
+        isAcceptUserAgreement!,
       ];
 }

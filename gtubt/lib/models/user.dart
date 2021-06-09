@@ -14,7 +14,9 @@ class User {
   int? id;
   String? studentId;
   String? phone;
-  
+  bool? isAcceptKVKK;
+  bool? isAcceptUserAgreement;
+
   @JsonKey(name: "photoUrl")
   String? profilePhoto;
 
@@ -28,6 +30,8 @@ class User {
     this.year,
     this.phone,
     this.profilePhoto,
+    this.isAcceptKVKK,
+    this.isAcceptUserAgreement,
   });
 
   String get fullName => "$name $lastname";
@@ -47,6 +51,8 @@ class User {
       phone: user.phone,
       profilePhoto: user.profilePhoto,
       id: user.id,
+      isAcceptKVKK: user.isAcceptKVKK,
+      isAcceptUserAgreement: user.isAcceptUserAgreement,
     );
   }
 
@@ -60,7 +66,9 @@ class User {
     Year: $year,
     Student ID: $studentId,
     Phone: $phone,
-    Photo Url: $profilePhoto
+    Photo Url: $profilePhoto,
+    Is Accept KVKK: $isAcceptKVKK,
+    Is Accept User Agreement: $isAcceptUserAgreement,
 }''';
   }
 }
