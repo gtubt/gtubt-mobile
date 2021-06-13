@@ -17,17 +17,17 @@ extension ErrorCodeExt on AuthenticationExceptionEnum {
   String getMessage() {
     switch (this) {
       case AuthenticationExceptionEnum.email_already_in_use:
-        return "This email is in use. If you forget password, try to forget password!";
+        return "This email is in use. If you forgot your password, click \"Forgot Password\" on login screen.";
       case AuthenticationExceptionEnum.invalid_email:
-        return "Invalid email.";
+        return "Invalid email!";
       case AuthenticationExceptionEnum.operation_not_allowed:
-        return "Operation not allowed.";
+        return "Operation not allowed!";
       case AuthenticationExceptionEnum.weak_password:
         return "Weak password!";
       case AuthenticationExceptionEnum.wrong_password:
-        return "Password or email is wrong!";
+        return "No user found to match with given credentials!";
       case AuthenticationExceptionEnum.user_not_found:
-        return "Password or email is wrong!";
+        return "No user found to match with given credentials!";
       default:
         return "Something went wrong!";
     }
