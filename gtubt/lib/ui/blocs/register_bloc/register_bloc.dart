@@ -43,7 +43,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         lastname: event.lastname,
         department: Department.cse,
         studentId: event.studentNumber,
-        year: 1);
+        year: 1,
+        isAcceptKVKK: event.isAcceptKVKK,
+        isAcceptUserAgreement: event.isAcceptUserAgreement);
     try {
       await _authService.signUp({
         'email': user.email,
