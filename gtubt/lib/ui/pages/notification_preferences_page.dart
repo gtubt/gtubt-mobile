@@ -90,7 +90,7 @@ class _NotificatioPreferencesPageState
           backgroundColor: ColorSets.appMainColor,
           centerTitle: true,
           title: Text(
-            'Settings',
+            'Notification Preferences',
             style: TextStyle(color: ColorSets.lightTextColor),
           ),
           iconTheme: IconThemeData(color: ColorSets.lightTextColor)),
