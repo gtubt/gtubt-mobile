@@ -6,7 +6,6 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/blocs/user_bloc/bloc.dart';
 import 'package:GTUBT/ui/routes.dart';
-import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
@@ -24,8 +23,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
-  final TextEditingController _passwordController = TextEditingController();
-  Flushbar _loadingNotification = NotificationFactory.loadingFactory(message: '');
+  Flushbar _loadingNotification =
+      NotificationFactory.loadingFactory(message: '');
 
   User? user;
   final picker = ImagePicker();
@@ -36,17 +35,11 @@ class _ProfilePageState extends State<ProfilePage> {
       fontWeight: FontWeight.w500);
 
   Widget _imageBackground() {
-    return Container(
-      height: 129.0,
-      decoration: BoxDecoration(
-        color: ColorSets.profilePageThemeColor,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: Offset(0, 10))
-        ],
+    return Material(
+      color: ColorSets.profilePageThemeColor,
+      elevation: 10,
+      child: Container(
+        height: 129.0,
       ),
     );
   }
@@ -115,14 +108,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (user!.profilePhoto == null) {
       profilePhoto = Icon(
-        null,
+        Icons.face,
         color: ColorSets.profilePageThemeColor,
-        size: 30,
+        size: widthFactor / 5,
       );
     } else {
+      print(user!.profilePhoto);
       profilePhoto = FittedBox(
         child: CircleAvatar(
-          foregroundImage: NetworkImage(user!.profilePhoto!),
+          foregroundImage: NetworkImage(user!.profilePhoto!, scale: 1.0),
         ),
       );
     }
@@ -132,17 +126,22 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Stack(
         alignment: Alignment.topRight,
         children: [
-          Container(
-            height: widthFactor / 3,
-            width: widthFactor / 3,
-            clipBehavior: Clip.antiAlias,
-            child: profilePhoto,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: ColorSets.profilePageThemeColor,
-                width: 5,
+          Material(
+            color: Colors.transparent,
+            elevation: 10,
+            type: MaterialType.circle,
+            child: Container(
+              height: widthFactor / 3,
+              width: widthFactor / 3,
+              child: profilePhoto,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(
+                  style: BorderStyle.none,
+                  color: ColorSets.profilePageThemeColor,
+                  width: 5,
+                ),
               ),
             ),
           ),
@@ -165,7 +164,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (context.read<AppbarBloc>().state.editMode) {
       var field = NameChanged();
       TextEditingController controller =
-      context.read<UserBloc>().textEditingController(field);
+          context.read<UserBloc>().textEditingController(field);
       controller.text = name;
       controller.addListener(() {
         final text = controller.text;
@@ -264,7 +263,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
     TextEditingController controller =
-    context.read<UserBloc>().textEditingController(field);
+        context.read<UserBloc>().textEditingController(field);
     controller.text = formData;
     if (context.read<AppbarBloc>().state.editMode) {
       controller.addListener(() {
@@ -297,101 +296,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget accountDeletionDialog(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor: ColorSets.popUpBackgroundColor,
-      elevation: 40,
-      child: Container(
-          height: 236,
-          width: 600,
-          padding: const EdgeInsets.only(top: 25.0, left: 25.0, right: 25.0),
-          child: Column(
-            children: [
-              Text(
-                "To delete your account please enter your password",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16),
-              ),
-              SizedBox(height: 15),
-              Container(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Form(
-                      key: _passwordFieldKey,
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        validator: (value) {
-                          final authState =
-                              context.read<AuthenticationBloc>().state;
-                          if (authState is AuthenticationError) {
-                            return authState.message;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15.0),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              const Radius.circular(10.0),
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              )),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 20),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ButtonStyles.outlinedButton,
-                    child: Text("Cancel"),
-                  ),
-                  SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_passwordFieldKey.currentState!.validate()) {
-                        context.read<AuthenticationBloc>().add(
-                              DeleteAcc(
-                                password: _passwordController.text.trim(),
-                              ),
-                            );
-                      }
-                    },
-                    style: ButtonStyles.containedButton,
-                    child: Text("Delete Account"),
-                  )
-                ]),
-              )
-            ],
-          )),
-    );
-  }
 
   Widget buildAll(BuildContext context, UserState state) {
     user = context.read<UserBloc>().userService.currentUser!;
@@ -427,25 +331,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     child: _phoneNumber(user!.phone),
-                  ),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    padding: const EdgeInsets.only(bottom: 5.0, right: 30),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.delete_forever,
-                        color: Colors.red,
-                        size: 32,
-                      ),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              _passwordController.clear();
-                              return accountDeletionDialog(context);
-                            });
-                      },
-                    ),
                   ),
                 ],
               ),
@@ -487,7 +372,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   } else {
                     _loadingNotification.dismiss();
                     _loadingNotification = NotificationFactory.loadingFactory(
-                            message: state.loadingMessage);
+                        message: state.loadingMessage);
                     _loadingNotification.show(context);
                   }
                 } else {
