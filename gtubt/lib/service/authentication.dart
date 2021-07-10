@@ -55,7 +55,7 @@ class AuthService {
           (await _auth.createUserWithEmailAndPassword(
                   email: data['email'], password: data['password']))
               .user;
-      container.registerInstance<auth.User?>(_auth.currentUser!);
+      container.registerInstance<auth.User>(_auth.currentUser!);
       return firebaseUser;
     } on auth.FirebaseAuthException catch (error) {
       throw AuthenticationException.errorCode(error.code);

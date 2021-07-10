@@ -1,5 +1,5 @@
 # gtubt-mobile
-[![Codemagic build status](https://api.codemagic.io/apps/5dadad17db22962c9206b1fa/5dadad17db22962c9206b1f9/status_badge.svg)](https://codemagic.io/apps/5dadad17db22962c9206b1fa/5dadad17db22962c9206b1f9/latest_build)
+[![Codemagic build status](https://api.codemagic.io/apps/60e473f919e6aa0f0d4d9dde/60e473f919e6aa0f0d4d9ddd/status_badge.svg)](https://codemagic.io/apps/60e473f919e6aa0f0d4d9dde/60e473f919e6aa0f0d4d9ddd/latest_build)
 
 ## Bilgisayar Toplulugu Mobile Application
 
