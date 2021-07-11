@@ -189,7 +189,6 @@ class _SettingsPageState extends State<SettingsPage> {
         showDialog(
             context: context,
             builder: (context) {
-              _passwordController.clear();
               return emailVerificationDialog();
             });
       },
@@ -349,7 +348,7 @@ class _SettingsPageState extends State<SettingsPage> {
       );
     }
 
-    if (_user != null ? _user!.isVerified() : false) {
+    if (_user != null ? !_user!.isVerified() : false) {
       _settingsPageItems.insert(
         4,
         emailVerificationListing(),
