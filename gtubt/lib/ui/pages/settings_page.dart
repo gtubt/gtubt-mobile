@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final AuthService _user = AuthService();
+  final AuthService? _user = AuthService();
   Flushbar _notification = NotificationFactory.informationFactory(message: '');
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
@@ -255,7 +255,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     onPressed: () {
                       try {
                         Navigator.pop(context);
-                        _user.validateUserWithEmail();
+                        _user != null ? _user!.validateUserWithEmail() : null;
                         _notification = NotificationFactory.successFactory(
                             title: 'Success',
                             message: 'Verifications email sent.');
@@ -349,7 +349,7 @@ class _SettingsPageState extends State<SettingsPage> {
       );
     }
 
-    if (!_user.isVerified()) {
+    if (_user != null ? _user!.isVerified() : false) {
       _settingsPageItems.insert(
         4,
         emailVerificationListing(),

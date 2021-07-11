@@ -20,7 +20,9 @@ class _ContactPreferencesPageState extends State<ContactPreferencesPage> {
   initState() {
     super.initState();
     user = context.read<UserBloc>().userService.currentUser!;
-    isValidPhoneNumber = Validators.isValidPhoneNumber(user!.phone!);
+    isValidPhoneNumber = user!.phone != null
+        ? Validators.isValidPhoneNumber(user!.phone!)
+        : false;
     //TODO: Get preferences from the DB
     _settings = {
       'email': false,
@@ -28,54 +30,77 @@ class _ContactPreferencesPageState extends State<ContactPreferencesPage> {
     };
   }
 
-  Widget _buildContactPreferenceCard(
-      BuildContext context, String title, String description, type) {
+  Widget _buildContactPreferenceCard({
+    @required String? title,
+    @required String? description,
+    @required String? type,
+  }) {
+    String? sms = 'sms';
+    bool isSms = type == sms;
+
+    String? cardText() {
+      return isSms
+          ? isValidPhoneNumber!
+              ? description
+              : 'This option requires a\nvalid phone number!'
+          : description;
+    }
+
+    Color? cardColor() {
+      return isSms
+          ? isValidPhoneNumber!
+              ? Colors.black54
+              : Colors.red
+          : Colors.black54;
+    }
+
+    bool cardEnabled() {
+      return isSms
+                ? isValidPhoneNumber!
+                    ? true
+                    : false
+                : true;
+    }
+
+    void onChanged(bool value) {
+      if (isSms && isValidPhoneNumber!) {
+        setState(() {
+          _settings[type!] = value;
+        });
+      } else if (isSms && !isValidPhoneNumber!) {
+        null;
+      } else {
+        setState(() {
+          _settings[type!] == value;
+        });
+      }
+    }
+
     return Card(
       elevation: 10,
       child: Container(
         height: 75,
         child: MergeSemantics(
           child: ListTile(
-            enabled: type == 'sms'
-                ? isValidPhoneNumber!
-                    ? true
-                    : false
-                : true,
+            enabled: cardEnabled(),
             contentPadding: EdgeInsets.only(top: 5, left: 15, right: 10),
-            title: Text(title),
+            title: Text(title!),
             subtitle: Text(
-              type == 'sms'
-                  ? isValidPhoneNumber!
-                      ? description
-                      : 'This option requires a\nvalid phone number!'
-                  : description,
+              cardText()!,
               style: TextStyle(
-                color: type == 'sms'
-                    ? isValidPhoneNumber!
-                        ? Colors.black54
-                        : Colors.red
-                    : Colors.black54,
+                color: cardColor(),
               ),
             ),
-            trailing: CupertinoSwitch(
-                activeColor: ColorSets.cursorColor,
-                value: _settings[type]!,
-                onChanged: type == 'sms'
-                    ? isValidPhoneNumber!
-                        ? (bool value) {
-                            setState(() {
-                              _settings[type] = value;
-                            });
-                          }
-                        : null
-                    : (bool value) {
-                        setState(() {
-                          _settings[type] = value;
-                        });
-                      }),
+            trailing: Switch(
+              activeColor: ColorSets.cursorColor,
+              value: _settings[type]!,
+              onChanged: (value) => {
+                onChanged(value),
+              },
+            ),
             onTap: () {
               setState(() {
-                _settings[type] = !_settings[type]!;
+                _settings[type!] = !_settings[type]!;
               });
             },
           ),
@@ -87,16 +112,14 @@ class _ContactPreferencesPageState extends State<ContactPreferencesPage> {
   Widget _buildSettingsPage() {
     List<Widget> _settingsPageItems = [
       _buildContactPreferenceCard(
-        context,
-        'Email',
-        'Choose whether or not\nto get information mails',
-        'email',
+        title: 'Email',
+        description: 'Choose whether or not\nto get information emails',
+        type: 'email',
       ),
       _buildContactPreferenceCard(
-        context,
-        'SMS',
-        'Choose wether or not to\nget information messages',
-        'sms',
+        title: 'SMS',
+        description: 'Choose wether or not to\nget information messages',
+        type: 'sms',
       ),
     ];
 
