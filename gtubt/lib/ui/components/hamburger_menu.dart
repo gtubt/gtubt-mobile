@@ -71,14 +71,15 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
   }
 
   Widget _buildProfileImage(String? profileImage) {
+    profileImage = user!.profilePhoto;
     if (profileImage == null) {
       return Icon(
         Icons.account_circle,
         color: ColorSets.pageBackgroundColor,
       );
     } else {
-      return Image.network(
-        profileImage,
+      return CircleAvatar(
+        foregroundImage: NetworkImage(profileImage),
       );
     }
   }

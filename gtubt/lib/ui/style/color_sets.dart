@@ -35,4 +35,17 @@ class ColorSets {
   static const warningNotificationTextColor = Color(0xFF9F6000);
   static const errorNotificationTextColor = Color(0xFFD8000C);
 
+  static const MaterialColor primarySwatch = MaterialColor(
+    0xFF233B77, <int, Color>{
+    50: Color(0xFF919dbb),
+    100: Color(0xFF7b89ad),
+    200: Color(0xFF6576a0),
+    300: Color(0xFF4f6292),
+    400: Color(0xFF394f85),
+    500: Color(0xFF233b77),
+    600: Color(0xFF20356b),
+    700: Color(0xFF1c2f5f),
+    800: Color(0xFF192953),
+    900: Color(0xFF152347),
+  });
 }

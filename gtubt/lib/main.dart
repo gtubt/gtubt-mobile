@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         title: 'GTU BT',
         theme: ThemeData(
           // These will be customized for general app design
-          primarySwatch: Colors.blue,
+          primarySwatch: ColorSets.primarySwatch,
           primaryColor: ColorSets.lightTextColor,
         ),
         routes: Routes.routes,
