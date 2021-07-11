@@ -113,7 +113,6 @@ class _ProfilePageState extends State<ProfilePage> {
         size: widthFactor / 5,
       );
     } else {
-      print(user!.profilePhoto);
       profilePhoto = FittedBox(
         child: CircleAvatar(
           foregroundImage: NetworkImage(user!.profilePhoto!, scale: 1.0),
@@ -275,7 +274,7 @@ class _ProfilePageState extends State<ProfilePage> {
         controller: controller,
         readOnly: !context.read<AppbarBloc>().state.editMode,
         decoration: FormBoxContainer.textFieldStyle(
-            labelTextStr: "  " + fieldName + "  "),
+            labelTextStr: '  ' + fieldName + '  '),
       );
     } else {
       form = TextFormField(
@@ -284,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
         enabled: false,
         keyboardType: TextInputType.number,
         decoration: FormBoxContainer.textFieldStyle(
-            labelTextStr: "  " + fieldName + "  "),
+            labelTextStr: '  ' + fieldName + '  '),
       );
     }
 
@@ -295,7 +294,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
 
   Widget buildAll(BuildContext context, UserState state) {
     user = context.read<UserBloc>().userService.currentUser!;

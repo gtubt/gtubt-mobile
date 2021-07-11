@@ -79,9 +79,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
       );
     } else {
       return CircleAvatar(
-        
         foregroundImage: NetworkImage(profileImage),
-        
       );
     }
   }

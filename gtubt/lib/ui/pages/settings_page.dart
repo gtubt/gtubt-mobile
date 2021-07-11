@@ -17,20 +17,23 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final AuthService _user = AuthService();
-  Flushbar _notification = NotificationFactory.informationFactory(message: "");
+  Flushbar _notification = NotificationFactory.informationFactory(message: '');
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  void _cardFunction(String route) {
+  void _cardFunction(String _settingPageItemRouter) {
     context.read<PageBloc>().add(
           PageChanged(
             context: context,
-            routeName: route,
+            routeName: _settingPageItemRouter,
           ),
         );
   }
 
-  Widget _buildSettingsPageItem(
-      BuildContext context, String title, IconData icon, dynamic route) {
+  Widget _buildSettingsPageItem({
+    @required String? title,
+    @required IconData? icon,
+    @required dynamic route,
+  }) {
     return InkWell(
       onTap: () => _cardFunction(route),
       child: Card(
@@ -46,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Icon(icon),
                 ),
                 Text(
-                  title,
+                  title!,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
@@ -75,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             Text(
-              "To delete your account please enter your password.",
+              'To delete your account please enter your password.',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -140,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       Navigator.pop(context);
                     },
                     style: ButtonStyles.outlinedButton,
-                    child: Text("Cancel"),
+                    child: Text('Cancel'),
                   ),
                   SizedBox(width: 20),
                   ElevatedButton(
@@ -155,7 +158,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     style: ButtonStyles.containedButton,
                     child: Text(
-                      "Delete Account",
+                      'Delete Account',
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -180,14 +183,14 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget emailVerificationListing(BuildContext context) {
+  Widget emailVerificationListing() {
     return InkWell(
       onTap: () {
         showDialog(
             context: context,
             builder: (context) {
               _passwordController.clear();
-              return emailVerificationDialog(context);
+              return emailVerificationDialog();
             });
       },
       child: Card(
@@ -216,7 +219,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget emailVerificationDialog(BuildContext context) {
+  Widget emailVerificationDialog() {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -233,7 +236,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             Text(
-              "Please verify your email to keep using this application securely.",
+              'Please verify your email to keep using this application securely.',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -254,18 +257,20 @@ class _SettingsPageState extends State<SettingsPage> {
                         Navigator.pop(context);
                         _user.validateUserWithEmail();
                         _notification = NotificationFactory.successFactory(
-                            message: "Verifications email sent.");
+                            title: 'Success',
+                            message: 'Verifications email sent.');
 
                         _notification.show(context);
                       } catch (e) {
                         _notification = NotificationFactory.errorFactory(
+                            title: 'Error',
                             message:
-                                "Unable to send verification email. Error: $e");
+                                'Unable to send verification email. Error: $e');
                         _notification.show(context);
                       }
                     },
                     style: ButtonStyles.containedButton,
-                    child: Text("Send verification email"),
+                    child: Text('Send verification email'),
                   ),
                 ],
               ),
@@ -276,71 +281,79 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget accountDeleteListing() {
+    return InkWell(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              _passwordController.clear();
+              return accountDeletionDialog(context);
+            });
+      },
+      child: Card(
+        elevation: 10,
+        child: Container(
+          height: 75,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Icon(
+                    Icons.delete_forever,
+                  ),
+                ),
+                Text(
+                  'Delete My Account',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              ]),
+        ),
+      ),
+    );
+  }
+
   Widget _buildSettingsPage() {
     List<Widget> _settingsPageItems = [
       _buildSettingsPageItem(
-        context,
-        'Notification Preferences',
-        Icons.notifications,
-        NOTIFICATION_PREFERENCES_URL,
+        title: 'Notification Preferences',
+        icon: Icons.notifications,
+        route: NOTIFICATION_PREFERENCES_URL,
       ),
       _buildSettingsPageItem(
-        context,
-        'User Agreement (EULA)',
-        Icons.gavel,
-        USER_AGREEMENT_URL,
+        title: 'User Agreement (EULA)',
+        icon: Icons.gavel,
+        route: USER_AGREEMENT_URL,
       ),
       _buildSettingsPageItem(
-        context,
-        'PDPL (KVKK) Information',
-        Icons.description,
-        PDPL_INFO_URL,
+        title: 'PDPL (KVKK) Information',
+        icon: Icons.description,
+        route: PDPL_INFO_URL,
       ),
-      InkWell(
-        onTap: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                _passwordController.clear();
-                return accountDeletionDialog(context);
-              });
-        },
-        child: Card(
-          elevation: 10,
-          child: Container(
-            height: 75,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Icon(
-                      Icons.delete_forever,
-                    ),
-                  ),
-                  Text(
-                    'Delete My Account',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  )
-                ]),
-          ),
-        ),
-      ),
+      accountDeleteListing(),
     ];
 
     if (context.read<AuthenticationBloc>().state
         is AuthenticationAuthenticated) {
       _settingsPageItems.insert(
-          1,
-          _buildSettingsPageItem(context, 'Contact Preferences',
-              Icons.perm_phone_msg, CONTACT_PREFERENCES_URL));
+        1,
+        _buildSettingsPageItem(
+          title: 'Contact Preferences',
+          icon: Icons.perm_phone_msg,
+          route: CONTACT_PREFERENCES_URL,
+        ),
+      );
     }
 
     if (!_user.isVerified()) {
-      _settingsPageItems.insert(4, emailVerificationListing(context));
+      _settingsPageItems.insert(
+        4,
+        emailVerificationListing(),
+      );
     }
 
     return SingleChildScrollView(
@@ -389,7 +402,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 100,
                       width: 100,
                       child: Image.asset(
-                        'assets/logo_textless.png',
+                        'assets/logo.png',
                         color: ColorSets.appMainColor,
                       ),
                     ),
