@@ -6,6 +6,9 @@ import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:GTUBT/ui/style/button_styles.dart';
+import 'package:GTUBT/service/authentication.dart';
+import 'package:GTUBT/ui/utils/notification.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -13,6 +16,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final AuthService _user = AuthService();
+  Flushbar _notification = NotificationFactory.informationFactory(message: "");
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   void _cardFunction(String route) {
@@ -70,7 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             Text(
-              "To delete your account please enter your password",
+              "To delete your account please enter your password.",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -152,7 +157,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Text(
                       "Delete Account",
                       style: TextStyle(
-                        color: Colors.red,
+                        color: Colors.white,
                       ),
                     ),
                   )
@@ -167,6 +172,102 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget emailVerificationListing(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              _passwordController.clear();
+              return emailVerificationDialog(context);
+            });
+      },
+      child: Card(
+        elevation: 10,
+        child: Container(
+          height: 75,
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Icon(
+                    Icons.email,
+                  ),
+                ),
+                Text(
+                  'Email Verification',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              ]),
+        ),
+      ),
+    );
+  }
+
+  Widget emailVerificationDialog(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      backgroundColor: ColorSets.popUpBackgroundColor,
+      elevation: 40,
+      child: Container(
+        height: 180,
+        padding: const EdgeInsets.only(
+          top: 25.0,
+          left: 25.0,
+          right: 25.0,
+        ),
+        child: Column(
+          children: [
+            Text(
+              "Please verify your email to keep using this application securely.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16),
+            ),
+            SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 20,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      try {
+                        Navigator.pop(context);
+                        _user.validateUserWithEmail();
+                        _notification = NotificationFactory.successFactory(
+                            message: "Verifications email sent.");
+
+                        _notification.show(context);
+                      } catch (e) {
+                        _notification = NotificationFactory.errorFactory(
+                            message:
+                                "Unable to send verification email. Error: $e");
+                        _notification.show(context);
+                      }
+                    },
+                    style: ButtonStyles.containedButton,
+                    child: Text("Send verification email"),
+                  ),
+                ],
               ),
             ),
           ],
@@ -205,7 +306,6 @@ class _SettingsPageState extends State<SettingsPage> {
               });
         },
         child: Card(
-          color: Colors.redAccent,
           elevation: 10,
           child: Container(
             height: 75,
@@ -217,14 +317,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     padding: EdgeInsets.all(20),
                     child: Icon(
                       Icons.delete_forever,
-                      color: Colors.white,
                     ),
                   ),
                   Text(
-                    'Delete Account',
+                    'Delete My Account',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      color: Colors.white,
                     ),
                   )
                 ]),
@@ -239,6 +337,10 @@ class _SettingsPageState extends State<SettingsPage> {
           1,
           _buildSettingsPageItem(context, 'Contact Preferences',
               Icons.perm_phone_msg, CONTACT_PREFERENCES_URL));
+    }
+
+    if (!_user.isVerified()) {
+      _settingsPageItems.insert(4, emailVerificationListing(context));
     }
 
     return SingleChildScrollView(
