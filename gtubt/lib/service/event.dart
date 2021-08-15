@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:GTUBT/exceptions/event.dart';
-import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/event.dart';
+import 'package:GTUBT/models/paginated_response.dart';
 import 'package:GTUBT/service/service.dart';
 
 class EventService extends BaseService {
@@ -23,17 +23,9 @@ class EventService extends BaseService {
     }
     try {
       List<Event> body = [];
-      ApiResponseList<Event> apiResponse = ApiResponseList();
-      final eventList = json.decode(response.body);
-      apiResponse.status = response.statusCode;
-      eventList.forEach((event) {
-        body.add(Event.fromJson(event));
-      });
-      apiResponse.body = body.toList();
-      if (apiResponse.status != 200) {
-        throw EventException.message(apiResponse.message);
-      }
-      return apiResponse.body;
+      PaginatedResponse paginatedResponse = PaginatedResponse.fromJson(json.decode(response.body));
+      body = paginatedResponse.results!.map((e) => Event.fromJson(e)).toList();
+      return body;
     } on EventException catch (ex) {
       throw EventException(ex.message);
     } catch (_) {
@@ -45,17 +37,12 @@ class EventService extends BaseService {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
     final response = await DELETE('$url');
-
     if (response.statusCode != 200) {
       throw EventException();
     }
     try {
-      final apiResponse =
-          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw EventException.message(apiResponse.message);
-      }
-      return apiResponse.body;
+      final event = Event.fromJson(json.decode(response.body));
+      return event;
     } on EventException catch (ex) {
       throw EventException(ex.message);
     } catch (_) {
@@ -80,13 +67,9 @@ class EventService extends BaseService {
         throw EventException();
       }
 
-      final apiResponse =
-          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw EventException.message(apiResponse.message);
-      }
+      final apiResponse = Event.fromJson(json.decode(response.body));
 
-      return apiResponse.body;
+      return apiResponse;
     } on EventException catch (ex) {
       throw EventException(ex.message);
     } catch (_) {
@@ -103,13 +86,9 @@ class EventService extends BaseService {
       throw EventException();
     }
     try {
-      final apiResponse =
-          ApiResponseSingle<Event>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw EventException.message(apiResponse.message);
-      }
+      final apiResponse = Event.fromJson(json.decode(response.body));
 
-      return apiResponse.body;
+      return apiResponse;
     } on EventException catch (ex) {
       throw EventException(ex.message);
     } catch (_) {

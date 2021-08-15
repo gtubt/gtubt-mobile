@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:GTUBT/exceptions/ticket.dart';
-import 'package:GTUBT/models/api_response.dart';
+import 'package:GTUBT/models/paginated_response.dart';
 import 'package:GTUBT/models/ticket.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
@@ -36,13 +36,9 @@ class TicketService extends BaseService {
       throw TicketException();
     }
     try {
-      final apiResponse =
-          ApiResponseList<Ticket>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw TicketException.message(apiResponse.message);
-      }
-      _tickets = apiResponse.body;
-      return _tickets;
+      PaginatedResponse paginatedResponse = PaginatedResponse.fromJson(json.decode(response.body));
+      List<Ticket> body = paginatedResponse.results!.map((e) => Ticket.fromJson(e)).toList();
+      return body;
     } catch (_) {
       throw TicketException();
     }
