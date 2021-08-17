@@ -259,21 +259,21 @@ class _LoginFormState extends State<LoginForm> {
       }
       if (state.isSuccess) {
         _notification.dismiss();
-        _notification =
-            NotificationFactory.successFactory(message: "Login successful");
+        _notification = NotificationFactory.successFactory(
+            title: "Success", message: "Login successful");
         _notification.show(context);
         context.read<AuthenticationBloc>().add(LoggedIn(context: context));
       }
       if (state.isPwRequestSent) {
         _notification.dismiss();
         _notification = NotificationFactory.successFactory(
-            message: "Password reset mail sent!");
+            title: "Success", message: "Password reset mail sent!");
         _notification.show(context);
       }
       if (state.isFailure) {
         _notification.dismiss();
-        _notification =
-            NotificationFactory.errorFactory(message: state.errorMessage!);
+        _notification = NotificationFactory.errorFactory(
+            title: "Error", message: state.errorMessage!);
         _notification.show(context);
       }
     }, builder: (context, state) {
@@ -303,7 +303,9 @@ class _LoginFormState extends State<LoginForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _signInButton(),
-                          SizedBox(height: 20.0,),
+                          SizedBox(
+                            height: 20.0,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [

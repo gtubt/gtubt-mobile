@@ -9,6 +9,11 @@ import 'package:GTUBT/ui/pages/signup_page.dart';
 import 'package:GTUBT/ui/pages/news_page.dart';
 import 'package:GTUBT/ui/pages/splash_page.dart';
 import 'package:GTUBT/ui/pages/ticket_page.dart';
+import 'package:GTUBT/ui/pages/notification_preferences_page.dart';
+import 'package:GTUBT/ui/pages/contact_preferences_page.dart';
+import 'package:GTUBT/ui/pages/user_agreement_page.dart';
+import 'package:GTUBT/ui/pages/pdpl_info_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,6 +25,10 @@ const SIGN_UP_URL = '/sign_up';
 const TICKET_URL = '/ticket';
 const SETTINGS_URL = '/settings';
 const CALENDER_URL = '/calender';
+const NOTIFICATION_PREFERENCES_URL = '/settings/notification_preferences';
+const CONTACT_PREFERENCES_URL = '/settings/contact_preferences';
+const USER_AGREEMENT_URL = '/settings/user_agreement';
+const PDPL_INFO_URL = '/settings/pdpl_info';
 
 class Routes {
   static final routes = <String, WidgetBuilder>{
@@ -34,6 +43,10 @@ class Routes {
         ),
     SETTINGS_URL: (context) => SettingsPage(),
     CALENDER_URL: (context) => CalendarPage(),
+    NOTIFICATION_PREFERENCES_URL: (context) => NotificationPreferencesPage(),
+    CONTACT_PREFERENCES_URL: (context) => ContactPreferencesPage(),
+    USER_AGREEMENT_URL: (context) => UserAgreementPage(),
+    PDPL_INFO_URL: (context) => PdplInfoPage(),
   };
   static const HOME = "Home";
   static const CALENDAR = "Calendar";
