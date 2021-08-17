@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:GTUBT/exceptions/user.dart';
-import 'package:GTUBT/models/api_response.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
 
@@ -30,15 +29,10 @@ class UserService extends BaseService {
       throw UserException();
     }
     try {
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
+      apiResponse = User.fromJson(json.decode(response.body));
 
-      if (apiResponse.status != 200) {
-        throw UserException.message(apiResponse.message);
-      }
-
-      this.currentUser = apiResponse.body;
-      return apiResponse.body;
+      this.currentUser = apiResponse;
+      return apiResponse;
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -61,13 +55,9 @@ class UserService extends BaseService {
       if (response.statusCode != 200) {
         throw UserException(response.body);
       }
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw UserException.message(apiResponse.message);
-      }
-      currentUser = apiResponse.body;
-      return apiResponse.body;
+      apiResponse = User.fromJson(json.decode(response.body));
+      currentUser = apiResponse;
+      return apiResponse;
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -100,13 +90,10 @@ class UserService extends BaseService {
         throw UserException();
       }
 
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw UserException.message(apiResponse.message);
-      }
-      currentUser = apiResponse.body;
-      return apiResponse.body;
+      apiResponse = User.fromJson(json.decode(response.body));
+
+      currentUser = apiResponse;
+      return apiResponse;
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -129,14 +116,10 @@ class UserService extends BaseService {
         throw UserException(json.decode(response.body)["Message"]);
       }
 
-      apiResponse =
-          ApiResponseSingle<User>.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw UserException.message(apiResponse.message);
-      }
+      apiResponse = User.fromJson(json.decode(response.body));
 
-      currentUser = apiResponse.body;
-      return apiResponse.body;
+      currentUser = apiResponse;
+      return apiResponse;
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -146,17 +129,12 @@ class UserService extends BaseService {
 
   Future<bool> delete(String email) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
-    var apiResponse;
 
     final response = await DELETE('$url');
     if (response.statusCode != 200) {
       throw UserException();
     }
     try {
-      apiResponse = ApiResponse.fromJson(json.decode(response.body));
-      if (apiResponse.status != 200) {
-        throw UserException.message(apiResponse.message);
-      }
       clearUser();
       return true;
     } on UserException catch (ex) {
