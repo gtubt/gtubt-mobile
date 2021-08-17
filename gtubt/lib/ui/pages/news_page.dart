@@ -37,7 +37,8 @@ class _NewsPage extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
-    NewsViewArguments newsArgs = ModalRoute.of(context)!.settings.arguments as NewsViewArguments;
+    NewsViewArguments newsArgs =
+        ModalRoute.of(context)!.settings.arguments as NewsViewArguments;
     var news = newsArgs.news;
     return Scaffold(
       body: DefaultTabController(

@@ -19,7 +19,7 @@ class NewsItem extends StatelessWidget {
 
   Widget buildNewsItemPicturePart() {
     return Container(
-      height: 200,
+      height: 160,
       width: 400,
       child: Hero(
         child: FadeInImage.assetNetwork(
@@ -27,8 +27,8 @@ class NewsItem extends StatelessWidget {
           // add this
           placeholder: 'assets/logo.png',
           image: item!.coverImageUrl!,
-          height: 300,
-          fit: BoxFit.fitHeight,
+          height: 150,
+          fit: BoxFit.fill,
           imageErrorBuilder: (context, error, stackTrace) {
             return Image.asset("assets/dummy.png");
           },
@@ -39,28 +39,31 @@ class NewsItem extends StatelessWidget {
   }
 
   Widget buildNewsItemDescriptionPart() {
-    return Positioned(
-      top: 130,
-      child: Container(
-        margin: EdgeInsets.only(left: 5, right: 5),
-        width: 320,
-        child: Stack(
-          children: <Widget>[
-            Container(
+    return Container(
+      margin: EdgeInsets.only(left: 5, right: 5),
+      width: 320,
+      height: 80,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 2, bottom: 10, top: 10),
               child: Text(
                 item!.title!,
-                style: TextStyles.subtitle1.copyWith(color: ColorSets.defaultTextColor),
+                style: TextStyles.subtitle1
+                    .copyWith(color: ColorSets.defaultTextColor),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Text(
-                item!.summary!,
-                style: TextStyles.bodyText2.copyWith(color: ColorSets.defaultTextColor),
-              ),
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 2, top: 34, bottom: 10),
+            child: Text(
+              item!.summary!,
+              style: TextStyles.bodyText2
+                  .copyWith(color: ColorSets.defaultTextColor),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -75,11 +78,11 @@ class NewsItem extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 3.0, // has the effect of softening the shadow
-              spreadRadius: 1.0, // has the effect of extending the shadow
+              blurRadius: 4.0, // has the effect of softening the shadow
+              spreadRadius: 0.0, // has the effect of extending the shadow
               offset: Offset(
                 0.0, // horizontal, move right 10
-                5.0, // vertical, move down 10
+                4.0, // vertical, move down 10
               ),
             )
           ],
@@ -87,8 +90,8 @@ class NewsItem extends StatelessWidget {
         ),
         child: ClipRRect(
             borderRadius: _borderRadius,
-            child: Stack(
-              children: <Widget>[
+            child: Column(
+              children: [
                 buildNewsItemPicturePart(),
                 buildNewsItemDescriptionPart()
               ],

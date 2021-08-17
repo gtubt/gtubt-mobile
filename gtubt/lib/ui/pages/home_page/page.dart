@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
 
   EdgeInsets calculateNewsItemMargin(int index, List<News?>? items) {
     EdgeInsets cardMargin;
-    if (index > 0 && (items?[index]?.startDate == items?[index - 1]?.startDate)) {
+    if (index > 0 &&
+        (items?[index]?.startDate == items?[index - 1]?.startDate)) {
       if (index == items!.length - 1) {
         cardMargin = EdgeInsets.only(
           top: 20.0,
@@ -69,7 +70,8 @@ class _HomePageState extends State<HomePage> {
   Widget? getDayText(int index, List<News?>? items) {
     Widget? dayText;
 
-    if (index == 0 || (items?[index]?.startDate != items?[index - 1]?.startDate)) {
+    if (index == 0 ||
+        (items?[index]?.startDate != items?[index - 1]?.startDate)) {
       dayText = Text(
         TimeAgoFormatter(items?[index]?.startDate).toString(),
         style: TextStyles.subtitle2.copyWith(color: ColorSets.defaultTextColor),
@@ -100,7 +102,7 @@ class _HomePageState extends State<HomePage> {
               return Stack(
                 children: <Widget>[
                   Container(
-                      margin: const EdgeInsets.only(top: 20.0),
+                      margin: const EdgeInsets.only(top: 20.0, left: 11),
                       height: 30,
                       child: dayText),
                   NewsItem(
