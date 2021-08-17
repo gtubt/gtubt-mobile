@@ -15,8 +15,8 @@ class EventService extends BaseService {
     return _eventService;
   }
 
-  Future<List<Event?>?> getAll() async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
+  Future<List<Event?>?> list() async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/';
     final response = await GET('$url');
     if (response.statusCode != 200) {
       throw EventException();

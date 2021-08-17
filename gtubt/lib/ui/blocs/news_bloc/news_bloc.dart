@@ -14,7 +14,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     if (event is FetchNews) {
       yield NewsState.loading();
       try {
-        List<News?>? news = await _newsService.getAll();
+        List<News?>? news = await _newsService.list();
         yield NewsState.loaded(news);
       } on NewsException catch (err) {
         yield NewsState.failure(err.message);

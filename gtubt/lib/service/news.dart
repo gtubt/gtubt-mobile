@@ -13,8 +13,8 @@ class NewsService extends BaseService {
     return _newsService;
   }
 
-  Future<List<News?>?> getAll() async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/all/';
+  Future<List<News?>?> list() async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/';
 
     final response = await GET('$url');
 
@@ -46,7 +46,7 @@ class NewsService extends BaseService {
     }
   }
 
-  Future<News?> news(News news) async {
+  Future<News?> post(News news) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath';
     try {
       var newsInJson = news.toJson();

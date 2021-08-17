@@ -25,7 +25,7 @@ class TicketService extends BaseService {
     //  TODO: implement
   }
 
-  Future<List<Ticket?>?> getAll(User user) async {
+  Future<List<Ticket?>?> list(User user) async {
     // FIXME
     List<Ticket?>? _tickets = [];
 
