@@ -3,16 +3,13 @@ import 'dart:convert';
 import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
-
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:kiwi/kiwi.dart';
-
+import 'package:GTUBT/service/authentication.dart';
 
 class UserService extends BaseService {
+  AuthService auth = AuthService();
   final servicePath = 'users';
   User? currentUser;
   User? userBackup;
-  KiwiContainer container = KiwiContainer();
   static final UserService _userService = UserService._internal();
 
   UserService._internal();
@@ -22,17 +19,18 @@ class UserService extends BaseService {
   }
 
   Future<User?> get(String email) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
-    final response = await GET(url);
-    var apiResponse;
-    if (response.statusCode != 200) {
-      throw UserException();
-    }
+    // String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
+    // final response = await GET(url);
+    // var apiResponse;
+    // if (response.statusCode != 200) {
+    //   throw UserException();
+    // }
     try {
-      apiResponse = User.fromJson(json.decode(response.body));
+      // apiResponse = User.fromJson(json.decode(response.body));
 
-      this.currentUser = apiResponse;
-      return apiResponse;
+      this.currentUser = await auth.getUser();
+      print(await auth.getUser());
+      return await auth.getUser();
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -68,10 +66,15 @@ class UserService extends BaseService {
   Future<User?> patch(User user) async {
     var id = user.id;
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
+    User? firebaseUser = await auth.getUser();
     try {
-      var firebaseUser = container.resolve<auth.User>();
-      if (firebaseUser.email != user.email) {
-        firebaseUser.updateEmail(user.email!);
+      if (firebaseUser?.email != user.email) {
+        PATCH(
+          url,
+          body: json.encode({
+            "email": user.email,
+          }),
+        );
         // TODO: Might throw requires-recent-login,
         // TODO: needs design for password retrieval for such events
       }

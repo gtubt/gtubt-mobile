@@ -135,7 +135,7 @@ class _HamburgerMenuComponentsState extends State<HamburgerMenuComponents> {
 
     if (context.read<AuthenticationBloc>().state
         is AuthenticationAuthenticated) {
-      _menuItems.add(_buildProfileHeader(user!.fullName, user!.profilePhoto));
+      _menuItems.add(_buildProfileHeader(user!.fullName, user!.photo));
       _menuItems.add(_buildHamburgerMenuItem('TICKETS', _ticketButtonFunction));
       _menuItems
           .add(_buildHamburgerMenuItem('SETTINGS', _settingsButtonFunction));

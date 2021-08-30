@@ -4,7 +4,6 @@ import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_event.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:kiwi/kiwi.dart';
 
 class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {

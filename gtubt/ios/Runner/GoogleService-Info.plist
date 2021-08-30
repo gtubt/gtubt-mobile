@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>576335072786-cq3e5j8ci3npah97gbkcqdujaqfplrti.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.576335072786-cq3e5j8ci3npah97gbkcqdujaqfplrti</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAeeTqe78etI12oLaaFTYVbn01iMRoIeFA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>576335072786</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.btgtu.app</string>
+	<key>PROJECT_ID</key>
+	<string>gtubtmobile-bb186</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gtubtmobile-bb186.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:576335072786:ios:f8664c8aad1cd43db652cb</string>
+	<key>DATABASE_URL</key>
+	<string>https://gtubtmobile-bb186.firebaseio.com</string>
+</dict>
+</plist>

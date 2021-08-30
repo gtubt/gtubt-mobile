@@ -6,35 +6,37 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  String? name;
-  String? lastname;
+  String? first_name;
+  String? last_name;
   String? email;
   Department? department;
   int? year;
   int? id;
-  String? studentId;
+  String? student_id;
   String? phone;
-  bool? isAcceptKVKK;
-  bool? isAcceptUserAgreement;
+  bool? is_accept_kvkk;
+  bool? is_accept_user_agreement;
+  bool? is_email_verified;
 
-  @JsonKey(name: "photoUrl")
-  String? profilePhoto;
+  @JsonKey(name: "photo")
+  String? photo;
 
   User({
     this.id,
-    this.studentId,
+    this.student_id,
     this.email,
-    this.name,
-    this.lastname,
+    this.first_name,
+    this.last_name,
     this.department,
     this.year,
     this.phone,
-    this.profilePhoto,
-    this.isAcceptKVKK,
-    this.isAcceptUserAgreement,
+    this.photo,
+    this.is_accept_kvkk,
+    this.is_accept_user_agreement,
+    this.is_email_verified,
   });
 
-  String get fullName => "$name $lastname";
+  String get fullName => "$first_name $last_name";
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -42,33 +44,35 @@ class User {
 
   factory User.clone(User user) {
     return User(
-      studentId: user.studentId,
+      student_id: user.student_id,
       email: user.email,
       department: user.department,
-      name: user.name,
-      lastname: user.lastname,
+      first_name: user.first_name,
+      last_name: user.last_name,
       year: user.year,
       phone: user.phone,
-      profilePhoto: user.profilePhoto,
+      photo: user.photo,
       id: user.id,
-      isAcceptKVKK: user.isAcceptKVKK,
-      isAcceptUserAgreement: user.isAcceptUserAgreement,
+      is_accept_kvkk: user.is_accept_kvkk,
+      is_accept_user_agreement: user.is_accept_user_agreement,
+      is_email_verified: user.is_email_verified,
     );
   }
 
   @override
   String toString() {
     return '''User {  
-    Name: $name,
-    Lastname: $lastname, 
+    Name: $first_name,
+    Lastname: $last_name, 
     Email: $email,
     Department: $department,
     Year: $year,
-    Student ID: $studentId,
+    Student ID: $student_id,
     Phone: $phone,
-    Photo Url: $profilePhoto,
-    Is Accept KVKK: $isAcceptKVKK,
-    Is Accept User Agreement: $isAcceptUserAgreement,
+    Photo Url: $photo,
+    Is Accept KVKK: $is_accept_kvkk,
+    Is Accept User Agreement: $is_accept_user_agreement,
+    Is Email Verified: $is_email_verified,
 }''';
   }
 }

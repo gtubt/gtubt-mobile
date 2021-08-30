@@ -25,7 +25,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  Flushbar _loadingNotification = NotificationFactory.loadingFactory(message: '');
+  Flushbar _loadingNotification =
+      NotificationFactory.loadingFactory(message: '');
 
   User? user;
   final picker = ImagePicker();
@@ -78,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     ];
 
-    if (user!.profilePhoto != null) {
+    if (user!.photo != null) {
       _menuItems.add(
         ListTile(
           leading: Icon(Icons.delete),
@@ -113,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
             : MediaQuery.of(context).size.height;
     Widget profilePhoto;
 
-    if (user!.profilePhoto == null) {
+    if (user!.photo == null) {
       profilePhoto = Icon(
         null,
         color: ColorSets.profilePageThemeColor,
@@ -122,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
     } else {
       profilePhoto = FittedBox(
         child: CircleAvatar(
-          foregroundImage: NetworkImage(user!.profilePhoto!),
+          foregroundImage: NetworkImage(user!.photo!),
         ),
       );
     }
@@ -165,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (context.read<AppbarBloc>().state.editMode) {
       var field = NameChanged();
       TextEditingController controller =
-      context.read<UserBloc>().textEditingController(field);
+          context.read<UserBloc>().textEditingController(field);
       controller.text = name;
       controller.addListener(() {
         final text = controller.text;
@@ -264,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
     TextEditingController controller =
-    context.read<UserBloc>().textEditingController(field);
+        context.read<UserBloc>().textEditingController(field);
     controller.text = formData;
     if (context.read<AppbarBloc>().state.editMode) {
       controller.addListener(() {
@@ -423,7 +424,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _studentNumber(user!.studentId),
+                    child: _studentNumber(user!.student_id),
                   ),
                   Container(
                     child: _phoneNumber(user!.phone),
@@ -487,7 +488,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   } else {
                     _loadingNotification.dismiss();
                     _loadingNotification = NotificationFactory.loadingFactory(
-                            message: state.loadingMessage);
+                        message: state.loadingMessage);
                     _loadingNotification.show(context);
                   }
                 } else {
