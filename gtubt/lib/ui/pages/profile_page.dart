@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:GTUBT/ui/style/decorations.dart';
+import 'package:GTUBT/service/user.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -27,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _passwordController = TextEditingController();
   Flushbar _loadingNotification =
       NotificationFactory.loadingFactory(message: '');
+  UserService userService = UserService();
 
   User? user;
   final picker = ImagePicker();
@@ -395,7 +397,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    user = context.read<UserBloc>().userService.currentUser!;
+    userService.get();
+    user = context.read<UserBloc>().userService.currentUser;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(

@@ -243,7 +243,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: FormBoxContainer.loginPageTextFieldDecoration,
                     cursorColor: ColorSets.cursorColor,
                     obscureText: _obscureText,
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     onTap: () {
                       Future.delayed(
                           const Duration(milliseconds: 100),
@@ -492,7 +492,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               _passwordForm(),
                               SizedBox(height: 6),
                               _passwordHint(),
-                              _buildCheckBox('PDPL (KVKK) Information Text', 'kvkk'),
+                              _buildCheckBox(
+                                  'PDPL (KVKK) Information Text', 'kvkk'),
                               _buildCheckBox('User Agreement', 'userAgreement'),
                               SizedBox(height: 15),
                               Row(

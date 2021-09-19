@@ -18,7 +18,7 @@ class UserService extends BaseService {
     return _userService;
   }
 
-  Future<User?> get(String email) async {
+  Future<User?> get() async {
     // String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
     // final response = await GET(url);
     // var apiResponse;
@@ -29,7 +29,6 @@ class UserService extends BaseService {
       // apiResponse = User.fromJson(json.decode(response.body));
 
       this.currentUser = await auth.getUser();
-      print(await auth.getUser());
       return await auth.getUser();
     } on UserException catch (ex) {
       throw UserException(ex.message);
