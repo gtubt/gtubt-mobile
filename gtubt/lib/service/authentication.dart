@@ -3,14 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/models/user.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:GTUBT/service/service.dart';
+import 'package:GTUBT/service/user.dart';
 
 class AuthService extends BaseService {
   final servicePath = 'auth';
   static final AuthService _authService = AuthService._internal();
   AuthService._internal();
-  KiwiContainer container = KiwiContainer();
+  static final UserService _userService = UserService();
 
   factory AuthService() {
     return _authService;
@@ -37,7 +37,7 @@ class AuthService extends BaseService {
       Map<String, dynamic> decodedResponse = jsonDecode(response.body);
       String token = decodedResponse['key'];
       prefs.setString("token", token);
-      return getUser();
+      return _userService.get();
     } catch (_) {}
     throw AuthenticationException();
   }
@@ -89,7 +89,29 @@ class AuthService extends BaseService {
       return false;
   }
 
-  Future<void> signOut() async {}
+  Future<void> signOut() async {
+    String url = '$baseUrl/$endpointPrefix/$servicePath/logout/';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      String token = prefs.getString("token")!;
+      final response = await POST(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "token $token",
+        },
+      );
+      Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+      if (decodedResponse.containsKey("detail") &&
+          decodedResponse["detail"] == "Successfully logged out.") {
+        return;
+      } else {
+        throw AuthenticationException();
+      }
+    } catch (_) {}
+    throw AuthenticationException();
+  }
 
   Future<User?> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

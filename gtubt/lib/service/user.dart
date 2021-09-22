@@ -4,6 +4,7 @@ import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
 import 'package:GTUBT/service/authentication.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService extends BaseService {
   AuthService auth = AuthService();
@@ -19,15 +20,7 @@ class UserService extends BaseService {
   }
 
   Future<User?> get() async {
-    // String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
-    // final response = await GET(url);
-    // var apiResponse;
-    // if (response.statusCode != 200) {
-    //   throw UserException();
-    // }
     try {
-      // apiResponse = User.fromJson(json.decode(response.body));
-
       this.currentUser = await auth.getUser();
       return await auth.getUser();
     } on UserException catch (ex) {
@@ -146,7 +139,9 @@ class UserService extends BaseService {
     }
   }
 
-  void clearUser() {
+  void clearUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("token");
     currentUser = null;
   }
 }

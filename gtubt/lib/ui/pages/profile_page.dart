@@ -1,3 +1,9 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_event.dart';
@@ -10,11 +16,6 @@ import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
-import 'package:another_flushbar/flushbar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:GTUBT/ui/style/decorations.dart';
 import 'package:GTUBT/service/user.dart';
 
@@ -397,7 +398,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    userService.get();
     user = context.read<UserBloc>().userService.currentUser;
     return Scaffold(
       body: SingleChildScrollView(
