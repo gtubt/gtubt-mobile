@@ -83,8 +83,8 @@ class _MainPageState extends State<MainPage> {
           return Scaffold(
               appBar: BaseAppBar(
                 leading: isEditMode
-                    ? new IconButton(
-                        icon: new Icon(Icons.close),
+                    ? IconButton(
+                        icon: Icon(Icons.close),
                         onPressed: () =>
                             context.read<AppbarBloc>().add(UserEditCancelled()),
                       )
@@ -97,11 +97,11 @@ class _MainPageState extends State<MainPage> {
                     : Text(
                         authState is AuthenticationAuthenticated
                             ? Routes.bodyTitleLoggedIn[state.currentPage]
-                            : Routes.bodyTitle[state. currentPage],
+                            : Routes.bodyTitle[state.currentPage],
                         style: TextStyle(color: ColorSets.lightTextColor),
                       ),
                 actions: actions,
-                  bottom: AppBarLinearProgressIndicator(isLoading),
+                bottom: AppBarLinearProgressIndicator(isLoading),
               ),
               bottomNavigationBar: BottomNavigationBar(
                 fixedColor: Colors.white,
