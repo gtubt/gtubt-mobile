@@ -5,6 +5,7 @@ import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:GTUBT/ui/blocs/authentication_bloc/authentication_state.dart';
 import 'package:GTUBT/ui/blocs/page_bloc/bloc.dart';
 import 'package:GTUBT/ui/components/appbar_linear_progress_indicator.dart';
+import 'package:GTUBT/ui/components/base_app_bar.dart';
 import 'package:GTUBT/ui/components/hamburger_menu.dart';
 import 'package:GTUBT/ui/routes.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
@@ -80,15 +81,14 @@ class _MainPageState extends State<MainPage> {
               context.read<AppbarBloc>().state is AppbarLoadingState;
           var isEditMode = context.read<AppbarBloc>().state.editMode;
           return Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                leading: isEditMode ? new IconButton(
-                  icon: new Icon(Icons.close),
-                  onPressed: () => context.read<AppbarBloc>().add(UserEditCancelled()),
-                ) : null,
-                brightness: Brightness.dark,
-                iconTheme: IconThemeData(color: ColorSets.lightTextColor),
-                backgroundColor: ColorSets.appMainColor,
+              appBar: BaseAppBar(
+                leading: isEditMode
+                    ? IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () =>
+                            context.read<AppbarBloc>().add(UserEditCancelled()),
+                      )
+                    : null,
                 title: state.currentPage == 0
                     ? Image.asset(
                         "assets/logo_textless.png",
