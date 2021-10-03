@@ -1,16 +1,16 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
-import 'package:GTUBT/service/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService extends BaseService {
-  final servicePath = 'auth';
   static final AuthService _authService = AuthService._internal();
+
+  final servicePath = 'auth';
+
   AuthService._internal();
-  static final UserService _userService = UserService();
 
   factory AuthService() {
     return _authService;
@@ -20,15 +20,12 @@ class AuthService extends BaseService {
     String email,
     String password,
   ) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/login/';
+    String url = getUrl(extraServicePath: 'login');
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
       final response = await POST(
-        '$url',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        url,
         body: json.encode({
           "username": email,
           "password": password,
@@ -37,7 +34,7 @@ class AuthService extends BaseService {
       Map<String, dynamic> decodedResponse = jsonDecode(response.body);
       String token = decodedResponse['key'];
       prefs.setString("token", token);
-      return _userService.get();
+      return _authService.getUser();
     } catch (_) {}
     throw AuthenticationException();
   }
@@ -53,13 +50,10 @@ class AuthService extends BaseService {
 
   Future<User?> signUp(User user, String password) async {
     try {
-      String url = '$baseUrl/$endpointPrefix/$servicePath/registration/';
+      String url = getUrl(extraServicePath: 'registration');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final response = await POST(
         url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
         body: json.encode({
           "username": user.email,
           "first_name": user.first_name,
@@ -90,18 +84,9 @@ class AuthService extends BaseService {
   }
 
   Future<void> signOut() async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/logout/';
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    String url = getUrl(extraServicePath: 'logout');
     try {
-      String token = prefs.getString("token")!;
-      final response = await POST(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          "Authorization": "token $token",
-        },
-      );
+      final response = await POST(url);
       Map<String, dynamic> decodedResponse = jsonDecode(response.body);
       if (decodedResponse.containsKey("detail") &&
           decodedResponse["detail"] == "Successfully logged out.") {
@@ -114,31 +99,42 @@ class AuthService extends BaseService {
   }
 
   Future<User?> getUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String url = '$baseUrl/$endpointPrefix/$servicePath/user/';
+    String url = getUrl(extraServicePath: 'user');
     try {
-      String token = prefs.getString("token")!;
-      final userInfo = await GET(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          "Authorization": "token $token",
-        },
-      );
-      return User.fromJson(jsonDecode(userInfo.body));
+      final response = await GET(url);
+      if (response.statusCode != 200) {
+        // TODO: write special error message!
+        throw AuthenticationException();
+      }
+      return User.fromJson(jsonDecode(response.body));
     } catch (_) {
       throw AuthenticationException();
     }
   }
 
-  Future<void> sendPasswordResetEmail(String email) async {
-    try {} catch (_) {
+  Future<String> sendPasswordResetEmail(String email) async {
+    String url = getUrl(extraServicePath: 'password/reset');
+    try {
+      final response = await POST(url);
+      if (response.statusCode != 200) {
+        throw AuthenticationException.message(
+            "Password reset e-mail hasn't been sent. Please try again later.");
+      }
+      Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+      if (decodedResponse.containsKey("detail"))
+        return decodedResponse['detail'];
+
+      return "Password reset e-mail has been sent";
+    } catch (_) {
       throw AuthenticationException();
     }
   }
 
-  Future<void> validateUserWithEmail() async {
-    try {} catch (e) {
+  Future<void> verifyUserWithEmail() async {
+    String url = getUrl(extraServicePath: 'registration/verify-email');
+    try {
+
+    } catch (e) {
       throw AuthenticationException.message(e.toString());
     }
   }

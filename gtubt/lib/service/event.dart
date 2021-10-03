@@ -17,13 +17,14 @@ class EventService extends BaseService {
 
   Future<List<Event?>?> list() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/';
-    final response = await GET('$url');
+    final response = await GET(url);
     if (response.statusCode != 200) {
       throw EventException();
     }
     try {
       List<Event> body = [];
-      PaginatedResponse paginatedResponse = PaginatedResponse.fromJson(json.decode(response.body));
+      PaginatedResponse paginatedResponse =
+          PaginatedResponse.fromJson(json.decode(response.body));
       body = paginatedResponse.results!.map((e) => Event.fromJson(e)).toList();
       return body;
     } on EventException catch (ex) {
@@ -36,7 +37,7 @@ class EventService extends BaseService {
   Future<Event?> delete(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
-    final response = await DELETE('$url');
+    final response = await DELETE(url);
     if (response.statusCode != 200) {
       throw EventException();
     }
@@ -57,11 +58,7 @@ class EventService extends BaseService {
       var eventJson = event.toJson();
       var bodyData = json.encode(eventJson);
 
-      final response = await PATCH('$url',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: bodyData);
+      final response = await PATCH(url, body: bodyData);
 
       if (response.statusCode != 200) {
         throw EventException();
@@ -80,7 +77,7 @@ class EventService extends BaseService {
   Future<Event?> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
-    final response = await GET('$url');
+    final response = await GET(url);
 
     if (response.statusCode != 200) {
       throw EventException();

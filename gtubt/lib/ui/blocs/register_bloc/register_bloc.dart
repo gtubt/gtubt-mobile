@@ -48,7 +48,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         is_accept_user_agreement: event.isAcceptUserAgreement);
     try {
       await _authService.signUp(user, event.password);
-      await _authService.validateUserWithEmail();
+      await _authService.verifyUserWithEmail();
       yield RegisterState.success();
     } on AuthenticationException catch (error) {
       yield RegisterState.failure(error.message);

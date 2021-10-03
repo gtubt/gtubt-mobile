@@ -4,7 +4,7 @@ import 'package:GTUBT/models/user.dart';
 
 void main() {
   test('Get User with email', () async {
-    User? user = await UserService().get("yasir.nacak@gmail.com");
+    User? user = await UserService().get();
     expect(user == null, false);
     expect(user!.first_name, "Yasir");
   });
@@ -26,7 +26,7 @@ void main() {
   });
 
   test('Update User', () async {
-    User? user = await UserService().get("ahmtergn5@gmail.com");
+    User? user = await UserService().get();
     expect(user == null, false);
     expect(user!.first_name, "Ahmet");
 
@@ -36,13 +36,13 @@ void main() {
     expect(updatedUser == null, false);
     expect(updatedUser!.phone, "5464351277");
 
-    user = await UserService().get("ahmtergn5@gmail.com");
+    user = await UserService().get();
     expect(user == null, false);
     expect(user!.phone, "0546 435 12 77");
   });
 
   test('Delete User', () async {
-    User? user = await UserService().get("ahmtergn5@gmail.com");
+    User? user = await UserService().get();
     
     expect(user == null, false);
     expect(user!.first_name, "Ahmet");

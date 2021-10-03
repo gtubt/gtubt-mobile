@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:GTUBT/exceptions/news.dart';
 import 'package:GTUBT/models/news.dart';
 import 'package:GTUBT/models/paginated_response.dart';
 import 'package:GTUBT/service/service.dart';
-import 'dart:convert';
 
 class NewsService extends BaseService {
   static final NewsService _newsService = NewsService._internal();
   final servicePath = 'news';
+
   NewsService._internal();
 
   factory NewsService() {
@@ -16,14 +18,19 @@ class NewsService extends BaseService {
   Future<List<News?>?> list() async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/';
 
-    final response = await GET('$url');
+    final response = await GET(url);
 
     if (response.statusCode != 200) {
       throw NewsException();
     }
     try {
-      PaginatedResponse paginatedResponse = PaginatedResponse.fromJson(json.decode(response.body));
-      List<News> body = paginatedResponse.results!.map((e) => News.fromJson(e)).toList().reversed.toList();
+      PaginatedResponse paginatedResponse =
+          PaginatedResponse.fromJson(json.decode(response.body));
+      List<News> body = paginatedResponse.results!
+          .map((e) => News.fromJson(e))
+          .toList()
+          .reversed
+          .toList();
 
       return body;
     } catch (_) {
@@ -34,7 +41,7 @@ class NewsService extends BaseService {
   Future<News?> get(String id) async {
     String url = '$baseUrl/$endpointPrefix/$servicePath/$id';
 
-    final response = await GET('$url');
+    final response = await GET(url);
     if (response.statusCode != 200) {
       throw NewsException();
     }
@@ -52,11 +59,7 @@ class NewsService extends BaseService {
       var newsInJson = news.toJson();
       var bodyData = json.encode(newsInJson);
 
-      final response = await POST('$url',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: bodyData);
+      final response = await POST(url, body: bodyData);
       if (response.statusCode != 200) {
         throw NewsException();
       }
