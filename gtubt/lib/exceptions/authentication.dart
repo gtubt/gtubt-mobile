@@ -20,7 +20,7 @@ class AuthenticationException extends BaseException {
       }
     });
 
-    if (message != null) return AuthenticationException(message);
+    if (message != null || message != "") return AuthenticationException(message);
     return AuthenticationException(defaultMessage);
   }
 

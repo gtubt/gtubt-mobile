@@ -2,14 +2,12 @@ import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
-import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
 import 'package:bloc/bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthService _authService = AuthService();
-  final UserService _userService = UserService();
 
   RegisterBloc() : super(RegisterState.empty());
 
@@ -48,7 +46,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         is_accept_user_agreement: event.isAcceptUserAgreement);
     try {
       await _authService.signUp(user, event.password);
-      await _authService.verifyUserWithEmail();
       yield RegisterState.success();
     } on AuthenticationException catch (error) {
       yield RegisterState.failure(error.message);

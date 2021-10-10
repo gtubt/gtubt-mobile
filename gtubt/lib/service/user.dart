@@ -2,12 +2,10 @@ import 'dart:convert';
 
 import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
-import 'package:GTUBT/service/authentication.dart';
 import 'package:GTUBT/service/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService extends BaseService {
-  AuthService auth = AuthService();
   final servicePath = 'users';
   User? currentUser;
   User? userBackup;

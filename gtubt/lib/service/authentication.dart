@@ -22,21 +22,28 @@ class AuthService extends BaseService {
   ) async {
     String url = getUrl(extraServicePath: 'login');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    
+    final response = await POST(
+      url,
+      body: json.encode({
+        "username": email,
+        "password": password,
+      }),
+    );
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      if (decodedResponse.containsKey('non_field_errors')){
+        throw AuthenticationException.message(decodedResponse['non_field_errors'][0]);
+      }
+    }
     try {
-      final response = await POST(
-        url,
-        body: json.encode({
-          "username": email,
-          "password": password,
-        }),
-      );
-      Map<String, dynamic> decodedResponse = jsonDecode(response.body);
       String token = decodedResponse['key'];
       prefs.setString("token", token);
       return _authService.getUser();
-    } catch (_) {}
-    throw AuthenticationException();
+    } catch (_) {
+      // TODO: key must be in decodedResponse so add logger
+      throw AuthenticationException();
+    }
   }
 
   Future<void> reAuthenticate(
@@ -77,15 +84,21 @@ class AuthService extends BaseService {
   }
 
   Future<bool> isSignedIn() async {
-    if (getUser().runtimeType == User)
+    try {
+      getUser();
       return true;
-    else
+    } on AuthenticationException catch (_) {
       return false;
+    } catch (_) {
+      // TODO: add logger
+      return false;
+    }
   }
 
   Future<void> signOut() async {
     String url = getUrl(extraServicePath: 'logout');
     try {
+      // TODO: body?
       final response = await POST(url);
       Map<String, dynamic> decodedResponse = jsonDecode(response.body);
       if (decodedResponse.containsKey("detail") &&
@@ -100,14 +113,16 @@ class AuthService extends BaseService {
 
   Future<User?> getUser() async {
     String url = getUrl(extraServicePath: 'user');
+
+    final response = await GET(url);
+    if (response.statusCode != 200) {
+      // TODO: write special error message!
+      throw AuthenticationException();
+    }
     try {
-      final response = await GET(url);
-      if (response.statusCode != 200) {
-        // TODO: write special error message!
-        throw AuthenticationException();
-      }
       return User.fromJson(jsonDecode(response.body));
     } catch (_) {
+      // TODO: decode error
       throw AuthenticationException();
     }
   }
@@ -115,6 +130,7 @@ class AuthService extends BaseService {
   Future<String> sendPasswordResetEmail(String email) async {
     String url = getUrl(extraServicePath: 'password/reset');
     try {
+      // TODO: body?
       final response = await POST(url);
       if (response.statusCode != 200) {
         throw AuthenticationException.message(
@@ -130,18 +146,43 @@ class AuthService extends BaseService {
     }
   }
 
-  Future<void> verifyUserWithEmail() async {
-    String url = getUrl(extraServicePath: 'registration/verify-email');
+  Future<void> sendVerificationEmail(String email) async {
+    String url = getUrl(extraServicePath: 'registration/resend-email');
     try {
-
+      final response = await POST(url,
+          body: json.encode({
+            "email": email,
+          }));
+      if (response.statusCode != 200 ) {
+        Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+        String msg = "";
+        if (decodedResponse.containsKey('error_msg')){
+          msg = decodedResponse["error_msg"];
+        }
+        throw AuthenticationException.message(msg);
+      }
     } catch (e) {
       throw AuthenticationException.message(e.toString());
     }
   }
 
-  bool isVerified() {
-    return true;
+  Future<bool> isVerified(int userId) async {
+    String url = getUrl(extraServicePath: 'allauth/${userId}/is-email-verified');
+
+    final response = await GET(url);
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      String msg = "";
+      if (decodedResponse.containsKey('error_msg')) {
+        msg = decodedResponse['error_msg'];
+      }
+      // TODO: check this exception
+      throw AuthenticationException.message(msg);
+    }
+    return decodedResponse['email_verified'] as bool;
   }
 
-  Future<void> deleteUser() async {}
+  Future<void> deleteUser() async {
+
+  }
 }
