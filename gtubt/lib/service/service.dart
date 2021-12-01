@@ -25,7 +25,7 @@ abstract class BaseService {
   String getUrl({String extraServicePath = ''}) {
     String url = '$baseUrl/$endpointPrefix/$servicePath/';
     if (extraServicePath != '') {
-      url + '$extraServicePath/';
+      url = url + '$extraServicePath/';
     }
     return url;
   }

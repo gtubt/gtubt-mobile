@@ -442,12 +442,16 @@ class _SignUpPageState extends State<SignUpPage> {
               .show(context);
         }
         if (state.isSuccess) {
-          NotificationFactory.successFactory(message: 'Sign Up Successful')
+          String msg = "Sign Up Successful";
+          if (state.message != null && state.message != "") {
+            msg = state.message!;
+          }
+          NotificationFactory.successFactory(message: msg)
               .show(context);
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          NotificationFactory.errorFactory(message: state.errorMessage)
+          NotificationFactory.errorFactory(message: state.message)
               .show(context);
         }
       },

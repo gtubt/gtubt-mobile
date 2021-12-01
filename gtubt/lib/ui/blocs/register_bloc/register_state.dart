@@ -10,7 +10,7 @@ class RegisterState {
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
-  final String? errorMessage;
+  final String? message;
 
   bool get isFormValid =>
       isEmailValid &&
@@ -34,7 +34,7 @@ class RegisterState {
     required this.isSubmitting,
     required this.isSuccess,
     required this.isFailure,
-    this.errorMessage,
+    this.message,
   });
 
   factory RegisterState.empty() {
@@ -80,11 +80,11 @@ class RegisterState {
       isSuccess: false,
       isFailure: true,
       isSubmitting: false,
-      errorMessage: errorMessage,
+      message: errorMessage,
     );
   }
 
-  factory RegisterState.success() {
+  factory RegisterState.success(message) {
     return RegisterState(
         isPasswordValid: true,
         isEmailValid: true,
@@ -96,7 +96,9 @@ class RegisterState {
         isDepartmentValid: true,
         isSuccess: true,
         isFailure: false,
-        isSubmitting: false);
+        isSubmitting: false,
+        message: message
+    );
   }
 
   RegisterState copyWith({

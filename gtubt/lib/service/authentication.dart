@@ -22,7 +22,7 @@ class AuthService extends BaseService {
   ) async {
     String url = getUrl(extraServicePath: 'login');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     final response = await POST(
       url,
       body: json.encode({
@@ -32,8 +32,9 @@ class AuthService extends BaseService {
     );
     Map<String, dynamic> decodedResponse = jsonDecode(response.body);
     if (response.statusCode != 200) {
-      if (decodedResponse.containsKey('non_field_errors')){
-        throw AuthenticationException.message(decodedResponse['non_field_errors'][0]);
+      if (decodedResponse.containsKey('non_field_errors')) {
+        throw AuthenticationException.message(
+            decodedResponse['non_field_errors'][0]);
       }
     }
     try {
@@ -55,32 +56,32 @@ class AuthService extends BaseService {
     }
   }
 
-  Future<User?> signUp(User user, String password) async {
-    try {
-      String url = getUrl(extraServicePath: 'registration');
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final response = await POST(
-        url,
-        body: json.encode({
-          "username": user.email,
-          "first_name": user.first_name,
-          "last_name": user.last_name,
-          "department": getString(user.department),
-          "email": user.email,
-          "student_id": "1610440000",
-          "password1": password,
-          "password2": password,
-          "is_accept_kvkk": user.is_accept_kvkk,
-          "is_accept_user_agreement": user.is_accept_user_agreement
-        }),
-      );
-      Map<String, dynamic> decodedResponse = jsonDecode(response.body);
-      String token = decodedResponse['key'];
-      prefs.setString("token", token);
-      return getUser();
-    } catch (_) {
+  Future<String> signUp(User user, String password) async {
+    String url = getUrl(extraServicePath: 'registration');
+    final response = await POST(
+      url,
+      body: json.encode({
+        "username": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "department": getString(user.department),
+        "email": user.email,
+        "student_id": "1610440000",
+        "password1": password,
+        "password2": password,
+        "is_accept_kvkk": user.is_accept_kvkk,
+        "is_accept_user_agreement": user.is_accept_user_agreement
+      }),
+    );
+    if (response.statusCode != 201) {
       throw AuthenticationException();
     }
+
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+    if (decodedResponse.containsKey("detail")) {
+      return decodedResponse["detail"];
+    }
+    return "";
   }
 
   Future<bool> isSignedIn() async {
@@ -153,10 +154,10 @@ class AuthService extends BaseService {
           body: json.encode({
             "email": email,
           }));
-      if (response.statusCode != 200 ) {
+      if (response.statusCode != 200) {
         Map<String, dynamic> decodedResponse = jsonDecode(response.body);
         String msg = "";
-        if (decodedResponse.containsKey('error_msg')){
+        if (decodedResponse.containsKey('error_msg')) {
           msg = decodedResponse["error_msg"];
         }
         throw AuthenticationException.message(msg);
@@ -167,7 +168,7 @@ class AuthService extends BaseService {
   }
 
   Future<bool> isVerified(int userId) async {
-    String url = getUrl(extraServicePath: 'allauth/${userId}/is-email-verified');
+    String url = getUrl(extraServicePath: 'is-email-verified');
 
     final response = await GET(url);
     Map<String, dynamic> decodedResponse = jsonDecode(response.body);
@@ -179,10 +180,13 @@ class AuthService extends BaseService {
       // TODO: check this exception
       throw AuthenticationException.message(msg);
     }
-    return decodedResponse['email_verified'] as bool;
+
+    if (decodedResponse.containsKey("email_verified")) {
+      return decodedResponse["email_verified"] as bool;
+    }
+
+    return false;
   }
 
-  Future<void> deleteUser() async {
-
-  }
+  Future<void> deleteUser() async {}
 }
