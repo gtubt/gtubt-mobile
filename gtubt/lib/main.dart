@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:uni_links/uni_links.dart';
 import 'ui/blocs/page_bloc/bloc.dart';
 import 'ui/routes.dart';
 
@@ -32,7 +33,27 @@ void main() async {
   }, FirebaseCrashlytics.instance.recordError);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() => new MyAppState();
+}
+
+class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+  late StreamSubscription _sub;
+
+  @override
+  initState() {
+    super.initState();
+
+    initUniLinks();
+  }
+
+  @override
+  dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -70,6 +91,38 @@ class MyApp extends StatelessWidget {
         initialRoute: ROOT_URL,
       ),
     );
+  }
+
+  Future<void> setLink(Uri? uri, String link) async {
+    print('initial uri: ${uri!.path} ${uri.queryParametersAll} $link');
+    // TODO: Push with custom link
+    // Navigator.push()
+  }
+
+  Future<void> initUniLinks() async {
+    _sub = uriLinkStream.listen((Uri? uri) async {
+      if (!mounted) return;
+      await setLink(uri, uri.toString());
+    }, onError: (err) async {
+      if (!mounted) return;
+      await setLink(Uri(), 'Failed to get latest link: $err.');
+    });
+
+    // Get the latest Uri
+    Uri initialUri = Uri();
+    String initialLink;
+
+    try {
+      initialUri = (await getInitialUri())!;
+      initialLink = initialUri.toString();
+    } on PlatformException {
+      initialLink = 'Failed to get initial uri.';
+    } on FormatException {
+      initialLink = 'Bad parse the initial link as Uri.';
+    }
+
+    if (!mounted) return;
+    await setLink(initialUri, initialLink);
   }
 }
 
