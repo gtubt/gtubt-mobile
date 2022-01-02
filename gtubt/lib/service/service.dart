@@ -13,7 +13,7 @@ abstract class BaseService {
 
   static String getBaseUrl() {
     if (Platform.isAndroid) {
-      return 'http://10.0.2.2:3000';
+      return 'http://10.0.2.2:8000';
     } else if (Platform.isIOS) {
       return 'http://localhost:8000';
     } else {

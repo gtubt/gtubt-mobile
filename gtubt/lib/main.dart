@@ -109,11 +109,11 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     });
 
     // Get the latest Uri
-    Uri initialUri = Uri();
+    Uri? initialUri = Uri();
     String initialLink;
 
     try {
-      initialUri = (await getInitialUri())!;
+      initialUri = await getInitialUri();
       initialLink = initialUri.toString();
     } on PlatformException {
       initialLink = 'Failed to get initial uri.';
