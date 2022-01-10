@@ -30,7 +30,7 @@ class TicketService extends BaseService {
     List<Ticket?>? _tickets = [];
 
     String url = '$baseUrl....';
-    final response = await GET('$url');
+    final response = await GET(url);
 
     if (response.statusCode != 200) {
       throw TicketException();

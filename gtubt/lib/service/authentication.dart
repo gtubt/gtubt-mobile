@@ -1,34 +1,48 @@
-import 'package:GTUBT/exceptions/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:kiwi/kiwi.dart';
+import 'dart:convert';
 
-class AuthService {
-  final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
+import 'package:GTUBT/exceptions/authentication.dart';
+import 'package:GTUBT/models/user.dart';
+import 'package:GTUBT/service/service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class AuthService extends BaseService {
   static final AuthService _authService = AuthService._internal();
+
+  final servicePath = 'auth';
+
   AuthService._internal();
-  KiwiContainer container = KiwiContainer();
 
   factory AuthService() {
     return _authService;
   }
 
-  Future<auth.User?> signInWithEmailAndPassword(
+  Future<User?> signInWithEmailAndPassword(
     String email,
     String password,
   ) async {
-    try {
-      final auth.User? firebaseUser = (await _auth.signInWithEmailAndPassword(
-              email: email, password: password))
-          .user;
-      container.registerInstance<auth.User>(_auth.currentUser!);
-      return firebaseUser;
-    } on auth.FirebaseAuthException catch (error) {
-      throw AuthenticationException.errorCode(error.code);
-    } catch (error) {
-      try {
-        container.unregister<auth.User>();
-      } catch (_) {}
+    String url = getUrl(extraServicePath: 'login');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    final response = await POST(
+      url,
+      body: json.encode({
+        "username": email,
+        "password": password,
+      }),
+    );
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      if (decodedResponse.containsKey('non_field_errors')) {
+        throw AuthenticationException.message(
+            decodedResponse['non_field_errors'][0]);
+      }
+    }
+    try {
+      String token = decodedResponse['key'];
+      prefs.setString("token", token);
+      return _authService.getUser();
+    } catch (_) {
+      // TODO: key must be in decodedResponse so add logger
       throw AuthenticationException();
     }
   }
@@ -37,82 +51,142 @@ class AuthService {
     String email,
     String password,
   ) async {
-    try {
-      auth.EmailAuthCredential credential =
-          auth.EmailAuthProvider.credential(email: email, password: password)
-              as auth.EmailAuthCredential;
-      await _auth.currentUser!.reauthenticateWithCredential(credential);
-    } on auth.FirebaseAuthException catch (error) {
-      throw AuthenticationException.errorCode(error.code);
-    } catch (_) {
+    try {} catch (_) {
       throw AuthenticationException();
     }
   }
 
-  Future<auth.User?> signUp(Map<String, dynamic> data) async {
-    try {
-      final auth.User? firebaseUser =
-          (await _auth.createUserWithEmailAndPassword(
-                  email: data['email'], password: data['password']))
-              .user;
-      container.registerInstance<auth.User>(_auth.currentUser!);
-      return firebaseUser;
-    } on auth.FirebaseAuthException catch (error) {
-      throw AuthenticationException.errorCode(error.code);
-    } catch (_) {
+  Future<String> signUp(User user, String password) async {
+    String url = getUrl(extraServicePath: 'registration');
+    final response = await POST(
+      url,
+      body: json.encode({
+        "username": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "department": getString(user.department),
+        "email": user.email,
+        "student_id": "1610440000",
+        "password1": password,
+        "password2": password,
+        "is_accept_kvkk": user.is_accept_kvkk,
+        "is_accept_user_agreement": user.is_accept_user_agreement
+      }),
+    );
+    if (response.statusCode != 201) {
       throw AuthenticationException();
     }
+
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+    if (decodedResponse.containsKey("detail")) {
+      return decodedResponse["detail"];
+    }
+    return "";
   }
 
   Future<bool> isSignedIn() async {
-    if (_auth.currentUser != null) {
-      container.registerInstance<auth.User>(_auth.currentUser!);
+    try {
+      getUser();
+      return true;
+    } on AuthenticationException catch (_) {
+      return false;
+    } catch (_) {
+      // TODO: add logger
+      return false;
     }
-    return _auth.currentUser != null;
   }
 
   Future<void> signOut() async {
-    await _auth.signOut();
-    container.unregister<auth.User>();
+    String url = getUrl(extraServicePath: 'logout');
+    try {
+      // TODO: body?
+      final response = await POST(url);
+      Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+      if (decodedResponse.containsKey("detail") &&
+          decodedResponse["detail"] == "Successfully logged out.") {
+        return;
+      } else {
+        throw AuthenticationException();
+      }
+    } catch (_) {}
+    throw AuthenticationException();
   }
 
-  auth.User getUser() {
-    auth.User? user = _auth.currentUser;
-    if (user == null) {
+  Future<User?> getUser() async {
+    String url = getUrl(extraServicePath: 'user');
+
+    final response = await GET(url);
+    if (response.statusCode != 200) {
+      // TODO: write special error message!
       throw AuthenticationException();
     }
-    return user;
+    try {
+      return User.fromJson(jsonDecode(response.body));
+    } catch (_) {
+      // TODO: decode error
+      throw AuthenticationException();
+    }
   }
 
-  Future<void> sendPasswordResetEmail(String email) async {
+  Future<String> sendPasswordResetEmail(String email) async {
+    String url = getUrl(extraServicePath: 'password/reset');
     try {
-      await _auth.sendPasswordResetEmail(email: email);
-    } on auth.FirebaseAuthException catch (error) {
-      throw AuthenticationException.errorCode(error.code);
+      // TODO: body?
+      final response = await POST(url);
+      if (response.statusCode != 200) {
+        throw AuthenticationException.message(
+            "Password reset e-mail hasn't been sent. Please try again later.");
+      }
+      Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+      if (decodedResponse.containsKey("detail"))
+        return decodedResponse['detail'];
+
+      return "Password reset e-mail has been sent";
     } catch (_) {
       throw AuthenticationException();
     }
   }
 
-  Future<void> validateUserWithEmail() async {
+  Future<void> sendVerificationEmail(String email) async {
+    String url = getUrl(extraServicePath: 'registration/resend-email');
     try {
-      await _auth.currentUser!.sendEmailVerification();
+      final response = await POST(url,
+          body: json.encode({
+            "email": email,
+          }));
+      if (response.statusCode != 200) {
+        Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+        String msg = "";
+        if (decodedResponse.containsKey('error_msg')) {
+          msg = decodedResponse["error_msg"];
+        }
+        throw AuthenticationException.message(msg);
+      }
     } catch (e) {
       throw AuthenticationException.message(e.toString());
     }
   }
 
-  bool isVerified() {
-    if (!_auth.currentUser!.emailVerified) {
-      return false;
+  Future<bool> isVerified(int userId) async {
+    String url = getUrl(extraServicePath: 'is-email-verified');
+
+    final response = await GET(url);
+    Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+    if (response.statusCode != 200) {
+      String msg = "";
+      if (decodedResponse.containsKey('error_msg')) {
+        msg = decodedResponse['error_msg'];
+      }
+      // TODO: check this exception
+      throw AuthenticationException.message(msg);
     }
-    return true;
+
+    if (decodedResponse.containsKey("email_verified")) {
+      return decodedResponse["email_verified"] as bool;
+    }
+
+    return false;
   }
 
-  Future<void> deleteUser() async {
-    try {
-      container.unregister<auth.User>();
-    } catch (_) {}
-    await _auth.currentUser!.delete();
-  }
+  Future<void> deleteUser() async {}
 }

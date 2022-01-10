@@ -25,7 +25,7 @@ class Validators {
     return _stringRegExp.hasMatch(str);
   }
 
-  static isValidDepartment(Department department) {
+  static isValidDepartment(Department? department) {
     return department != null;
   }
 

@@ -1,3 +1,9 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_bloc.dart';
 import 'package:GTUBT/ui/blocs/appbar_bloc/appbar_event.dart';
@@ -10,12 +16,8 @@ import 'package:GTUBT/ui/style/button_styles.dart';
 import 'package:GTUBT/ui/style/color_sets.dart';
 import 'package:GTUBT/ui/style/text_styles.dart';
 import 'package:GTUBT/ui/utils/notification.dart';
-import 'package:another_flushbar/flushbar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:GTUBT/ui/style/decorations.dart';
+import 'package:GTUBT/service/user.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -25,7 +27,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final GlobalKey<FormState> _passwordFieldKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  Flushbar _loadingNotification = NotificationFactory.loadingFactory(message: '');
+  Flushbar _loadingNotification =
+      NotificationFactory.loadingFactory(message: '');
+  UserService userService = UserService();
 
   User? user;
   final picker = ImagePicker();
@@ -78,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     ];
 
-    if (user!.profilePhoto != null) {
+    if (user!.photo != null) {
       _menuItems.add(
         ListTile(
           leading: Icon(Icons.delete),
@@ -113,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
             : MediaQuery.of(context).size.height;
     Widget profilePhoto;
 
-    if (user!.profilePhoto == null) {
+    if (user!.photo == null) {
       profilePhoto = Icon(
         null,
         color: ColorSets.profilePageThemeColor,
@@ -122,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
     } else {
       profilePhoto = FittedBox(
         child: CircleAvatar(
-          foregroundImage: NetworkImage(user!.profilePhoto!),
+          foregroundImage: NetworkImage(user!.photo!),
         ),
       );
     }
@@ -165,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (context.read<AppbarBloc>().state.editMode) {
       var field = NameChanged();
       TextEditingController controller =
-      context.read<UserBloc>().textEditingController(field);
+          context.read<UserBloc>().textEditingController(field);
       controller.text = name;
       controller.addListener(() {
         final text = controller.text;
@@ -264,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget formWidget(UserEvent field, formData, fieldName) {
     Widget form;
     TextEditingController controller =
-    context.read<UserBloc>().textEditingController(field);
+        context.read<UserBloc>().textEditingController(field);
     controller.text = formData;
     if (context.read<AppbarBloc>().state.editMode) {
       controller.addListener(() {
@@ -394,7 +398,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildAll(BuildContext context, UserState state) {
-    user = context.read<UserBloc>().userService.currentUser!;
+    user = context.read<UserBloc>().userService.currentUser;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -423,7 +427,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.only(bottom: 5.0),
-                    child: _studentNumber(user!.studentId),
+                    child: _studentNumber(user!.student_id),
                   ),
                   Container(
                     child: _phoneNumber(user!.phone),
@@ -487,7 +491,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   } else {
                     _loadingNotification.dismiss();
                     _loadingNotification = NotificationFactory.loadingFactory(
-                            message: state.loadingMessage);
+                        message: state.loadingMessage);
                     _loadingNotification.show(context);
                   }
                 } else {

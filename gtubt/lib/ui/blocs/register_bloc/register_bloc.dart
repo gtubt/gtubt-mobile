@@ -2,14 +2,12 @@ import 'package:GTUBT/exceptions/authentication.dart';
 import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/authentication.dart';
-import 'package:GTUBT/service/user.dart';
 import 'package:GTUBT/ui/blocs/register_bloc/bloc.dart';
 import 'package:GTUBT/ui/utils/validators.dart';
 import 'package:bloc/bloc.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthService _authService = AuthService();
-  final UserService _userService = UserService();
 
   RegisterBloc() : super(RegisterState.empty());
 
@@ -39,21 +37,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     User user = User(
         email: event.email,
-        name: event.name,
-        lastname: event.lastname,
+        first_name: event.name,
+        last_name: event.lastname,
         department: Department.cse,
-        studentId: event.studentNumber,
+        student_id: event.studentNumber,
         year: 1,
-        isAcceptKVKK: event.isAcceptKVKK,
-        isAcceptUserAgreement: event.isAcceptUserAgreement);
+        is_accept_kvkk: event.isAcceptKVKK,
+        is_accept_user_agreement: event.isAcceptUserAgreement);
     try {
-      await _authService.signUp({
-        'email': user.email,
-        'password': event.password,
-      });
-      await _userService.post(user);
-      await _authService.validateUserWithEmail();
-      yield RegisterState.success();
+      String message = await _authService.signUp(user, event.password);
+      yield RegisterState.success(message);
     } on AuthenticationException catch (error) {
       yield RegisterState.failure(error.message);
     } on UserException catch (error) {

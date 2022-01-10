@@ -6,10 +6,10 @@ import 'package:GTUBT/models/user.dart';
 void main() {
   test('Serialize User', () {
     User user = User(
-      studentId: '161044057',
+      student_id: '161044057',
       email : 'test@test.com',
-      name : "Test Name",
-      lastname : "Test lastname",
+      first_name: "Test Name",
+        last_name: "Test lastname",
       phone : "+905551234567",
       department : Department.eee,
       year : 4);
@@ -21,9 +21,9 @@ void main() {
   test('Deserialize User', () {
     User user = User(
       email : 'test@test.com',
-      studentId : "161044057",
-      name : "Test Name",
-      lastname : "Test lastname",
+      student_id: "161044057",
+        first_name: "Test Name",
+        last_name: "Test lastname",
       phone : "+905551234567",
       department : Department.cse,
       year : 4);
@@ -31,9 +31,9 @@ void main() {
     Map<String, dynamic> data = json.decode('{"name":"Test Name","lastname":"Test lastname","email":"test@test.com","department":"cse","year":4,"studentId":"161044057","phone":"+905551234567"}');
 
     expect(user.email, User.fromJson(data).email);
-    expect(user.studentId, User.fromJson(data).studentId);
-    expect(user.name, User.fromJson(data).name);
-    expect(user.lastname, User.fromJson(data).lastname);
+    expect(user.student_id, User.fromJson(data).student_id);
+    expect(user.first_name, User.fromJson(data).first_name);
+    expect(user.last_name, User.fromJson(data).last_name);
     expect(user.phone, User.fromJson(data).phone);
     expect(user.department, User.fromJson(data).department);
     expect(user.year, User.fromJson(data).year);
@@ -42,9 +42,9 @@ void main() {
   test('Update User', () {
     User user = User(
       email : 'test@test.com',
-      studentId : "161044057",
-      name : "Test Name",
-      lastname : "Test lastname",
+      student_id: "161044057",
+        first_name: "Test Name",
+        last_name: "Test lastname",
       phone : "+905551234567",
       department : Department.cse,
       year : 4);

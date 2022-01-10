@@ -243,7 +243,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     decoration: FormBoxContainer.loginPageTextFieldDecoration,
                     cursorColor: ColorSets.cursorColor,
                     obscureText: _obscureText,
-                    textInputAction: TextInputAction.done,
+                    textInputAction: TextInputAction.next,
                     onTap: () {
                       Future.delayed(
                           const Duration(milliseconds: 100),
@@ -442,12 +442,16 @@ class _SignUpPageState extends State<SignUpPage> {
               .show(context);
         }
         if (state.isSuccess) {
-          NotificationFactory.successFactory(message: 'Sign Up Successful')
+          String msg = "Sign Up Successful";
+          if (state.message != null && state.message != "") {
+            msg = state.message!;
+          }
+          NotificationFactory.successFactory(message: msg)
               .show(context);
           context.read<AuthenticationBloc>().add(LoggedIn(context: context));
         }
         if (state.isFailure) {
-          NotificationFactory.errorFactory(message: state.errorMessage)
+          NotificationFactory.errorFactory(message: state.message)
               .show(context);
         }
       },
@@ -492,7 +496,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               _passwordForm(),
                               SizedBox(height: 6),
                               _passwordHint(),
-                              _buildCheckBox('PDPL (KVKK) Information Text', 'kvkk'),
+                              _buildCheckBox(
+                                  'PDPL (KVKK) Information Text', 'kvkk'),
                               _buildCheckBox('User Agreement', 'userAgreement'),
                               SizedBox(height: 15),
                               Row(

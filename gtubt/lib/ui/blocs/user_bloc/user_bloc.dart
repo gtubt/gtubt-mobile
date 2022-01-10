@@ -37,7 +37,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     } else if (event is EmailChanged) {
       userService.currentUser!.email = eventMap[event]!.text.trim();
     } else if (event is StudentNumberChanged) {
-      userService.currentUser!.studentId = eventMap[event]!.text.trim();
+      userService.currentUser!.student_id = eventMap[event]!.text.trim();
     }
 
     yield currentState;
@@ -60,10 +60,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (fullname.isNotEmpty) {
       var names = fullname.split(" ");
       if (names.length > 1) {
-        userService.currentUser!.lastname = names.last;
-        userService.currentUser!.name = names.sublist(0, names.length - 1).join(" ");
+        userService.currentUser!.last_name = names.last;
+        userService.currentUser!.first_name =
+            names.sublist(0, names.length - 1).join(" ");
       } else {
-        userService.currentUser!.name = fullname;
+        userService.currentUser!.first_name = fullname;
       }
     }
   }

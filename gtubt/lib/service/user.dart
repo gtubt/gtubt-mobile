@@ -3,16 +3,12 @@ import 'dart:convert';
 import 'package:GTUBT/exceptions/user.dart';
 import 'package:GTUBT/models/user.dart';
 import 'package:GTUBT/service/service.dart';
-
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:kiwi/kiwi.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService extends BaseService {
   final servicePath = 'users';
   User? currentUser;
   User? userBackup;
-  KiwiContainer container = KiwiContainer();
   static final UserService _userService = UserService._internal();
 
   UserService._internal();
@@ -21,18 +17,11 @@ class UserService extends BaseService {
     return _userService;
   }
 
-  Future<User?> get(String email) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
-    final response = await GET(url);
-    var apiResponse;
-    if (response.statusCode != 200) {
-      throw UserException();
-    }
+  Future<User?> get() async {
     try {
-      apiResponse = User.fromJson(json.decode(response.body));
-
-      this.currentUser = apiResponse;
-      return apiResponse;
+      // TODO: get user from user endpoint
+      // this.currentUser = await auth.getUser();
+      // return await auth.getUser();
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -41,17 +30,13 @@ class UserService extends BaseService {
   }
 
   Future<User?> post(User user) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/';
+    String url = getUrl();
     try {
       var userJson = user.toJson();
       var bodyData = json.encode(userJson);
       var apiResponse;
 
-      final response = await POST('$url',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: bodyData);
+      final response = await POST(url, body: bodyData);
       if (response.statusCode != 200) {
         throw UserException(response.body);
       }
@@ -66,34 +51,22 @@ class UserService extends BaseService {
   }
 
   Future<User?> patch(User user) async {
-    var id = user.id;
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$id/';
+    String url = getUrl(extraServicePath: user.id.toString());
+    // TODO: refactor: get user from user endpoint
     try {
-      var firebaseUser = container.resolve<auth.User>();
-      if (firebaseUser.email != user.email) {
-        firebaseUser.updateEmail(user.email!);
-        // TODO: Might throw requires-recent-login,
-        // TODO: needs design for password retrieval for such events
-      }
+      Map<String?, dynamic> userJson = user.toJson();
+      String bodyData = json.encode(userJson);
 
-      var userJson = user.toJson();
-      var bodyData = json.encode(userJson);
-      var apiResponse;
-
-      final response = await PATCH('$url',
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: bodyData);
+      final response = await PATCH(url, body: bodyData);
 
       if (response.statusCode != 200) {
         throw UserException();
       }
 
-      apiResponse = User.fromJson(json.decode(response.body));
+      User updatedUser = User.fromJson(json.decode(response.body));
 
-      currentUser = apiResponse;
-      return apiResponse;
+      currentUser = updatedUser;
+      return updatedUser;
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -102,24 +75,18 @@ class UserService extends BaseService {
   }
 
   Future<User> uploadProfilePhoto(dynamic photo, String imageType) async {
-    var email = currentUser!.email;
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$email/photo';
+    String url = getUrl(extraServicePath: '${currentUser!.email}/photo');
     try {
-      var apiResponse;
-      final response = await POST('$url',
-          headers: <String, String>{
-            'Content-Type': 'image/$imageType',
-          },
-          body: photo);
+      final response = await POST(url, body: photo);
 
       if (response.statusCode != 200) {
         throw UserException(json.decode(response.body)["Message"]);
       }
 
-      apiResponse = User.fromJson(json.decode(response.body));
+      User updatedUser = User.fromJson(json.decode(response.body));
 
-      currentUser = apiResponse;
-      return apiResponse;
+      currentUser = updatedUser;
+      return updatedUser;
     } on UserException catch (ex) {
       throw UserException(ex.message);
     } catch (_) {
@@ -128,11 +95,11 @@ class UserService extends BaseService {
   }
 
   Future<bool> delete(String email) async {
-    String url = '$baseUrl/$endpointPrefix/$servicePath/$email';
-
-    final response = await DELETE('$url');
+    String url = getUrl(extraServicePath: email);
+    final response = await DELETE(url);
     if (response.statusCode != 200) {
-      throw UserException();
+      throw UserException(
+          "User delete operation is not successful! Please try again later.");
     }
     try {
       clearUser();
@@ -144,7 +111,9 @@ class UserService extends BaseService {
     }
   }
 
-  void clearUser() {
+  void clearUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("token");
     currentUser = null;
   }
 }
